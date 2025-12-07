@@ -22,6 +22,57 @@
 
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
+	let tileLayer: L.TileLayer | null = null;
+
+	/**
+	 * Detect if the system prefers dark mode
+	 */
+	function isDarkMode(): boolean {
+		if (typeof window === 'undefined') return false;
+		return window.matchMedia('(prefers-color-scheme: dark)').matches;
+	}
+
+	/**
+	 * Get the appropriate tile layer URL based on dark mode preference
+	 */
+	function getTileLayerUrl(isDark: boolean): string {
+		if (isDark) {
+			// CartoDB Dark Matter - a popular dark map style
+			return 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+		} else {
+			// OpenStreetMap standard tiles for light mode
+			return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		}
+	}
+
+	/**
+	 * Get the appropriate attribution based on tile layer
+	 */
+	function getAttribution(isDark: boolean): string {
+		if (isDark) {
+			return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+		} else {
+			return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+		}
+	}
+
+	/**
+	 * Update the tile layer based on dark mode preference
+	 */
+	function updateTileLayer(isDark: boolean) {
+		if (!map) return;
+
+		// Remove existing tile layer
+		if (tileLayer) {
+			map.removeLayer(tileLayer);
+		}
+
+		// Add new tile layer
+		tileLayer = L.tileLayer(getTileLayerUrl(isDark), {
+			attribution: getAttribution(isDark),
+			maxZoom: 19
+		}).addTo(map);
+	}
 
 	/**
 	 * Calculate bounds for a 50x50 square mile area centered on the given coordinates
@@ -47,12 +98,23 @@
 		// Initialize the map
 		map = L.map(mapContainer);
 
-		// Add OpenStreetMap tiles
-		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-			attribution:
-				'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-			maxZoom: 19
-		}).addTo(map);
+		// Detect initial dark mode preference
+		const darkMode = isDarkMode();
+		updateTileLayer(darkMode);
+
+		// Listen for changes in system dark mode preference
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+		const handleChange = (e: MediaQueryListEvent) => {
+			updateTileLayer(e.matches);
+		};
+
+		// Modern browsers
+		if (mediaQuery.addEventListener) {
+			mediaQuery.addEventListener('change', handleChange);
+		} else {
+			// Fallback for older browsers
+			mediaQuery.addListener(handleChange);
+		}
 
 		// Calculate bounds for 50x50 square mile area
 		const bounds = calculateBounds(latitude, longitude);
@@ -72,6 +134,11 @@
 			.openPopup();
 
 		return () => {
+			if (mediaQuery.removeEventListener) {
+				mediaQuery.removeEventListener('change', handleChange);
+			} else {
+				mediaQuery.removeListener(handleChange);
+			}
 			if (map) {
 				map.remove();
 			}
