@@ -2,9 +2,11 @@
 	import { env } from '$env/dynamic/public';
 
 	interface LocationSuggestion {
-		id: string;
-		place_name: string;
-		geometry: {
+		id?: string;
+		place_name?: string;
+		text?: string;
+		center?: [number, number]; // [longitude, latitude]
+		geometry?: {
 			type: string;
 			coordinates: [number, number]; // [longitude, latitude]
 		};
@@ -52,7 +54,13 @@
 			}
 			
 			const data = await response.json();
-			suggestions = data.features || [];
+			console.log('Mapbox API response:', data);
+			
+			// Handle both FeatureCollection and direct features array
+			const features = data.features || data || [];
+			console.log('Parsed features:', features);
+			
+			suggestions = features;
 			showSuggestions = true;
 			selectedIndex = -1;
 		} catch (error) {
@@ -76,14 +84,19 @@
 	}
 
 	function selectSuggestion(suggestion: LocationSuggestion) {
-		value = suggestion.place_name;
+		const placeName = suggestion.properties.full_address || suggestion.text || '';
+		value = placeName;
 		showSuggestions = false;
-		// Mapbox v6 returns coordinates as [longitude, latitude] in geometry.coordinates
-		onSelect({
-			name: suggestion.place_name,
-			latitude: suggestion.geometry.coordinates[1],
-			longitude: suggestion.geometry.coordinates[0]
-		});
+		
+		// Mapbox v6 can have coordinates in center or geometry.coordinates
+		if (suggestion.coordinates) {
+			const {latitude, longitude} = suggestion.coordinates;
+			onSelect({
+				name: placeName,
+				latitude,
+				longitude
+			});
+		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -128,7 +141,7 @@
 		<ul
 			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
 		>
-			{#each suggestions as suggestion, index (suggestion.id)}
+			{#each suggestions as suggestion, index (suggestion.id || index.toString())}
 				<li>
 					<button
 						type="button"
@@ -137,7 +150,9 @@
 							? 'bg-gray-100 dark:bg-gray-700'
 							: ''}"
 					>
-						<div class="text-sm text-gray-900 dark:text-gray-100">{suggestion.place_name}</div>
+						<div class="text-sm text-gray-900 dark:text-gray-100">
+							{suggestion.properties.full_address || suggestion.text || 'Unknown location'}
+						</div>
 					</button>
 				</li>
 			{/each}
