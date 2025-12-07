@@ -23,11 +23,12 @@
 	}
 
 	interface Props {
+		name: string;
 		value: string;
 		onSelect: (location: { name: string; latitude: number; longitude: number }) => void;
 	}
 
-	let { value = $bindable(''), onSelect }: Props = $props();
+	let { name, value = $bindable(''), onSelect }: Props = $props();
 
 	let inputElement: HTMLInputElement;
 	let suggestions = $state<LocationSuggestion[]>([]);
@@ -153,6 +154,7 @@
 
 <div class="relative">
 	<input
+		name={name}
 		bind:this={inputElement}
 		type="text"
 		bind:value

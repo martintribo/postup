@@ -22,7 +22,11 @@ export const post = pgTable('post', {
 	latitude: real('latitude').notNull(),
 	longitude: real('longitude').notNull(),
 	hours: integer('hours').notNull(),
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+	neighborhood: text('neighborhood'),
+	locality: text('locality'),
+	district: text('district'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
 });
 
 export type Session = typeof session.$inferSelect;

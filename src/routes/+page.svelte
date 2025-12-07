@@ -5,6 +5,7 @@
 	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import type { PageData } from './$types';
 	import { z } from 'zod';
+	import { invalidateAll } from '$app/navigation';
 
 	const postSchema = z.object({
 		name: z.string().min(1, 'Name is required'),
@@ -16,10 +17,17 @@
 
 	let { data } = $props();
 
-	const { form, enhance, submitting, errors, message } = superForm(data.form, {
+	const formData = $derived.by(() => data.form);
+	const { form, enhance, submitting, errors, message } = superForm(formData, {
 		validators: zod4Client(postSchema),
 		resetForm: true,
 		dataType: 'json'
+	});
+
+	$effect(() => {
+		if ($message) {
+			invalidateAll();
+		}
 	});
 
 	let locationValue = $state('');
@@ -73,6 +81,41 @@
 		<div class="p-4">
 			<h2 class="text-2xl font-semibold mb-4">Post Up</h2>
 			
+			<!-- Posts List -->
+			{#if data.posts && data.posts.length > 0}
+				<div class="mb-6">
+					<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">Recent Posts</h3>
+					<div class="space-y-3">
+						{#each data.posts as postItem}
+							<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+								<div class="flex items-start justify-between gap-2">
+									<div class="flex-1 min-w-0">
+										<p class="font-medium text-gray-900 dark:text-gray-100 truncate">
+											{postItem.name}
+										</p>
+										<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+											{postItem.location}
+										</p>
+										<div class="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-500">
+											<span>{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'}</span>
+											<span>•</span>
+											<span>
+												{new Date(postItem.startTime).toLocaleString(undefined, {
+													month: 'short',
+													day: 'numeric',
+													hour: 'numeric',
+													minute: '2-digit'
+												})}
+											</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						{/each}
+					</div>
+				</div>
+			{/if}
+			
 			<form method="POST" use:enhance class="space-y-4">
 				<!-- Name Field -->
 				<div>
@@ -97,7 +140,7 @@
 					<label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
 						Location
 					</label>
-					<LocationAutocomplete value={locationValue} onSelect={handleLocationSelect} />
+					<LocationAutocomplete name="location" value={locationValue} onSelect={handleLocationSelect} />
 					<input type="hidden" name="location" bind:value={$form.location} />
 					<input type="hidden" name="latitude" bind:value={$form.latitude} />
 					<input type="hidden" name="longitude" bind:value={$form.longitude} />
