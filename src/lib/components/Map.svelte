@@ -46,17 +46,6 @@
 	}
 
 	/**
-	 * Get the appropriate attribution based on tile layer
-	 */
-	function getAttribution(isDark: boolean): string {
-		if (isDark) {
-			return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
-		} else {
-			return '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-		}
-	}
-
-	/**
 	 * Update the tile layer based on dark mode preference
 	 */
 	function updateTileLayer(isDark: boolean) {
@@ -69,7 +58,6 @@
 
 		// Add new tile layer
 		tileLayer = L.tileLayer(getTileLayerUrl(isDark), {
-			attribution: getAttribution(isDark),
 			maxZoom: 19
 		}).addTo(map);
 	}
@@ -95,8 +83,10 @@
 	}
 
 	onMount(() => {
-		// Initialize the map
-		map = L.map(mapContainer);
+		// Initialize the map with attribution control disabled
+		map = L.map(mapContainer, {
+			attributionControl: false
+		});
 
 		// Detect initial dark mode preference
 		const darkMode = isDarkMode();
@@ -119,19 +109,6 @@
 		// Calculate bounds for 50x50 square mile area
 		const bounds = calculateBounds(latitude, longitude);
 		map.fitBounds(bounds);
-
-		// Create popup text
-		const popupText = city && country 
-			? `You are near ${city}, ${country}`
-			: city 
-				? `You are near ${city}`
-				: 'Your location';
-
-		// Add a marker
-		L.marker([latitude, longitude])
-			.addTo(map)
-			.bindPopup(popupText)
-			.openPopup();
 
 		return () => {
 			if (mediaQuery.removeEventListener) {
