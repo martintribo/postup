@@ -11,6 +11,7 @@ import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 
 const postSchema = z.object({
 	name: z.string().min(1, 'Name is required'),
+	activity: z.string().min(1, 'Activity is required'),
 	location: z.string().min(1, 'Location is required'),
 	latitude: z.number(),
 	longitude: z.number(),
@@ -221,6 +222,7 @@ export const actions: Actions = {
 
 			const result = await db.insert(post).values({
 				name: form.data.name,
+				activity: form.data.activity,
 				location: form.data.location,
 				latitude: form.data.latitude,
 				longitude: form.data.longitude,

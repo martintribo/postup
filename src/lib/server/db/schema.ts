@@ -18,6 +18,7 @@ export const session = pgTable('session', {
 export const post = pgTable('post', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
+	activity: text('activity').notNull(),
 	location: text('location').notNull(),
 	latitude: real('latitude').notNull(),
 	longitude: real('longitude').notNull(),

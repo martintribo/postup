@@ -125,6 +125,7 @@
 			const popupContent = `
 				<div style="min-width: 200px;">
 					<div style="font-weight: 600; margin-bottom: 4px;">${postItem.name}</div>
+					<div style="font-size: 0.875rem; color: #555; margin-bottom: 4px;">${postItem.activity}</div>
 					<div style="font-size: 0.875rem; color: #666; margin-bottom: 4px;">${postItem.location}</div>
 					<div style="font-size: 0.75rem; color: #888;">
 						${formatDate(postItem.startTime)} – ${formatDate(endTime)}
