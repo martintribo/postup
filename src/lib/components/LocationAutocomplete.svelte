@@ -3,13 +3,23 @@
 
 	interface LocationSuggestion {
 		id?: string;
-		place_name?: string;
+		type?: string;
 		text?: string;
-		center?: [number, number]; // [longitude, latitude]
+		place_name?: string;
+		properties?: {
+			full_address?: string;
+			coordinates?: {
+				latitude: number;
+				longitude: number;
+				accuracy?: string;
+			};
+			[key: string]: unknown;
+		};
 		geometry?: {
 			type: string;
 			coordinates: [number, number]; // [longitude, latitude]
 		};
+		center?: [number, number]; // [longitude, latitude] - fallback for v5 compatibility
 	}
 
 	interface Props {
@@ -84,13 +94,29 @@
 	}
 
 	function selectSuggestion(suggestion: LocationSuggestion) {
-		const placeName = suggestion.properties.full_address || suggestion.text || '';
+		const placeName = suggestion.properties?.full_address || suggestion.place_name || suggestion.text || '';
 		value = placeName;
 		showSuggestions = false;
 		
-		// Mapbox v6 can have coordinates in center or geometry.coordinates
-		if (suggestion.coordinates) {
-			const {latitude, longitude} = suggestion.coordinates;
+		// Mapbox v6 has coordinates in properties.coordinates
+		const coords = suggestion.properties?.coordinates;
+		if (coords && typeof coords.latitude === 'number' && typeof coords.longitude === 'number') {
+			onSelect({
+				name: placeName,
+				latitude: coords.latitude,
+				longitude: coords.longitude
+			});
+		} else if (suggestion.geometry?.coordinates) {
+			// Fallback to geometry.coordinates [longitude, latitude]
+			const [longitude, latitude] = suggestion.geometry.coordinates;
+			onSelect({
+				name: placeName,
+				latitude,
+				longitude
+			});
+		} else if (suggestion.center) {
+			// Fallback to center [longitude, latitude]
+			const [longitude, latitude] = suggestion.center;
 			onSelect({
 				name: placeName,
 				latitude,
@@ -151,7 +177,7 @@
 							: ''}"
 					>
 						<div class="text-sm text-gray-900 dark:text-gray-100">
-							{suggestion.properties.full_address || suggestion.text || 'Unknown location'}
+							{suggestion.properties?.full_address || suggestion.place_name || suggestion.text || 'Unknown location'}
 						</div>
 					</button>
 				</li>
