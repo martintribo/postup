@@ -140,7 +140,12 @@
 					<label for="location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
 						Location
 					</label>
-					<LocationAutocomplete name="location" value={locationValue} onSelect={handleLocationSelect} />
+					<LocationAutocomplete
+						name="location"
+						value={locationValue}
+						onSelect={handleLocationSelect}
+						proximity={data.location ? { latitude: data.location.latitude, longitude: data.location.longitude } : undefined}
+					/>
 					<input type="hidden" name="location" bind:value={$form.location} />
 					<input type="hidden" name="latitude" bind:value={$form.latitude} />
 					<input type="hidden" name="longitude" bind:value={$form.longitude} />

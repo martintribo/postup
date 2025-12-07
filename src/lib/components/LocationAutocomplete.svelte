@@ -26,9 +26,10 @@
 		name: string;
 		value: string;
 		onSelect: (location: { name: string; latitude: number; longitude: number }) => void;
+		proximity?: { latitude: number; longitude: number };
 	}
 
-	let { name, value = $bindable(''), onSelect }: Props = $props();
+	let { name, value = $bindable(''), onSelect, proximity }: Props = $props();
 
 	let inputElement: HTMLInputElement;
 	let suggestions = $state<LocationSuggestion[]>([]);
@@ -56,6 +57,13 @@
 				access_token: accessToken,
 				limit: '5'
 			});
+
+			// Add proximity parameter if user location is available
+			// Format: proximity=longitude,latitude
+			if (proximity) {
+				params.append('proximity', `${proximity.longitude},${proximity.latitude}`);
+			}
+
 			const response = await fetch(
 				`https://api.mapbox.com/search/geocode/v6/forward?${params.toString()}`
 			);
