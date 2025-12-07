@@ -127,6 +127,15 @@
 													minute: '2-digit'
 												})}
 											</span>
+											<span>–</span>
+											<span>
+												{new Date(new Date(postItem.startTime).getTime() + postItem.hours * 60 * 60 * 1000).toLocaleString(undefined, {
+													month: 'short',
+													day: 'numeric',
+													hour: 'numeric',
+													minute: '2-digit'
+												})}
+											</span>
 										</div>
 									</div>
 									{#if data.anonymousSessionId && postItem.sessionId === data.anonymousSessionId}
