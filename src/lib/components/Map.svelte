@@ -2,15 +2,17 @@
 	import { onMount } from 'svelte';
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
+	import type { Post } from '$lib/server/db/schema';
 
 	interface Props {
 		latitude: number;
 		longitude: number;
 		city?: string;
 		country?: string;
+		posts?: Post[];
 	}
 
-	let { latitude, longitude, city, country }: Props = $props();
+	let { latitude, longitude, city, country, posts = [] }: Props = $props();
 
 	// Fix for default marker icon in Vite
 	delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -23,6 +25,7 @@
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
 	let tileLayer: L.TileLayer | null = null;
+	let markers: L.Marker[] = [];
 
 	/**
 	 * Detect if the system prefers dark mode
@@ -82,6 +85,68 @@
 		return L.latLngBounds([south, west], [north, east]);
 	}
 
+	/**
+	 * Format date for display
+	 */
+	function formatDate(date: Date): string {
+		return new Date(date).toLocaleString(undefined, {
+			month: 'short',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: '2-digit'
+		});
+	}
+
+	/**
+	 * Calculate end time for a post
+	 */
+	function getEndTime(startTime: Date, hours: number): Date {
+		return new Date(new Date(startTime).getTime() + hours * 60 * 60 * 1000);
+	}
+
+	/**
+	 * Update post markers on the map
+	 */
+	function updatePostMarkers() {
+		if (!map) return;
+		const currentMap = map;
+
+		// Remove existing markers
+		markers.forEach((marker) => {
+			currentMap.removeLayer(marker);
+		});
+		markers = [];
+
+		// Add markers for each post
+		posts.forEach((postItem) => {
+			const marker = L.marker([postItem.latitude, postItem.longitude]).addTo(currentMap);
+
+			const endTime = getEndTime(postItem.startTime, postItem.hours);
+			const popupContent = `
+				<div style="min-width: 200px;">
+					<div style="font-weight: 600; margin-bottom: 4px;">${postItem.name}</div>
+					<div style="font-size: 0.875rem; color: #666; margin-bottom: 4px;">${postItem.location}</div>
+					<div style="font-size: 0.75rem; color: #888;">
+						${formatDate(postItem.startTime)} – ${formatDate(endTime)}
+					</div>
+					<div style="font-size: 0.75rem; color: #888; margin-top: 4px;">
+						${postItem.hours} ${postItem.hours === 1 ? 'hour' : 'hours'}
+					</div>
+				</div>
+			`;
+
+			marker.bindPopup(popupContent);
+			markers.push(marker);
+		});
+	}
+
+	// Update markers when posts change
+	$effect(() => {
+		if (map && posts) {
+			updatePostMarkers();
+		}
+	});
+
 	onMount(() => {
 		// Initialize the map with attribution control disabled
 		map = L.map(mapContainer, {
@@ -110,6 +175,9 @@
 		const bounds = calculateBounds(latitude, longitude);
 		map.fitBounds(bounds);
 
+		// Add markers for posts
+		updatePostMarkers();
+
 		// Handle window resize to update map size
 		const handleResize = () => {
 			if (map) {
@@ -120,10 +188,11 @@
 
 		// Use ResizeObserver to detect container size changes (better for responsive layouts)
 		const resizeObserver = new ResizeObserver(() => {
-			if (map) {
+			const currentMap = map;
+			if (currentMap) {
 				// Small delay to ensure layout has settled
 				setTimeout(() => {
-					map.invalidateSize();
+					currentMap.invalidateSize();
 				}, 100);
 			}
 		});

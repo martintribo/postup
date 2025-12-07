@@ -69,6 +69,7 @@
 				longitude={data.location.longitude}
 				city={data.location.city}
 				country={data.location.country}
+				posts={data.posts}
 			/>
 		{:else}
 			<div class="h-full flex items-center justify-center">
