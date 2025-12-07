@@ -63,16 +63,16 @@
 	}
 
 	/**
-	 * Calculate bounds for a 50x50 square mile area centered on the given coordinates
+	 * Calculate bounds for a 40x40 square mile area centered on the given coordinates
 	 */
 	function calculateBounds(centerLat: number, centerLon: number): L.LatLngBounds {
 		// 1 degree of latitude ≈ 69 miles
-		// For 50 miles total (25 miles each direction): 25 / 69 ≈ 0.3623 degrees
-		const latOffset = 25 / 69;
+		// For 40 miles total (20 miles each direction): 20 / 69 ≈ 0.2899 degrees
+		const latOffset = 20 / 69;
 
 		// 1 degree of longitude ≈ 69 * cos(latitude) miles
-		// For 50 miles total (25 miles each direction): 25 / (69 * cos(latitude))
-		const lonOffset = 25 / (69 * Math.cos((centerLat * Math.PI) / 180));
+		// For 40 miles total (20 miles each direction): 20 / (69 * cos(latitude))
+		const lonOffset = 20 / (69 * Math.cos((centerLat * Math.PI) / 180));
 
 		const north = centerLat + latOffset;
 		const south = centerLat - latOffset;
