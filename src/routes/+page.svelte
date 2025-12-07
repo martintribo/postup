@@ -170,7 +170,7 @@
 				</div>
 			{/if}
 			
-			<form method="POST" use:enhance class="space-y-4">
+			<form method="POST" action="?/create" use:enhance class="space-y-4">
 				<!-- Name Field -->
 				<div>
 					<label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

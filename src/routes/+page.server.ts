@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post } from '$lib/server/db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, sql, gt } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 
@@ -117,6 +117,17 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<Reve
 	}
 }
 
+async function getActivePosts() {
+	const now = new Date();
+	return await db
+		.select()
+		.from(post)
+		.where(
+			sql`${post.startTime} + (${post.hours} || ' hours')::interval > ${now}`
+		)
+		.orderBy(desc(post.createdAt));
+}
+
 export const load: PageServerLoad = async (event) => {
 	const clientIP = getClientIP(event);
 	const anonymousSessionId = event.locals.anonymousSessionId;
@@ -130,7 +141,7 @@ export const load: PageServerLoad = async (event) => {
 			country: 'USA'
 		};
 	const form = await superValidate(zod4(postSchema));
-	const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+	const posts = await getActivePosts();
 	return {
 		location: losAngelesLocation,
 		form,
@@ -150,7 +161,7 @@ export const load: PageServerLoad = async (event) => {
 	};
 
 	const form = await superValidate(zod4(postSchema));
-	const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+	const posts = await getActivePosts();
 	
 	return {
 		location: location || defaultLocation,
@@ -188,18 +199,18 @@ export const actions: Actions = {
 			await db.delete(post).where(eq(post.id, parseInt(postId, 10)));
 
 			// Reload posts after deletion
-			const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+			const posts = await getActivePosts();
 			return { posts };
 		} catch (error) {
 			console.error('Error deleting post:', error);
 			return fail(500, { message: 'Failed to delete post' });
 		}
 	},
-	default: async (event) => {
+	create: async (event) => {
 		const form = await superValidate(event.request, zod4(postSchema));
 
 		if (!form.valid) {
-			const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+			const posts = await getActivePosts();
 			return fail(400, { form, posts });
 		}
 
@@ -221,11 +232,11 @@ export const actions: Actions = {
 			}).returning();
 
 			// Reload posts after creating a new one
-			const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+			const posts = await getActivePosts();
 			return { form, posts };
 		} catch (error) {
 			console.error('Error creating post:', error);
-			const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+			const posts = await getActivePosts();
 			return fail(500, {
 				form,
 				posts,
