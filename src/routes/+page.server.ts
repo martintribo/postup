@@ -118,37 +118,32 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<Reve
 	}
 }
 
-async function getActivePosts() {
+async function getActivePosts(userLatitude: number, userLongitude: number) {
 	const now = new Date();
+	// Haversine formula to calculate distance in miles
+	// 3959 is the Earth's radius in miles
+	const distanceInMiles = 200;
+	
 	return await db
 		.select()
 		.from(post)
 		.where(
-			sql`${post.startTime} + (${post.hours} || ' hours')::interval > ${now}`
+			sql`${post.startTime} + (${post.hours} || ' hours')::interval > ${now} AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
 		)
 		.orderBy(desc(post.createdAt));
 }
 
-export const load: PageServerLoad = async (event) => {
+async function getUserLocation(event: { getClientAddress: () => string }): Promise<GeoLocation> {
 	const clientIP = getClientIP(event);
-	const anonymousSessionId = event.locals.anonymousSessionId;
 	
 	// If localhost, default to Los Angeles
 	if (isLocalhost(clientIP)) {
-		const losAngelesLocation: GeoLocation = {
+		return {
 			latitude: 34.0522,
 			longitude: -118.2437,
 			city: 'Los Angeles',
 			country: 'USA'
 		};
-	const form = await superValidate(zod4(postSchema));
-	const posts = await getActivePosts();
-	return {
-		location: losAngelesLocation,
-		form,
-		posts,
-		anonymousSessionId
-	};
 	}
 
 	const location = await getLocationFromIP(clientIP);
@@ -161,11 +156,18 @@ export const load: PageServerLoad = async (event) => {
 		country: 'UK'
 	};
 
+	return location || defaultLocation;
+}
+
+export const load: PageServerLoad = async (event) => {
+	const anonymousSessionId = event.locals.anonymousSessionId;
+	const userLocation = await getUserLocation(event);
+	
 	const form = await superValidate(zod4(postSchema));
-	const posts = await getActivePosts();
+	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 	
 	return {
-		location: location || defaultLocation,
+		location: userLocation,
 		form,
 		posts,
 		anonymousSessionId
@@ -200,7 +202,8 @@ export const actions: Actions = {
 			await db.delete(post).where(eq(post.id, parseInt(postId, 10)));
 
 			// Reload posts after deletion
-			const posts = await getActivePosts();
+			const userLocation = await getUserLocation(event);
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return { posts };
 		} catch (error) {
 			console.error('Error deleting post:', error);
@@ -209,9 +212,10 @@ export const actions: Actions = {
 	},
 	create: async (event) => {
 		const form = await superValidate(event.request, zod4(postSchema));
+		const userLocation = await getUserLocation(event);
 
 		if (!form.valid) {
-			const posts = await getActivePosts();
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return fail(400, { form, posts });
 		}
 
@@ -234,11 +238,11 @@ export const actions: Actions = {
 			}).returning();
 
 			// Reload posts after creating a new one
-			const posts = await getActivePosts();
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return { form, posts };
 		} catch (error) {
 			console.error('Error creating post:', error);
-			const posts = await getActivePosts();
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return fail(500, {
 				form,
 				posts,
