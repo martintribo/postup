@@ -60,28 +60,34 @@
 	}
 </script>
 
-<div class="flex flex-col lg:flex-row h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-	<!-- Map Container - Full width on vertical, flexible on horizontal -->
-	<div class="flex-1 min-h-0 lg:min-w-0">
-		{#if data.location}
-			<Map
-				latitude={data.location.latitude}
-				longitude={data.location.longitude}
-				city={data.location.city}
-				country={data.location.country}
-				posts={data.posts}
-			/>
-		{:else}
-			<div class="h-full flex items-center justify-center">
-				<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
-			</div>
-		{/if}
-	</div>
+<div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+	<!-- Header Bar -->
+	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">postup.now</h1>
+	</header>
 
-	<!-- Sidebar - Bottom half on vertical, right bar on horizontal -->
-	<aside class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto">
-		<div class="p-4">
-			<h2 class="text-2xl font-semibold mb-4">Post Up</h2>
+	<!-- Main Content Area -->
+	<div class="flex flex-col lg:flex-row flex-1 min-h-0">
+		<!-- Map Container - Full width on vertical, flexible on horizontal -->
+		<div class="flex-1 min-h-0 lg:min-w-0">
+			{#if data.location}
+				<Map
+					latitude={data.location.latitude}
+					longitude={data.location.longitude}
+					city={data.location.city}
+					country={data.location.country}
+					posts={data.posts}
+				/>
+			{:else}
+				<div class="h-full flex items-center justify-center">
+					<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
+				</div>
+			{/if}
+		</div>
+
+		<!-- Sidebar - Bottom half on vertical, right bar on horizontal -->
+		<aside class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto">
+			<div class="p-4">
 			
 			<!-- Posts List -->
 			{#if data.posts && data.posts.length > 0}
@@ -259,4 +265,5 @@
 			</form>
 		</div>
 	</aside>
+	</div>
 </div>
