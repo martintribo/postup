@@ -93,7 +93,7 @@
 			<!-- Posts List -->
 			{#if data.posts && data.posts.length > 0}
 				<div class="mb-6">
-					<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">Recent Posts</h3>
+					<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">Who's posting up?</h3>
 					<div class="space-y-3">
 						{#each data.posts as postItem}
 							<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
