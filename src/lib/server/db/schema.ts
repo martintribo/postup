@@ -25,6 +25,7 @@ export const post = pgTable('post', {
 	neighborhood: text('neighborhood'),
 	locality: text('locality'),
 	district: text('district'),
+	sessionId: text('session_id'),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
 });

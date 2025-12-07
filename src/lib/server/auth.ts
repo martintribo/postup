@@ -8,6 +8,7 @@ import * as table from '$lib/server/db/schema';
 const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 export const sessionCookieName = 'auth-session';
+export const anonymousSessionCookieName = 'anonymous-session';
 
 export function generateSessionToken() {
 	const bytes = crypto.getRandomValues(new Uint8Array(18));
@@ -78,4 +79,45 @@ export function deleteSessionTokenCookie(event: RequestEvent) {
 	event.cookies.delete(sessionCookieName, {
 		path: '/'
 	});
+}
+
+// Anonymous session management (for users without authentication)
+export function generateAnonymousSessionToken(): string {
+	const bytes = crypto.getRandomValues(new Uint8Array(18));
+	const token = encodeBase64url(bytes);
+	return token;
+}
+
+export function getAnonymousSessionId(token: string): string {
+	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+}
+
+export function getOrCreateAnonymousSession(event: RequestEvent): string {
+	const existingToken = event.cookies.get(anonymousSessionCookieName);
+	
+	if (existingToken) {
+		return getAnonymousSessionId(existingToken);
+	}
+	
+	// Create new anonymous session
+	const token = generateAnonymousSessionToken();
+	const sessionId = getAnonymousSessionId(token);
+	const expiresAt = new Date(Date.now() + DAY_IN_MS * 365); // 1 year expiration
+	
+	event.cookies.set(anonymousSessionCookieName, token, {
+		expires: expiresAt,
+		path: '/',
+		httpOnly: true,
+		sameSite: 'lax'
+	});
+	
+	return sessionId;
+}
+
+export function getAnonymousSessionIdFromCookie(event: RequestEvent): string | null {
+	const token = event.cookies.get(anonymousSessionCookieName);
+	if (!token) {
+		return null;
+	}
+	return getAnonymousSessionId(token);
 }

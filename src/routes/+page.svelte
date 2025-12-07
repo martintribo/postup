@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import { z } from 'zod';
 	import { invalidateAll } from '$app/navigation';
+	import { enhance as enhanceForm } from '$app/forms';
 
 	const postSchema = z.object({
 		name: z.string().min(1, 'Name is required'),
@@ -96,6 +97,25 @@
 										<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
 											{postItem.location}
 										</p>
+										{#if postItem.neighborhood || postItem.locality || postItem.district}
+											<div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs text-gray-500 dark:text-gray-500">
+												{#if postItem.neighborhood}
+													<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														{postItem.neighborhood}
+													</span>
+												{/if}
+												{#if postItem.locality}
+													<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														{postItem.locality}
+													</span>
+												{/if}
+												{#if postItem.district}
+													<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														{postItem.district}
+													</span>
+												{/if}
+											</div>
+										{/if}
 										<div class="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-500">
 											<span>{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'}</span>
 											<span>•</span>
@@ -109,6 +129,31 @@
 											</span>
 										</div>
 									</div>
+									{#if data.anonymousSessionId && postItem.sessionId === data.anonymousSessionId}
+										<form method="POST" action="?/delete" use:enhanceForm>
+											<input type="hidden" name="postId" value={postItem.id} />
+											<button
+												type="submit"
+												class="flex-shrink-0 p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+												title="Delete post"
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-5 w-5"
+													fill="none"
+													viewBox="0 0 24 24"
+													stroke="currentColor"
+													stroke-width="2"
+												>
+													<path
+														stroke-linecap="round"
+														stroke-linejoin="round"
+														d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+													/>
+												</svg>
+											</button>
+										</form>
+									{/if}
 								</div>
 							</div>
 						{/each}

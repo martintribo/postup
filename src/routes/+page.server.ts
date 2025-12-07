@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post } from '$lib/server/db/schema';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 
@@ -119,6 +119,7 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<Reve
 
 export const load: PageServerLoad = async (event) => {
 	const clientIP = getClientIP(event);
+	const anonymousSessionId = event.locals.anonymousSessionId;
 	
 	// If localhost, default to Los Angeles
 	if (isLocalhost(clientIP)) {
@@ -133,7 +134,8 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		location: losAngelesLocation,
 		form,
-		posts
+		posts,
+		anonymousSessionId
 	};
 	}
 
@@ -153,11 +155,46 @@ export const load: PageServerLoad = async (event) => {
 	return {
 		location: location || defaultLocation,
 		form,
-		posts
+		posts,
+		anonymousSessionId
 	};
 };
 
 export const actions: Actions = {
+	delete: async (event) => {
+		const formData = await event.request.formData();
+		const postId = formData.get('postId');
+		const anonymousSessionId = event.locals.anonymousSessionId;
+
+		if (!postId || typeof postId !== 'string') {
+			return fail(400, { message: 'Invalid post ID' });
+		}
+
+		try {
+			// Verify that the post belongs to the current session
+			const [existingPost] = await db
+				.select()
+				.from(post)
+				.where(eq(post.id, parseInt(postId, 10)));
+
+			if (!existingPost) {
+				return fail(404, { message: 'Post not found' });
+			}
+
+			if (existingPost.sessionId !== anonymousSessionId) {
+				return fail(403, { message: 'Not authorized to delete this post' });
+			}
+
+			await db.delete(post).where(eq(post.id, parseInt(postId, 10)));
+
+			// Reload posts after deletion
+			const posts = await db.select().from(post).orderBy(desc(post.createdAt));
+			return { posts };
+		} catch (error) {
+			console.error('Error deleting post:', error);
+			return fail(500, { message: 'Failed to delete post' });
+		}
+	},
 	default: async (event) => {
 		const form = await superValidate(event.request, zod4(postSchema));
 
@@ -169,6 +206,7 @@ export const actions: Actions = {
 		try {
 			// Reverse geocode to get neighborhood, locality, and district
 			const geocodeResult = await reverseGeocode(form.data.latitude, form.data.longitude);
+			const anonymousSessionId = event.locals.anonymousSessionId;
 
 			const result = await db.insert(post).values({
 				name: form.data.name,
@@ -178,7 +216,8 @@ export const actions: Actions = {
 				hours: form.data.hours,
 				neighborhood: geocodeResult.neighborhood,
 				locality: geocodeResult.locality,
-				district: geocodeResult.district
+				district: geocodeResult.district,
+				sessionId: anonymousSessionId
 			}).returning();
 
 			// Reload posts after creating a new one
