@@ -1,4 +1,18 @@
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
+import { superValidate } from 'sveltekit-superforms/server';
+import { zod4 } from 'sveltekit-superforms/adapters';
+import { z } from 'zod';
+import { fail } from '@sveltejs/kit';
+import { db } from '$lib/server/db';
+import { post } from '$lib/server/db/schema';
+
+const postSchema = z.object({
+	name: z.string().min(1, 'Name is required'),
+	location: z.string().min(1, 'Location is required'),
+	latitude: z.number(),
+	longitude: z.number(),
+	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24')
+});
 
 interface GeoLocation {
 	latitude: number;
@@ -49,8 +63,10 @@ export const load: PageServerLoad = async (event) => {
 			city: 'Los Angeles',
 			country: 'USA'
 		};
+		const form = await superValidate(zod4(postSchema));
 		return {
-			location: losAngelesLocation
+			location: losAngelesLocation,
+			form
 		};
 	}
 
@@ -64,8 +80,39 @@ export const load: PageServerLoad = async (event) => {
 		country: 'UK'
 	};
 
+	const form = await superValidate(zod4(postSchema));
+	
 	return {
-		location: location || defaultLocation
+		location: location || defaultLocation,
+		form
 	};
+};
+
+export const actions: Actions = {
+	default: async (event) => {
+		const form = await superValidate(event.request, zod4(postSchema));
+
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		try {
+			const result = await db.insert(post).values({
+				name: form.data.name,
+				location: form.data.location,
+				latitude: form.data.latitude,
+				longitude: form.data.longitude,
+				hours: form.data.hours
+			}).returning();
+
+			return { form };
+		} catch (error) {
+			console.error('Error creating post:', error);
+			return fail(500, {
+				form,
+				message: 'Failed to create post'
+			});
+		}
+	}
 };
 

@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, text, timestamp, real } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
@@ -15,6 +15,18 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
+export const post = pgTable('post', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	location: text('location').notNull(),
+	latitude: real('latitude').notNull(),
+	longitude: real('longitude').notNull(),
+	hours: integer('hours').notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
+
+export type Post = typeof post.$inferSelect;
