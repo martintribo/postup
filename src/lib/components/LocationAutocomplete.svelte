@@ -1,10 +1,13 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { env } from '$env/dynamic/public';
 
 	interface LocationSuggestion {
-		display_name: string;
-		lat: string;
-		lon: string;
+		id: string;
+		place_name: string;
+		geometry: {
+			type: string;
+			coordinates: [number, number]; // [longitude, latitude]
+		};
 	}
 
 	interface Props {
@@ -27,18 +30,29 @@
 			return;
 		}
 
+		const accessToken = env.PUBLIC_MAPBOX_ACCESS_TOKEN;
+		if (!accessToken) {
+			console.error('Mapbox access token is not configured');
+			return;
+		}
+
 		try {
-			// Using Nominatim (OpenStreetMap's geocoding service) - free, no API key required
+			// Using Mapbox Geocoding API v6
+			const params = new URLSearchParams({
+				q: query,
+				access_token: accessToken,
+				limit: '5'
+			});
 			const response = await fetch(
-				`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`,
-				{
-					headers: {
-						'User-Agent': 'PostUp App' // Required by Nominatim
-					}
-				}
+				`https://api.mapbox.com/search/geocode/v6/forward?${params.toString()}`
 			);
+			
+			if (!response.ok) {
+				throw new Error(`Mapbox API error: ${response.status}`);
+			}
+			
 			const data = await response.json();
-			suggestions = data;
+			suggestions = data.features || [];
 			showSuggestions = true;
 			selectedIndex = -1;
 		} catch (error) {
@@ -62,12 +76,13 @@
 	}
 
 	function selectSuggestion(suggestion: LocationSuggestion) {
-		value = suggestion.display_name;
+		value = suggestion.place_name;
 		showSuggestions = false;
+		// Mapbox v6 returns coordinates as [longitude, latitude] in geometry.coordinates
 		onSelect({
-			name: suggestion.display_name,
-			latitude: parseFloat(suggestion.lat),
-			longitude: parseFloat(suggestion.lon)
+			name: suggestion.place_name,
+			latitude: suggestion.geometry.coordinates[1],
+			longitude: suggestion.geometry.coordinates[0]
 		});
 	}
 
@@ -113,7 +128,7 @@
 		<ul
 			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
 		>
-			{#each suggestions as suggestion, index}
+			{#each suggestions as suggestion, index (suggestion.id)}
 				<li>
 					<button
 						type="button"
@@ -122,7 +137,7 @@
 							? 'bg-gray-100 dark:bg-gray-700'
 							: ''}"
 					>
-						<div class="text-sm text-gray-900 dark:text-gray-100">{suggestion.display_name}</div>
+						<div class="text-sm text-gray-900 dark:text-gray-100">{suggestion.place_name}</div>
 					</button>
 				</li>
 			{/each}
