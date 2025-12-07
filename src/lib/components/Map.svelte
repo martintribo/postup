@@ -110,12 +110,33 @@
 		const bounds = calculateBounds(latitude, longitude);
 		map.fitBounds(bounds);
 
+		// Handle window resize to update map size
+		const handleResize = () => {
+			if (map) {
+				map.invalidateSize();
+			}
+		};
+		window.addEventListener('resize', handleResize);
+
+		// Use ResizeObserver to detect container size changes (better for responsive layouts)
+		const resizeObserver = new ResizeObserver(() => {
+			if (map) {
+				// Small delay to ensure layout has settled
+				setTimeout(() => {
+					map.invalidateSize();
+				}, 100);
+			}
+		});
+		resizeObserver.observe(mapContainer);
+
 		return () => {
 			if (mediaQuery.removeEventListener) {
 				mediaQuery.removeEventListener('change', handleChange);
 			} else {
 				mediaQuery.removeListener(handleChange);
 			}
+			window.removeEventListener('resize', handleResize);
+			resizeObserver.disconnect();
 			if (map) {
 				map.remove();
 			}
@@ -128,10 +149,8 @@
 <style>
 	.map-container {
 		width: 100%;
-		height: 500px;
-		border-radius: 0.5rem;
+		height: 100%;
 		overflow: hidden;
-		box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 	}
 
 	:global(.leaflet-container) {
