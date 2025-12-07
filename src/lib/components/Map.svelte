@@ -23,9 +23,29 @@
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
 
+	/**
+	 * Calculate bounds for a 50x50 square mile area centered on the given coordinates
+	 */
+	function calculateBounds(centerLat: number, centerLon: number): L.LatLngBounds {
+		// 1 degree of latitude ≈ 69 miles
+		// For 50 miles total (25 miles each direction): 25 / 69 ≈ 0.3623 degrees
+		const latOffset = 25 / 69;
+
+		// 1 degree of longitude ≈ 69 * cos(latitude) miles
+		// For 50 miles total (25 miles each direction): 25 / (69 * cos(latitude))
+		const lonOffset = 25 / (69 * Math.cos((centerLat * Math.PI) / 180));
+
+		const north = centerLat + latOffset;
+		const south = centerLat - latOffset;
+		const east = centerLon + lonOffset;
+		const west = centerLon - lonOffset;
+
+		return L.latLngBounds([south, west], [north, east]);
+	}
+
 	onMount(() => {
-		// Initialize the map with provided coordinates
-		map = L.map(mapContainer).setView([latitude, longitude], 13);
+		// Initialize the map
+		map = L.map(mapContainer);
 
 		// Add OpenStreetMap tiles
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -33,6 +53,10 @@
 				'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			maxZoom: 19
 		}).addTo(map);
+
+		// Calculate bounds for 50x50 square mile area
+		const bounds = calculateBounds(latitude, longitude);
+		map.fitBounds(bounds);
 
 		// Create popup text
 		const popupText = city && country 
