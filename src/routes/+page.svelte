@@ -1,5 +1,8 @@
 <script lang="ts">
 	import Map from '$lib/components/Map.svelte';
+	import type { PageData } from './$types';
+
+	let { data }: { data: PageData } = $props();
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -10,6 +13,15 @@
 
 	<div class="mb-8">
 		<h2 class="text-2xl font-semibold mb-4">Map View</h2>
-		<Map />
+		{#if data.location}
+			<Map
+				latitude={data.location.latitude}
+				longitude={data.location.longitude}
+				city={data.location.city}
+				country={data.location.country}
+			/>
+		{:else}
+			<p class="text-gray-500">Loading map...</p>
+		{/if}
 	</div>
 </div>

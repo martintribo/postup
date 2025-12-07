@@ -3,6 +3,15 @@
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 
+	interface Props {
+		latitude: number;
+		longitude: number;
+		city?: string;
+		country?: string;
+	}
+
+	let { latitude, longitude, city, country }: Props = $props();
+
 	// Fix for default marker icon in Vite
 	delete (L.Icon.Default.prototype as any)._getIconUrl;
 	L.Icon.Default.mergeOptions({
@@ -15,8 +24,8 @@
 	let map: L.Map | null = null;
 
 	onMount(() => {
-		// Initialize the map
-		map = L.map(mapContainer).setView([51.505, -0.09], 13);
+		// Initialize the map with provided coordinates
+		map = L.map(mapContainer).setView([latitude, longitude], 13);
 
 		// Add OpenStreetMap tiles
 		L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -25,10 +34,17 @@
 			maxZoom: 19
 		}).addTo(map);
 
+		// Create popup text
+		const popupText = city && country 
+			? `You are near ${city}, ${country}`
+			: city 
+				? `You are near ${city}`
+				: 'Your location';
+
 		// Add a marker
-		L.marker([51.505, -0.09])
+		L.marker([latitude, longitude])
 			.addTo(map)
-			.bindPopup('Welcome to the map!')
+			.bindPopup(popupText)
 			.openPopup();
 
 		return () => {
@@ -39,7 +55,7 @@
 	});
 </script>
 
-<div bind:this={mapContainer} class="map-container" />
+<div bind:this={mapContainer} class="map-container"></div>
 
 <style>
 	.map-container {
