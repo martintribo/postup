@@ -31,8 +31,19 @@ export const post = pgTable('post', {
 	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
 });
 
+export const notificationSubscription = pgTable('notification_subscription', {
+	id: serial('id').primaryKey(),
+	endpoint: text('endpoint').notNull().unique(),
+	p256dh: text('p256dh').notNull(),
+	auth: text('auth').notNull(),
+	sessionId: text('session_id'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
 
 export type Post = typeof post.$inferSelect;
+
+export type NotificationSubscription = typeof notificationSubscription.$inferSelect;

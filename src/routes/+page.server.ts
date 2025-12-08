@@ -8,6 +8,7 @@ import { post } from '$lib/server/db/schema';
 import { desc, eq, sql, gt } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+import { sendPushNotification } from '$lib/server/notifications';
 
 const postSchema = z.object({
 	name: z.string().min(1, 'Name is required'),
@@ -236,6 +237,14 @@ export const actions: Actions = {
 				district: geocodeResult.district,
 				sessionId: anonymousSessionId
 			}).returning();
+
+			// Send push notification to all subscribers
+			const notificationTitle = 'New Post!';
+			const notificationBody = `${form.data.name} is ${form.data.activity} at ${form.data.location}`;
+			// Don't await - send notifications asynchronously
+			sendPushNotification(notificationTitle, notificationBody).catch((error) => {
+				console.error('Error sending push notification:', error);
+			});
 
 			// Reload posts after creating a new one
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);

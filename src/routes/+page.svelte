@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Map from '$lib/components/Map.svelte';
 	import LocationAutocomplete from '$lib/components/LocationAutocomplete.svelte';
+	import NotificationButton from '$lib/components/NotificationButton.svelte';
 	import { superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import type { PageData } from './$types';
@@ -82,29 +83,32 @@
 
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 relative">
-		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center">postup.now</h1>
-		<button
-			type="button"
-			onclick={openFaqModal}
-			class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
-			aria-label="Open FAQ"
-		>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
-				fill="none"
-				viewBox="0 0 24 24"
-				stroke="currentColor"
-				stroke-width="2"
+	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-between relative">
+		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 absolute left-1/2 -translate-x-1/2">postup.now</h1>
+		<div class="flex items-center gap-2 ml-auto">
+			<NotificationButton />
+			<button
+				type="button"
+				onclick={openFaqModal}
+				class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+				aria-label="Open FAQ"
 			>
-				<path
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-				/>
-			</svg>
-		</button>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke="currentColor"
+					stroke-width="2"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+					/>
+				</svg>
+			</button>
+		</div>
 	</header>
 
 	<!-- Main Content Area -->
