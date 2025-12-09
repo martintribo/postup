@@ -63,8 +63,11 @@
 
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">postup.now</h1>
+	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 relative">
+		<div class="flex items-center">
+			<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">postup.now</h1>
+			<p class="text-sm text-gray-600 dark:text-gray-400 absolute left-1/2 -translate-x-1/2">Doing something for awhile? Post up and have others join you</p>
+		</div>
 	</header>
 
 	<!-- Main Content Area -->
