@@ -441,37 +441,63 @@
 
 					<div class="space-y-6">
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">What is postup.now?</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								postup.now is a platform where you can share what you're doing and invite others to join you. Whether you're working at a coffee shop, reading in a park, or doing any activity, you can "post up" and let others know you're open to company.
+								Hello and welcome! Appologies in advance for the AI generated text, I'll come back soon to clean the FAQ up!
 							</p>
 						</div>
-
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">What is postup.now?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								postup.now is a platform designed to turn solo activities into social opportunities by letting you share what you're up to and invite like-minded people to join. Inspired by the idea of connecting creators and anyone pursuing personal projects during off-hours, it's open to all kinds of activities—whether you're coding at a cafe, sketching in a park, hitting the gym, or exploring a new hobby. Post your location and what you're doing, and others can request to join if it sparks their interest. If approved, you can share exact details to meet up and collaborate or just hang out.
+							</p>
+						</div>
+						
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Why was postup.now created?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								The site stems from a desire to build communities around shared drives and passions, like turning off-hours activities into enriching social experiences. Since there aren't many systems to easily support connections with others outside regular day job hours, postup.now offers a welcoming space to meet similar people—coders, writers, artists, or anyone pursuing side projects—while being flexible for casual meetups, fitness sessions, or group activities. It's about making solo time more vibrant through unexpected connections that could lead to friendships, collaborations, or just better motivation.
+							</p>
+						</div>
+						
 						<div>
 							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I post up?</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Click the "Post Up" button, fill in your name, what you're doing, your location, and how long you'll be there. Your post will appear on the map for others to see.
+								Click the "Post Up" button, enter your name or handle, describe what you're doing (e.g., "Building a TypeScript app" or "Gym session focusing on strength training"), add your general location (with optional obfuscation for privacy), and specify how long you'll be there. Your post appears on the map as a public invite—others can see the basics and request to join for more details if you approve.
 							</p>
 						</div>
-
+						
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How does joining work?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								If a post catches your eye, click "Request to Join" and add a quick note about why (e.g., "I'm also into app development and nearby!"). The poster gets notified and can approve or decline. If approved, you'll get the exact location or contact info to connect—perfect for turning a solo session into a spontaneous meetup with people who share your vibe.
+							</p>
+						</div>
+						
 						<div>
 							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How long do posts stay active?</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Posts are active for the duration you specify (1-24 hours). After that time, they automatically expire. You can also delete your post at any time using the delete icon.
+								Posts remain active for the time you set (from 1 hour up to a full day or more, depending on your activity). They auto-expire afterward to keep things fresh, but you can extend, edit, or delete them anytime via the manage icon on your post.
 							</p>
 						</div>
-
+						
 						<div>
 							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is my information private?</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Your posts are visible to anyone viewing the map in your area. Only the information you choose to share (name, activity, location) is displayed. You can delete your post at any time.
+								You control what you share—posts show only what you input, like a general area and activity description publicly. Exact locations are revealed only to approved joiners. No personal data is stored beyond what's needed for the post, and you can delete everything at any time. We prioritize safety and consent in connections.
 							</p>
 						</div>
-
+						
 						<div>
 							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I find others who are posting up?</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Look for coffee cup icons on the map. Click on them to see details about what someone is doing, where they are, and how long they'll be there.
+								Browse the interactive map for icons (like coffee cups for work spots or activity markers for gyms/parks). Filter by interests or location to spot posts that match your energy—click for details on what they're doing, how long they're there, and to send a join request if it aligns with your plans.
+							</p>
+						</div>
+						
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is it only for work or creative projects?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								Not at all! While it's great for off-hours creators looking to meet similar minds, postup.now is versatile for any activity—gym buddies, park reads, group hikes, language exchanges, or casual hangs. Use it to make everyday outings more social and discover people with overlapping interests.
 							</p>
 						</div>
 					</div>
