@@ -105,6 +105,21 @@
 	}
 
 	/**
+	 * Create a custom coffee icon for markers
+	 */
+	function createCoffeeIcon(): L.DivIcon {
+		const isDark = isDarkMode();
+		const bgColor = isDark ? '#2563eb' : '#2563eb'; // Blue circle background
+		return L.divIcon({
+			className: 'custom-coffee-marker',
+			html: `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: ${bgColor}; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);"><span class="material-symbols-outlined" style="font-size: 24px; color: white;">local_cafe</span></div>`,
+			iconSize: [40, 40],
+			iconAnchor: [20, 40],
+			popupAnchor: [0, -40]
+		});
+	}
+
+	/**
 	 * Update post markers on the map
 	 */
 	function updatePostMarkers() {
@@ -119,7 +134,9 @@
 
 		// Add markers for each post
 		posts.forEach((postItem) => {
-			const marker = L.marker([postItem.latitude, postItem.longitude]).addTo(currentMap);
+			const marker = L.marker([postItem.latitude, postItem.longitude], {
+				icon: createCoffeeIcon()
+			}).addTo(currentMap);
 
 			const endTime = getEndTime(postItem.startTime, postItem.hours);
 			const popupContent = `
@@ -226,6 +243,15 @@
 	:global(.leaflet-container) {
 		height: 100%;
 		width: 100%;
+	}
+
+	:global(.custom-coffee-marker) {
+		background: transparent;
+		border: none;
+	}
+
+	:global(.custom-coffee-marker .material-symbols-outlined) {
+		font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
 	}
 </style>
 
