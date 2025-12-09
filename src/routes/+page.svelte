@@ -36,6 +36,7 @@
 	let locationValue = $state('');
 	let selectedLocation = $state<{ name: string; latitude: number; longitude: number } | null>(null);
 	let showFormModal = $state(false);
+	let showFaqModal = $state(false);
 
 	// Initialize hours if not set
 	if (!$form.hours) {
@@ -48,6 +49,14 @@
 
 	function closeFormModal() {
 		showFormModal = false;
+	}
+
+	function openFaqModal() {
+		showFaqModal = true;
+	}
+
+	function closeFaqModal() {
+		showFaqModal = false;
 	}
 
 	function handleLocationSelect(location: { name: string; latitude: number; longitude: number }) {
@@ -73,8 +82,29 @@
 
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 relative">
 		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center">postup.now</h1>
+		<button
+			type="button"
+			onclick={openFaqModal}
+			class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+			aria-label="Open FAQ"
+		>
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-5 w-5"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+				/>
+			</svg>
+		</button>
 	</header>
 
 	<!-- Main Content Area -->
@@ -360,6 +390,91 @@
 							<p class="text-sm text-green-600 dark:text-green-400">{$message}</p>
 						{/if}
 					</form>
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	<!-- FAQ Modal -->
+	{#if showFaqModal}
+		<div
+			class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
+			onclick={closeFaqModal}
+			onkeydown={(e) => {
+				if (e.key === 'Escape') {
+					closeFaqModal();
+				}
+			}}
+			role="button"
+			tabindex="0"
+		>
+			<div
+				class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-[10000]"
+				onclick={(e) => e.stopPropagation()}
+				onkeydown={(e) => e.stopPropagation()}
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="faq-modal-title"
+				tabindex="-1"
+			>
+				<div class="p-6">
+					<div class="flex items-center justify-between mb-6">
+						<h2 id="faq-modal-title" class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Frequently Asked Questions</h2>
+						<button
+							type="button"
+							onclick={closeFaqModal}
+							class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+							aria-label="Close modal"
+						>
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+					</div>
+
+					<div class="space-y-6">
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">What is postup.now?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								postup.now is a platform where you can share what you're doing and invite others to join you. Whether you're working at a coffee shop, reading in a park, or doing any activity, you can "post up" and let others know you're open to company.
+							</p>
+						</div>
+
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I post up?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								Click the "Post Up" button, fill in your name, what you're doing, your location, and how long you'll be there. Your post will appear on the map for others to see.
+							</p>
+						</div>
+
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How long do posts stay active?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								Posts are active for the duration you specify (1-24 hours). After that time, they automatically expire. You can also delete your post at any time using the delete icon.
+							</p>
+						</div>
+
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is my information private?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								Your posts are visible to anyone viewing the map in your area. Only the information you choose to share (name, activity, location) is displayed. You can delete your post at any time.
+							</p>
+						</div>
+
+						<div>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I find others who are posting up?</h3>
+							<p class="text-gray-600 dark:text-gray-400">
+								Look for coffee cup icons on the map. Click on them to see details about what someone is doing, where they are, and how long they'll be there.
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
