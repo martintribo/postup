@@ -1,25 +1,18 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 
-	interface LocationSuggestion {
-		id?: string;
-		type?: string;
-		text?: string;
-		place_name?: string;
-		properties?: {
-			full_address?: string;
-			coordinates?: {
-				latitude: number;
-				longitude: number;
-				accuracy?: string;
-			};
-			[key: string]: unknown;
+	interface SearchSuggestion {
+		name: string;
+		mapbox_id: string;
+		feature_type: string;
+		address?: string;
+		full_address?: string;
+		place_formatted?: string;
+		context?: {
+			country?: { name: string };
+			region?: { name: string };
+			place?: { name: string };
 		};
-		geometry?: {
-			type: string;
-			coordinates: [number, number]; // [longitude, latitude]
-		};
-		center?: [number, number]; // [longitude, latitude] - fallback for v5 compatibility
 	}
 
 	interface Props {
@@ -31,14 +24,14 @@
 
 	let { name, value = $bindable(''), onSelect, proximity }: Props = $props();
 
-	let inputElement: HTMLInputElement;
-	let suggestions = $state<LocationSuggestion[]>([]);
+	let suggestions = $state<SearchSuggestion[]>([]);
 	let showSuggestions = $state(false);
 	let selectedIndex = $state(-1);
 	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+	let sessionToken = $state(crypto.randomUUID());
 
 	async function searchLocations(query: string) {
-		if (query.length < 3) {
+		if (query.length < 2) {
 			suggestions = [];
 			showSuggestions = false;
 			return;
@@ -51,35 +44,30 @@
 		}
 
 		try {
-			// Using Mapbox Geocoding API v6
+			// Using Mapbox Search Box API for POI/business search
 			const params = new URLSearchParams({
 				q: query,
 				access_token: accessToken,
-				limit: '5'
+				session_token: sessionToken,
+				limit: '8',
+				types: 'poi,address,place'
 			});
 
 			// Add proximity parameter if user location is available
-			// Format: proximity=longitude,latitude
 			if (proximity) {
 				params.append('proximity', `${proximity.longitude},${proximity.latitude}`);
 			}
 
 			const response = await fetch(
-				`https://api.mapbox.com/search/geocode/v6/forward?${params.toString()}`
+				`https://api.mapbox.com/search/searchbox/v1/suggest?${params.toString()}`
 			);
-			
+
 			if (!response.ok) {
 				throw new Error(`Mapbox API error: ${response.status}`);
 			}
-			
+
 			const data = await response.json();
-			console.log('Mapbox API response:', data);
-			
-			// Handle both FeatureCollection and direct features array
-			const features = data.features || data || [];
-			console.log('Parsed features:', features);
-			
-			suggestions = features;
+			suggestions = data.suggestions || [];
 			showSuggestions = true;
 			selectedIndex = -1;
 		} catch (error) {
@@ -102,35 +90,48 @@
 		}, 300);
 	}
 
-	function selectSuggestion(suggestion: LocationSuggestion) {
-		const placeName = suggestion.properties?.full_address || suggestion.place_name || suggestion.text || '';
-		value = placeName;
+	async function selectSuggestion(suggestion: SearchSuggestion) {
+		const displayName = suggestion.name + (suggestion.place_formatted ? `, ${suggestion.place_formatted}` : '');
+		value = displayName;
 		showSuggestions = false;
-		
-		// Mapbox v6 has coordinates in properties.coordinates
-		const coords = suggestion.properties?.coordinates;
-		if (coords && typeof coords.latitude === 'number' && typeof coords.longitude === 'number') {
-			onSelect({
-				name: placeName,
-				latitude: coords.latitude,
-				longitude: coords.longitude
+
+		const accessToken = env.PUBLIC_MAPBOX_ACCESS_TOKEN;
+		if (!accessToken) {
+			console.error('Mapbox access token is not configured');
+			return;
+		}
+
+		try {
+			// Retrieve full details including coordinates
+			const params = new URLSearchParams({
+				access_token: accessToken,
+				session_token: sessionToken
 			});
-		} else if (suggestion.geometry?.coordinates) {
-			// Fallback to geometry.coordinates [longitude, latitude]
-			const [longitude, latitude] = suggestion.geometry.coordinates;
-			onSelect({
-				name: placeName,
-				latitude,
-				longitude
-			});
-		} else if (suggestion.center) {
-			// Fallback to center [longitude, latitude]
-			const [longitude, latitude] = suggestion.center;
-			onSelect({
-				name: placeName,
-				latitude,
-				longitude
-			});
+
+			const response = await fetch(
+				`https://api.mapbox.com/search/searchbox/v1/retrieve/${suggestion.mapbox_id}?${params.toString()}`
+			);
+
+			if (!response.ok) {
+				throw new Error(`Mapbox retrieve error: ${response.status}`);
+			}
+
+			const data = await response.json();
+			const feature = data.features?.[0];
+
+			if (feature?.geometry?.coordinates) {
+				const [longitude, latitude] = feature.geometry.coordinates;
+				onSelect({
+					name: displayName,
+					latitude,
+					longitude
+				});
+			}
+
+			// Generate new session token for next search
+			sessionToken = crypto.randomUUID();
+		} catch (error) {
+			console.error('Error retrieving location details:', error);
 		}
 	}
 
@@ -163,7 +164,6 @@
 <div class="relative">
 	<input
 		name={name}
-		bind:this={inputElement}
 		type="text"
 		bind:value
 		oninput={handleInput}
@@ -177,7 +177,7 @@
 		<ul
 			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
 		>
-			{#each suggestions as suggestion, index (suggestion.id || index.toString())}
+			{#each suggestions as suggestion, index (suggestion.mapbox_id)}
 				<li>
 					<button
 						type="button"
@@ -186,9 +186,14 @@
 							? 'bg-gray-100 dark:bg-gray-700'
 							: ''}"
 					>
-						<div class="text-sm text-gray-900 dark:text-gray-100">
-							{suggestion.properties?.full_address || suggestion.place_name || suggestion.text || 'Unknown location'}
+						<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+							{suggestion.name}
 						</div>
+						{#if suggestion.place_formatted}
+							<div class="text-xs text-gray-500 dark:text-gray-400">
+								{suggestion.place_formatted}
+							</div>
+						{/if}
 					</button>
 				</li>
 			{/each}
