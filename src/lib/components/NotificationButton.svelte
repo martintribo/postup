@@ -1,26 +1,30 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	
+
 	let isSubscribed = $state(false);
 	let isSupported = $state(false);
 	let isLoading = $state(false);
 	let registration: ServiceWorkerRegistration | null = $state(null);
 	let subscription: PushSubscription | null = $state(null);
-	
+
 	onMount(async () => {
 		// Check if browser supports notifications
-		if (!('Notification' in window) || !('serviceWorker' in navigator) || !('PushManager' in window)) {
+		if (
+			!('Notification' in window) ||
+			!('serviceWorker' in navigator) ||
+			!('PushManager' in window)
+		) {
 			isSupported = false;
 			return;
 		}
-		
+
 		isSupported = true;
-		
+
 		try {
 			// Register service worker
 			const reg = await navigator.serviceWorker.register('/sw.js');
 			registration = reg;
-			
+
 			// Check current subscription status
 			const sub = await reg.pushManager.getSubscription();
 			subscription = sub;
@@ -29,12 +33,12 @@
 			console.error('Error registering service worker:', error);
 		}
 	});
-	
+
 	async function toggleSubscription() {
 		if (!registration || !isSupported) return;
-		
+
 		isLoading = true;
-		
+
 		try {
 			if (isSubscribed && subscription) {
 				// Unsubscribe
@@ -52,22 +56,22 @@
 				if (permission !== 'granted') {
 					throw new Error('Notification permission denied');
 				}
-				
+
 				// Subscribe
 				const response = await fetch('/api/notifications/vapid-public-key');
 				const { publicKey } = await response.json();
-				
+
 				if (!publicKey) {
 					throw new Error('VAPID public key not available');
 				}
-				
+
 				const sub = await registration.pushManager.subscribe({
 					userVisibleOnly: true,
 					applicationServerKey: urlBase64ToUint8Array(publicKey)
 				});
-				
+
 				subscription = sub;
-				
+
 				// Send subscription to server
 				const subscriptionData = {
 					endpoint: sub.endpoint,
@@ -76,13 +80,13 @@
 						auth: arrayBufferToBase64(sub.getKey('auth')!)
 					}
 				};
-				
+
 				await fetch('/api/notifications/subscribe', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(subscriptionData)
 				});
-				
+
 				isSubscribed = true;
 			}
 		} catch (error) {
@@ -92,19 +96,19 @@
 			isLoading = false;
 		}
 	}
-	
+
 	function urlBase64ToUint8Array(base64String: string): Uint8Array {
 		const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
 		const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
 		const rawData = window.atob(base64);
 		const outputArray = new Uint8Array(rawData.length);
-		
+
 		for (let i = 0; i < rawData.length; ++i) {
 			outputArray[i] = rawData.charCodeAt(i);
 		}
 		return outputArray;
 	}
-	
+
 	function arrayBufferToBase64(buffer: ArrayBuffer): string {
 		const bytes = new Uint8Array(buffer);
 		let binary = '';
@@ -166,4 +170,3 @@
 		{/if}
 	</button>
 {/if}
-

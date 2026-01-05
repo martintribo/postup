@@ -81,10 +81,18 @@
 	}
 </script>
 
-<div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+<div
+	class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors"
+>
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-between relative">
-		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 absolute left-1/2 -translate-x-1/2">postup.now</h1>
+	<header
+		class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-between relative"
+	>
+		<h1
+			class="text-xl font-semibold text-gray-900 dark:text-gray-100 absolute left-1/2 -translate-x-1/2"
+		>
+			postup.now
+		</h1>
 		<div class="flex items-center gap-2 ml-auto">
 			<NotificationButton />
 			<button
@@ -128,11 +136,15 @@
 					<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
 				</div>
 			{/if}
-			
+
 			<!-- Floating slogan and button -->
-			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 w-[calc(100%-2rem)] max-w-[450px]">
+			<div
+				class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 w-[calc(100%-2rem)] max-w-[450px]"
+			>
 				<div class="flex-1 flex justify-center">
-					<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center min-w-0">Doing something and open to company?</p>
+					<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center min-w-0">
+						Doing something and open to company?
+					</p>
 				</div>
 				<button
 					type="button"
@@ -145,15 +157,21 @@
 		</div>
 
 		<!-- Sidebar - Bottom half on vertical, right bar on horizontal -->
-		<aside class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto">
+		<aside
+			class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto"
+		>
 			<div class="p-4">
 				<!-- Posts List -->
 				{#if data.posts && data.posts.length > 0}
 					<div>
-						<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">Who's posting up?</h3>
+						<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">
+							Who's posting up?
+						</h3>
 						<div class="space-y-3">
 							{#each data.posts as postItem}
-								<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+								<div
+									class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800"
+								>
 									<div class="flex items-start justify-between gap-2">
 										<div class="flex-1 min-w-0">
 											<p class="font-medium text-gray-900 dark:text-gray-100 truncate">
@@ -166,7 +184,9 @@
 												{postItem.location}
 											</p>
 											{#if postItem.neighborhood || postItem.locality || postItem.district}
-												<div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs text-gray-500 dark:text-gray-500">
+												<div
+													class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs text-gray-500 dark:text-gray-500"
+												>
 													{#if postItem.neighborhood}
 														<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
 															{postItem.neighborhood}
@@ -184,7 +204,9 @@
 													{/if}
 												</div>
 											{/if}
-											<div class="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-500">
+											<div
+												class="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-500"
+											>
 												<span>{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'}</span>
 												<span>•</span>
 												<span>
@@ -197,7 +219,9 @@
 												</span>
 												<span>–</span>
 												<span>
-													{new Date(new Date(postItem.startTime).getTime() + postItem.hours * 60 * 60 * 1000).toLocaleString(undefined, {
+													{new Date(
+														new Date(postItem.startTime).getTime() + postItem.hours * 60 * 60 * 1000
+													).toLocaleString(undefined, {
 														month: 'short',
 														day: 'numeric',
 														hour: 'numeric',
@@ -269,7 +293,9 @@
 			>
 				<div class="p-6">
 					<div class="flex items-center justify-between mb-4">
-						<h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100">Post up</h2>
+						<h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+							Post up
+						</h2>
 						<button
 							type="button"
 							onclick={closeFormModal}
@@ -292,7 +318,10 @@
 					<form method="POST" action="?/create" use:enhance class="space-y-4">
 						<!-- Name Field -->
 						<div>
-							<label for="modal-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+							<label
+								for="modal-name"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+							>
 								Your Name
 							</label>
 							<input
@@ -310,7 +339,10 @@
 
 						<!-- Activity Field -->
 						<div>
-							<label for="modal-activity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+							<label
+								for="modal-activity"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+							>
 								What are you doing?
 							</label>
 							<input
@@ -328,14 +360,19 @@
 
 						<!-- Location Autocomplete -->
 						<div>
-							<label for="modal-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+							<label
+								for="modal-location"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+							>
 								Location
 							</label>
 							<LocationAutocomplete
 								name="location"
 								value={locationValue}
 								onSelect={handleLocationSelect}
-								proximity={data.location ? { latitude: data.location.latitude, longitude: data.location.longitude } : undefined}
+								proximity={data.location
+									? { latitude: data.location.latitude, longitude: data.location.longitude }
+									: undefined}
 							/>
 							<input type="hidden" name="location" bind:value={$form.location} />
 							<input type="hidden" name="latitude" bind:value={$form.latitude} />
@@ -347,7 +384,10 @@
 
 						<!-- Hours Counter -->
 						<div>
-							<label for="modal-hours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+							<label
+								for="modal-hours"
+								class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+							>
 								Hours
 							</label>
 							<div class="flex items-center gap-3">
@@ -423,7 +463,12 @@
 			>
 				<div class="p-6">
 					<div class="flex items-center justify-between mb-6">
-						<h2 id="faq-modal-title" class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Frequently Asked Questions</h2>
+						<h2
+							id="faq-modal-title"
+							class="text-2xl font-semibold text-gray-900 dark:text-gray-100"
+						>
+							Frequently Asked Questions
+						</h2>
 						<button
 							type="button"
 							onclick={closeFaqModal}
@@ -446,62 +491,112 @@
 					<div class="space-y-6">
 						<div>
 							<p class="text-gray-600 dark:text-gray-400">
-								Hello and welcome! Appologies in advance for the AI generated text, I'll come back soon to clean the FAQ up!
+								Hello and welcome! Appologies in advance for the AI generated text, I'll come back
+								soon to clean the FAQ up!
 							</p>
 						</div>
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">What is postup.now?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								What is postup.now?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								postup.now is a platform designed to turn solo activities into social opportunities by letting you share what you're up to and invite like-minded people to join. Inspired by the idea of connecting creators and anyone pursuing personal projects during off-hours, it's open to all kinds of activities—whether you're coding at a cafe, sketching in a park, hitting the gym, or exploring a new hobby. Post your location and what you're doing, and others can request to join if it sparks their interest. If approved, you can share exact details to meet up and collaborate or just hang out.
+								postup.now is a platform designed to turn solo activities into social opportunities
+								by letting you share what you're up to and invite like-minded people to join.
+								Inspired by the idea of connecting creators and anyone pursuing personal projects
+								during off-hours, it's open to all kinds of activities—whether you're coding at a
+								cafe, sketching in a park, hitting the gym, or exploring a new hobby. Post your
+								location and what you're doing, and others can request to join if it sparks their
+								interest. If approved, you can share exact details to meet up and collaborate or
+								just hang out.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Why was postup.now created?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								Why was postup.now created?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								The site stems from a desire to build communities around shared drives and passions, like turning off-hours activities into enriching social experiences. Since there aren't many systems to easily support connections with others outside regular day job hours, postup.now offers a welcoming space to meet similar people—coders, writers, artists, or anyone pursuing side projects—while being flexible for casual meetups, fitness sessions, or group activities. It's about making solo time more vibrant through unexpected connections that could lead to friendships, collaborations, or just better motivation.
+								The site stems from a desire to build communities around shared drives and passions,
+								like turning off-hours activities into enriching social experiences. Since there
+								aren't many systems to easily support connections with others outside regular day
+								job hours, postup.now offers a welcoming space to meet similar people—coders,
+								writers, artists, or anyone pursuing side projects—while being flexible for casual
+								meetups, fitness sessions, or group activities. It's about making solo time more
+								vibrant through unexpected connections that could lead to friendships,
+								collaborations, or just better motivation.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I post up?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								How do I post up?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Click the "Post Up" button, enter your name or handle, describe what you're doing (e.g., "Building a TypeScript app" or "Gym session focusing on strength training"), add your general location (with optional obfuscation for privacy), and specify how long you'll be there. Your post appears on the map as a public invite—others can see the basics and request to join for more details if you approve.
+								Click the "Post Up" button, enter your name or handle, describe what you're doing
+								(e.g., "Building a TypeScript app" or "Gym session focusing on strength training"),
+								add your general location (with optional obfuscation for privacy), and specify how
+								long you'll be there. Your post appears on the map as a public invite—others can see
+								the basics and request to join for more details if you approve.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How does joining work?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								How does joining work?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								If a post catches your eye, click "Request to Join" and add a quick note about why (e.g., "I'm also into app development and nearby!"). The poster gets notified and can approve or decline. If approved, you'll get the exact location or contact info to connect—perfect for turning a solo session into a spontaneous meetup with people who share your vibe.
+								If a post catches your eye, click "Request to Join" and add a quick note about why
+								(e.g., "I'm also into app development and nearby!"). The poster gets notified and
+								can approve or decline. If approved, you'll get the exact location or contact info
+								to connect—perfect for turning a solo session into a spontaneous meetup with people
+								who share your vibe.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How long do posts stay active?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								How long do posts stay active?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Posts remain active for the time you set (from 1 hour up to a full day or more, depending on your activity). They auto-expire afterward to keep things fresh, but you can extend, edit, or delete them anytime via the manage icon on your post.
+								Posts remain active for the time you set (from 1 hour up to a full day or more,
+								depending on your activity). They auto-expire afterward to keep things fresh, but
+								you can extend, edit, or delete them anytime via the manage icon on your post.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is my information private?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								Is my information private?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								You control what you share—posts show only what you input, like a general area and activity description publicly. Exact locations are revealed only to approved joiners. No personal data is stored beyond what's needed for the post, and you can delete everything at any time. We prioritize safety and consent in connections.
+								You control what you share—posts show only what you input, like a general area and
+								activity description publicly. Exact locations are revealed only to approved
+								joiners. No personal data is stored beyond what's needed for the post, and you can
+								delete everything at any time. We prioritize safety and consent in connections.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I find others who are posting up?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								How do I find others who are posting up?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Browse the interactive map for icons (like coffee cups for work spots or activity markers for gyms/parks). Filter by interests or location to spot posts that match your energy—click for details on what they're doing, how long they're there, and to send a join request if it aligns with your plans.
+								Browse the interactive map for icons (like coffee cups for work spots or activity
+								markers for gyms/parks). Filter by interests or location to spot posts that match
+								your energy—click for details on what they're doing, how long they're there, and to
+								send a join request if it aligns with your plans.
 							</p>
 						</div>
-						
+
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is it only for work or creative projects?</h3>
+							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+								Is it only for work or creative projects?
+							</h3>
 							<p class="text-gray-600 dark:text-gray-400">
-								Not at all! While it's great for off-hours creators looking to meet similar minds, postup.now is versatile for any activity—gym buddies, park reads, group hikes, language exchanges, or casual hangs. Use it to make everyday outings more social and discover people with overlapping interests.
+								Not at all! While it's great for off-hours creators looking to meet similar minds,
+								postup.now is versatile for any activity—gym buddies, park reads, group hikes,
+								language exchanges, or casual hangs. Use it to make everyday outings more social and
+								discover people with overlapping interests.
 							</p>
 						</div>
 					</div>

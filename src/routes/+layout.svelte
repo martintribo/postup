@@ -8,7 +8,7 @@
 	onMount(() => {
 		// Detect system dark mode preference
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		
+
 		const updateTheme = (e?: MediaQueryListEvent) => {
 			const isDark = e ? e.matches : mediaQuery.matches;
 			if (isDark) {
@@ -41,7 +41,10 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+	<link
+		rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+	/>
 </svelte:head>
 
 {@render children()}

@@ -94,23 +94,23 @@ export function getAnonymousSessionId(token: string): string {
 
 export function getOrCreateAnonymousSession(event: RequestEvent): string {
 	const existingToken = event.cookies.get(anonymousSessionCookieName);
-	
+
 	if (existingToken) {
 		return getAnonymousSessionId(existingToken);
 	}
-	
+
 	// Create new anonymous session
 	const token = generateAnonymousSessionToken();
 	const sessionId = getAnonymousSessionId(token);
 	const expiresAt = new Date(Date.now() + DAY_IN_MS * 365); // 1 year expiration
-	
+
 	event.cookies.set(anonymousSessionCookieName, token, {
 		expires: expiresAt,
 		path: '/',
 		httpOnly: true,
 		sameSite: 'lax'
 	});
-	
+
 	return sessionId;
 }
 

@@ -27,8 +27,12 @@ export const post = pgTable('post', {
 	locality: text('locality'),
 	district: text('district'),
 	sessionId: text('session_id'),
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
-	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
+		.notNull()
+		.$defaultFn(() => new Date()),
+	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' })
+		.notNull()
+		.$defaultFn(() => new Date())
 });
 
 export const notificationSubscription = pgTable('notification_subscription', {
@@ -37,7 +41,9 @@ export const notificationSubscription = pgTable('notification_subscription', {
 	p256dh: text('p256dh').notNull(),
 	auth: text('auth').notNull(),
 	sessionId: text('session_id'),
-	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' })
+		.notNull()
+		.$defaultFn(() => new Date())
 });
 
 export type Session = typeof session.$inferSelect;

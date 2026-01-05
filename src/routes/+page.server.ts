@@ -29,7 +29,9 @@ interface GeoLocation {
 async function getLocationFromIP(ip: string): Promise<GeoLocation | null> {
 	try {
 		// Using ip-api.com (free, no API key required)
-		const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,lat,lon,city,country`);
+		const response = await fetch(
+			`http://ip-api.com/json/${ip}?fields=status,message,lat,lon,city,country`
+		);
 		const data = await response.json();
 
 		if (data.status === 'success') {
@@ -65,7 +67,7 @@ interface ReverseGeocodeResult {
 
 async function reverseGeocode(latitude: number, longitude: number): Promise<ReverseGeocodeResult> {
 	const accessToken = privateEnv.MAPBOX_ACCESS_TOKEN || PUBLIC_MAPBOX_ACCESS_TOKEN;
-	
+
 	if (!accessToken) {
 		console.error('Mapbox access token is not configured');
 		return {};
@@ -88,7 +90,7 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<Reve
 		}
 
 		const data = await response.json();
-		
+
 		// Mapbox v6 response structure: features array with context array
 		const features = data.features || [];
 		const result: ReverseGeocodeResult = {};
@@ -124,7 +126,7 @@ async function getActivePosts(userLatitude: number, userLongitude: number) {
 	// Haversine formula to calculate distance in miles
 	// 3959 is the Earth's radius in miles
 	const distanceInMiles = 200;
-	
+
 	return await db
 		.select()
 		.from(post)
@@ -136,7 +138,7 @@ async function getActivePosts(userLatitude: number, userLongitude: number) {
 
 async function getUserLocation(event: { getClientAddress: () => string }): Promise<GeoLocation> {
 	const clientIP = getClientIP(event);
-	
+
 	// If localhost, default to Los Angeles
 	if (isLocalhost(clientIP)) {
 		return {
@@ -163,10 +165,10 @@ async function getUserLocation(event: { getClientAddress: () => string }): Promi
 export const load: PageServerLoad = async (event) => {
 	const anonymousSessionId = event.locals.anonymousSessionId;
 	const userLocation = await getUserLocation(event);
-	
+
 	const form = await superValidate(zod4(postSchema));
 	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
-	
+
 	return {
 		location: userLocation,
 		form,
@@ -225,18 +227,21 @@ export const actions: Actions = {
 			const geocodeResult = await reverseGeocode(form.data.latitude, form.data.longitude);
 			const anonymousSessionId = event.locals.anonymousSessionId;
 
-			const result = await db.insert(post).values({
-				name: form.data.name,
-				activity: form.data.activity,
-				location: form.data.location,
-				latitude: form.data.latitude,
-				longitude: form.data.longitude,
-				hours: form.data.hours,
-				neighborhood: geocodeResult.neighborhood,
-				locality: geocodeResult.locality,
-				district: geocodeResult.district,
-				sessionId: anonymousSessionId
-			}).returning();
+			const result = await db
+				.insert(post)
+				.values({
+					name: form.data.name,
+					activity: form.data.activity,
+					location: form.data.location,
+					latitude: form.data.latitude,
+					longitude: form.data.longitude,
+					hours: form.data.hours,
+					neighborhood: geocodeResult.neighborhood,
+					locality: geocodeResult.locality,
+					district: geocodeResult.district,
+					sessionId: anonymousSessionId
+				})
+				.returning();
 
 			// Send push notification to all subscribers
 			const notificationTitle = 'New Post!';
@@ -260,4 +265,3 @@ export const actions: Actions = {
 		}
 	}
 };
-

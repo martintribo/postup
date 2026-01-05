@@ -91,7 +91,8 @@
 	}
 
 	async function selectSuggestion(suggestion: SearchSuggestion) {
-		const displayName = suggestion.name + (suggestion.place_formatted ? `, ${suggestion.place_formatted}` : '');
+		const displayName =
+			suggestion.name + (suggestion.place_formatted ? `, ${suggestion.place_formatted}` : '');
 		value = displayName;
 		showSuggestions = false;
 
@@ -163,7 +164,7 @@
 
 <div class="relative">
 	<input
-		name={name}
+		{name}
 		type="text"
 		bind:value
 		oninput={handleInput}
@@ -182,7 +183,8 @@
 					<button
 						type="button"
 						onclick={() => selectSuggestion(suggestion)}
-						class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none {selectedIndex === index
+						class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none {selectedIndex ===
+						index
 							? 'bg-gray-100 dark:bg-gray-700'
 							: ''}"
 					>
@@ -200,4 +202,3 @@
 		</ul>
 	{/if}
 </div>
-

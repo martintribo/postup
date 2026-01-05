@@ -14,21 +14,17 @@ if (env.VAPID_PUBLIC_KEY && env.VAPID_PRIVATE_KEY) {
 	);
 }
 
-export async function sendPushNotification(
-	title: string,
-	body: string,
-	url?: string
-) {
+export async function sendPushNotification(title: string, body: string, url?: string) {
 	try {
 		// Get all active subscriptions
 		const subscriptions = await db.select().from(notificationSubscription);
-		
+
 		const payload = JSON.stringify({
 			title,
 			body,
 			url: url || '/'
 		});
-		
+
 		// Send notification to all subscribers
 		const promises = subscriptions.map(async (sub) => {
 			try {
@@ -53,10 +49,9 @@ export async function sendPushNotification(
 				}
 			}
 		});
-		
+
 		await Promise.allSettled(promises);
 	} catch (error) {
 		console.error('Error in sendPushNotification:', error);
 	}
 }
-
