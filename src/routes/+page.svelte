@@ -91,12 +91,39 @@
 
 <div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 relative">
-		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 text-center">postup.now</h1>
+	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" style="display: flex; align-items: center; justify-content: space-between;">
+		<!-- Left: Auth -->
+		<div style="min-width: 10rem;">
+			{#if data.user}
+				<form method="POST" action="?/logout" use:enhanceForm style="display: flex; align-items: center; gap: 0.75rem;">
+					<span class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{data.user.username}</span>
+					<button
+						type="submit"
+						class="text-sm text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+					>
+						Log out
+					</button>
+				</form>
+			{:else}
+				<a
+					href="/login"
+					class="px-3 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+					style="display: inline-block;"
+				>
+					Log in
+				</a>
+			{/if}
+		</div>
+
+		<!-- Center: Brand -->
+		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">postup.now</h1>
+
+		<!-- Right: FAQ -->
+		<div style="width: 8rem; display: flex; justify-content: flex-end;">
 		<button
 			type="button"
 			onclick={openFaqModal}
-			class="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+			class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
 			aria-label="Open FAQ"
 		>
 			<svg
@@ -114,6 +141,7 @@
 				/>
 			</svg>
 		</button>
+		</div>
 	</header>
 
 	<!-- Main Content Area -->
@@ -251,9 +279,7 @@
 				<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
 					<div class="flex items-center justify-between mb-3">
 						<h3 class="text-lg font-medium text-gray-800 dark:text-gray-200">Projects</h3>
-						{#if data.projects && data.projects.length > 0}
-							<span class="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">{data.projects.length}</span>
-						{/if}
+						<a href="/projects" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">View all</a>
 					</div>
 					{#if data.projects && data.projects.length > 0}
 						<div class="space-y-3">

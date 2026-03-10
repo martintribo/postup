@@ -71,7 +71,10 @@ export async function invalidateSession(sessionId: string) {
 export function setSessionTokenCookie(event: RequestEvent, token: string, expiresAt: Date) {
 	event.cookies.set(sessionCookieName, token, {
 		expires: expiresAt,
-		path: '/'
+		path: '/',
+		httpOnly: true,
+		sameSite: 'lax',
+		secure: false
 	});
 }
 
@@ -108,7 +111,8 @@ export function getOrCreateAnonymousSession(event: RequestEvent): string {
 		expires: expiresAt,
 		path: '/',
 		httpOnly: true,
-		sameSite: 'lax'
+		sameSite: 'lax',
+		secure: false
 	});
 	
 	return sessionId;

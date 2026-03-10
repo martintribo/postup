@@ -2,9 +2,10 @@ import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post, project } from '$lib/server/db/schema';
+import * as auth from '$lib/server/auth';
 import { desc, eq, sql, gt } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
@@ -255,6 +256,14 @@ export const actions: Actions = {
 				message: 'Failed to create post'
 			});
 		}
+	},
+	logout: async (event) => {
+		if (!event.locals.session) {
+			return fail(401);
+		}
+		await auth.invalidateSession(event.locals.session.id);
+		auth.deleteSessionTokenCookie(event);
+		return redirect(302, '/');
 	}
 };
 
