@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, timestamp, real } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, text, timestamp, real, boolean } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
@@ -36,3 +36,18 @@ export type Session = typeof session.$inferSelect;
 export type User = typeof user.$inferSelect;
 
 export type Post = typeof post.$inferSelect;
+
+export const project = pgTable('project', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	type: text('type').notNull().default('software'),
+	shortDescription: text('short_description').notNull(),
+	description: text('description').notNull(),
+	active: boolean('active').notNull().default(true),
+	sessionId: text('session_id'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	lastPostUpAt: timestamp('last_post_up_at', { withTimezone: true, mode: 'date' })
+});
+
+export type Project = typeof project.$inferSelect;

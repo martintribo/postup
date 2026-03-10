@@ -4,7 +4,7 @@ import { zod4 } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 import { fail } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { post } from '$lib/server/db/schema';
+import { post, project } from '$lib/server/db/schema';
 import { desc, eq, sql, gt } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
@@ -165,11 +165,17 @@ export const load: PageServerLoad = async (event) => {
 	
 	const form = await superValidate(zod4(postSchema));
 	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
-	
+	const projects = await db
+		.select()
+		.from(project)
+		.where(eq(project.active, true))
+		.orderBy(desc(project.createdAt));
+
 	return {
 		location: userLocation,
 		form,
 		posts,
+		projects,
 		anonymousSessionId
 	};
 };
