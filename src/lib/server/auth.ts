@@ -9,6 +9,12 @@ const DAY_IN_MS = 1000 * 60 * 60 * 24;
 
 export const sessionCookieName = 'auth-session';
 export const anonymousSessionCookieName = 'anonymous-session';
+export const userLocationCookieName = 'user-location';
+
+export function isSecureRequest(event: RequestEvent): boolean {
+	const origin = event.url.origin;
+	return origin.startsWith('https://');
+}
 
 export function generateSessionToken() {
 	const bytes = crypto.getRandomValues(new Uint8Array(18));
@@ -74,7 +80,7 @@ export function setSessionTokenCookie(event: RequestEvent, token: string, expire
 		path: '/',
 		httpOnly: true,
 		sameSite: 'lax',
-		secure: false
+		secure: isSecureRequest(event)
 	});
 }
 
@@ -112,7 +118,7 @@ export function getOrCreateAnonymousSession(event: RequestEvent): string {
 		path: '/',
 		httpOnly: true,
 		sameSite: 'lax',
-		secure: false
+		secure: isSecureRequest(event)
 	});
 	
 	return sessionId;

@@ -3,10 +3,24 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import { sveltekit } from '@sveltejs/kit/vite';
+import fs from 'node:fs';
+
+function getHttpsConfig() {
+	try {
+		return {
+			cert: fs.readFileSync('certs/dev.crt'),
+			key: fs.readFileSync('certs/dev.key')
+		};
+	} catch {
+		return undefined;
+	}
+}
 
 export default defineConfig({
 	server: {
-		allowedHosts: true
+		host: '0.0.0.0',
+		allowedHosts: true,
+		https: getHttpsConfig()
 	},
 	plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
 	test: {
