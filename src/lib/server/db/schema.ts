@@ -15,6 +15,40 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
+export const place = pgTable('place', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	address: text('address').notNull(),
+	latitude: real('latitude').notNull(),
+	longitude: real('longitude').notNull(),
+	mapboxId: text('mapbox_id'),
+	category: text('category'),
+	sessionId: text('session_id'),
+	createdBy: text('created_by').references(() => user.id),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export const placeReview = pgTable('place_review', {
+	id: serial('id').primaryKey(),
+	placeId: integer('place_id').notNull().references(() => place.id),
+	userId: text('user_id').references(() => user.id),
+	sessionId: text('session_id'),
+	rating: integer('rating').notNull(),
+	text: text('text'),
+	wifiRating: integer('wifi_rating'),
+	noiseLevel: text('noise_level'),
+	hasOutlets: boolean('has_outlets'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export const placeTag = pgTable('place_tag', {
+	id: serial('id').primaryKey(),
+	placeId: integer('place_id').notNull().references(() => place.id),
+	tag: text('tag').notNull(),
+	votes: integer('votes').notNull().default(1)
+});
+
 export const post = pgTable('post', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
@@ -26,6 +60,7 @@ export const post = pgTable('post', {
 	neighborhood: text('neighborhood'),
 	locality: text('locality'),
 	district: text('district'),
+	placeId: integer('place_id').references(() => place.id),
 	sessionId: text('session_id'),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
@@ -51,3 +86,7 @@ export const project = pgTable('project', {
 });
 
 export type Project = typeof project.$inferSelect;
+
+export type Place = typeof place.$inferSelect;
+export type PlaceReview = typeof placeReview.$inferSelect;
+export type PlaceTag = typeof placeTag.$inferSelect;
