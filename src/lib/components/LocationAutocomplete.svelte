@@ -1,25 +1,19 @@
 <script lang="ts">
 	import { env } from '$env/dynamic/public';
 
-	interface LocationSuggestion {
-		id?: string;
-		type?: string;
-		text?: string;
-		place_name?: string;
-		properties?: {
+	interface SearchFeature {
+		properties: {
+			name: string;
 			full_address?: string;
-			coordinates?: {
-				latitude: number;
-				longitude: number;
-				accuracy?: string;
-			};
+			address?: string;
+			mapbox_id?: string;
+			feature_type?: string;
 			[key: string]: unknown;
 		};
-		geometry?: {
+		geometry: {
 			type: string;
 			coordinates: [number, number]; // [longitude, latitude]
 		};
-		center?: [number, number]; // [longitude, latitude] - fallback for v5 compatibility
 	}
 
 	interface Props {
@@ -32,13 +26,13 @@
 	let { name, value = $bindable(''), onSelect, proximity }: Props = $props();
 
 	let inputElement: HTMLInputElement;
-	let suggestions = $state<LocationSuggestion[]>([]);
+	let suggestions = $state<SearchFeature[]>([]);
 	let showSuggestions = $state(false);
 	let selectedIndex = $state(-1);
 	let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 	async function searchLocations(query: string) {
-		if (query.length < 3) {
+		if (query.length < 2) {
 			suggestions = [];
 			showSuggestions = false;
 			return;
@@ -51,36 +45,29 @@
 		}
 
 		try {
-			// Using Mapbox Geocoding API v6
 			const params = new URLSearchParams({
 				q: query,
 				access_token: accessToken,
-				limit: '5'
+				limit: '7',
+				language: 'en',
+				types: 'poi,address'
 			});
 
-			// Add proximity parameter if user location is available
-			// Format: proximity=longitude,latitude
 			if (proximity) {
 				params.append('proximity', `${proximity.longitude},${proximity.latitude}`);
 			}
 
 			const response = await fetch(
-				`https://api.mapbox.com/search/geocode/v6/forward?${params.toString()}`
+				`https://api.mapbox.com/search/searchbox/v1/forward?${params.toString()}`
 			);
-			
+
 			if (!response.ok) {
 				throw new Error(`Mapbox API error: ${response.status}`);
 			}
-			
+
 			const data = await response.json();
-			console.log('Mapbox API response:', data);
-			
-			// Handle both FeatureCollection and direct features array
-			const features = data.features || data || [];
-			console.log('Parsed features:', features);
-			
-			suggestions = features;
-			showSuggestions = true;
+			suggestions = data.features || [];
+			showSuggestions = suggestions.length > 0;
 			selectedIndex = -1;
 		} catch (error) {
 			console.error('Error searching locations:', error);
@@ -93,45 +80,25 @@
 		const target = e.target as HTMLInputElement;
 		value = target.value;
 
-		if (debounceTimer) {
-			clearTimeout(debounceTimer);
-		}
-
-		debounceTimer = setTimeout(() => {
-			searchLocations(value);
-		}, 300);
+		if (debounceTimer) clearTimeout(debounceTimer);
+		debounceTimer = setTimeout(() => searchLocations(value), 300);
 	}
 
-	function selectSuggestion(suggestion: LocationSuggestion) {
-		const placeName = suggestion.properties?.full_address || suggestion.place_name || suggestion.text || '';
-		value = placeName;
-		showSuggestions = false;
-		
-		// Mapbox v6 has coordinates in properties.coordinates
-		const coords = suggestion.properties?.coordinates;
-		if (coords && typeof coords.latitude === 'number' && typeof coords.longitude === 'number') {
-			onSelect({
-				name: placeName,
-				latitude: coords.latitude,
-				longitude: coords.longitude
-			});
-		} else if (suggestion.geometry?.coordinates) {
-			// Fallback to geometry.coordinates [longitude, latitude]
-			const [longitude, latitude] = suggestion.geometry.coordinates;
-			onSelect({
-				name: placeName,
-				latitude,
-				longitude
-			});
-		} else if (suggestion.center) {
-			// Fallback to center [longitude, latitude]
-			const [longitude, latitude] = suggestion.center;
-			onSelect({
-				name: placeName,
-				latitude,
-				longitude
-			});
+	function displayName(feature: SearchFeature): string {
+		const props = feature.properties;
+		if (props.name && props.full_address && !props.full_address.startsWith(props.name)) {
+			return `${props.name}, ${props.full_address}`;
 		}
+		return props.full_address || props.name || 'Unknown location';
+	}
+
+	function selectSuggestion(feature: SearchFeature) {
+		const label = displayName(feature);
+		value = label;
+		showSuggestions = false;
+
+		const [longitude, latitude] = feature.geometry.coordinates;
+		onSelect({ name: label, latitude, longitude });
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -153,10 +120,7 @@
 	}
 
 	function handleBlur() {
-		// Delay to allow click events on suggestions to fire
-		setTimeout(() => {
-			showSuggestions = false;
-		}, 200);
+		setTimeout(() => { showSuggestions = false; }, 200);
 	}
 </script>
 
@@ -169,7 +133,7 @@
 		oninput={handleInput}
 		onkeydown={handleKeydown}
 		onblur={handleBlur}
-		placeholder="Search for a location..."
+		placeholder="Search for a place or address..."
 		class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 		autocomplete="off"
 	/>
@@ -177,22 +141,24 @@
 		<ul
 			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
 		>
-			{#each suggestions as suggestion, index (suggestion.id || index.toString())}
+			{#each suggestions as feature, index (feature.properties.mapbox_id || index.toString())}
 				<li>
 					<button
 						type="button"
-						onclick={() => selectSuggestion(suggestion)}
-						class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none {selectedIndex === index
-							? 'bg-gray-100 dark:bg-gray-700'
-							: ''}"
+						onclick={() => selectSuggestion(feature)}
+						class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none {selectedIndex === index ? 'bg-gray-100 dark:bg-gray-700' : ''}"
 					>
-						<div class="text-sm text-gray-900 dark:text-gray-100">
-							{suggestion.properties?.full_address || suggestion.place_name || suggestion.text || 'Unknown location'}
+						<div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+							{feature.properties.name}
 						</div>
+						{#if feature.properties.full_address}
+							<div class="text-xs text-gray-500 dark:text-gray-400">
+								{feature.properties.full_address}
+							</div>
+						{/if}
 					</button>
 				</li>
 			{/each}
 		</ul>
 	{/if}
 </div>
-
