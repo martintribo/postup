@@ -37,6 +37,8 @@
 	let selectedLocation = $state<{ name: string; latitude: number; longitude: number } | null>(null);
 	let showFormModal = $state(false);
 	let showFaqModal = $state(false);
+	let geolocating = $state(false);
+	let geoError = $state<string | null>(null);
 
 	// Initialize hours if not set
 	if (!$form.hours) {
@@ -77,6 +79,53 @@
 		if ($form.hours > 1) {
 			$form.hours--;
 		}
+	}
+
+	let setLocationForm: HTMLFormElement;
+	let clearLocationForm: HTMLFormElement;
+	let pendingLatitude = $state('');
+	let pendingLongitude = $state('');
+
+	async function requestPreciseLocation() {
+		if (!navigator.geolocation) {
+			geoError = 'Geolocation is not supported by your browser';
+			return;
+		}
+		geolocating = true;
+		geoError = null;
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				pendingLatitude = position.coords.latitude.toString();
+				pendingLongitude = position.coords.longitude.toString();
+				geolocating = false;
+				// Tick to let bindings update, then submit
+				requestAnimationFrame(() => {
+					setLocationForm.requestSubmit();
+				});
+			},
+			(err) => {
+				geolocating = false;
+				switch (err.code) {
+					case err.PERMISSION_DENIED:
+						geoError = 'Location permission denied';
+						break;
+					case err.POSITION_UNAVAILABLE:
+						geoError = 'Location unavailable';
+						break;
+					case err.TIMEOUT:
+						geoError = 'Location request timed out';
+						break;
+					default:
+						geoError = 'Could not get location';
+				}
+			},
+			{ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+		);
+	}
+
+	function clearPreciseLocation() {
+		clearLocationForm.requestSubmit();
 	}
 
 	const projectTypeStyles: Record<string, { border: string; bg: string; text: string }> = {
@@ -144,6 +193,13 @@
 		</div>
 	</header>
 
+	<!-- Hidden forms for location actions -->
+	<form bind:this={setLocationForm} method="POST" action="?/setLocation" use:enhanceForm style="display:none;">
+		<input type="hidden" name="latitude" value={pendingLatitude} />
+		<input type="hidden" name="longitude" value={pendingLongitude} />
+	</form>
+	<form bind:this={clearLocationForm} method="POST" action="?/clearLocation" use:enhanceForm style="display:none;"></form>
+
 	<!-- Main Content Area -->
 	<div class="flex flex-col lg:flex-row flex-1 min-h-0">
 		<!-- Map Container - Full width on vertical, flexible on horizontal -->
@@ -161,7 +217,77 @@
 					<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
 				</div>
 			{/if}
-			
+
+			<!-- Location control - top left of map -->
+			<div class="absolute top-3 left-3 z-[1000] flex flex-col gap-2">
+				{#if data.locationSource === 'precise'}
+					<div class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+						<div class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
+						<span class="text-xs text-gray-600 dark:text-gray-400">
+							{data.location.city || 'Your location'}
+						</span>
+						<button
+							type="button"
+							onclick={requestPreciseLocation}
+							disabled={geolocating}
+							class="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+							title="Update location"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.182" />
+							</svg>
+						</button>
+						<button
+							type="button"
+							onclick={clearPreciseLocation}
+							class="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+							title="Use approximate location"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+					</div>
+				{:else}
+					<button
+						type="button"
+						onclick={requestPreciseLocation}
+						disabled={geolocating}
+						class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+						title="Use my precise location"
+					>
+						{#if geolocating}
+							<div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+							<span class="text-xs text-gray-600 dark:text-gray-400">Locating...</span>
+						{:else}
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+							</svg>
+							<span class="text-xs text-gray-600 dark:text-gray-400">Use my location</span>
+						{/if}
+					</button>
+				{/if}
+				{#if geoError}
+					<div class="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+						<p class="text-xs text-red-600 dark:text-red-400">{geoError}</p>
+					</div>
+				{/if}
+				{#if data.suggestUpdate}
+					<button
+						type="button"
+						onclick={requestPreciseLocation}
+						disabled={geolocating}
+						class="flex items-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg hover:border-amber-400 transition-colors"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+						</svg>
+						<span class="text-xs text-amber-700 dark:text-amber-300">Looks like you moved — update location?</span>
+					</button>
+				{/if}
+			</div>
+
 			<!-- Floating slogan and button -->
 			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 w-[calc(100%-2rem)] max-w-[450px]">
 				<div class="flex-1 flex justify-center">
