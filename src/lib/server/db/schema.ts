@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, timestamp, real, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, text, timestamp, real, boolean, jsonb } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
@@ -23,6 +23,11 @@ export const place = pgTable('place', {
 	longitude: real('longitude').notNull(),
 	mapboxId: text('mapbox_id'),
 	category: text('category'),
+	openHours: jsonb('open_hours'),
+	website: text('website'),
+	phone: text('phone'),
+	googlePlaceId: text('google_place_id'),
+	photoRef: text('photo_ref'),
 	sessionId: text('session_id'),
 	createdBy: text('created_by').references(() => user.id),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
