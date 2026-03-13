@@ -3,6 +3,7 @@
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
 	import { env } from '$env/dynamic/public';
+	import { forceSimulation, forceX, forceY, forceCollide, type SimulationNodeDatum } from 'd3-force';
 	import type { Post } from '$lib/server/db/schema';
 
 	interface NearbyPlace {
@@ -63,6 +64,118 @@
 	let searchSelectedIndex = $state(-1);
 	let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 	let searchMarker: L.Marker | null = null;
+
+	// Photo cards overlay
+	const PHOTO_CARD_LIMIT = 5;
+	const CARD_W = 140;
+	const CARD_H = 110;
+
+	interface PhotoCard extends SimulationNodeDatum {
+		cafe: NearbyPlace;
+		anchorX: number;
+		anchorY: number;
+	}
+
+	let photoCards = $state<PhotoCard[]>([]);
+	let photoOverlay: HTMLDivElement;
+	let photoFetchQueue = new Set<number>();
+
+	async function ensurePhotos(cafes: NearbyPlace[]): Promise<NearbyPlace[]> {
+		// Pick cafes that already have photos first
+		const withPhotos = cafes.filter((c) => c.photoRef);
+		if (withPhotos.length >= PHOTO_CARD_LIMIT) return withPhotos.slice(0, PHOTO_CARD_LIMIT);
+
+		// Need more — fetch photos for cafes without them
+		const needPhotos = cafes.filter((c) => !c.photoRef && c.id && !photoFetchQueue.has(c.id));
+		const needed = PHOTO_CARD_LIMIT - withPhotos.length;
+		const toFetch = needPhotos.slice(0, needed);
+
+		const tz = new Date().getTimezoneOffset();
+		const fetched: NearbyPlace[] = [];
+
+		await Promise.all(
+			toFetch.map(async (cafe) => {
+				if (!cafe.id) return;
+				photoFetchQueue.add(cafe.id);
+				try {
+					const res = await fetch(`/api/places/refresh?id=${cafe.id}&tz=${tz}`);
+					if (!res.ok) return;
+					const data = await res.json();
+					if (data.place?.photoRef) {
+						// Update in cafeIndex
+						const fresh = data.place as NearbyPlace;
+						if (cafe.mapboxId) cafeIndex.set(cafe.mapboxId, fresh);
+						fetched.push(fresh);
+					}
+				} catch {
+					// skip
+				}
+			})
+		);
+
+		return [...withPhotos, ...fetched].slice(0, PHOTO_CARD_LIMIT);
+	}
+
+	function updatePhotoCards() {
+		if (!map) return;
+		const currentMap = map;
+		const containerRect = mapContainer.getBoundingClientRect();
+
+		const cafesToShow = openNowFilter ? nearbyCafes.filter((c) => c.isOpen === true) : nearbyCafes;
+
+		// Only use cafes that have photoRef
+		const withPhotos = cafesToShow.filter((c) => c.photoRef).slice(0, PHOTO_CARD_LIMIT);
+		if (withPhotos.length === 0) {
+			photoCards = [];
+			return;
+		}
+
+		const nodes: PhotoCard[] = withPhotos.map((cafe) => {
+			const pt = currentMap.latLngToContainerPoint([cafe.latitude, cafe.longitude]);
+			return {
+				cafe,
+				anchorX: pt.x,
+				anchorY: pt.y,
+				x: pt.x,
+				y: pt.y - CARD_H - 20 // start above marker
+			};
+		});
+
+		// d3-force to prevent overlap
+		const sim = forceSimulation(nodes)
+			.force('x', forceX<PhotoCard>((d) => d.anchorX).strength(0.3))
+			.force('y', forceY<PhotoCard>((d) => d.anchorY - CARD_H - 30).strength(0.3))
+			.force('collide', forceCollide<PhotoCard>(Math.max(CARD_W, CARD_H) / 2 + 8))
+			.stop();
+
+		// Run simulation synchronously
+		for (let i = 0; i < 120; i++) sim.tick();
+
+		// Clamp to container bounds
+		for (const node of nodes) {
+			node.x = Math.max(CARD_W / 2 + 4, Math.min(containerRect.width - CARD_W / 2 - 4, node.x!));
+			node.y = Math.max(4, Math.min(containerRect.height - CARD_H - 4, node.y!));
+		}
+
+		photoCards = nodes;
+	}
+
+	async function loadAndShowPhotoCards() {
+		if (!map) return;
+		const cafesToShow = openNowFilter ? nearbyCafes.filter((c) => c.isOpen === true) : nearbyCafes;
+		// Sort by distance from center of map
+		const center = map.getCenter();
+		const sorted = [...cafesToShow].sort((a, b) => {
+			const da = Math.hypot(a.latitude - center.lat, a.longitude - center.lng);
+			const db = Math.hypot(b.latitude - center.lat, b.longitude - center.lng);
+			return da - db;
+		});
+
+		await ensurePhotos(sorted.slice(0, 15)); // try fetching photos for closest 15
+		// Re-read nearbyCafes since ensurePhotos may have updated cafeIndex
+		nearbyCafes = Array.from(cafeIndex.values());
+		updatePhotoCards();
+	}
 
 	function mergeCafes(newCafes: NearbyPlace[]) {
 		for (const cafe of newCafes) {
@@ -266,6 +379,9 @@
 
 			placeMarkers.push(marker);
 		});
+
+		// Update photo cards (sync repositioning for ones with photos already)
+		updatePhotoCards();
 	}
 
 	function fitToContent(animate = false) {
@@ -315,6 +431,7 @@
 				const data = await res.json();
 				mergeCafes(data.places || []);
 				updatePlaceMarkers();
+				loadAndShowPhotoCards();
 			}
 		} catch (err) {
 			console.error('Failed to search area:', err);
@@ -333,6 +450,8 @@
 				mergeCafes(data.places || []);
 				updatePlaceMarkers();
 				fitToContent(animate);
+				// Fetch photos for display cards after markers are placed
+				loadAndShowPhotoCards();
 			}
 		} catch (err) {
 			console.error('Failed to fetch nearby cafes:', err);
@@ -464,6 +583,7 @@
 	function toggleOpenNow() {
 		openNowFilter = !openNowFilter;
 		updatePlaceMarkers();
+		loadAndShowPhotoCards();
 	}
 
 	// Re-center map and fetch places when location changes
@@ -509,6 +629,7 @@
 			if (hasDoneInitialFetch) {
 				showSearchArea = true;
 			}
+			updatePhotoCards();
 		});
 
 		const handleResize = () => map?.invalidateSize();
@@ -530,6 +651,53 @@
 
 <div style="position: relative; width: 100%; height: 100%;">
 	<div bind:this={mapContainer} class="map-container"></div>
+
+	<!-- Photo cards overlay -->
+	<div bind:this={photoOverlay} class="photo-overlay">
+		<svg class="photo-lines">
+			{#each photoCards as card}
+				<line
+					x1={card.anchorX}
+					y1={card.anchorY}
+					x2={(card.x ?? 0) + CARD_W / 2}
+					y2={(card.y ?? 0) + CARD_H}
+					stroke="rgba(0,0,0,0.2)"
+					stroke-width="1.5"
+					stroke-dasharray="4,3"
+				/>
+			{/each}
+		</svg>
+		{#each photoCards as card (card.cafe.id)}
+			<button
+				type="button"
+				class="photo-card"
+				style="left: {card.x}px; top: {card.y}px; width: {CARD_W}px; height: {CARD_H}px;"
+				onclick={() => {
+					if (map && card.cafe.latitude && card.cafe.longitude) {
+						const marker = placeMarkers.find((m) => {
+							const ll = m.getLatLng();
+							return Math.abs(ll.lat - card.cafe.latitude) < 0.0001 && Math.abs(ll.lng - card.cafe.longitude) < 0.0001;
+						});
+						if (marker) marker.openPopup();
+					}
+				}}
+			>
+				<img
+					src="/api/places/photo?ref={encodeURIComponent(card.cafe.photoRef || '')}"
+					alt={card.cafe.name}
+					class="photo-card-img"
+				/>
+				<div class="photo-card-label">
+					<span class="photo-card-name">{card.cafe.name}</span>
+					{#if card.cafe.isOpen === true}
+						<span class="photo-card-status open">Open</span>
+					{:else if card.cafe.isOpen === false}
+						<span class="photo-card-status closed">Closed</span>
+					{/if}
+				</div>
+			</button>
+		{/each}
+	</div>
 
 	<!-- Search bar -->
 	<div class="search-bar">
@@ -607,6 +775,94 @@
 	:global(.leaflet-container) {
 		height: 100%;
 		width: 100%;
+	}
+
+	.photo-overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 800;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.photo-lines {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+	}
+
+	.photo-card {
+		position: absolute;
+		pointer-events: auto;
+		border-radius: 8px;
+		overflow: hidden;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+		border: 2px solid white;
+		cursor: pointer;
+		transition: transform 0.15s, box-shadow 0.15s;
+		padding: 0;
+		background: white;
+	}
+
+	.photo-card:hover {
+		transform: scale(1.05);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+		z-index: 10;
+	}
+
+	.photo-card-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.photo-card-label {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		padding: 4px 6px;
+		background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+		display: flex;
+		align-items: baseline;
+		gap: 4px;
+	}
+
+	.photo-card-name {
+		font-size: 0.65rem;
+		font-weight: 600;
+		color: white;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		flex: 1;
+		line-height: 1.2;
+	}
+
+	.photo-card-status {
+		font-size: 0.55rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
+		flex-shrink: 0;
+	}
+
+	.photo-card-status.open {
+		color: #34d399;
+	}
+
+	.photo-card-status.closed {
+		color: #f87171;
+	}
+
+	@media (prefers-color-scheme: dark) {
+		.photo-card {
+			border-color: #374151;
+			background: #1f2937;
+		}
 	}
 
 	:global(.custom-search-marker),
