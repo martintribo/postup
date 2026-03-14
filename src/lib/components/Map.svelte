@@ -65,10 +65,26 @@
 	let searchDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 	let searchMarker: L.Marker | null = null;
 
-	// Photo cards overlay
-	const PHOTO_CARD_LIMIT = 5;
-	const CARD_W = 140;
-	const CARD_H = 110;
+	// Photo cards overlay — responsive sizing
+	function getCardConfig() {
+		if (typeof window === 'undefined') return { limit: 5, w: 140, h: 110 };
+		const w = window.innerWidth;
+		if (w < 480) return { limit: 3, w: 80, h: 64 };
+		if (w < 768) return { limit: 4, w: 100, h: 80 };
+		return { limit: 5, w: 140, h: 110 };
+	}
+
+	let cardConfig = $state(getCardConfig());
+	$effect(() => {
+		if (typeof window === 'undefined') return;
+		const onResize = () => { cardConfig = getCardConfig(); updatePhotoCards(); };
+		window.addEventListener('resize', onResize);
+		return () => window.removeEventListener('resize', onResize);
+	});
+
+	const PHOTO_CARD_LIMIT = $derived(cardConfig.limit);
+	const CARD_W = $derived(cardConfig.w);
+	const CARD_H = $derived(cardConfig.h);
 
 	interface PhotoCard extends SimulationNodeDatum {
 		cafe: NearbyPlace;
@@ -824,15 +840,15 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		padding: 4px 6px;
+		padding: 3px 5px;
 		background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
 		display: flex;
 		align-items: baseline;
-		gap: 4px;
+		gap: 3px;
 	}
 
 	.photo-card-name {
-		font-size: 0.65rem;
+		font-size: 0.6rem;
 		font-weight: 600;
 		color: white;
 		white-space: nowrap;
@@ -843,11 +859,26 @@
 	}
 
 	.photo-card-status {
-		font-size: 0.55rem;
+		font-size: 0.5rem;
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
 		flex-shrink: 0;
+	}
+
+	@media (max-width: 479px) {
+		.photo-card-label {
+			padding: 2px 3px;
+			gap: 2px;
+		}
+
+		.photo-card-name {
+			font-size: 0.5rem;
+		}
+
+		.photo-card-status {
+			display: none;
+		}
 	}
 
 	.photo-card-status.open {
