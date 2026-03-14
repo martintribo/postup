@@ -69,9 +69,9 @@
 	function getCardConfig() {
 		if (typeof window === 'undefined') return { limit: 5, w: 140, h: 110 };
 		const w = window.innerWidth;
-		if (w < 480) return { limit: 3, w: 80, h: 64 };
-		if (w < 768) return { limit: 4, w: 100, h: 80 };
-		return { limit: 5, w: 140, h: 110 };
+		if (w < 480) return { limit: 6, w: 70, h: 56 };
+		if (w < 768) return { limit: 8, w: 90, h: 72 };
+		return { limit: 10, w: 130, h: 100 };
 	}
 
 	let cardConfig = $state(getCardConfig());
@@ -95,6 +95,118 @@
 	let photoCards = $state<PhotoCard[]>([]);
 	let photoOverlay: HTMLDivElement;
 	let photoFetchQueue = new Set<number>();
+	let springRAF: number | null = null;
+	let mouseX = -1000;
+	let mouseY = -1000;
+
+	function startSpringLoop() {
+		if (springRAF) return;
+		const tick = () => {
+			if (photoCards.length === 0) { springRAF = null; return; }
+			const rect = mapContainer?.getBoundingClientRect();
+			if (!rect || !map) { springRAF = requestAnimationFrame(tick); return; }
+
+			let moved = false;
+			const minAnchorDist = CARD_H * 0.7 + 20;
+			const mouseRadius = 90;
+
+			// Get all visible marker screen positions
+			const allMarkers = placeMarkers.map((m) => {
+				const pt = map!.latLngToContainerPoint(m.getLatLng());
+				return { x: pt.x, y: pt.y };
+			});
+
+			for (const card of photoCards) {
+				// Update anchor to current screen position of the marker
+				const pt = map.latLngToContainerPoint([card.cafe.latitude, card.cafe.longitude]);
+				const prevAx = card.anchorX;
+				const prevAy = card.anchorY;
+				card.anchorX = pt.x;
+				card.anchorY = pt.y;
+
+				// Shift card position by the same delta so it moves with the map
+				const adx = card.anchorX - prevAx;
+				const ady = card.anchorY - prevAy;
+				if (Math.abs(adx) > 0.1 || Math.abs(ady) > 0.1) {
+					card.x = (card.x ?? 0) + adx;
+					card.y = (card.y ?? 0) + ady;
+					moved = true;
+				}
+
+				let tx = card.x ?? 0;
+				let ty = card.y ?? 0;
+				const cx = tx + CARD_W / 2;
+				const cy = ty + CARD_H / 2;
+
+				// Pull toward anchor (gentle)
+				const dax = card.anchorX - cx;
+				const day = card.anchorY - cy;
+				const anchorDist = Math.hypot(dax, day);
+				if (anchorDist > minAnchorDist) {
+					tx += dax * 0.03;
+					ty += day * 0.03;
+				}
+
+				// Push away from mouse (always wins)
+				const dmx = (tx + CARD_W / 2) - mouseX;
+				const dmy = (ty + CARD_H / 2) - mouseY;
+				const mouseDist = Math.hypot(dmx, dmy);
+				if (mouseDist < mouseRadius && mouseDist > 0) {
+					const push = ((mouseRadius - mouseDist) / mouseRadius) * 18;
+					tx += (dmx / mouseDist) * push;
+					ty += (dmy / mouseDist) * push;
+				}
+
+				// Push away from other cards (rect-to-rect)
+				for (const other of photoCards) {
+					if (other === card) continue;
+					const ox = other.x ?? 0;
+					const oy = other.y ?? 0;
+					const overlapX = (CARD_W + 8) - Math.abs((tx + CARD_W / 2) - (ox + CARD_W / 2));
+					const overlapY = (CARD_H + 8) - Math.abs((ty + CARD_H / 2) - (oy + CARD_H / 2));
+					if (overlapX > 0 && overlapY > 0) {
+						const docx = (tx + CARD_W / 2) - (ox + CARD_W / 2);
+						const docy = (ty + CARD_H / 2) - (oy + CARD_H / 2);
+						const dist = Math.hypot(docx, docy) || 1;
+						const push = Math.min(overlapX, overlapY) * 0.4;
+						tx += (docx / dist) * push;
+						ty += (docy / dist) * push;
+					}
+				}
+
+				// Push away from all marker icons (rect-to-point with padding)
+				const padX = CARD_W / 2 + 18;
+				const padY = CARD_H / 2 + 18;
+				for (const mp of allMarkers) {
+					const dx = mp.x - (tx + CARD_W / 2);
+					const dy = mp.y - (ty + CARD_H / 2);
+					const overlapX = padX - Math.abs(dx);
+					const overlapY = padY - Math.abs(dy);
+					if (overlapX > 0 && overlapY > 0) {
+						const dist = Math.hypot(dx, dy) || 1;
+						const push = Math.min(overlapX, overlapY) * 0.5;
+						tx -= (dx / dist) * push;
+						ty -= (dy / dist) * push;
+					}
+				}
+
+				// Clamp to container
+				tx = Math.max(4, Math.min(rect.width - CARD_W - 4, tx));
+				ty = Math.max(4, Math.min(rect.height - CARD_H - 4, ty));
+
+				if (Math.abs(tx - (card.x ?? 0)) > 0.3 || Math.abs(ty - (card.y ?? 0)) > 0.3) {
+					card.x = tx;
+					card.y = ty;
+					moved = true;
+				}
+			}
+			if (moved) {
+				photoCards = [...photoCards];
+			}
+			springRAF = requestAnimationFrame(tick);
+		};
+		springRAF = requestAnimationFrame(tick);
+	}
 
 	async function ensurePhotos(cafes: NearbyPlace[]): Promise<NearbyPlace[]> {
 		// Pick cafes that already have photos first
@@ -132,62 +244,178 @@
 		return [...withPhotos, ...fetched].slice(0, PHOTO_CARD_LIMIT);
 	}
 
+	function getVisibleCafes(): NearbyPlace[] {
+		if (!map) return [];
+		const bounds = map.getBounds();
+		const cafesToShow = openNowFilter ? nearbyCafes.filter((c) => c.isOpen === true) : nearbyCafes;
+		return cafesToShow.filter((c) => bounds.contains([c.latitude, c.longitude]));
+	}
+
+	/** Find the best direction and distance of free space around a point, considering all obstacles */
+	function findFreeSpace(px: number, py: number, obstacles: { x: number; y: number }[], containerW: number, containerH: number) {
+		const cardDiag = Math.hypot(CARD_W, CARD_H);
+		const minRequired = cardDiag * 0.8; // minimum free space to show a card
+		const probeCount = 12; // check 12 directions (every 30°)
+		const probeMax = cardDiag * 1.5;
+
+		let bestAngle = 0;
+		let bestDist = 0;
+
+		for (let i = 0; i < probeCount; i++) {
+			const angle = (i * 2 * Math.PI) / probeCount;
+			// How far can we go in this direction before hitting an obstacle or edge?
+			let maxDist = probeMax;
+
+			// Check container edges
+			const cos = Math.cos(angle);
+			const sin = Math.sin(angle);
+			if (cos > 0) maxDist = Math.min(maxDist, (containerW - CARD_W / 2 - px) / cos);
+			else if (cos < 0) maxDist = Math.min(maxDist, (CARD_W / 2 - px) / cos);
+			if (sin > 0) maxDist = Math.min(maxDist, (containerH - CARD_H / 2 - py) / sin);
+			else if (sin < 0) maxDist = Math.min(maxDist, (CARD_H / 2 - py) / sin);
+			maxDist = Math.max(0, maxDist);
+
+			// Check distance to nearest obstacle in this direction
+			for (const obs of obstacles) {
+				const dx = obs.x - px;
+				const dy = obs.y - py;
+				// Project obstacle onto this direction
+				const proj = dx * cos + dy * sin;
+				if (proj <= 0) continue; // behind us
+				// Perpendicular distance
+				const perp = Math.abs(dx * sin - dy * cos);
+				if (perp < 30) { // obstacle is roughly in this direction
+					maxDist = Math.min(maxDist, proj);
+				}
+			}
+
+			if (maxDist > bestDist) {
+				bestDist = maxDist;
+				bestAngle = angle;
+			}
+		}
+
+		return { angle: bestAngle, dist: bestDist, enough: bestDist >= minRequired };
+	}
+
 	function updatePhotoCards() {
 		if (!map) return;
 		const currentMap = map;
 		const containerRect = mapContainer.getBoundingClientRect();
+		const cw = containerRect.width;
+		const ch = containerRect.height;
 
-		const cafesToShow = openNowFilter ? nearbyCafes.filter((c) => c.isOpen === true) : nearbyCafes;
+		const visible = getVisibleCafes();
 
-		// Only use cafes that have photoRef
-		const withPhotos = cafesToShow.filter((c) => c.photoRef).slice(0, PHOTO_CARD_LIMIT);
-		if (withPhotos.length === 0) {
+		// Get screen positions of ALL visible cafe markers
+		const allMarkerPoints = visible.map((c) => {
+			const pt = currentMap.latLngToContainerPoint([c.latitude, c.longitude]);
+			return { x: pt.x, y: pt.y };
+		});
+
+		// Score each cafe with a photo by how much free space it has
+		const candidates = visible.filter((c) => c.photoRef).map((cafe) => {
+			const pt = currentMap.latLngToContainerPoint([cafe.latitude, cafe.longitude]);
+			// Obstacles = all OTHER markers (exclude self)
+			const obstacles = allMarkerPoints.filter((mp) =>
+				Math.abs(mp.x - pt.x) > 1 || Math.abs(mp.y - pt.y) > 1
+			);
+			const space = findFreeSpace(pt.x, pt.y, obstacles, cw, ch);
+			return { cafe, pt, space };
+		});
+
+		// Only keep ones with enough space, sorted by most space first
+		const viable = candidates
+			.filter((c) => c.space.enough)
+			.sort((a, b) => b.space.dist - a.space.dist)
+			.slice(0, PHOTO_CARD_LIMIT);
+
+		if (viable.length === 0) {
 			photoCards = [];
 			return;
 		}
 
-		const nodes: PhotoCard[] = withPhotos.map((cafe) => {
-			const pt = currentMap.latLngToContainerPoint([cafe.latitude, cafe.longitude]);
+		// Place each card in its best free-space direction
+		const placedCards: { x: number; y: number }[] = [];
+		const nodes: PhotoCard[] = viable.map((v) => {
+			const offsetDist = Math.min(v.space.dist * 0.6, CARD_H + 50);
+			let bestAngle = v.space.angle;
+
+			// Also avoid already-placed cards
+			if (placedCards.length > 0) {
+				const obstacles = [...allMarkerPoints, ...placedCards];
+				const refined = findFreeSpace(v.pt.x, v.pt.y, obstacles, cw, ch);
+				if (refined.enough) bestAngle = refined.angle;
+			}
+
+			const x = v.pt.x + Math.cos(bestAngle) * offsetDist - CARD_W / 2;
+			const y = v.pt.y + Math.sin(bestAngle) * offsetDist - CARD_H / 2;
+			placedCards.push({ x: x + CARD_W / 2, y: y + CARD_H / 2 });
+
 			return {
-				cafe,
-				anchorX: pt.x,
-				anchorY: pt.y,
-				x: pt.x,
-				y: pt.y - CARD_H - 20 // start above marker
+				cafe: v.cafe,
+				anchorX: v.pt.x,
+				anchorY: v.pt.y,
+				x,
+				y
 			};
 		});
 
-		// d3-force to prevent overlap
+		// Custom force to keep cards away from ALL marker icons (rect-to-point)
+		const avoidPadX = CARD_W / 2 + 18;
+		const avoidPadY = CARD_H / 2 + 18;
+		function forceAvoidAnchors(strength: number) {
+			return function(alpha: number) {
+				for (const node of nodes) {
+					for (const mp of allMarkerPoints) {
+						const dx = mp.x - ((node.x ?? 0) + CARD_W / 2);
+						const dy = mp.y - ((node.y ?? 0) + CARD_H / 2);
+						const overlapX = avoidPadX - Math.abs(dx);
+						const overlapY = avoidPadY - Math.abs(dy);
+						if (overlapX > 0 && overlapY > 0) {
+							const dist = Math.hypot(dx, dy) || 1;
+							const push = Math.min(overlapX, overlapY) * strength * alpha;
+							node.x! -= (dx / dist) * push;
+							node.y! -= (dy / dist) * push;
+						}
+					}
+				}
+			};
+		}
+
+		// d3-force to prevent overlap — no directional bias so cards settle 360° around markers
 		const sim = forceSimulation(nodes)
-			.force('x', forceX<PhotoCard>((d) => d.anchorX).strength(0.3))
-			.force('y', forceY<PhotoCard>((d) => d.anchorY - CARD_H - 30).strength(0.3))
-			.force('collide', forceCollide<PhotoCard>(Math.max(CARD_W, CARD_H) / 2 + 8))
+			.force('x', forceX<PhotoCard>((d) => d.anchorX).strength(0.1))
+			.force('y', forceY<PhotoCard>((d) => d.anchorY).strength(0.1))
+			.force('collide', forceCollide<PhotoCard>(Math.max(CARD_W, CARD_H) / 2 + 12))
+			.force('avoidAnchors', forceAvoidAnchors(1.5))
 			.stop();
 
 		// Run simulation synchronously
-		for (let i = 0; i < 120; i++) sim.tick();
+		for (let i = 0; i < 200; i++) sim.tick();
 
 		// Clamp to container bounds
 		for (const node of nodes) {
-			node.x = Math.max(CARD_W / 2 + 4, Math.min(containerRect.width - CARD_W / 2 - 4, node.x!));
+			node.x = Math.max(4, Math.min(containerRect.width - CARD_W - 4, node.x!));
 			node.y = Math.max(4, Math.min(containerRect.height - CARD_H - 4, node.y!));
 		}
 
 		photoCards = nodes;
+		startSpringLoop();
 	}
 
 	async function loadAndShowPhotoCards() {
 		if (!map) return;
-		const cafesToShow = openNowFilter ? nearbyCafes.filter((c) => c.isOpen === true) : nearbyCafes;
+		const visible = getVisibleCafes();
 		// Sort by distance from center of map
 		const center = map.getCenter();
-		const sorted = [...cafesToShow].sort((a, b) => {
+		const sorted = [...visible].sort((a, b) => {
 			const da = Math.hypot(a.latitude - center.lat, a.longitude - center.lng);
 			const db = Math.hypot(b.latitude - center.lat, b.longitude - center.lng);
 			return da - db;
 		});
 
-		await ensurePhotos(sorted.slice(0, 15)); // try fetching photos for closest 15
+		await ensurePhotos(sorted.slice(0, 20)); // try fetching photos for visible cafes
 		// Re-read nearbyCafes since ensurePhotos may have updated cafeIndex
 		nearbyCafes = Array.from(cafeIndex.values());
 		updatePhotoCards();
@@ -436,6 +664,8 @@
 		if (!map) return;
 		showSearchArea = false;
 		loadingPlaces = true;
+		photoCards = []; // clear old cards while loading
+		photoFetchQueue.clear();
 		try {
 			const bounds = map.getBounds();
 			const sw = bounds.getSouthWest();
@@ -447,7 +677,7 @@
 				const data = await res.json();
 				mergeCafes(data.places || []);
 				updatePlaceMarkers();
-				loadAndShowPhotoCards();
+				await loadAndShowPhotoCards();
 			}
 		} catch (err) {
 			console.error('Failed to search area:', err);
@@ -596,6 +826,11 @@
 		}
 	}
 
+	function updateMousePosition(px: number, py: number) {
+		mouseX = px;
+		mouseY = py;
+	}
+
 	function toggleOpenNow() {
 		openNowFilter = !openNowFilter;
 		updatePlaceMarkers();
@@ -645,8 +880,27 @@
 			if (hasDoneInitialFetch) {
 				showSearchArea = true;
 			}
-			updatePhotoCards();
+			loadAndShowPhotoCards();
 		});
+
+		// Mouse/touch repulsion for photo cards — use window-level so cards don't block events
+		const onMouseMove = (e: MouseEvent) => {
+			const rect = mapContainer.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+			if (x >= 0 && y >= 0 && x <= rect.width && y <= rect.height) {
+				updateMousePosition(x, y);
+			} else {
+				updateMousePosition(-1000, -1000);
+			}
+		};
+		const onTouchMove = (e: TouchEvent) => {
+			const rect = mapContainer.getBoundingClientRect();
+			const touch = e.touches[0];
+			if (touch) updateMousePosition(touch.clientX - rect.left, touch.clientY - rect.top);
+		};
+		window.addEventListener('mousemove', onMouseMove);
+		mapContainer.addEventListener('touchmove', onTouchMove, { passive: true });
 
 		const handleResize = () => map?.invalidateSize();
 		window.addEventListener('resize', handleResize);
@@ -658,8 +912,11 @@
 
 		return () => {
 			mediaQuery.removeEventListener('change', handleChange);
+			window.removeEventListener('mousemove', onMouseMove);
+			mapContainer.removeEventListener('touchmove', onTouchMove);
 			window.removeEventListener('resize', handleResize);
 			resizeObserver.disconnect();
+			if (springRAF) cancelAnimationFrame(springRAF);
 			map?.remove();
 		};
 	});
@@ -670,16 +927,16 @@
 
 	<!-- Photo cards overlay -->
 	<div bind:this={photoOverlay} class="photo-overlay">
+		<!-- Leader lines — rendered inside overlay so they're visible, but behind cards via DOM order -->
 		<svg class="photo-lines">
 			{#each photoCards as card}
 				<line
 					x1={card.anchorX}
-					y1={card.anchorY}
+					y1={card.anchorY - 15}
 					x2={(card.x ?? 0) + CARD_W / 2}
-					y2={(card.y ?? 0) + CARD_H}
-					stroke="rgba(0,0,0,0.2)"
+					y2={(card.y ?? 0) + CARD_H / 2}
+					stroke="rgba(59,130,246,0.45)"
 					stroke-width="1.5"
-					stroke-dasharray="4,3"
 				/>
 			{/each}
 		</svg>
@@ -688,6 +945,10 @@
 				type="button"
 				class="photo-card"
 				style="left: {card.x}px; top: {card.y}px; width: {CARD_W}px; height: {CARD_H}px;"
+				onwheel={(e) => {
+					e.preventDefault();
+					mapContainer.dispatchEvent(new WheelEvent('wheel', e));
+				}}
 				onclick={() => {
 					if (map && card.cafe.latitude && card.cafe.longitude) {
 						const marker = placeMarkers.find((m) => {
@@ -815,9 +1076,9 @@
 		border-radius: 8px;
 		overflow: hidden;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-		border: 2px solid white;
+		border: 2px solid rgba(59, 130, 246, 0.6);
 		cursor: pointer;
-		transition: transform 0.15s, box-shadow 0.15s;
+		transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 		padding: 0;
 		background: white;
 	}
@@ -825,6 +1086,7 @@
 	.photo-card:hover {
 		transform: scale(1.05);
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+		border-color: #3b82f6;
 		z-index: 10;
 	}
 
