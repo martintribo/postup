@@ -149,7 +149,8 @@ export const GET: RequestHandler = async ({ url }) => {
 			opensAt: hours.opensAt,
 			website: updated.website,
 			phone: updated.phone,
-			photoRef: updated.photoRef
+			photoRef: updated.photoRef,
+			parking: updated.parking
 		}
 	});
 };
