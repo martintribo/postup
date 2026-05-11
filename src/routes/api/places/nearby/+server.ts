@@ -23,6 +23,7 @@ export interface NearbyPlace {
 	website: string | null;
 	phone: string | null;
 	photoRef: string | null;
+	parking: string | null;
 }
 
 /** Upsert Mapbox results into the place table. Returns nothing — we query DB separately. */
@@ -188,7 +189,8 @@ export const GET: RequestHandler = async ({ url }) => {
 				opensAt: hours.opensAt,
 				website: p.website,
 				phone: p.phone,
-				photoRef: p.photoRef
+				photoRef: p.photoRef,
+				parking: p.parking
 			};
 		});
 
