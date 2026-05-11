@@ -10,12 +10,13 @@ import { desc, eq, sql } from 'drizzle-orm';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
 
 const postSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
 	activity: z.string().min(1, 'Activity is required'),
+	goals: z.string().optional(),
 	location: z.string().min(1, 'Location is required'),
 	latitude: z.number(),
 	longitude: z.number(),
-	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24')
+	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24'),
+	projectId: z.number().int().optional()
 });
 
 async function getActivePosts(userLatitude: number, userLongitude: number) {
@@ -44,6 +45,12 @@ export const load: PageServerLoad = async (event) => {
 		.where(eq(project.active, true))
 		.orderBy(desc(project.createdAt));
 
+	// User's own projects for the post-up form
+	const userId = event.locals.user?.id;
+	const myProjects = userId
+		? await db.select().from(project).where(sql`${project.userId} = ${userId} AND ${project.active} = true`).orderBy(desc(project.createdAt))
+		: [];
+
 	return {
 		location: userLocation,
 		locationSource,
@@ -51,22 +58,26 @@ export const load: PageServerLoad = async (event) => {
 		form,
 		posts,
 		projects,
-		anonymousSessionId
+		myProjects,
+		anonymousSessionId,
+		userSessionId: event.locals.session?.id ?? null
 	};
 };
 
 export const actions: Actions = {
 	delete: async (event) => {
+		if (!event.locals.user) {
+			return fail(401, { message: 'You must be logged in' });
+		}
+
 		const formData = await event.request.formData();
 		const postId = formData.get('postId');
-		const anonymousSessionId = event.locals.anonymousSessionId;
 
 		if (!postId || typeof postId !== 'string') {
 			return fail(400, { message: 'Invalid post ID' });
 		}
 
 		try {
-			// Verify that the post belongs to the current session
 			const [existingPost] = await db
 				.select()
 				.from(post)
@@ -76,7 +87,7 @@ export const actions: Actions = {
 				return fail(404, { message: 'Post not found' });
 			}
 
-			if (existingPost.sessionId !== anonymousSessionId) {
+			if (existingPost.sessionId !== event.locals.session?.id) {
 				return fail(403, { message: 'Not authorized to delete this post' });
 			}
 
@@ -121,6 +132,10 @@ export const actions: Actions = {
 		return { locationCleared: true };
 	},
 	create: async (event) => {
+		if (!event.locals.user) {
+			return fail(401, { message: 'You must be logged in to post up' });
+		}
+
 		const form = await superValidate(event.request, zod4(postSchema));
 		const { location: userLocation } = await getUserLocation(event);
 
@@ -132,11 +147,11 @@ export const actions: Actions = {
 		try {
 			// Reverse geocode to get neighborhood, locality, and district
 			const geocodeResult = await reverseGeocode(form.data.latitude, form.data.longitude);
-			const anonymousSessionId = event.locals.anonymousSessionId;
 
 			const result = await db.insert(post).values({
-				name: form.data.name,
+				name: event.locals.user!.username,
 				activity: form.data.activity,
+				goals: form.data.goals || null,
 				location: form.data.location,
 				latitude: form.data.latitude,
 				longitude: form.data.longitude,
@@ -144,7 +159,7 @@ export const actions: Actions = {
 				neighborhood: geocodeResult.neighborhood,
 				locality: geocodeResult.locality,
 				district: geocodeResult.district,
-				sessionId: anonymousSessionId
+				sessionId: event.locals.session?.id
 			}).returning();
 
 			// Reload posts after creating a new one
