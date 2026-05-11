@@ -28,6 +28,7 @@ export const place = pgTable('place', {
 	phone: text('phone'),
 	googlePlaceId: text('google_place_id'),
 	photoRef: text('photo_ref'),
+	parking: text('parking'),
 	sessionId: text('session_id'),
 	createdBy: text('created_by').references(() => user.id),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
