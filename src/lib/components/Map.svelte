@@ -6,7 +6,7 @@
 	import { forceSimulation, forceX, forceY, forceCollide, type SimulationNodeDatum } from 'd3-force';
 	import type { Post } from '$lib/server/db/schema';
 
-	interface NearbyPlace {
+	export interface NearbyPlace {
 		id?: number;
 		mapboxId: string;
 		name: string;
@@ -21,6 +21,7 @@
 		website: string | null;
 		phone: string | null;
 		photoRef: string | null;
+		parking: string | null;
 	}
 
 	interface Props {
@@ -30,9 +31,10 @@
 		country?: string;
 		posts?: Post[];
 		showPlaces?: boolean;
+		onCafesLoaded?: (cafes: NearbyPlace[]) => void;
 	}
 
-	let { latitude, longitude, city, country, posts = [], showPlaces = true }: Props = $props();
+	let { latitude, longitude, city, country, posts = [], showPlaces = true, onCafesLoaded }: Props = $props();
 
 	// Fix for default marker icon in Vite
 	delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -69,9 +71,9 @@
 	function getCardConfig() {
 		if (typeof window === 'undefined') return { limit: 5, w: 140, h: 110 };
 		const w = window.innerWidth;
-		if (w < 480) return { limit: 6, w: 70, h: 56 };
-		if (w < 768) return { limit: 8, w: 90, h: 72 };
-		return { limit: 10, w: 130, h: 100 };
+		if (w < 480) return { limit: 6, w: 70, h: 72 };
+		if (w < 768) return { limit: 8, w: 90, h: 92 };
+		return { limit: 10, w: 130, h: 118 };
 	}
 
 	let cardConfig = $state(getCardConfig());
@@ -96,8 +98,12 @@
 	let photoOverlay: HTMLDivElement;
 	let photoFetchQueue = new Set<number>();
 	let springRAF: number | null = null;
-	let mouseX = -1000;
-	let mouseY = -1000;
+	let draggedCard: PhotoCard | null = $state(null);
+	let dragOffsetX = 0;
+	let dragOffsetY = 0;
+	let dragStartX = 0;
+	let dragStartY = 0;
+	let didDrag = false;
 
 	function startSpringLoop() {
 		if (springRAF) return;
@@ -108,7 +114,6 @@
 
 			let moved = false;
 			const minAnchorDist = CARD_H * 0.7 + 20;
-			const mouseRadius = 90;
 
 			// Get all visible marker screen positions
 			const allMarkers = placeMarkers.map((m) => {
@@ -133,6 +138,9 @@
 					moved = true;
 				}
 
+				// Skip physics for the card being dragged
+				if (card === draggedCard) continue;
+
 				let tx = card.x ?? 0;
 				let ty = card.y ?? 0;
 				const cx = tx + CARD_W / 2;
@@ -145,16 +153,6 @@
 				if (anchorDist > minAnchorDist) {
 					tx += dax * 0.03;
 					ty += day * 0.03;
-				}
-
-				// Push away from mouse (always wins)
-				const dmx = (tx + CARD_W / 2) - mouseX;
-				const dmy = (ty + CARD_H / 2) - mouseY;
-				const mouseDist = Math.hypot(dmx, dmy);
-				if (mouseDist < mouseRadius && mouseDist > 0) {
-					const push = ((mouseRadius - mouseDist) / mouseRadius) * 18;
-					tx += (dmx / mouseDist) * push;
-					ty += (dmy / mouseDist) * push;
 				}
 
 				// Push away from other cards (rect-to-rect)
@@ -426,6 +424,7 @@
 			cafeIndex.set(cafe.mapboxId, cafe);
 		}
 		nearbyCafes = Array.from(cafeIndex.values());
+		onCafesLoaded?.(nearbyCafes);
 	}
 
 	function isDarkMode(): boolean {
@@ -571,14 +570,31 @@
 			? `<img src="/api/places/photo?ref=${encodeURIComponent(cafe.photoRef)}" alt="${cafe.name}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />`
 			: '';
 
+		let parkingLine = '';
+		if (cafe.parking) {
+			parkingLine = `<div style="font-size: 0.75rem; color: #6b7280; margin-bottom: 4px; display: flex; align-items: start; gap: 4px;">
+				<span style="flex-shrink: 0;">🅿️</span>
+				<span>${cafe.parking}</span>
+			</div>`;
+		}
+		const scanSection = cafe.id ? `
+			<div style="margin-top: 6px; border-top: 1px solid #f3f4f6; padding-top: 6px;">
+				<div style="display: flex; gap: 4px; align-items: center;">
+					<input id="scan-kw-${cafe.id}" type="text" value="parking" placeholder="keyword" style="flex: 1; font-size: 0.7rem; padding: 2px 6px; border: 1px solid #e5e7eb; border-radius: 4px; outline: none; min-width: 0;" />
+					<button onclick="window.__scanParking(${cafe.id}, this, ${cafe.parking ? 'true' : 'false'}, document.getElementById('scan-kw-${cafe.id}').value)" style="font-size: 0.7rem; color: #6b7280; background: none; border: 1px solid #e5e7eb; border-radius: 4px; padding: 2px 6px; cursor: pointer; white-space: nowrap;">Scan</button>
+				</div>
+			</div>` : '';
+
 		return `
 			<div style="min-width: 200px; max-width: 260px;">
 				${photoLine}
 				<div style="font-weight: 600; margin-bottom: 2px;">${cafe.name}</div>
 				<div style="font-size: 0.8rem; color: #666; margin-bottom: 4px;">${cafe.address}</div>
 				${hoursLine}
+				${parkingLine}
 				${contactLine}
 				${link}
+				${scanSection}
 			</div>
 		`;
 	}
@@ -826,9 +842,69 @@
 		}
 	}
 
-	function updateMousePosition(px: number, py: number) {
-		mouseX = px;
-		mouseY = py;
+	function getHoursLeft(closesAt: string | null): string | null {
+		if (!closesAt) return null;
+		// Parse "5 PM", "2 AM", "11:30 PM" etc.
+		const match = closesAt.match(/^(\d+)(?::(\d+))?\s*(AM|PM)$/i);
+		if (!match) return null;
+		let h = parseInt(match[1]);
+		const m = match[2] ? parseInt(match[2]) : 0;
+		const ampm = match[3].toUpperCase();
+		if (ampm === 'PM' && h < 12) h += 12;
+		if (ampm === 'AM' && h === 12) h = 0;
+
+		const now = new Date();
+		const closeMinutes = h * 60 + m;
+		const nowMinutes = now.getHours() * 60 + now.getMinutes();
+
+		let diff = closeMinutes - nowMinutes;
+		if (diff <= 0) diff += 24 * 60; // closes after midnight
+
+		const hours = Math.floor(diff / 60);
+		const mins = diff % 60;
+		if (hours === 0) return `${mins}m`;
+		if (mins === 0) return `${hours}h`;
+		return `${hours}h`;
+	}
+
+	function startDrag(card: PhotoCard, clientX: number, clientY: number) {
+		const rect = mapContainer.getBoundingClientRect();
+		draggedCard = card;
+		dragOffsetX = clientX - rect.left - (card.x ?? 0);
+		dragOffsetY = clientY - rect.top - (card.y ?? 0);
+		dragStartX = clientX;
+		dragStartY = clientY;
+		didDrag = false;
+	}
+
+	function onDragMove(clientX: number, clientY: number) {
+		if (!draggedCard) return;
+		if (!didDrag && Math.hypot(clientX - dragStartX, clientY - dragStartY) > 5) {
+			didDrag = true;
+			if (map) map.dragging.disable();
+		}
+		if (!didDrag) return;
+		const rect = mapContainer.getBoundingClientRect();
+		draggedCard.x = Math.max(4, Math.min(rect.width - CARD_W - 4, clientX - rect.left - dragOffsetX));
+		draggedCard.y = Math.max(4, Math.min(rect.height - CARD_H - 4, clientY - rect.top - dragOffsetY));
+		photoCards = [...photoCards];
+	}
+
+	function endDrag() {
+		const wasDrag = didDrag;
+		const card = draggedCard;
+		draggedCard = null;
+		didDrag = false;
+		if (map) map.dragging.enable();
+
+		// If it was a click (not a drag), open the popup
+		if (!wasDrag && card && map) {
+			const marker = placeMarkers.find((m) => {
+				const ll = m.getLatLng();
+				return Math.abs(ll.lat - card.cafe.latitude) < 0.0001 && Math.abs(ll.lng - card.cafe.longitude) < 0.0001;
+			});
+			if (marker) marker.openPopup();
+		}
 	}
 
 	function toggleOpenNow() {
@@ -858,6 +934,46 @@
 	});
 
 	onMount(() => {
+		// Global handler for parking scan button in popups
+		(window as any).__scanParking = async (placeId: number, btn: HTMLButtonElement, rescan: boolean, keyword?: string) => {
+			btn.textContent = 'Scanning...';
+			btn.disabled = true;
+			try {
+				const res = await fetch('/api/places/parking', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ id: placeId, rescan: true, keyword: keyword || 'parking' })
+				});
+				if (res.ok) {
+					const data = await res.json();
+					// Update the cafe in our index
+					for (const [key, cafe] of cafeIndex) {
+						if (cafe.id === placeId) {
+							cafe.parking = data.parking;
+							cafeIndex.set(key, cafe);
+							break;
+						}
+					}
+					nearbyCafes = Array.from(cafeIndex.values());
+
+					// Update the popup content
+					const marker = placeMarkers.find((m) => {
+						const ll = m.getLatLng();
+						const cafe = Array.from(cafeIndex.values()).find(c => c.id === placeId);
+						return cafe && Math.abs(ll.lat - cafe.latitude) < 0.0001 && Math.abs(ll.lng - cafe.longitude) < 0.0001;
+					});
+					if (marker) {
+						const cafe = Array.from(cafeIndex.values()).find(c => c.id === placeId);
+						if (cafe) marker.setPopupContent(buildPlacePopup(cafe));
+					}
+				} else {
+					btn.textContent = 'Scan failed';
+				}
+			} catch {
+				btn.textContent = 'Scan failed';
+			}
+		};
+
 		map = L.map(mapContainer, { attributionControl: false });
 
 		const darkMode = isDarkMode();
@@ -883,24 +999,20 @@
 			loadAndShowPhotoCards();
 		});
 
-		// Mouse/touch repulsion for photo cards — use window-level so cards don't block events
+		// Drag move/end listeners (window-level so drag works outside the card)
 		const onMouseMove = (e: MouseEvent) => {
-			const rect = mapContainer.getBoundingClientRect();
-			const x = e.clientX - rect.left;
-			const y = e.clientY - rect.top;
-			if (x >= 0 && y >= 0 && x <= rect.width && y <= rect.height) {
-				updateMousePosition(x, y);
-			} else {
-				updateMousePosition(-1000, -1000);
-			}
+			if (draggedCard) onDragMove(e.clientX, e.clientY);
 		};
+		const onMouseUp = () => { if (draggedCard) endDrag(); };
 		const onTouchMove = (e: TouchEvent) => {
-			const rect = mapContainer.getBoundingClientRect();
-			const touch = e.touches[0];
-			if (touch) updateMousePosition(touch.clientX - rect.left, touch.clientY - rect.top);
+			const t = e.touches[0];
+			if (draggedCard && t) onDragMove(t.clientX, t.clientY);
 		};
+		const onTouchEnd = () => { if (draggedCard) endDrag(); };
 		window.addEventListener('mousemove', onMouseMove);
-		mapContainer.addEventListener('touchmove', onTouchMove, { passive: true });
+		window.addEventListener('mouseup', onMouseUp);
+		window.addEventListener('touchmove', onTouchMove, { passive: true });
+		window.addEventListener('touchend', onTouchEnd);
 
 		const handleResize = () => map?.invalidateSize();
 		window.addEventListener('resize', handleResize);
@@ -913,7 +1025,9 @@
 		return () => {
 			mediaQuery.removeEventListener('change', handleChange);
 			window.removeEventListener('mousemove', onMouseMove);
-			mapContainer.removeEventListener('touchmove', onTouchMove);
+			window.removeEventListener('mouseup', onMouseUp);
+			window.removeEventListener('touchmove', onTouchMove);
+			window.removeEventListener('touchend', onTouchEnd);
 			window.removeEventListener('resize', handleResize);
 			resizeObserver.disconnect();
 			if (springRAF) cancelAnimationFrame(springRAF);
@@ -941,38 +1055,50 @@
 			{/each}
 		</svg>
 		{#each photoCards as card (card.cafe.id)}
-			<button
-				type="button"
-				class="photo-card"
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				class="photo-card {draggedCard === card ? 'dragging' : ''}"
 				style="left: {card.x}px; top: {card.y}px; width: {CARD_W}px; height: {CARD_H}px;"
 				onwheel={(e) => {
 					e.preventDefault();
 					mapContainer.dispatchEvent(new WheelEvent('wheel', e));
 				}}
-				onclick={() => {
-					if (map && card.cafe.latitude && card.cafe.longitude) {
-						const marker = placeMarkers.find((m) => {
-							const ll = m.getLatLng();
-							return Math.abs(ll.lat - card.cafe.latitude) < 0.0001 && Math.abs(ll.lng - card.cafe.longitude) < 0.0001;
-						});
-						if (marker) marker.openPopup();
-					}
+				onmousedown={(e) => {
+					e.preventDefault();
+					startDrag(card, e.clientX, e.clientY);
+				}}
+				ontouchstart={(e) => {
+					const t = e.touches[0];
+					if (t) startDrag(card, t.clientX, t.clientY);
 				}}
 			>
-				<img
-					src="/api/places/photo?ref={encodeURIComponent(card.cafe.photoRef || '')}"
-					alt={card.cafe.name}
-					class="photo-card-img"
-				/>
-				<div class="photo-card-label">
-					<span class="photo-card-name">{card.cafe.name}</span>
-					{#if card.cafe.isOpen === true}
-						<span class="photo-card-status open">Open</span>
-					{:else if card.cafe.isOpen === false}
-						<span class="photo-card-status closed">Closed</span>
-					{/if}
+				<div class="photo-card-inner">
+					<img
+						src="/api/places/photo?ref={encodeURIComponent(card.cafe.photoRef || '')}"
+						alt={card.cafe.name}
+						class="photo-card-img"
+					/>
+					<div class="photo-card-label">
+						<span class="photo-card-name">{card.cafe.name}</span>
+					</div>
 				</div>
-			</button>
+				<div class="photo-card-stats">
+					{#if card.cafe.isOpen === true}
+						{@const hoursLeft = getHoursLeft(card.cafe.closesAt)}
+						<span class="stat open" title={card.cafe.closesAt ? `Closes ${card.cafe.closesAt}` : 'Open'}>
+							{#if hoursLeft}{hoursLeft}{:else}24h{/if}
+						</span>
+					{:else if card.cafe.isOpen === false}
+						<span class="stat closed">Closed</span>
+					{:else}
+						<span class="stat unknown">--</span>
+					{/if}
+					<span class="stat-sep"></span>
+					<span class="stat popularity" title="Popularity (coming soon)">
+						--
+					</span>
+				</div>
+			</div>
 		{/each}
 	</div>
 
@@ -1081,6 +1207,8 @@
 		transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 		padding: 0;
 		background: white;
+		display: flex;
+		flex-direction: column;
 	}
 
 	.photo-card:hover {
@@ -1088,6 +1216,22 @@
 		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 		border-color: #3b82f6;
 		z-index: 10;
+		cursor: grab;
+	}
+
+	.photo-card.dragging {
+		cursor: grabbing;
+		transform: scale(1.08);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+		z-index: 20;
+		opacity: 0.9;
+	}
+
+	.photo-card-inner {
+		position: relative;
+		flex: 1;
+		min-height: 0;
+		overflow: hidden;
 	}
 
 	.photo-card-img {
@@ -1120,12 +1264,38 @@
 		line-height: 1.2;
 	}
 
-	.photo-card-status {
-		font-size: 0.5rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.03em;
+	.photo-card-stats {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		padding: 2px 4px;
+		background: rgba(255, 255, 255, 0.95);
 		flex-shrink: 0;
+	}
+
+	.stat {
+		font-size: 0.55rem;
+		font-weight: 700;
+		letter-spacing: 0.02em;
+	}
+
+	.stat.open {
+		color: #059669;
+	}
+
+	.stat.closed {
+		color: #dc2626;
+	}
+
+	.stat.unknown, .stat.popularity {
+		color: #9ca3af;
+	}
+
+	.stat-sep {
+		width: 1px;
+		height: 8px;
+		background: #e5e7eb;
 	}
 
 	@media (max-width: 479px) {
@@ -1138,23 +1308,23 @@
 			font-size: 0.5rem;
 		}
 
-		.photo-card-status {
-			display: none;
+		.stat {
+			font-size: 0.5rem;
 		}
-	}
-
-	.photo-card-status.open {
-		color: #34d399;
-	}
-
-	.photo-card-status.closed {
-		color: #f87171;
 	}
 
 	@media (prefers-color-scheme: dark) {
 		.photo-card {
 			border-color: #374151;
 			background: #1f2937;
+		}
+
+		.photo-card-stats {
+			background: rgba(31, 41, 55, 0.95);
+		}
+
+		.stat-sep {
+			background: #374151;
 		}
 	}
 
