@@ -21,7 +21,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"storybook": "storybook dev -p 6006",
+		"storybook": "storybook dev -p 6008 --host 0.0.0.0",
 		"build-storybook": "storybook build"
 	},
 	"devDependencies": {
