@@ -35,14 +35,14 @@ export const load: PageServerLoad = async (event) => {
 		.orderBy(desc(placeTag.votes));
 
 	// Active posts at this place
-	const now = new Date();
 	const activePosts = await db
 		.select()
 		.from(post)
 		.where(
 			and(
 				eq(post.placeId, id),
-				sql`${post.startTime} + (${post.hours} || ' hours')::interval > ${now}`
+				// Use SQL now() — postgres-js stringifies JS Date as Date.toString(), which PG rejects.
+				sql`${post.startTime} + (${post.hours} || ' hours')::interval > now()`
 			)
 		)
 		.orderBy(desc(post.createdAt));
