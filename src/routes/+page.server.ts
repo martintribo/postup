@@ -20,7 +20,6 @@ const postSchema = z.object({
 });
 
 async function getActivePosts(userLatitude: number, userLongitude: number) {
-	const now = new Date();
 	const distanceInMiles = 200;
 
 	return await db
