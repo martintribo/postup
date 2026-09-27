@@ -1,33 +1,32 @@
 import type { RequestHandler } from './$types';
 import { env as privateEnv } from '$env/dynamic/private';
-import { error } from '@sveltejs/kit';
+import { error, redirect } from '@sveltejs/kit';
+import { db } from '$lib/server/db';
+import { place } from '$lib/server/db/schema';
+import { eq } from 'drizzle-orm';
+import { resolveLivePhoto, schedulePersonalArchive } from '$lib/server/place-photos';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const photoRef = url.searchParams.get('ref');
-	if (!photoRef) {
-		throw error(400, 'ref required');
-	}
-
-	const key = privateEnv.GOOGLE_PLACES_API_KEY;
-	if (!key) {
+	if (!privateEnv.GOOGLE_PLACES_API_KEY) {
 		throw error(500, 'Google Places not configured');
 	}
 
-	const response = await fetch(
-		`https://places.googleapis.com/v1/${photoRef}/media?maxWidthPx=400&key=${key}`
-	);
-
-	if (!response.ok) {
-		throw error(502, 'Failed to fetch photo');
+	const id = parseInt(url.searchParams.get('id') || '', 10);
+	if (Number.isNaN(id)) {
+		throw error(400, 'id required');
 	}
 
-	const contentType = response.headers.get('content-type') || 'image/jpeg';
-	const body = await response.arrayBuffer();
+	const [row] = await db.select().from(place).where(eq(place.id, id)).limit(1);
+	if (!row) {
+		throw error(404, 'Place not found');
+	}
 
-	return new Response(body, {
-		headers: {
-			'content-type': contentType,
-			'cache-control': 'public, max-age=86400'
-		}
-	});
+	const live = await resolveLivePhoto(row);
+	if (!live) {
+		throw error(404, 'No photo');
+	}
+
+	schedulePersonalArchive(row, live);
+
+	throw redirect(302, live.photoUri);
 };

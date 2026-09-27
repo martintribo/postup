@@ -676,9 +676,9 @@
 													onclick={() => selectCafe(cafe)}
 													class="w-full flex items-center gap-3 p-2 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
 												>
-													{#if cafe.photoRef}
+													{#if cafe.id}
 														<img
-															src="/api/places/photo?ref={encodeURIComponent(cafe.photoRef)}"
+															src="/api/places/photo?id={cafe.id}"
 															alt={cafe.name}
 															class="w-14 h-14 rounded-lg object-cover flex-shrink-0"
 														/>
