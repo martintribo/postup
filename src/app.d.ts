@@ -6,6 +6,12 @@ declare global {
 			user: import('$lib/server/auth').SessionValidationResult['user'];
 			session: import('$lib/server/auth').SessionValidationResult['session'];
 			anonymousSessionId: string;
+			agent: {
+				userId: string;
+				agentSessionId: string;
+				tokenId: string;
+				scope: import('$lib/server/auth').AgentScope;
+			} | null;
 		}
 	} // interface Error {}
 	// interface Locals {}

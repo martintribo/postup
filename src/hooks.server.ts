@@ -2,6 +2,16 @@ import type { Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
 
 const handleAuth: Handle = async ({ event, resolve }) => {
+	event.locals.agent = null;
+
+	if (event.url.pathname.startsWith('/api/agent/')) {
+		const header = event.request.headers.get('authorization') ?? '';
+		const match = header.match(/^Bearer\s+(.+)$/i);
+		if (match) {
+			event.locals.agent = await auth.validateAgentToken(match[1].trim());
+		}
+	}
+
 	const sessionToken = event.cookies.get(auth.sessionCookieName);
 
 	if (!sessionToken) {
