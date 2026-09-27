@@ -22,7 +22,8 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"storybook": "storybook dev -p 6008 --host 0.0.0.0",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"hub:services": "bash scripts/hub-services.sh"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^4.1.3",
@@ -76,6 +77,7 @@
 		"leaflet": "^1.9.4",
 		"openai": "^6.32.0",
 		"sveltekit-superforms": "^2.28.1",
-		"zod": "^4.1.13"
+		"zod": "^4.1.13",
+		"postgres": "^3.4.7"
 	}
 }
