@@ -78,6 +78,7 @@
 		"openai": "^6.32.0",
 		"sveltekit-superforms": "^2.28.1",
 		"zod": "^4.1.13",
-		"postgres": "^3.4.7"
+		"postgres": "^3.4.7",
+		"aws4fetch": "^1.0.20"
 	}
 }
