@@ -16,12 +16,16 @@ function getHttpsConfig() {
 	}
 }
 
+const hubPort = Number(process.env.PORT || process.env.VITE_PORT || 5173);
+const hubHost = process.env.HOST || '0.0.0.0';
+
 export default defineConfig({
 	server: {
-		port: 5173,
-		host: '0.0.0.0',
+		port: hubPort,
+		host: hubHost,
+		strictPort: !!process.env.PORT,
 		allowedHosts: true,
-		https: getHttpsConfig()
+		https: process.env.HUB_VITE_HTTP === '1' ? undefined : getHttpsConfig()
 	},
 	plugins: [tailwindcss(), sveltekit(), devtoolsJson()],
 	test: {

@@ -17,4 +17,3 @@ function isNeonUrl(u: string) {
 export const db = isNeonUrl(url)
 	? drizzleNeon(neon(url), { schema })
 	: drizzlePg(postgres(url, { max: 4 }), { schema });
-
