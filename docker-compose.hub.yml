@@ -1,0 +1,20 @@
+# Hub worktree local Postgres. Project name (`docker compose -p`) isolates volumes.
+# Bind loopback only. Do not use Neon / PGlite / SQLite.
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "127.0.0.1:${HUB_PG_PORT:-25432}:5432"
+    environment:
+      POSTGRES_USER: postup
+      POSTGRES_PASSWORD: postup
+      POSTGRES_DB: postup
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postup -d postup"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+volumes:
+  pgdata:
