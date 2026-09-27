@@ -131,3 +131,60 @@ export function getAnonymousSessionIdFromCookie(event: RequestEvent): string | n
 	}
 	return getAnonymousSessionId(token);
 }
+
+// Agent tokens — short-lived bearer tokens a user gives to an AI agent.
+// All writes done with these tokens are staged for review, not applied directly.
+export const AGENT_TOKEN_TTL_MS = 1000 * 60 * 60; // 1 hour
+
+function hashToken(token: string): string {
+	return encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+}
+
+export function generateAgentToken(): string {
+	const bytes = crypto.getRandomValues(new Uint8Array(24));
+	return encodeBase64url(bytes);
+}
+
+export type AgentScope = 'projects' | 'status';
+
+export const AGENT_SCOPES: readonly AgentScope[] = ['projects', 'status'];
+
+export async function createAgentToken(
+	userId: string,
+	scope: AgentScope = 'projects'
+): Promise<{ token: string; record: table.AgentToken }> {
+	const token = generateAgentToken();
+	const id = hashToken(token);
+	// agentSessionId is a separate stable id we attach to every change this token makes
+	const agentSessionId = generateAgentToken();
+	const expiresAt = new Date(Date.now() + AGENT_TOKEN_TTL_MS);
+	const [record] = await db
+		.insert(table.agentToken)
+		.values({ id, userId, agentSessionId, scope, expiresAt })
+		.returning();
+	return { token, record };
+}
+
+export async function validateAgentToken(
+	token: string
+): Promise<{ userId: string; agentSessionId: string; tokenId: string; scope: AgentScope } | null> {
+	if (!token) return null;
+	const id = hashToken(token);
+	const [row] = await db.select().from(table.agentToken).where(eq(table.agentToken.id, id));
+	if (!row) return null;
+	if (row.revokedAt) return null;
+	if (Date.now() >= row.expiresAt.getTime()) return null;
+	return {
+		userId: row.userId,
+		agentSessionId: row.agentSessionId,
+		tokenId: row.id,
+		scope: (row.scope as AgentScope) ?? 'projects'
+	};
+}
+
+export async function revokeAgentToken(tokenId: string): Promise<void> {
+	await db
+		.update(table.agentToken)
+		.set({ revokedAt: new Date() })
+		.where(eq(table.agentToken.id, tokenId));
+}

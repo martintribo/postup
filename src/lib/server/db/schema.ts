@@ -98,3 +98,43 @@ export type Project = typeof project.$inferSelect;
 export type Place = typeof place.$inferSelect;
 export type PlaceReview = typeof placeReview.$inferSelect;
 export type PlaceTag = typeof placeTag.$inferSelect;
+
+export const agentToken = pgTable('agent_token', {
+	id: text('id').primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	agentSessionId: text('agent_session_id').notNull(),
+	scope: text('scope').notNull().default('projects'),
+	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull(),
+	revokedAt: timestamp('revoked_at', { withTimezone: true, mode: 'date' }),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export const projectStatus = pgTable('project_status', {
+	id: serial('id').primaryKey(),
+	projectId: integer('project_id').notNull().references(() => project.id),
+	title: text('title'),
+	body: text('body').notNull(),
+	occurredAt: timestamp('occurred_at', { withTimezone: true, mode: 'date' }).notNull(),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export type ProjectStatus = typeof projectStatus.$inferSelect;
+
+export const projectChange = pgTable('project_change', {
+	id: serial('id').primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	agentSessionId: text('agent_session_id').notNull(),
+	action: text('action').notNull(),
+	targetProjectId: integer('target_project_id').references(() => project.id),
+	payload: jsonb('payload').notNull(),
+	status: text('status').notNull().default('pending'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	reviewedAt: timestamp('reviewed_at', { withTimezone: true, mode: 'date' })
+});
+
+export type AgentToken = typeof agentToken.$inferSelect;
+export type ProjectChange = typeof projectChange.$inferSelect;
