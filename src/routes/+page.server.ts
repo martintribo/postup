@@ -120,16 +120,16 @@ async function reverseGeocode(latitude: number, longitude: number): Promise<Reve
 }
 
 async function getActivePosts(userLatitude: number, userLongitude: number) {
-	const now = new Date();
 	// Haversine formula to calculate distance in miles
 	// 3959 is the Earth's radius in miles
 	const distanceInMiles = 200;
-	
+
 	return await db
 		.select()
 		.from(post)
 		.where(
-			sql`${post.startTime} + (${post.hours} || ' hours')::interval > ${now} AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
+			// Use SQL now() — postgres-js stringifies JS Date as Date.toString(), which PG rejects.
+			sql`${post.startTime} + (${post.hours} || ' hours')::interval > now() AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
 		)
 		.orderBy(desc(post.createdAt));
 }
