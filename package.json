@@ -20,7 +20,8 @@
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"hub:services": "bash scripts/hub-services.sh"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^4.1.3",
@@ -70,6 +71,7 @@
 		"@neondatabase/serverless": "^1.0.2",
 		"@node-rs/argon2": "^2.0.2",
 		"leaflet": "^1.9.4",
+		"postgres": "^3.4.9",
 		"sveltekit-superforms": "^2.28.1",
 		"zod": "^4.1.13"
 	}
