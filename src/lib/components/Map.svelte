@@ -2,7 +2,14 @@
 	import { onMount } from 'svelte';
 	import L from 'leaflet';
 	import 'leaflet/dist/leaflet.css';
+	import { leafletLayer } from 'protomaps-leaflet';
+	import { PUBLIC_TILES_URL } from '$env/static/public';
 	import type { Post } from '$lib/server/db/schema';
+
+	// protomaps-leaflet extends global L.GridLayer (not an import).
+	if (typeof window !== 'undefined') {
+		(window as unknown as { L: typeof L }).L = L;
+	}
 
 	interface Props {
 		latitude: number;
@@ -24,7 +31,7 @@
 
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
-	let tileLayer: L.TileLayer | null = null;
+	let tileLayer: L.Layer | null = null;
 	let markers: L.Marker[] = [];
 
 	/**
@@ -36,33 +43,29 @@
 	}
 
 	/**
-	 * Get the appropriate tile layer URL based on dark mode preference
-	 */
-	function getTileLayerUrl(isDark: boolean): string {
-		if (isDark) {
-			// CartoDB Dark Matter - a popular dark map style
-			return 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-		} else {
-			// OpenStreetMap standard tiles for light mode
-			return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-		}
-	}
-
-	/**
-	 * Update the tile layer based on dark mode preference
+	 * Protomaps vector basemap (PMTiles or z/x/y). Mapbox is not used for tiles.
 	 */
 	function updateTileLayer(isDark: boolean) {
 		if (!map) return;
 
-		// Remove existing tile layer
 		if (tileLayer) {
 			map.removeLayer(tileLayer);
+			tileLayer = null;
 		}
 
-		// Add new tile layer
-		tileLayer = L.tileLayer(getTileLayerUrl(isDark), {
-			maxZoom: 19
-		}).addTo(map);
+		const url = PUBLIC_TILES_URL?.trim();
+		if (!url) {
+			console.error('PUBLIC_TILES_URL is not set; map tiles will not load.');
+			return;
+		}
+
+		tileLayer = leafletLayer({
+			url,
+			flavor: isDark ? 'dark' : 'light',
+			lang: 'en',
+			maxDataZoom: 14
+		}) as unknown as L.Layer;
+		tileLayer.addTo(map);
 	}
 
 	/**
