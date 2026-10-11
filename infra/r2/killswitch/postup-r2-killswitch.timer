@@ -1,0 +1,12 @@
+[Unit]
+Description=Run PostUp R2 spend kill switch every 5 minutes
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=5min
+AccuracySec=30s
+Persistent=true
+Unit=postup-r2-killswitch.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=PostUp R2 spend kill switch (check Class B, maybe disable r2.dev)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/main/.agenthub/worktrees/postup/postup-protomaps/infra/r2/killswitch
+EnvironmentFile=-/home/main/.config/postup/cloudflare.env
+EnvironmentFile=-/home/main/.config/postup/killswitch.env
+ExecStart=/usr/bin/python3 /home/main/.agenthub/worktrees/postup/postup-protomaps/infra/r2/killswitch/killswitch.py check
+# 1 = over threshold (disabled); 3 = Analytics Read missing. Timer should keep running.
+SuccessExitStatus=1 3
+Nice=10
