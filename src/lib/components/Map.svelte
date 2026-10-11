@@ -35,33 +35,30 @@
 		return window.matchMedia('(prefers-color-scheme: dark)').matches;
 	}
 
+	const STADIA_ATTRIBUTION =
+		'&copy; <a href="https://stadiamaps.com/attribution/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>';
+
 	/**
-	 * Get the appropriate tile layer URL based on dark mode preference
+	 * Stadia Maps raster tiles. Mapbox is not used for the basemap.
+	 * `{r}` is Leaflet's retina placeholder (`@2x` on HiDPI).
 	 */
 	function getTileLayerUrl(isDark: boolean): string {
 		if (isDark) {
-			// CartoDB Dark Matter - a popular dark map style
-			return 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-		} else {
-			// OpenStreetMap standard tiles for light mode
-			return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+			return 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
 		}
+		return 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
 	}
 
-	/**
-	 * Update the tile layer based on dark mode preference
-	 */
 	function updateTileLayer(isDark: boolean) {
 		if (!map) return;
 
-		// Remove existing tile layer
 		if (tileLayer) {
 			map.removeLayer(tileLayer);
 		}
 
-		// Add new tile layer
 		tileLayer = L.tileLayer(getTileLayerUrl(isDark), {
-			maxZoom: 19
+			maxZoom: 20,
+			attribution: STADIA_ATTRIBUTION
 		}).addTo(map);
 	}
 
@@ -166,10 +163,7 @@
 	});
 
 	onMount(() => {
-		// Initialize the map with attribution control disabled
-		map = L.map(mapContainer, {
-			attributionControl: false
-		});
+		map = L.map(mapContainer);
 
 		// Detect initial dark mode preference
 		const darkMode = isDarkMode();
