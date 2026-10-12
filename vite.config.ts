@@ -17,7 +17,7 @@ function getHttpsConfig() {
 }
 
 const hubPort = Number(process.env.PORT || process.env.VITE_PORT || 5173);
-const hubHost = process.env.HOST || '0.0.0.0';
+const hubHost = process.env.HOST || '127.0.0.1';
 
 export default defineConfig({
 	server: {

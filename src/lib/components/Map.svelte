@@ -44,6 +44,9 @@
 		shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png'
 	});
 
+	const STADIA_ATTRIBUTION =
+		'&copy; <a href="https://stadiamaps.com/attribution/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>';
+
 	let mapContainer: HTMLDivElement;
 	let map: L.Map | null = null;
 	let tileLayer: L.TileLayer | null = null;
@@ -434,15 +437,18 @@
 
 	function getTileLayerUrl(isDark: boolean): string {
 		if (isDark) {
-			return 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
+			return 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png';
 		}
-		return 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+		return 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png';
 	}
 
 	function updateTileLayer(isDark: boolean) {
 		if (!map) return;
 		if (tileLayer) map.removeLayer(tileLayer);
-		tileLayer = L.tileLayer(getTileLayerUrl(isDark), { maxZoom: 19 }).addTo(map);
+		tileLayer = L.tileLayer(getTileLayerUrl(isDark), {
+			maxZoom: 20,
+			attribution: STADIA_ATTRIBUTION
+		}).addTo(map);
 	}
 
 	function calculateBounds(centerLat: number, centerLon: number): L.LatLngBounds {
@@ -974,7 +980,7 @@
 			}
 		};
 
-		map = L.map(mapContainer, { attributionControl: false });
+		map = L.map(mapContainer);
 
 		const darkMode = isDarkMode();
 		updateTileLayer(darkMode);
