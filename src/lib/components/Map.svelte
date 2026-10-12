@@ -566,8 +566,8 @@
 			contactLine = `<div style="font-size: 0.75rem; margin-bottom: 4px;">${contactParts.join(' · ')}</div>`;
 		}
 
-		const photoLine = cafe.photoRef
-			? `<img src="/api/places/photo?ref=${encodeURIComponent(cafe.photoRef)}" alt="${cafe.name}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />`
+		const photoLine = cafe.id
+			? `<img src="/api/places/photo?id=${cafe.id}" alt="${cafe.name}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 6px;" />`
 			: '';
 
 		let parkingLine = '';
@@ -1074,7 +1074,7 @@
 			>
 				<div class="photo-card-inner">
 					<img
-						src="/api/places/photo?ref={encodeURIComponent(card.cafe.photoRef || '')}"
+						src="/api/places/photo?id={card.cafe.id}"
 						alt={card.cafe.name}
 						class="photo-card-img"
 					/>

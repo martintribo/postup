@@ -21,6 +21,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
+		"hub:services": "bash scripts/hub-services.sh",
 		"storybook": "storybook dev -p 6008 --host 0.0.0.0",
 		"build-storybook": "storybook build"
 	},
@@ -72,9 +73,11 @@
 	"dependencies": {
 		"@neondatabase/serverless": "^1.0.2",
 		"@node-rs/argon2": "^2.0.2",
+		"aws4fetch": "^1.0.20",
 		"d3-force": "^3.0.0",
 		"leaflet": "^1.9.4",
 		"openai": "^6.32.0",
+		"postgres": "^3.4.7",
 		"sveltekit-superforms": "^2.28.1",
 		"zod": "^4.1.13"
 	}

@@ -27,7 +27,11 @@ export const place = pgTable('place', {
 	website: text('website'),
 	phone: text('phone'),
 	googlePlaceId: text('google_place_id'),
+	/** Last Google Places photo resource name — identity for skip-duplicate archive, not a durable URL. */
 	photoRef: text('photo_ref'),
+	photoArchivedAt: timestamp('photo_archived_at', { withTimezone: true, mode: 'date' }),
+	photoArchiveKey: text('photo_archive_key'),
+	photoEtag: text('photo_etag'),
 	parking: text('parking'),
 	sessionId: text('session_id'),
 	createdBy: text('created_by').references(() => user.id),
