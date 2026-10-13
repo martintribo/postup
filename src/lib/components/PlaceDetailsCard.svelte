@@ -2,8 +2,9 @@
 	let { placeId }: { placeId: string } = $props();
 </script>
 
-<!-- Compact Place Details (UI Kit). Allowed beside a non-Google map (Maps SST 15.1). -->
-<gmp-place-details-compact orientation="horizontal" truncation-preferred>
+<!-- Compact Place Details (UI Kit). Allowed beside a non-Google map (Maps SST 15.1).
+     Weekly Places UI Kit accepts orientation HORIZONTAL|VERTICAL only; Svelte sets the JS property, so lowercase fails. -->
+<gmp-place-details-compact orientation="HORIZONTAL" truncation-preferred>
 	<gmp-place-details-place-request place={placeId}></gmp-place-details-place-request>
 	<gmp-place-content-config>
 		<gmp-place-media lightbox-preferred></gmp-place-media>
