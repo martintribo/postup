@@ -7,14 +7,20 @@ import { place } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { isCurrentlyOpen } from '$lib/server/places';
 
-async function fetchGooglePhoto(name: string, lat: number, lng: number, googleApiKey: string): Promise<{ googlePlaceId: string; photoRef: string } | null> {
+/** Resolve a Google place_id only. Never request photos (ToS 3.2.3(e) / 14.2). */
+async function fetchGooglePlaceId(
+	name: string,
+	lat: number,
+	lng: number,
+	googleApiKey: string
+): Promise<string | null> {
 	try {
 		const response = await fetch('https://places.googleapis.com/v1/places:searchText', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'X-Goog-Api-Key': googleApiKey,
-				'X-Goog-FieldMask': 'places.id,places.photos'
+				'X-Goog-FieldMask': 'places.id'
 			},
 			body: JSON.stringify({
 				textQuery: name,
@@ -28,13 +34,7 @@ async function fetchGooglePhoto(name: string, lat: number, lng: number, googleAp
 		if (!response.ok) return null;
 
 		const data = await response.json();
-		const gPlace = data.places?.[0];
-		if (!gPlace?.photos?.[0]?.name) return null;
-
-		return {
-			googlePlaceId: gPlace.id,
-			photoRef: gPlace.photos[0].name
-		};
+		return data.places?.[0]?.id || null;
 	} catch {
 		return null;
 	}
@@ -104,17 +104,17 @@ export const GET: RequestHandler = async ({ url }) => {
 		}
 	}
 
-	// 2. Fetch photo from Google Places if we don't have one cached
+	// 2. Resolve Google place_id (id only — no photos) if missing
 	const googleApiKey = privateEnv.GOOGLE_PLACES_API_KEY;
-	if (googleApiKey && !existing.photoRef) {
-		const photo = await fetchGooglePhoto(existing.name, existing.latitude, existing.longitude, googleApiKey);
-		if (photo) {
-			await db.update(place)
-				.set({
-					googlePlaceId: photo.googlePlaceId,
-					photoRef: photo.photoRef
-				})
-				.where(eq(place.id, id));
+	if (googleApiKey && !existing.googlePlaceId) {
+		const googlePlaceId = await fetchGooglePlaceId(
+			existing.name,
+			existing.latitude,
+			existing.longitude,
+			googleApiKey
+		);
+		if (googlePlaceId) {
+			await db.update(place).set({ googlePlaceId }).where(eq(place.id, id));
 		}
 	}
 
@@ -149,7 +149,7 @@ export const GET: RequestHandler = async ({ url }) => {
 			opensAt: hours.opensAt,
 			website: updated.website,
 			phone: updated.phone,
-			photoRef: updated.photoRef,
+			googlePlaceId: updated.googlePlaceId,
 			parking: updated.parking
 		}
 	});

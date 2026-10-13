@@ -22,7 +22,7 @@ export interface NearbyPlace {
 	opensAt: string | null;
 	website: string | null;
 	phone: string | null;
-	photoRef: string | null;
+	googlePlaceId: string | null;
 	parking: string | null;
 }
 
@@ -189,7 +189,7 @@ export const GET: RequestHandler = async ({ url }) => {
 				opensAt: hours.opensAt,
 				website: p.website,
 				phone: p.phone,
-				photoRef: p.photoRef,
+				googlePlaceId: p.googlePlaceId,
 				parking: p.parking
 			};
 		});
