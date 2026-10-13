@@ -85,7 +85,10 @@
 	let googleReady = $state(false);
 	let googleKeyMissing = $state(!googleMapsBrowserKey());
 	let cardRowEls = $state<HTMLElement[]>([]);
-	let leaderLines = $state<{ n: number; x1: number; y1: number; x2: number; y2: number }[]>([]);
+	let leaderLines = $state.raw<{ n: number; x1: number; y1: number; x2: number; y2: number }[]>([]);
+	let leaderRaf = 0;
+	let leaderLoopHeld = false;
+	let leaderLoopUntil = 0;
 
 	function cafeKey(cafe: NearbyPlace): string {
 		if (cafe.mapboxId) return cafe.mapboxId;
@@ -142,6 +145,42 @@
 			lines.push({ n, x1, y1, x2, y2 });
 		}
 		leaderLines = lines;
+	}
+
+	function leaderTick() {
+		leaderRaf = 0;
+		updateLeaderLines();
+		if (showLeaders && (leaderLoopHeld || performance.now() < leaderLoopUntil)) {
+			leaderRaf = requestAnimationFrame(leaderTick);
+		}
+	}
+
+	function startLeaderLoop() {
+		if (!showLeaders) return;
+		leaderLoopHeld = true;
+		if (!leaderRaf) leaderRaf = requestAnimationFrame(leaderTick);
+	}
+
+	function bumpLeaderLoop(ms = 200) {
+		if (!showLeaders) return;
+		leaderLoopUntil = Math.max(leaderLoopUntil, performance.now() + ms);
+		if (!leaderRaf) leaderRaf = requestAnimationFrame(leaderTick);
+	}
+
+	function releaseLeaderLoop() {
+		leaderLoopHeld = false;
+		bumpLeaderLoop(80);
+	}
+
+	function cancelLeaderLoop() {
+		if (leaderRaf) cancelAnimationFrame(leaderRaf);
+		leaderRaf = 0;
+		leaderLoopHeld = false;
+		leaderLoopUntil = 0;
+	}
+
+	function onPanelScroll() {
+		bumpLeaderLoop(200);
 	}
 
 	function mergeCafes(newCafes: NearbyPlace[]) {
@@ -364,6 +403,7 @@
 				marker.on('click', () => {
 					setHighlight(n);
 					cardRowEls[n - 1]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+					bumpLeaderLoop(500);
 				});
 			}
 
@@ -616,7 +656,12 @@
 
 	function toggleLeaders() {
 		showLeaders = !showLeaders;
-		void tick().then(updateLeaderLines);
+		if (showLeaders) {
+			void tick().then(() => bumpLeaderLoop(120));
+		} else {
+			cancelLeaderLoop();
+			leaderLines = [];
+		}
 	}
 
 	function onCardEnter(n: number) {
@@ -677,7 +722,9 @@
 		updatePostMarkers();
 		fetchNearbyCafes(latitude, longitude, false);
 
-		map.on('moveend', () => {
+		map.on('movestart zoomstart', startLeaderLoop);
+		map.on('moveend zoomend', () => {
+			releaseLeaderLoop();
 			if (hasDoneInitialFetch) {
 				showSearchArea = true;
 			}
@@ -700,6 +747,7 @@
 		resizeObserver.observe(mapPane);
 
 		return () => {
+			cancelLeaderLoop();
 			mediaQuery.removeEventListener('change', handleChange);
 			window.removeEventListener('resize', handleResize);
 			resizeObserver.disconnect();
@@ -819,7 +867,7 @@
 		{:else if !googleReady}
 			<div class="panel-banner">Loading Google Place Details…</div>
 		{/if}
-		<div class="panel-list">
+		<div class="panel-list" onscroll={onPanelScroll}>
 			{#each panelPlaces as cafe, i (cafeKey(cafe))}
 				{@const n = i + 1}
 				<div
