@@ -81,7 +81,7 @@
 	let cardLimit = $state(panelLimit());
 	let panelPlaces = $state<NearbyPlace[]>([]);
 	let highlightedN = $state<number | null>(null);
-	let showLeaders = $state(false);
+	let showLeaders = $state(true);
 	let googleReady = $state(false);
 	let googleKeyMissing = $state(!googleMapsBrowserKey());
 	let cardRowEls = $state<HTMLElement[]>([]);
@@ -457,11 +457,11 @@
 	function refreshPanelAndMarkers() {
 		computePanelPlaces();
 		updatePlaceMarkers();
-		void tick().then(updateLeaderLines);
+		void tick().then(() => bumpLeaderLoop(400));
 		void fillMissingPlaceIds(panelPlaces).then(() => {
 			computePanelPlaces();
 			updatePlaceMarkers();
-			void tick().then(updateLeaderLines);
+			void tick().then(() => bumpLeaderLoop(400));
 		});
 	}
 
