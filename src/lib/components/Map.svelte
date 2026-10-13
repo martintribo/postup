@@ -1207,7 +1207,7 @@
 	.card-wrap {
 		flex: 1;
 		min-width: 0;
-		overflow: hidden;
+		overflow: visible;
 		border-radius: 8px;
 	}
 

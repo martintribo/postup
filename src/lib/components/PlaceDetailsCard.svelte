@@ -3,11 +3,12 @@
 </script>
 
 <!-- Compact Place Details (UI Kit). Allowed beside a non-Google map (Maps SST 15.1).
-     Weekly Places UI Kit accepts orientation HORIZONTAL|VERTICAL only; Svelte sets the JS property, so lowercase fails. -->
-<gmp-place-details-compact orientation="HORIZONTAL" truncation-preferred>
+     Weekly channel: orientation VERTICAL|HORIZONTAL as the JS property (lowercase is rejected).
+     VERTICAL in the 340px sidebar so gmp-place-media is not dropped; attribution stays in content-config. -->
+<gmp-place-details-compact orientation="VERTICAL">
 	<gmp-place-details-place-request place={placeId}></gmp-place-details-place-request>
 	<gmp-place-content-config>
-		<gmp-place-media lightbox-preferred></gmp-place-media>
+		<gmp-place-media lightbox-preferred preferred-size="MEDIUM"></gmp-place-media>
 		<gmp-place-rating></gmp-place-rating>
 		<gmp-place-type></gmp-place-type>
 		<gmp-place-price></gmp-place-price>

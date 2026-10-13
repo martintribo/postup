@@ -17,7 +17,7 @@ declare global {
 declare module 'svelte/elements' {
 	export interface SvelteHTMLElements {
 		'gmp-place-details-compact': import('svelte/elements').HTMLAttributes<HTMLElement> & {
-			orientation?: 'horizontal' | 'vertical';
+			orientation?: 'horizontal' | 'vertical' | 'HORIZONTAL' | 'VERTICAL';
 			'truncation-preferred'?: boolean;
 		};
 		'gmp-place-details-place-request': import('svelte/elements').HTMLAttributes<HTMLElement> & {
@@ -26,6 +26,7 @@ declare module 'svelte/elements' {
 		'gmp-place-content-config': import('svelte/elements').HTMLAttributes<HTMLElement>;
 		'gmp-place-media': import('svelte/elements').HTMLAttributes<HTMLElement> & {
 			'lightbox-preferred'?: boolean;
+			'preferred-size'?: 'SMALL' | 'MEDIUM' | 'LARGE';
 		};
 		'gmp-place-rating': import('svelte/elements').HTMLAttributes<HTMLElement>;
 		'gmp-place-type': import('svelte/elements').HTMLAttributes<HTMLElement>;
