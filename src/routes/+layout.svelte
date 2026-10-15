@@ -21,14 +21,17 @@
 	// ?theme=bold previews another style; the dev switcher saves one per browser.
 	let bump = $state(0);
 	const theme = $derived.by(() => {
-		const q = page.url.searchParams.get('theme');
-		if (isTheme(q)) return q;
-		const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('pu.theme') : null;
-		return isTheme(saved) ? saved : config.theme;
+		bump;
+		return resolveTheme(page.url.searchParams.get('theme'));
 	});
 	$effect(() => {
 		document.documentElement.dataset.theme = theme;
 	});
+	// Display fonts load only for the active style.
+	const FONTS: Record<string, string> = {
+		cozy: 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,700;1,500&display=swap',
+		bold: 'https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&display=swap'
+	};
 	const showSwitcher = dev || config.styleSwitcher;
 	const title = $derived(page.data?.title ? `${page.data.title} · ${SITE}` : `${SITE} · Work from a cafe, together`);
 
@@ -59,15 +62,13 @@
 	<meta name="theme-color" content="#0f9d63" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,500;0,700;1,500&family=Space+Grotesk:wght@400;500;700&family=Archivo+Black&display=swap" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+	{#if FONTS[theme]}<link rel="stylesheet" href={FONTS[theme]} />{/if}
 	<link rel="icon" href={favicon} />
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </svelte:head>
 
 <OfflineBanner />
-{#if theme === 'bold'}
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;600;700&display=swap" />
-{/if}
 {@render children()}
 
 {#if showSwitcher}

@@ -1,15 +1,13 @@
 <script lang="ts">
-	/** M12 style pick: compare Fresh and Bold on real components. Choice is saved per browser for review; the default comes from PUBLIC_THEME. */
-	import { THEMES } from '$lib/config';
+	/** M12 style pick: compare Fresh, Cozy, Night and Bold on real components. Choice is saved per browser for review; the default comes from PUBLIC_THEME. */
+	import { THEMES, type Theme } from '$lib/config';
+	import { saveTheme } from '$lib/theme';
 	import NearbyFeed from '$lib/components/NearbyFeed.svelte';
 	const sample = [
 		{ kind: 'postup' as const, id: 1, at: new Date(Date.now() - 20 * 60000).toISOString(), who: 'Maya', avatarUrl: null, activity: 'Star Fox 64 mod', cafe: 'Bean Theory', placeId: null, projectName: 'Star Fox 64 mod', projectId: null, live: true },
 		{ kind: 'update' as const, id: 2, at: new Date(Date.now() - 26 * 3600000).toISOString(), projectId: 0, projectName: 'Tiny synth', title: 'First sound!', body: 'Got the oscillator working on the breadboard.' }
 	];
-	function pick(t: string) {
-		localStorage.setItem('pu.theme', t);
-		document.documentElement.dataset.theme = t;
-	}
+	const pick = (t: Theme) => saveTheme(t);
 </script>
 
 <div style="padding: 12px; display: flex; gap: 8px; position: relative; z-index: 600; background: var(--pu-surface)">
