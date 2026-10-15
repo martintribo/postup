@@ -67,70 +67,70 @@
 	}
 </script>
 
-<div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<div class="min-h-screen bg-surface text-ink">
 	<!-- Header -->
-	<header class="border-b border-gray-200 dark:border-gray-700 px-4 py-3" style="display: flex; align-items: center; gap: 1rem;">
-		<a href="/places" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
+	<header class="border-b border-line px-4 py-3" style="display: flex; align-items: center; gap: 1rem;">
+		<a href="/places" class="text-muted hover:text-ink transition-colors">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
 			</svg>
 		</a>
 		<h1 class="text-xl font-semibold truncate">{p.name}</h1>
 		{#if p.category}
-			<span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 flex-shrink-0">{p.category}</span>
+			<span class="px-2 py-0.5 text-xs rounded-full bg-surface-2 text-muted flex-shrink-0">{p.category}</span>
 		{/if}
 	</header>
 
 	<div class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 		<!-- Place info + stats -->
 		<section>
-			<p class="text-gray-500 dark:text-gray-400">{p.address}</p>
+			<p class="text-muted">{p.address}</p>
 
 			<div class="mt-4 grid gap-4" style="grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));">
 				<!-- Overall rating -->
-				<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center">
+				<div class="p-4 rounded-lg bg-bg border border-line text-center">
 					{#if stats.reviewCount > 0}
-						<div class="text-3xl font-bold text-gray-900 dark:text-gray-100">{stats.avgRating.toFixed(1)}</div>
-						<div class="text-amber-500 text-lg">{renderStars(stats.avgRating)}</div>
-						<div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{stats.reviewCount} {stats.reviewCount === 1 ? 'review' : 'reviews'}</div>
+						<div class="text-3xl font-bold text-ink">{stats.avgRating.toFixed(1)}</div>
+						<div class="text-ink text-lg">{renderStars(stats.avgRating)}</div>
+						<div class="text-xs text-muted mt-1">{stats.reviewCount} {stats.reviewCount === 1 ? 'review' : 'reviews'}</div>
 					{:else}
-						<div class="text-lg text-gray-400 dark:text-gray-500">No ratings</div>
-						<div class="text-xs text-gray-400 dark:text-gray-500 mt-1">Be the first to review</div>
+						<div class="text-lg text-subtle">No ratings</div>
+						<div class="text-xs text-subtle mt-1">Be the first to review</div>
 					{/if}
 				</div>
 
 				<!-- WiFi -->
-				<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center">
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">WiFi</div>
+				<div class="p-4 rounded-lg bg-bg border border-line text-center">
+					<div class="text-sm font-medium text-ink mb-1">WiFi</div>
 					{#if stats.wifiCount > 0}
-						<div class="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.avgWifi.toFixed(1)}<span class="text-sm text-gray-400">/5</span></div>
-						<div class="text-xs text-gray-500 dark:text-gray-400 mt-1">{stats.wifiCount} {stats.wifiCount === 1 ? 'rating' : 'ratings'}</div>
+						<div class="text-2xl font-bold text-ink">{stats.avgWifi.toFixed(1)}<span class="text-sm text-subtle">/5</span></div>
+						<div class="text-xs text-muted mt-1">{stats.wifiCount} {stats.wifiCount === 1 ? 'rating' : 'ratings'}</div>
 					{:else}
-						<div class="text-gray-400 dark:text-gray-500">Unknown</div>
+						<div class="text-subtle">Unknown</div>
 					{/if}
 				</div>
 
 				<!-- Noise -->
-				<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center">
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Noise</div>
+				<div class="p-4 rounded-lg bg-bg border border-line text-center">
+					<div class="text-sm font-medium text-ink mb-1">Noise</div>
 					{#if dominantNoise}
-						<div class="text-2xl font-bold capitalize text-gray-900 dark:text-gray-100">{dominantNoise}</div>
-						<div class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+						<div class="text-2xl font-bold capitalize text-ink">{dominantNoise}</div>
+						<div class="text-xs text-muted mt-1">
 							{stats.noiseCounts.quiet}q / {stats.noiseCounts.moderate}m / {stats.noiseCounts.noisy}n
 						</div>
 					{:else}
-						<div class="text-gray-400 dark:text-gray-500">Unknown</div>
+						<div class="text-subtle">Unknown</div>
 					{/if}
 				</div>
 
 				<!-- Outlets -->
-				<div class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center">
-					<div class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Outlets</div>
+				<div class="p-4 rounded-lg bg-bg border border-line text-center">
+					<div class="text-sm font-medium text-ink mb-1">Outlets</div>
 					{#if stats.outletTotal > 0}
-						<div class="text-2xl font-bold text-gray-900 dark:text-gray-100">{Math.round((stats.outletYes / stats.outletTotal) * 100)}%</div>
-						<div class="text-xs text-gray-500 dark:text-gray-400 mt-1">say yes ({stats.outletYes}/{stats.outletTotal})</div>
+						<div class="text-2xl font-bold text-ink">{Math.round((stats.outletYes / stats.outletTotal) * 100)}%</div>
+						<div class="text-xs text-muted mt-1">say yes ({stats.outletYes}/{stats.outletTotal})</div>
 					{:else}
-						<div class="text-gray-400 dark:text-gray-500">Unknown</div>
+						<div class="text-subtle">Unknown</div>
 					{/if}
 				</div>
 			</div>
@@ -145,10 +145,10 @@
 						<input type="hidden" name="tagId" value={tag.id} />
 						<button
 							type="submit"
-							class="px-3 py-1 text-sm rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
+							class="px-3 py-1 text-sm rounded-full border border-line text-ink hover:border-brand hover:bg-brand-soft transition-colors"
 							title="Vote for this tag"
 						>
-							{tag.tag} <span class="text-xs text-gray-400 dark:text-gray-500 ml-1">{tag.votes}</span>
+							{tag.tag} <span class="text-xs text-subtle ml-1">{tag.votes}</span>
 						</button>
 					</form>
 				{/each}
@@ -159,13 +159,13 @@
 						name="tag"
 						bind:value={newTag}
 						placeholder="Add tag..."
-						class="px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-full bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-blue-500"
+						class="px-2 py-1 text-sm border border-line rounded-full bg-surface text-ink focus:ring-1 focus:ring-brand"
 						style="width: 7rem;"
 					/>
 					<button
 						type="submit"
 						disabled={!newTag.trim()}
-						class="px-2 py-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 disabled:text-gray-400 disabled:cursor-not-allowed"
+						class="px-2 py-1 text-sm text-brand hover:text-brand disabled:text-subtle disabled:cursor-not-allowed"
 					>+</button>
 				</form>
 			</div>
@@ -176,16 +176,16 @@
 			<h2 class="text-lg font-semibold mb-3">
 				Posting up now
 				{#if data.activePosts.length > 0}
-					<span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-1">({data.activePosts.length})</span>
+					<span class="text-sm font-normal text-muted ml-1">({data.activePosts.length})</span>
 				{/if}
 			</h2>
 			{#if data.activePosts.length > 0}
 				<div class="space-y-2">
 					{#each data.activePosts as postItem (postItem.id)}
-						<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
-							<p class="font-medium text-gray-900 dark:text-gray-100">{postItem.name}</p>
-							<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5">{postItem.activity}</p>
-							<p class="text-xs text-gray-500 dark:text-gray-500 mt-1">
+						<div class="p-3 border border-line rounded-md bg-bg">
+							<p class="font-medium text-ink">{postItem.name}</p>
+							<p class="text-sm text-muted mt-0.5">{postItem.activity}</p>
+							<p class="text-xs text-muted mt-1">
 								{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'} &middot;
 								started {timeAgo(postItem.startTime)}
 							</p>
@@ -193,7 +193,7 @@
 					{/each}
 				</div>
 			{:else}
-				<p class="text-sm text-gray-500 dark:text-gray-400 italic">No one is posting up here right now.</p>
+				<p class="text-sm text-muted italic">No one is posting up here right now.</p>
 			{/if}
 		</section>
 
@@ -204,7 +204,7 @@
 				<button
 					type="button"
 					onclick={() => showReviewForm = !showReviewForm}
-					class="px-3 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+					class="px-3 py-1.5 text-sm font-medium bg-brand text-on-brand rounded-md hover:bg-brand-hover transition-colors"
 				>
 					{showReviewForm ? 'Cancel' : 'Write a review'}
 				</button>
@@ -212,52 +212,52 @@
 
 			<!-- Review form -->
 			{#if showReviewForm}
-				<div class="p-4 mb-4 border border-blue-200 dark:border-blue-800 rounded-lg bg-blue-50/50 dark:bg-blue-900/20">
+				<div class="p-4 mb-4 border border-brand rounded-lg bg-brand-soft/50">
 					<form method="POST" action="?/createReview" use:formEnhance class="space-y-4">
 						<!-- Star rating -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Rating *</label>
+							<label class="block text-sm font-medium text-ink mb-1">Rating *</label>
 							<div style="display: flex; gap: 0.25rem;">
 								{#each [1, 2, 3, 4, 5] as star}
 									<button
 										type="button"
 										onclick={() => selectedRating = star}
-										class="text-2xl transition-colors {selectedRating >= star ? 'text-amber-500' : 'text-gray-300 dark:text-gray-600 hover:text-amber-300'}"
+										class="text-2xl transition-colors {selectedRating >= star ? 'text-ink' : 'text-subtle hover:text-ink'}"
 									>&#9733;</button>
 								{/each}
 							</div>
 							<input type="hidden" name="rating" value={$form.rating} />
 							{#if $errors.rating}
-								<p class="text-sm text-red-600 dark:text-red-400 mt-1">{$errors.rating}</p>
+								<p class="text-sm text-danger mt-1">{$errors.rating}</p>
 							{/if}
 						</div>
 
 						<!-- Review text -->
 						<div>
-							<label for="review-text" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Review</label>
+							<label for="review-text" class="block text-sm font-medium text-ink mb-1">Review</label>
 							<textarea
 								id="review-text"
 								name="text"
 								bind:value={$form.text}
 								rows="3"
 								placeholder="What was your experience like?"
-								class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-blue-500"
+								class="w-full px-3 py-2 border border-line rounded-md bg-surface text-ink focus:ring-2 focus:ring-brand"
 							></textarea>
 						</div>
 
 						<!-- WiFi rating -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">WiFi quality</label>
+							<label class="block text-sm font-medium text-ink mb-1">WiFi quality</label>
 							<div style="display: flex; gap: 0.25rem;">
 								{#each [1, 2, 3, 4, 5] as star}
 									<button
 										type="button"
 										onclick={() => selectedWifi = star}
-										class="text-xl transition-colors {selectedWifi >= star ? 'text-blue-500' : 'text-gray-300 dark:text-gray-600 hover:text-blue-300'}"
+										class="text-xl transition-colors {selectedWifi >= star ? 'text-brand' : 'text-subtle hover:text-brand'}"
 									>&#9733;</button>
 								{/each}
 								{#if selectedWifi > 0}
-									<button type="button" onclick={() => { selectedWifi = 0; $form.wifiRating = undefined; }} class="text-xs text-gray-400 ml-2 hover:text-gray-600">clear</button>
+									<button type="button" onclick={() => { selectedWifi = 0; $form.wifiRating = undefined; }} class="text-xs text-subtle ml-2 hover:text-muted">clear</button>
 								{/if}
 							</div>
 							<input type="hidden" name="wifiRating" value={$form.wifiRating ?? ''} />
@@ -265,13 +265,13 @@
 
 						<!-- Noise level -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Noise level</label>
+							<label class="block text-sm font-medium text-ink mb-1">Noise level</label>
 							<div style="display: flex; gap: 0.5rem;">
 								{#each ['quiet', 'moderate', 'noisy'] as level}
 									<button
 										type="button"
 										onclick={() => $form.noiseLevel = $form.noiseLevel === level ? undefined : level as 'quiet' | 'moderate' | 'noisy'}
-										class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.noiseLevel === level ? 'bg-blue-100 dark:bg-blue-900/50 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'}"
+										class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.noiseLevel === level ? 'bg-brand-soft border-brand text-brand ' : 'border-line text-muted hover:border-line'}"
 									>
 										{level}
 									</button>
@@ -282,17 +282,17 @@
 
 						<!-- Outlets -->
 						<div>
-							<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Power outlets?</label>
+							<label class="block text-sm font-medium text-ink mb-1">Power outlets?</label>
 							<div style="display: flex; gap: 0.5rem;">
 								<button
 									type="button"
 									onclick={() => $form.hasOutlets = $form.hasOutlets === true ? undefined : true}
-									class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.hasOutlets === true ? 'bg-green-100 dark:bg-green-900/50 border-green-300 dark:border-green-700 text-green-700 dark:text-green-300' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'}"
+									class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.hasOutlets === true ? 'bg-brand-soft border-live text-live ' : 'border-line text-muted hover:border-line'}"
 								>Yes</button>
 								<button
 									type="button"
 									onclick={() => $form.hasOutlets = $form.hasOutlets === false ? undefined : false}
-									class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.hasOutlets === false ? 'bg-red-100 dark:bg-red-900/50 border-red-300 dark:border-red-700 text-red-700 dark:text-red-300' : 'border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'}"
+									class="px-3 py-1.5 text-sm rounded-md border transition-colors {$form.hasOutlets === false ? 'bg-danger-soft border-danger text-danger ' : 'border-line text-muted hover:border-line'}"
 								>No</button>
 							</div>
 							<input type="hidden" name="hasOutlets" value={$form.hasOutlets ?? ''} />
@@ -301,7 +301,7 @@
 						<button
 							type="submit"
 							disabled={selectedRating === 0}
-							class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+							class="px-4 py-2 bg-brand text-on-brand rounded-md hover:bg-brand-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
 							Submit review
 						</button>
@@ -313,16 +313,16 @@
 			{#if data.reviews.length > 0}
 				<div class="space-y-3">
 					{#each data.reviews as review (review.id)}
-						<div class="p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800">
+						<div class="p-4 border border-line rounded-lg bg-surface">
 							<div style="display: flex; align-items: center; justify-content: space-between;">
 								<div>
-									<span class="text-amber-500">{renderStars(review.rating)}</span>
-									<span class="text-xs text-gray-500 dark:text-gray-400 ml-2">{timeAgo(review.createdAt)}</span>
+									<span class="text-ink">{renderStars(review.rating)}</span>
+									<span class="text-xs text-muted ml-2">{timeAgo(review.createdAt)}</span>
 								</div>
 								{#if review.sessionId === data.anonymousSessionId}
 									<form method="POST" action="?/deleteReview" use:enhance>
 										<input type="hidden" name="reviewId" value={review.id} />
-										<button type="submit" class="text-xs text-gray-400 hover:text-red-600 transition-colors" title="Delete review">
+										<button type="submit" class="text-xs text-subtle hover:text-danger transition-colors" title="Delete review">
 											<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 												<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 											</svg>
@@ -331,9 +331,9 @@
 								{/if}
 							</div>
 							{#if review.text}
-								<p class="text-gray-700 dark:text-gray-300 mt-2">{review.text}</p>
+								<p class="text-ink mt-2">{review.text}</p>
 							{/if}
-							<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem;" class="text-xs text-gray-500 dark:text-gray-400">
+							<div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem;" class="text-xs text-muted">
 								{#if review.wifiRating != null}
 									<span>WiFi: {review.wifiRating}/5</span>
 								{/if}
@@ -348,7 +348,7 @@
 					{/each}
 				</div>
 			{:else if !showReviewForm}
-				<p class="text-sm text-gray-500 dark:text-gray-400 italic">No reviews yet. Be the first to share your experience!</p>
+				<p class="text-sm text-muted italic">No reviews yet. Be the first to share your experience!</p>
 			{/if}
 		</section>
 	</div>
