@@ -29,6 +29,18 @@
 		confirmEnd = false;
 		await invalidateAll();
 	}
+	let reason = $state('');
+	async function call(url: string, method: string, body?: object) {
+		err = '';
+		const r = await fetch(url, { method, headers: { 'content-type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+		if (!r.ok) err = (await r.json().catch(() => ({}))).error || 'Something went wrong';
+		await invalidateAll();
+	}
+	const join = () => call(`/api/postups/${p.id}/join`, 'POST', { reason });
+	const leaveIt = () => call(`/api/postups/${p.id}/join`, 'DELETE');
+	const decideReq = (rid: number, action: string) => call(`/api/postups/${p.id}/requests/${rid}`, 'PATCH', { action });
+	const signinHref = $derived(`/login?next=${encodeURIComponent(`/postups/${p.id}`)}`);
+
 	function startEdit() {
 		activity = p.activity;
 		note = p.note ?? '';
@@ -48,7 +60,50 @@
 		<p class="pu-time" data-testid="time-left">Here till {until} · {leftText}</p>
 		<p class="pu-muted">{p.joinMode === 'ask' ? 'Ask to join' : 'Anyone can join'}{p.capacity ? ` · up to ${p.capacity}` : ''}</p>
 
+		{#if data.joinEnabled && !data.isOwner}
+			<div class="pu-card" data-testid="join-box">
+				{#if data.myRequest?.status === 'approved'}
+					<b data-testid="joined">You're in. See you at {cafe}!</b>
+					<button class="pu-btn" onclick={leaveIt}>Can't make it</button>
+				{:else if data.myRequest?.status === 'pending'}
+					<b data-testid="requested">Request sent</b>
+					<p class="pu-muted">{who} will see your note and let you know.</p>
+					<button class="pu-btn" onclick={leaveIt}>Withdraw request</button>
+				{:else if data.myRequest?.status === 'declined'}
+					<p class="pu-muted">Your request wasn't accepted this time.</p>
+				{:else if data.full}
+					<b data-testid="full">This postup is full</b>
+				{:else if !data.signedIn}
+					<a class="pu-btn pu-primary" href={signinHref}>{p.joinMode === 'ask' ? 'Sign in to ask to join' : 'Sign in to join'}</a>
+				{:else if p.joinMode === 'ask'}
+					<label>Why do you want to join? <textarea bind:value={reason} maxlength="280" name="reason" placeholder="Working on something similar, happy to share a table…"></textarea></label>
+					<button class="pu-btn pu-primary" onclick={join}>Ask to join</button>
+					{#if data.hideCafe}<p class="pu-muted">You'll see which cafe once {who} says yes.</p>{/if}
+				{:else}
+					<button class="pu-btn pu-primary" onclick={join}>Join</button>
+				{/if}
+			</div>
+		{/if}
+
 		{#if data.isOwner}
+			{#if data.requests.length}
+				<div class="pu-card" data-testid="requests">
+					<b>{data.joinedCount} joining{p.capacity ? ` of ${p.capacity}` : ''}</b>
+					{#each data.requests as r (r.id)}
+						<div class="pu-req">
+							<div><b>{r.name}</b> {r.status === 'pending' ? 'asked to join' : 'is joining'}{#if r.reason}<div class="pu-muted">“{r.reason}”</div>{/if}</div>
+							<div class="pu-row">
+								{#if r.status === 'pending'}
+									<button class="pu-btn pu-primary" onclick={() => decideReq(r.id, 'approve')}>Accept</button>
+									<button class="pu-btn" onclick={() => decideReq(r.id, 'decline')}>Decline</button>
+								{:else}
+									<button class="pu-btn" onclick={() => decideReq(r.id, 'remove')}>Remove</button>
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</div>
+			{/if}
 			{#if editing}
 				<form class="pu-card" onsubmit={(e) => { e.preventDefault(); act({ action: 'edit', activity, note, joinMode }); }}>
 					<label>Working on <input bind:value={activity} maxlength="140" name="activity" /></label>
@@ -99,6 +154,8 @@
 	.pu-btn { display: inline-block; text-align: center; padding: 10px 14px; border-radius: calc(var(--pu-radius) - 4px); border: var(--pu-border-width) solid var(--pu-border); background: var(--pu-surface); color: var(--pu-text); font-weight: 600; cursor: pointer; text-decoration: none; }
 	.pu-primary { background: var(--pu-accent); color: var(--pu-accent-text); }
 	.pu-danger { background: #c62828; color: #fff; border-color: #c62828; }
+	.pu-req { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-top: 1px solid var(--pu-border); padding-top: 8px; }
+	textarea { width: 100%; min-height: 70px; }
 	.pu-err { color: #c62828; }
 	a { color: inherit; }
 </style>

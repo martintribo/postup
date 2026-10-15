@@ -1,3 +1,4 @@
+import { config } from '$lib/config';
 import { sql, and, eq, desc, gt, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { post, place, project, projectStatus, user } from '$lib/server/db/schema';
@@ -27,6 +28,8 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promi
 			projectId: post.projectId,
 			projectName: project.name,
 			projectHidden: project.hidden,
+			joinMode: post.joinMode,
+			neighborhood: post.neighborhood,
 			live: sql<boolean>`${post.status} = 'live' AND coalesce(${post.endsAt}, ${post.startTime} + (${post.hours} || ' hours')::interval) > now()`
 		})
 		.from(post)
@@ -53,6 +56,8 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promi
 		.orderBy(desc(projectStatus.occurredAt))
 		.limit(limit);
 
+	// D2: ask-to-join postups don't reveal the cafe before approval.
+	const hide = (p: { joinMode: string }) => config.askHidesCafe && p.joinMode === 'ask';
 	const items: FeedItem[] = [
 		...posts.map((p) => ({
 			kind: 'postup' as const,
@@ -61,8 +66,8 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promi
 			who: p.displayName || p.name,
 			avatarUrl: p.avatarUrl,
 			activity: p.activity,
-			cafe: p.placeName || p.location,
-			placeId: p.placeId,
+			cafe: hide(p) ? `a cafe in ${p.neighborhood || 'the area'}` : p.placeName || p.location,
+			placeId: hide(p) ? null : p.placeId,
 			projectName: p.projectHidden ? null : p.projectName,
 			projectId: p.projectHidden ? null : p.projectId,
 			live: !!p.live

@@ -172,3 +172,36 @@ export type ProjectChange = typeof projectChange.$inferSelect;
 export type Place = typeof place.$inferSelect;
 export type PlaceReview = typeof placeReview.$inferSelect;
 export type PlaceTag = typeof placeTag.$inferSelect;
+
+/** M6: joining a postup. Open mode inserts 'approved' directly; ask mode starts 'pending'. */
+export const joinStatus = pgEnum('join_status', ['pending', 'approved', 'declined', 'left', 'removed']);
+export const joinRequest = pgTable(
+	'join_request',
+	{
+		id: serial('id').primaryKey(),
+		postId: integer('post_id').notNull().references(() => post.id),
+		userId: text('user_id').notNull().references(() => user.id),
+		reason: text('reason'),
+		status: joinStatus('status').notNull().default('pending'),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+		decidedAt: timestamp('decided_at', { withTimezone: true, mode: 'date' })
+	},
+	(t) => [index('join_request_post_user_idx').on(t.postId, t.userId)]
+);
+export type JoinRequest = typeof joinRequest.$inferSelect;
+
+/** M6: in-app activity (and the source for email/push later). */
+export const notification = pgTable(
+	'notification',
+	{
+		id: serial('id').primaryKey(),
+		userId: text('user_id').notNull().references(() => user.id),
+		type: text('type').notNull(), // join_request | joined | approved | declined | removed | left
+		postId: integer('post_id').references(() => post.id),
+		actorId: text('actor_id').references(() => user.id),
+		body: text('body').notNull(),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+		readAt: timestamp('read_at', { withTimezone: true, mode: 'date' })
+	},
+	(t) => [index('notification_user_idx').on(t.userId, t.createdAt)]
+);

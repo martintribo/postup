@@ -10,6 +10,9 @@ import { and, desc, eq, sql } from 'drizzle-orm';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
 import { getNearbyFeed } from '$lib/server/feed';
 import { flag } from '$lib/flags';
+import { config } from '$lib/config';
+import { notification } from '$lib/server/db/schema';
+import { isNull } from 'drizzle-orm';
 import { liveCondition, computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
 
 const postSchema = z.object({
@@ -63,7 +66,12 @@ export const load: PageServerLoad = async (event) => {
 		? await db.select({ id: post.id, activity: post.activity }).from(post).where(and(eq(post.userId, event.locals.user.id), liveCondition)).orderBy(desc(post.startTime)).limit(1)
 		: [];
 
+	const [unread] = event.locals.user
+		? await db.select({ n: sql<number>`count(*)::int` }).from(notification).where(and(eq(notification.userId, event.locals.user.id), isNull(notification.readAt)))
+		: [];
+
 	return {
+		unread: unread?.n ?? 0,
 		myLive: myLive ?? null,
 		feed,
 		location: userLocation,
@@ -172,6 +180,7 @@ export const actions: Actions = {
 			const startTime = new Date();
 			const result = await db.insert(post).values({
 				userId: event.locals.user!.id,
+				joinMode: config.defaultJoinMode,
 				placeId,
 				projectId: form.data.projectId ?? null,
 				startTime,

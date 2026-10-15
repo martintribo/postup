@@ -283,6 +283,7 @@
 			{#if data.user}
 				<form method="POST" action="?/logout" use:enhanceForm style="display: flex; align-items: center; gap: 0.75rem;">
 					<span class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{data.user.username}</span>
+					<a href="/activity" class="text-sm" data-testid="activity-link">Activity{#if data.unread}<span class="pu-unread" data-testid="unread">{data.unread}</span>{/if}</a>
 					<button
 						type="submit"
 						class="text-sm text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
@@ -1079,5 +1080,6 @@
 <style>
 	/* Feed-first: hide the map, panels and map bars (they stay mounted for a quick switch). */
 	.pu-live-bar { display: flex; justify-content: space-between; gap: 8px; padding: 8px 16px; background: var(--pu-live); color: #fff; font-weight: 600; text-decoration: none; }
+	.pu-unread { margin-left: 4px; padding: 0 6px; border-radius: 999px; background: #e53935; color: #fff; font-size: 11px; }
 	.pu-feed-mode > :global(:not(.pu-feed)) { display: none !important; }
 </style>

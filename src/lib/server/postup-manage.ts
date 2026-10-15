@@ -16,6 +16,8 @@ export async function getPostup(id: number) {
 			goals: post.goals,
 			note: post.note,
 			location: post.location,
+			neighborhood: post.neighborhood,
+			locality: post.locality,
 			placeId: post.placeId,
 			placeName: place.name,
 			latitude: post.latitude,
