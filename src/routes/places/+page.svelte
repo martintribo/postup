@@ -118,8 +118,8 @@
 							<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
 						</svg>
 					</div>
-					<h3 class="text-lg font-medium text-ink mb-1">No places yet</h3>
-					<p class="text-sm text-muted">Be the first to add a place — post up somewhere and create a place profile!</p>
+					<h3 class="text-lg font-medium text-ink mb-1">Find your spot</h3>
+					<p class="text-sm text-muted">Search for a cafe, or post up somewhere and add it here.</p>
 				</div>
 			{:else}
 				<div class="grid gap-4" style="grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));">
