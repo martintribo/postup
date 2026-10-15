@@ -23,7 +23,8 @@
 		"db:studio": "drizzle-kit studio",
 		"storybook": "storybook dev -p 6008 --host 0.0.0.0",
 		"build-storybook": "storybook build",
-		"hub:services": "bash scripts/hub-services.sh"
+		"hub:services": "bash scripts/hub-services.sh",
+		"import:dev": "node scripts/import-dev-data.mjs"
 	},
 	"devDependencies": {
 		"@capacitor/android": "^7.6.9",
