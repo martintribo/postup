@@ -193,7 +193,7 @@
 
 	function isDarkMode(): boolean {
 		if (typeof window === 'undefined') return false;
-		return window.matchMedia('(prefers-color-scheme: dark)').matches;
+		return document.documentElement.dataset.theme === 'night';
 	}
 
 	function getTileLayerUrl(isDark: boolean): string {
@@ -301,12 +301,12 @@
 			marker.bindPopup(`
 				<div style="min-width: 200px;">
 					<div style="font-weight: 600; margin-bottom: 4px;">${postItem.name}</div>
-					<div style="font-size: 0.875rem; color: #555; margin-bottom: 4px;">${postItem.activity}</div>
-					<div style="font-size: 0.875rem; color: #666; margin-bottom: 4px;">${postItem.location}</div>
-					<div style="font-size: 0.75rem; color: #888;">
+					<div style="font-size: 0.875rem; color: var(--pu-muted); margin-bottom: 4px;">${postItem.activity}</div>
+					<div style="font-size: 0.875rem; color: var(--pu-muted); margin-bottom: 4px;">${postItem.location}</div>
+					<div style="font-size: 0.75rem; color: var(--pu-subtle);">
 						${formatDate(postItem.startTime)} – ${formatDate(endTime)}
 					</div>
-					<div style="font-size: 0.75rem; color: #888; margin-top: 4px;">
+					<div style="font-size: 0.75rem; color: var(--pu-subtle); margin-top: 4px;">
 						${postItem.hours} ${postItem.hours === 1 ? 'hour' : 'hours'}
 					</div>
 				</div>

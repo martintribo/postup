@@ -255,26 +255,26 @@
 	});
 
 	const projectTypeStyles: Record<string, { border: string; bg: string; text: string }> = {
-		software: { border: 'border-l-blue-500 dark:border-l-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/50', text: 'text-blue-600 dark:text-blue-400' },
-		art: { border: 'border-l-purple-500 dark:border-l-purple-400', bg: 'bg-purple-100 dark:bg-purple-900/50', text: 'text-purple-600 dark:text-purple-400' },
-		writing: { border: 'border-l-amber-500 dark:border-l-amber-400', bg: 'bg-amber-100 dark:bg-amber-900/50', text: 'text-amber-600 dark:text-amber-400' },
-		business: { border: 'border-l-emerald-500 dark:border-l-emerald-400', bg: 'bg-emerald-100 dark:bg-emerald-900/50', text: 'text-emerald-600 dark:text-emerald-400' },
-		activities: { border: 'border-l-rose-500 dark:border-l-rose-400', bg: 'bg-rose-100 dark:bg-rose-900/50', text: 'text-rose-600 dark:text-rose-400' },
+		software: { border: 'border-l-brand ', bg: 'bg-brand-soft ', text: 'text-brand ' },
+		art: { border: 'border-l-line ', bg: 'bg-brand-soft ', text: 'text-ink ' },
+		writing: { border: 'border-l-line ', bg: 'bg-brand-soft ', text: 'text-ink ' },
+		business: { border: 'border-l-live ', bg: 'bg-brand-soft ', text: 'text-live ' },
+		activities: { border: 'border-l-danger ', bg: 'bg-brand-soft ', text: 'text-ink ' },
 	};
 	const defaultTypeStyle = projectTypeStyles.software;
 </script>
 
-<div class="flex flex-col h-screen w-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+<div class="flex flex-col h-screen w-screen overflow-hidden bg-surface text-ink transition-colors">
 	<!-- Header Bar -->
-	<header class="flex-shrink-0 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" style="display: flex; align-items: center; justify-content: space-between;">
+	<header class="flex-shrink-0 px-4 py-3 border-b border-line bg-surface" style="display: flex; align-items: center; justify-content: space-between;">
 		<!-- Left: Auth -->
 		<div style="min-width: 10rem;">
 			{#if data.user}
 				<form method="POST" action="?/logout" use:enhanceForm style="display: flex; align-items: center; gap: 0.75rem;">
-					<span class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{data.user.username}</span>
+					<span class="text-sm font-medium text-ink truncate">{data.user.username}</span>
 					<button
 						type="submit"
-						class="text-sm text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+						class="text-sm text-muted hover:text-danger transition-colors"
 					>
 						Log out
 					</button>
@@ -282,7 +282,7 @@
 			{:else}
 				<a
 					href="/login"
-					class="px-3 py-1.5 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+					class="px-3 py-1.5 text-sm font-medium bg-brand text-on-brand rounded-md hover:bg-brand-hover transition-colors"
 					style="display: inline-block;"
 				>
 					Log in
@@ -291,14 +291,14 @@
 		</div>
 
 		<!-- Center: Brand -->
-		<h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100">postup.now</h1>
+		<h1 class="text-xl font-semibold text-ink">postup.now</h1>
 
 		<!-- Right: FAQ -->
 		<div style="width: 8rem; display: flex; justify-content: flex-end;">
 		<button
 			type="button"
 			onclick={openFaqModal}
-			class="p-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+			class="p-2 text-muted hover:text-ink transition-colors rounded-full hover:bg-surface-2"
 			aria-label="Open FAQ"
 		>
 			<svg
@@ -341,7 +341,7 @@
 				/>
 			{:else}
 				<div class="h-full flex items-center justify-center">
-					<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
+					<p class="text-muted">Loading map...</p>
 				</div>
 			{/if}
 
@@ -416,9 +416,9 @@
 			</div>
 
 			<!-- Floating slogan and button -->
-			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 w-[calc(100%-2rem)] max-w-[450px]">
+			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-surface rounded-lg shadow-lg border border-line w-[calc(100%-2rem)] max-w-[450px]">
 				<div class="flex-1 flex justify-center">
-					<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center min-w-0">Doing something and open to company?</p>
+					<p class="text-xs sm:text-sm text-muted text-center min-w-0">Doing something and open to company?</p>
 				</div>
 				{#if data.user}
 					<button
@@ -440,21 +440,21 @@
 		</div>
 
 		<!-- Sidebar - Bottom half on vertical, right bar on horizontal -->
-		<aside class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 overflow-y-auto">
+		<aside class="w-full lg:w-80 xl:w-96 h-1/2 lg:h-full border-t lg:border-t-0 lg:border-l border-line bg-surface overflow-y-auto">
 			<div class="p-4">
 				<!-- Posts List -->
 				{#if data.posts && data.posts.length > 0}
 					<div>
-						<h3 class="text-lg font-medium mb-3 text-gray-800 dark:text-gray-200">Who's posting up?</h3>
+						<h3 class="text-lg font-medium mb-3 text-ink">Who's posting up?</h3>
 						<div class="space-y-3">
 							{#each data.posts as postItem}
-								<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800">
+								<div class="p-3 border border-line rounded-md bg-bg">
 									<div class="flex items-start justify-between gap-2">
 										<div class="flex-1 min-w-0">
-											<p class="font-medium text-gray-900 dark:text-gray-100 truncate">
+											<p class="font-medium text-ink truncate">
 												{postItem.name}
 											</p>
-											<p class="text-sm text-gray-700 dark:text-gray-300 mt-0.5">
+											<p class="text-sm text-ink mt-0.5">
 												{postItem.activity}
 											</p>
 											{#if postItem.goals}
@@ -466,25 +466,25 @@
 												{postItem.location}
 											</p>
 											{#if postItem.neighborhood || postItem.locality || postItem.district}
-												<div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs text-gray-500 dark:text-gray-500">
+												<div class="flex flex-wrap items-center gap-1.5 mt-1.5 text-xs text-muted">
 													{#if postItem.neighborhood}
-														<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														<span class="px-2 py-0.5 bg-surface-2 rounded">
 															{postItem.neighborhood}
 														</span>
 													{/if}
 													{#if postItem.locality}
-														<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														<span class="px-2 py-0.5 bg-surface-2 rounded">
 															{postItem.locality}
 														</span>
 													{/if}
 													{#if postItem.district}
-														<span class="px-2 py-0.5 bg-gray-200 dark:bg-gray-700 rounded">
+														<span class="px-2 py-0.5 bg-surface-2 rounded">
 															{postItem.district}
 														</span>
 													{/if}
 												</div>
 											{/if}
-											<div class="flex items-center gap-2 mt-1 text-xs text-gray-500 dark:text-gray-500">
+											<div class="flex items-center gap-2 mt-1 text-xs text-muted">
 												<span>{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'}</span>
 												<span>•</span>
 												<span>
@@ -511,7 +511,7 @@
 												<input type="hidden" name="postId" value={postItem.id} />
 												<button
 													type="submit"
-													class="flex-shrink-0 p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+													class="flex-shrink-0 p-1.5 text-subtle hover:text-danger transition-colors rounded hover:bg-surface-2"
 													title="Delete post"
 												>
 													<svg
@@ -537,16 +537,16 @@
 						</div>
 					</div>
 				{:else}
-					<div class="text-center text-gray-500 dark:text-gray-400 py-8">
+					<div class="text-center text-muted py-8">
 						<p>No posts yet. Be the first to post up!</p>
 					</div>
 				{/if}
 
 				<!-- Projects List -->
-				<div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+				<div class="mt-6 pt-6 border-t border-line">
 					<div class="flex items-center justify-between mb-3">
-						<h3 class="text-lg font-medium text-gray-800 dark:text-gray-200">Projects</h3>
-						<a href="/projects" class="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline">View all</a>
+						<h3 class="text-lg font-medium text-ink">Projects</h3>
+						<a href="/projects" class="text-xs font-medium text-brand hover:underline">View all</a>
 					</div>
 					{#if data.projects && data.projects.length > 0}
 						<div class="space-y-3">
@@ -555,7 +555,7 @@
 								{@const lastPostUp = proj.lastPostUpAt ? new Date(proj.lastPostUpAt) : null}
 								{@const updated = proj.updatedAt.getTime() !== proj.createdAt.getTime() ? new Date(proj.updatedAt) : null}
 								{@const mostRecent = lastPostUp && updated ? (lastPostUp > updated ? 'postup' : 'updated') : lastPostUp ? 'postup' : updated ? 'updated' : 'created'}
-								<div class="p-3 border border-gray-200 dark:border-gray-700 rounded-md bg-gray-50 dark:bg-gray-800 border-l-4 {style.border}">
+								<div class="p-3 border border-line rounded-md bg-bg border-l-4 {style.border}">
 									<div class="flex items-start gap-2.5">
 										<div class="flex-shrink-0 mt-0.5 w-7 h-7 rounded-md {style.bg} flex items-center justify-center">
 											{#if proj.type === 'software'}
@@ -581,9 +581,9 @@
 											{/if}
 										</div>
 										<div class="flex-1 min-w-0">
-											<p class="font-medium text-gray-900 dark:text-gray-100 truncate">{proj.name}</p>
-											<p class="text-sm text-gray-600 dark:text-gray-400 mt-0.5 line-clamp-2">{proj.shortDescription}</p>
-											<p class="text-xs text-gray-400 dark:text-gray-500 mt-1.5">
+											<p class="font-medium text-ink truncate">{proj.name}</p>
+											<p class="text-sm text-muted mt-0.5 line-clamp-2">{proj.shortDescription}</p>
+											<p class="text-xs text-subtle mt-1.5">
 												{#if mostRecent === 'postup'}
 													Last post up {lastPostUp?.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
 												{:else if mostRecent === 'updated'}
@@ -599,12 +599,12 @@
 						</div>
 					{:else}
 						<div class="py-6 text-center">
-							<div class="w-10 h-10 mx-auto mb-2 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<div class="w-10 h-10 mx-auto mb-2 rounded-full bg-surface-2 flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-subtle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 									<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
 								</svg>
 							</div>
-							<p class="text-sm text-gray-500 dark:text-gray-400">No active projects yet.</p>
+							<p class="text-sm text-muted">No active projects yet.</p>
 						</div>
 					{/if}
 				</div>
@@ -615,7 +615,7 @@
 	<!-- Form Modal -->
 	{#if showFormModal}
 		<div
-			class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
+			class="fixed inset-0 bg-black  z-[9999] flex items-center justify-center p-4"
 			onclick={closeFormModal}
 			onkeydown={(e) => {
 				if (e.key === 'Escape') {
@@ -626,7 +626,7 @@
 			tabindex="0"
 		>
 			<div
-				class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto relative z-[10000]"
+				class="bg-surface rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto relative z-[10000]"
 				onclick={(e) => e.stopPropagation()}
 				onkeydown={(e) => e.stopPropagation()}
 				role="dialog"
@@ -654,7 +654,7 @@
 						<button
 							type="button"
 							onclick={closeFormModal}
-							class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+							class="text-subtle hover:text-muted transition-colors"
 							aria-label="Close modal"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -948,7 +948,7 @@
 	<!-- FAQ Modal -->
 	{#if showFaqModal}
 		<div
-			class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"
+			class="fixed inset-0 bg-black  z-[9999] flex items-center justify-center p-4"
 			onclick={closeFaqModal}
 			onkeydown={(e) => {
 				if (e.key === 'Escape') {
@@ -959,7 +959,7 @@
 			tabindex="0"
 		>
 			<div
-				class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-[10000]"
+				class="bg-surface rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative z-[10000]"
 				onclick={(e) => e.stopPropagation()}
 				onkeydown={(e) => e.stopPropagation()}
 				role="dialog"
@@ -969,11 +969,11 @@
 			>
 				<div class="p-6">
 					<div class="flex items-center justify-between mb-6">
-						<h2 id="faq-modal-title" class="text-2xl font-semibold text-gray-900 dark:text-gray-100">Frequently Asked Questions</h2>
+						<h2 id="faq-modal-title" class="text-2xl font-semibold text-ink">Frequently Asked Questions</h2>
 						<button
 							type="button"
 							onclick={closeFaqModal}
-							class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+							class="text-subtle hover:text-muted transition-colors"
 							aria-label="Close modal"
 						>
 							<svg
@@ -991,62 +991,62 @@
 
 					<div class="space-y-6">
 						<div>
-							<p class="text-gray-600 dark:text-gray-400">
+							<p class="text-muted">
 								Hello and welcome! Appologies in advance for the AI generated text, I'll come back soon to clean the FAQ up!
 							</p>
 						</div>
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">What is postup.now?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">What is postup.now?</h3>
+							<p class="text-muted">
 								postup.now is a platform designed to turn solo activities into social opportunities by letting you share what you're up to and invite like-minded people to join. Inspired by the idea of connecting creators and anyone pursuing personal projects during off-hours, it's open to all kinds of activities—whether you're coding at a cafe, sketching in a park, hitting the gym, or exploring a new hobby. Post your location and what you're doing, and others can request to join if it sparks their interest. If approved, you can share exact details to meet up and collaborate or just hang out.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Why was postup.now created?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">Why was postup.now created?</h3>
+							<p class="text-muted">
 								The site stems from a desire to build communities around shared drives and passions, like turning off-hours activities into enriching social experiences. Since there aren't many systems to easily support connections with others outside regular day job hours, postup.now offers a welcoming space to meet similar people—coders, writers, artists, or anyone pursuing side projects—while being flexible for casual meetups, fitness sessions, or group activities. It's about making solo time more vibrant through unexpected connections that could lead to friendships, collaborations, or just better motivation.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I post up?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">How do I post up?</h3>
+							<p class="text-muted">
 								Click the "Post Up" button, enter your name or handle, describe what you're doing (e.g., "Building a TypeScript app" or "Gym session focusing on strength training"), add your general location (with optional obfuscation for privacy), and specify how long you'll be there. Your post appears on the map as a public invite—others can see the basics and request to join for more details if you approve.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How does joining work?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">How does joining work?</h3>
+							<p class="text-muted">
 								If a post catches your eye, click "Request to Join" and add a quick note about why (e.g., "I'm also into app development and nearby!"). The poster gets notified and can approve or decline. If approved, you'll get the exact location or contact info to connect—perfect for turning a solo session into a spontaneous meetup with people who share your vibe.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How long do posts stay active?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">How long do posts stay active?</h3>
+							<p class="text-muted">
 								Posts remain active for the time you set (from 1 hour up to a full day or more, depending on your activity). They auto-expire afterward to keep things fresh, but you can extend, edit, or delete them anytime via the manage icon on your post.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is my information private?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">Is my information private?</h3>
+							<p class="text-muted">
 								You control what you share—posts show only what you input, like a general area and activity description publicly. Exact locations are revealed only to approved joiners. No personal data is stored beyond what's needed for the post, and you can delete everything at any time. We prioritize safety and consent in connections.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">How do I find others who are posting up?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">How do I find others who are posting up?</h3>
+							<p class="text-muted">
 								Browse the interactive map for icons (like coffee cups for work spots or activity markers for gyms/parks). Filter by interests or location to spot posts that match your energy—click for details on what they're doing, how long they're there, and to send a join request if it aligns with your plans.
 							</p>
 						</div>
 						
 						<div>
-							<h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Is it only for work or creative projects?</h3>
-							<p class="text-gray-600 dark:text-gray-400">
+							<h3 class="text-lg font-medium text-ink mb-2">Is it only for work or creative projects?</h3>
+							<p class="text-muted">
 								Not at all! While it's great for off-hours creators looking to meet similar minds, postup.now is versatile for any activity—gym buddies, park reads, group hikes, language exchanges, or casual hangs. Use it to make everyday outings more social and discover people with overlapping interests.
 							</p>
 						</div>

@@ -139,7 +139,7 @@
 	/>
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
+			class="absolute z-10 w-full mt-1 bg-surface border border-line rounded-md shadow-lg max-h-60 overflow-auto"
 		>
 			{#each suggestions as feature, index (feature.properties.mapbox_id || index.toString())}
 				<li>
