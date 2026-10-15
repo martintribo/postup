@@ -519,7 +519,7 @@
 								<div class="flex items-start justify-between gap-4">
 									<div class="flex-1 min-w-0">
 										<div class="flex items-center gap-2 mb-1">
-											<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate"><a href="/projects/{proj.id}" id="p{proj.id}">{proj.name}</a></h2>
+											<h2 class="text-lg font-medium text-ink truncate"><a href="/projects/{proj.id}" id="p{proj.id}">{proj.name}</a></h2>
 											<span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full {colors.badge}">{typeLabels[proj.type] ?? proj.type}</span>
 											{#if !proj.active}
 												<span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full bg-surface-2 text-muted">Inactive</span>
