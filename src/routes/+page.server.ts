@@ -1,3 +1,4 @@
+import { sanitizePosts } from '$lib/server/privacy';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -27,10 +28,10 @@ const postSchema = z.object({
 	googlePlaceId: z.string().optional()
 });
 
-async function getActivePosts(userLatitude: number, userLongitude: number) {
+async function getActivePosts(userLatitude: number, userLongitude: number, viewerId?: string | null) {
 	const distanceInMiles = 200;
 
-	return await db
+	const rows = await db
 		.select()
 		.from(post)
 		.where(
@@ -38,6 +39,7 @@ async function getActivePosts(userLatitude: number, userLongitude: number) {
 			sql`${liveCondition} AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
 		)
 		.orderBy(desc(post.createdAt));
+	return sanitizePosts(rows, viewerId);
 }
 
 export const load: PageServerLoad = async (event) => {
@@ -45,7 +47,7 @@ export const load: PageServerLoad = async (event) => {
 	const { location: userLocation, source: locationSource, suggestUpdate } = await getUserLocation(event);
 
 	const form = await superValidate(zod4(postSchema));
-	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
+	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude, event.locals.user?.id);
 	const projects = await db
 		.select()
 		.from(project)
@@ -117,7 +119,7 @@ export const actions: Actions = {
 
 			// Reload posts after deletion
 			const { location: userLocation } = await getUserLocation(event);
-			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude, event.locals.user?.id);
 			return { posts };
 		} catch (error) {
 			console.error('Error deleting post:', error);
@@ -162,7 +164,7 @@ export const actions: Actions = {
 		const { location: userLocation } = await getUserLocation(event);
 
 		if (!form.valid) {
-			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude, event.locals.user?.id);
 			return fail(400, { form, posts });
 		}
 
@@ -200,11 +202,11 @@ export const actions: Actions = {
 
 			// Reload posts after creating a new one
 			const createdId = result[0]?.id ?? null;
-			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude, event.locals.user?.id);
 			return { form, posts, createdId };
 		} catch (error) {
 			console.error('Error creating post:', error);
-			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
+			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude, event.locals.user?.id);
 			return fail(500, {
 				form,
 				posts,

@@ -1,3 +1,4 @@
+import { sanitizePosts } from '$lib/server/privacy';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -36,7 +37,7 @@ export const load: PageServerLoad = async (event) => {
 		.orderBy(desc(placeTag.votes));
 
 	// Active posts at this place
-	const activePosts = await db
+	const activePostsRaw = await db
 		.select()
 		.from(post)
 		.where(
@@ -47,6 +48,8 @@ export const load: PageServerLoad = async (event) => {
 			)
 		)
 		.orderBy(desc(post.createdAt));
+	// D2: ask-mode postups hidden from this cafe's page unless you're the poster or approved.
+	const activePosts = (await sanitizePosts(activePostsRaw, event.locals.user?.id)).filter((p) => !('cafeHidden' in p && p.cafeHidden));
 
 	// Compute aggregate stats
 	const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);

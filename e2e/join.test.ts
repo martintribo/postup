@@ -72,3 +72,32 @@ test('open join and ask-to-join with approval, alerts, cafe hidden until approve
 	for (const x of [sam, kim]) await x.ctx.close();
 	await sql.end();
 });
+
+test('ask-to-join postups never leak the cafe on home or the cafe page', async ({ page, browser }) => {
+	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_JOIN !== '1', 'needs mock oauth + ff join');
+	const sql = postgres(process.env.DATABASE_URL!);
+	const t = Date.now();
+	await sql`update post set status='ended' where status='live'`;
+	await sql`insert into place (name, address, latitude, longitude, created_at, updated_at) values (${'Secret Cafe ' + t}, 'x', 33.97612, -118.41734, now(), now())`;
+	const [pl] = await sql`select id from place where name=${'Secret Cafe ' + t}`;
+	await page.goto(`/auth/mock?id=own2-${t}&name=Owner2`);
+	const [u] = await sql`select user_id from oauth_account where provider_user_id=${'own2-' + t}`;
+	await sql`insert into post (name, activity, location, latitude, longitude, hours, created_at, start_time, ends_at, status, join_mode, neighborhood, place_id, user_id)
+		values ('Owner2', ${'hush-' + t}, ${'Secret Cafe ' + t}, 33.97612, -118.41734, 2, now(), now(), now() + interval '2 hours', 'live', 'ask', 'Playa Vista', ${pl.id}, ${u.user_id})`;
+
+	const ctx = await browser.newContext();
+	const s = await ctx.newPage();
+	const origin = new URL(page.url()).origin;
+	const html = await (await s.request.get(`${origin}/__data.json?x-sveltekit-invalidated=11`)).text();
+	expect(html).toContain('a cafe in Playa Vista');
+	expect(html).not.toContain('Secret Cafe ' + t);
+	expect(html).not.toContain('33.97612');
+	const cafe = await (await s.request.get(`${origin}/places/${pl.id}`)).text();
+	expect(cafe).not.toContain('hush-' + t);
+	// The poster still sees their own exact postup.
+	const own = await (await page.request.get('/places/' + pl.id)).text();
+	expect(own).toContain('hush-' + t);
+	await sql`update post set status='ended' where activity=${'hush-' + t}`;
+	await ctx.close();
+	await sql.end();
+});

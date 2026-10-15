@@ -51,7 +51,7 @@
 	let mapPane: HTMLDivElement;
 	let map: L.Map | null = null;
 	let tileLayer: L.TileLayer | null = null;
-	let postMarkers: L.Marker[] = [];
+	let postMarkers: L.Layer[] = [];
 	let placeMarkers: L.Marker[] = [];
 	let numberedMarkerByN = new Map<number, L.Marker>();
 	let userMarker: L.Marker | null = null;
@@ -292,10 +292,12 @@
 		postMarkers = [];
 
 		posts.forEach((postItem) => {
-			const marker = L.marker([postItem.latitude, postItem.longitude], {
-				icon: createPostIcon(),
-				zIndexOffset: 1000
-			}).addTo(currentMap);
+			// Ask-to-join with hidden cafe: show an area, not a pin (D2).
+			const hidden = (postItem as Post & { cafeHidden?: boolean }).cafeHidden;
+			const marker = (hidden
+				? L.circle([postItem.latitude, postItem.longitude], { radius: 700, color: '#1f7a4d', weight: 1, fillOpacity: 0.15, className: 'pu-area-marker' })
+				: L.marker([postItem.latitude, postItem.longitude], { icon: createPostIcon(), zIndexOffset: 1000 })
+			).addTo(currentMap);
 
 			const endTime = getEndTime(postItem.startTime, postItem.hours);
 			marker.bindPopup(`
