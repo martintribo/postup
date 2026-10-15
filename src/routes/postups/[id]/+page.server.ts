@@ -34,6 +34,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		isOwner,
 		joinEnabled: flag('join'),
 		chatEnabled: flag('chat'),
+		shareEnabled: flag('share_links'),
 		signedIn: !!locals.user,
 		myRequest: mine ? { id: mine.id, status: mine.status } : null,
 		requests: isOwner ? (await listRequests(p.id)).map((r) => ({ ...r, createdAt: r.createdAt.toISOString() })) : [],

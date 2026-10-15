@@ -30,6 +30,8 @@
 		await invalidateAll();
 	}
 	import ReportSheet from '$lib/components/ReportSheet.svelte';
+	import ShareButton from '$lib/components/ShareButton.svelte';
+	const dirs = $derived(p.latitude != null && p.longitude != null ? `https://www.google.com/maps/dir/?api=1&destination=${p.latitude},${p.longitude}` : null);
 	let reason = $state('');
 	let reporting = $state(false);
 	async function blockPoster() {
@@ -63,7 +65,7 @@
 		<h1>{who} <span class="pu-muted">at</span> {#if p.placeId}<a href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if}</h1>
 		<p class="pu-act">{p.activity}</p>
 		{#if p.note}<p class="pu-muted">{p.note}</p>{/if}
-		{#if p.projectName}<p class="pu-muted">For <a href="/projects#p{p.projectId}">{p.projectName}</a></p>{/if}
+		{#if p.projectName}<p class="pu-muted">For <a href="/projects/{p.projectId}">{p.projectName}</a></p>{/if}
 		<p class="pu-time" data-testid="time-left">Here till {until} · {leftText}</p>
 		<p class="pu-muted">{p.joinMode === 'ask' ? 'Ask to join' : 'Anyone can join'}{p.capacity ? ` · up to ${p.capacity}` : ''}</p>
 
@@ -143,6 +145,12 @@
 		<h1>This postup was cancelled</h1>
 		<p class="pu-muted">{who} isn't at {cafe} after all.</p>
 		<a class="pu-btn pu-primary" href="/">See who's around now</a>
+	{/if}
+	{#if p.state === 'live'}
+		<div class="pu-row">
+			{#if data.shareEnabled}<ShareButton path="/p/{p.id}" text="{who} is working at {cafe}" label={data.isOwner ? 'Invite friends' : 'Share'} />{/if}
+			{#if dirs}<a class="pu-btn" href={dirs} target="_blank" rel="noopener" data-testid="directions">Directions</a>{/if}
+		</div>
 	{/if}
 	{#if data.chatEnabled && (data.isOwner || data.myRequest?.status === 'approved')}
 		<a class="pu-btn" href="/postups/{p.id}/chat" data-testid="open-chat">Group chat</a>

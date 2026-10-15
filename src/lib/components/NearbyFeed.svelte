@@ -68,7 +68,7 @@
 								</div>
 								<div class="pu-act">{it.activity}</div>
 								<div class="pu-muted pu-meta">
-									{rel(it.at)}{#if it.projectName} · <a href="/projects#p{it.projectId}">{it.projectName}</a>{/if}
+									{rel(it.at)}{#if it.projectName} · <a href="/projects/{it.projectId}">{it.projectName}</a>{/if}
 								</div>
 							</div>
 						</div>
@@ -76,7 +76,7 @@
 						<div class="pu-row">
 							<span class="pu-av pu-av-proj" aria-hidden="true">{initial(it.projectName)}</span>
 							<div class="pu-body">
-								<div><a href="/projects#p{it.projectId}"><b>{it.projectName}</b></a> update</div>
+								<div><a href="/projects/{it.projectId}"><b>{it.projectName}</b></a> update</div>
 								{#if it.title}<div class="pu-act">{it.title}</div>{/if}
 								<div class="pu-clamp">{it.body}</div>
 								<div class="pu-muted pu-meta">{rel(it.at)}</div>

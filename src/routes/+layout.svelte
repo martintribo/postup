@@ -57,10 +57,10 @@
 
 <svelte:head>
 	<title>{title}</title>
-	<meta name="description" content={DESC} />
+	<meta name="description" content={page.data?.description || DESC} />
 	<meta property="og:site_name" content={SITE} />
 	<meta property="og:title" content={title} />
-	<meta property="og:description" content={DESC} />
+	<meta property="og:description" content={page.data?.description || DESC} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={page.url.origin + page.url.pathname} />
 	<meta name="twitter:card" content="summary" />
