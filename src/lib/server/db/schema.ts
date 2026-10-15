@@ -229,3 +229,26 @@ export const chatRead = pgTable(
 	},
 	(t) => [primaryKey({ columns: [t.postId, t.userId] })]
 );
+
+/** M8: reports (reviewed at /admin/reports) and blocks (two-way invisibility). */
+export const report = pgTable('report', {
+	id: serial('id').primaryKey(),
+	reporterId: text('reporter_id').notNull().references(() => user.id),
+	targetType: text('target_type').notNull(), // user | post | message | project
+	targetId: text('target_id').notNull(),
+	reason: text('reason').notNull(),
+	details: text('details'),
+	status: text('status').notNull().default('open'), // open | actioned | dismissed
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	resolvedAt: timestamp('resolved_at', { withTimezone: true, mode: 'date' })
+});
+
+export const block = pgTable(
+	'block',
+	{
+		blockerId: text('blocker_id').notNull().references(() => user.id),
+		blockedId: text('blocked_id').notNull().references(() => user.id),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+	},
+	(t) => [primaryKey({ columns: [t.blockerId, t.blockedId] })]
+);

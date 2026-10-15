@@ -35,6 +35,10 @@
 		const t = setInterval(poll, 3000);
 		return () => clearInterval(t);
 	});
+	async function report(id: number) {
+		const r = await fetch('/api/reports', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ targetType: 'message', targetId: id, reason: 'inappropriate' }) });
+		err = r.ok ? 'Reported. Thanks.' : 'Could not report';
+	}
 	const time = (iso: string) => new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 </script>
 
@@ -45,7 +49,7 @@
 			<li class:mine={m.userId === data.me}>
 				{#if m.userId !== data.me}<span class="who">{m.name}</span>{/if}
 				<span class="bubble">{m.body}</span>
-				<time>{time(m.createdAt)}</time>
+				<time>{time(m.createdAt)}{#if m.userId !== data.me} · <button class="rep" onclick={() => report(m.id)}>Report</button>{/if}</time>
 			</li>
 		{:else}
 			<li class="empty">Say hi and share where you're sitting.</li>
@@ -73,6 +77,7 @@
 	.bubble { padding: 8px 12px; border-radius: 16px; background: var(--pu-surface); border: var(--pu-border-width) solid var(--pu-border); white-space: pre-wrap; word-break: break-word; }
 	li.mine .bubble { background: var(--pu-accent); color: var(--pu-accent-text); border-color: var(--pu-accent); }
 	time { font-size: 11px; color: var(--pu-muted); }
+	.rep { background: none; border: 0; padding: 0; color: var(--pu-muted); font-size: 11px; text-decoration: underline; cursor: pointer; }
 	.empty { color: var(--pu-muted); max-width: none; }
 	form { display: flex; gap: 8px; padding: 10px 16px; border-top: var(--pu-border-width) solid var(--pu-border); }
 	input { flex: 1; padding: 10px; border-radius: 999px; border: var(--pu-border-width) solid var(--pu-border); background: var(--pu-surface); color: var(--pu-text); }

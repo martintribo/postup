@@ -1,4 +1,5 @@
 import { config } from '$lib/config';
+import { blockedSet } from '$lib/server/safety';
 import { sql, and, eq, desc, gt, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { post, place, project, projectStatus, user } from '$lib/server/db/schema';
@@ -11,7 +12,7 @@ const DAYS = 7;
 const RADIUS_MI = 25;
 
 /** Recent nearby activity for the Nearby feed (shown when nobody nearby is live). */
-export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promise<{ items: FeedItem[]; weekCount: number }> {
+export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewerId?: string | null): Promise<{ items: FeedItem[]; weekCount: number }> {
 	const since = sql`now() - interval '${sql.raw(String(DAYS))} days'`;
 	const dist = sql`(3959 * acos(least(1, cos(radians(${lat})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${lng})) + sin(radians(${lat})) * sin(radians(${post.latitude})))))`;
 	const posts = await db
@@ -29,6 +30,7 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promi
 			projectName: project.name,
 			projectHidden: project.hidden,
 			joinMode: post.joinMode,
+			userId: post.userId,
 			neighborhood: post.neighborhood,
 			live: sql<boolean>`${post.status} = 'live' AND coalesce(${post.endsAt}, ${post.startTime} + (${post.hours} || ' hours')::interval) > now()`
 		})
@@ -58,8 +60,9 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30): Promi
 
 	// D2: ask-to-join postups don't reveal the cafe before approval.
 	const hide = (p: { joinMode: string }) => config.askHidesCafe && p.joinMode === 'ask';
+	const blocked = await blockedSet(viewerId);
 	const items: FeedItem[] = [
-		...posts.map((p) => ({
+		...posts.filter((p) => !p.userId || !blocked.has(p.userId)).map((p) => ({
 			kind: 'postup' as const,
 			id: p.id,
 			at: p.at.toISOString(),

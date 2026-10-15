@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { chatRead, joinRequest, message, post, user } from '$lib/server/db/schema';
 import { getPostup } from '$lib/server/postup-manage';
 import { config } from '$lib/config';
+import { blockedSet } from '$lib/server/safety';
 
 export class ChatError extends Error {
 	constructor(public status: number, msg: string) {
@@ -42,6 +43,8 @@ export async function listMessages(postId: number, userId: string, afterId = 0) 
 		.where(and(eq(message.postId, postId), gt(message.id, afterId), isNull(message.deletedAt)))
 		.orderBy(message.id)
 		.limit(200);
+	const blocked = await blockedSet(userId);
+	const visible = rows.filter((m) => !blocked.has(m.userId));
 	const last = rows.at(-1)?.id;
 	if (last) {
 		await db
@@ -49,7 +52,7 @@ export async function listMessages(postId: number, userId: string, afterId = 0) 
 			.values({ postId, userId, lastReadId: last })
 			.onConflictDoUpdate({ target: [chatRead.postId, chatRead.userId], set: { lastReadId: sql`greatest(${chatRead.lastReadId}, ${last})` } });
 	}
-	return { messages: rows.map((m) => ({ ...m, createdAt: m.createdAt.toISOString() })), canWrite, readableUntil: readableUntil.toISOString(), postup: { id: p.id, activity: p.activity, state: p.state } };
+	return { messages: visible.map((m) => ({ ...m, createdAt: m.createdAt.toISOString() })), canWrite, readableUntil: readableUntil.toISOString(), postup: { id: p.id, activity: p.activity, state: p.state } };
 }
 
 export async function sendMessage(postId: number, userId: string, body: string) {

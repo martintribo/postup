@@ -29,7 +29,14 @@
 		confirmEnd = false;
 		await invalidateAll();
 	}
+	import ReportSheet from '$lib/components/ReportSheet.svelte';
 	let reason = $state('');
+	let reporting = $state(false);
+	async function blockPoster() {
+		if (!p.userId) return;
+		await fetch('/api/blocks', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ userId: p.userId }) });
+		location.href = '/';
+	}
 	async function call(url: string, method: string, body?: object) {
 		err = '';
 		const r = await fetch(url, { method, headers: { 'content-type': 'application/json' }, body: body ? JSON.stringify(body) : undefined });
@@ -140,6 +147,16 @@
 	{#if data.chatEnabled && (data.isOwner || data.myRequest?.status === 'approved')}
 		<a class="pu-btn" href="/postups/{p.id}/chat" data-testid="open-chat">Group chat</a>
 	{/if}
+	{#if data.signedIn && !data.isOwner}
+		{#if reporting}
+			<ReportSheet targetType="post" targetId={p.id} blockUserId={p.userId} blockName={who} onDone={() => (reporting = false)} />
+		{:else}
+			<div class="pu-row pu-safety">
+				<button class="pu-btn" onclick={() => (reporting = true)}>Report</button>
+				{#if p.userId}<button class="pu-btn" onclick={blockPoster}>Block {who}</button>{/if}
+			</div>
+		{/if}
+	{/if}
 	{#if err}<p class="pu-err" role="alert">{err}</p>{/if}
 </main>
 
@@ -159,6 +176,7 @@
 	.pu-danger { background: #c62828; color: #fff; border-color: #c62828; }
 	.pu-req { display: flex; justify-content: space-between; gap: 8px; align-items: center; border-top: 1px solid var(--pu-border); padding-top: 8px; }
 	textarea { width: 100%; min-height: 70px; }
+	.pu-safety .pu-btn { font-size: 13px; padding: 6px 10px; color: var(--pu-muted); }
 	.pu-err { color: #c62828; }
 	a { color: inherit; }
 </style>

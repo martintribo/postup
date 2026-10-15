@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { joinRequest, user } from '$lib/server/db/schema';
 import { getPostup } from '$lib/server/postup-manage';
 import { notify } from '$lib/server/notify';
+import { isBlockedBetween } from '$lib/server/safety';
 
 export class JoinError extends Error {
 	constructor(public status: number, msg: string) {
@@ -48,6 +49,7 @@ export async function requestJoin(postId: number, userId: string, reason?: strin
 	if (p.state !== 'live') throw new JoinError(409, 'This postup has ended');
 	if (p.userId === userId) throw new JoinError(400, "That's your postup");
 	if (!p.userId) throw new JoinError(409, 'This postup was posted anonymously and cannot be joined');
+	if (await isBlockedBetween(p.userId, userId)) throw new JoinError(403, "You can't join this postup");
 	const existing = await myRequest(postId, userId);
 	if (existing && (ACTIVE as readonly string[]).includes(existing.status)) return existing;
 	if (existing?.status === 'removed') throw new JoinError(403, 'You were removed from this postup');

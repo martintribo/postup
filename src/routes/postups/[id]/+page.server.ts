@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 import { getPostup } from '$lib/server/postup-manage';
 import { myRequest, listRequests, approvedCount } from '$lib/server/join';
 import { config } from '$lib/config';
+import { isBlockedBetween } from '$lib/server/safety';
 import { flag } from '$lib/flags';
 import type { PageServerLoad } from './$types';
 
@@ -9,6 +10,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 	const p = await getPostup(Number(params.id));
 	if (!p) error(404, 'This postup does not exist');
 	const isOwner = !!locals.user && locals.user.id === p.userId;
+	if (locals.user && p.userId && !isOwner && (await isBlockedBetween(locals.user.id, p.userId))) error(404, 'This postup does not exist');
 	const mine = locals.user && !isOwner ? await myRequest(p.id, locals.user.id) : null;
 	const approved = mine?.status === 'approved';
 	// D2: in ask mode, non-approved viewers see the neighborhood, not the cafe.

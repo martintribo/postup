@@ -1,4 +1,5 @@
 import { sanitizePosts } from '$lib/server/privacy';
+import { blockedSet } from '$lib/server/safety';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -39,7 +40,8 @@ async function getActivePosts(userLatitude: number, userLongitude: number, viewe
 			sql`${liveCondition} AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
 		)
 		.orderBy(desc(post.createdAt));
-	return sanitizePosts(rows, viewerId);
+	const blocked = await blockedSet(viewerId);
+	return sanitizePosts(rows.filter((r) => !r.userId || !blocked.has(r.userId)), viewerId);
 }
 
 export const load: PageServerLoad = async (event) => {
@@ -61,7 +63,7 @@ export const load: PageServerLoad = async (event) => {
 		: [];
 
 	// M4: feed-first home when nobody nearby is live.
-	const feed = flag('feed_home') && posts.length === 0 ? await getNearbyFeed(userLocation.latitude, userLocation.longitude) : null;
+	const feed = flag('feed_home') && posts.length === 0 ? await getNearbyFeed(userLocation.latitude, userLocation.longitude, 30, event.locals.user?.id) : null;
 
 	// M5: "You're live" banner for the signed-in poster.
 	const [myLive] = event.locals.user
