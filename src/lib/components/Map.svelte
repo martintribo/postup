@@ -744,7 +744,7 @@
 			googleReady = ok;
 		});
 
-		map = L.map(mapContainer);
+		map = L.map(mapContainer, { zoomControl: chrome });
 
 		const darkMode = isDarkMode();
 		updateTileLayer(darkMode);
