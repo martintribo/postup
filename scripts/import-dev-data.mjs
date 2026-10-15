@@ -9,7 +9,12 @@
  *   [IMPORT_UPLOADS_DIR=/path/to/old/static/uploads]   # copied into static/uploads/import/<source>/
  *   [IMPORT_PHOTOS_DIR=/path/to/old/PHOTO_ARCHIVE_DIR] # copied into static/uploads/import/photos-archive/
  *   [IMPORT_KEEP_PASSWORDS=1]                          # keep password hashes (dev only); default: accounts get no password
- *   node scripts/import-dev-data.mjs [--dry-run]
+ *   node scripts/import-dev-data.mjs [--dry-run] [--cleanup]
+ *
+ * Dedupe: a row whose natural key (NK below) already exists in the target is not inserted again;
+ * it is mapped to the existing row and its empty columns are filled from the source (e.g. place photos).
+ * --cleanup: first merges duplicates left by earlier runs (imported rows only, via import_map):
+ * child rows are repointed to the kept row (lowest id), then the duplicate is deleted.
  *
  * Mapping: for each table, only columns present in BOTH source and target are copied.
  * Required target columns the source lacks get sensible fills (timestamps from created_at/now,
@@ -52,6 +57,73 @@ const TABLES = [
 	{ t: 'post', fk: { place_id: 'place', project_id: 'project' } }
 ];
 const USER_FK = ['user_id', 'created_by'];
+const CLEANUP = process.argv.includes('--cleanup');
+// Natural keys (target-side values, after FK remap). First key whose columns are all non-null wins.
+const NK = {
+	user: [['username']],
+	place: [['google_place_id'], ['name', 'address']],
+	project: [['name', 'created_at']],
+	project_status: [['project_id', 'body', 'occurred_at']],
+	project_change: [['agent_session_id', 'action', 'created_at']],
+	place_review: [['place_id', 'user_id', 'created_at'], ['place_id', 'created_at']],
+	place_tag: [['place_id', 'tag']],
+	post: [['name', 'activity', 'start_time']]
+};
+function pickKey(t, row, cols) {
+	for (const k of NK[t] || []) if (k.every((c) => cols.has(c) && row[c] != null)) return k;
+	return null;
+}
+async function findByKey(t, key, row) {
+	const conds = key.map((c) => dst`${dst(c)} = ${row[c]}`);
+	let where = conds[0];
+	for (const c of conds.slice(1)) where = dst`${where} and ${c}`;
+	const r = await dst`select id from ${dst(t)} where ${where} order by id limit 1`;
+	return r[0]?.id ?? null;
+}
+async function fillNulls(t, id, row, dCols) {
+	const set = {};
+	for (const c of dCols) if (c.column_name !== 'id' && c.is_nullable === 'YES' && row[c.column_name] != null) set[c.column_name] = row[c.column_name];
+	const keys = Object.keys(set);
+	if (!keys.length) return;
+	for (const k of keys) {
+		const v = set[k] !== null && typeof set[k] === 'object' && !(set[k] instanceof Date) ? dst.json(set[k]) : set[k];
+		await dst`update ${dst(t)} set ${dst(k)} = ${v} where id = ${id} and ${dst(k)} is null`;
+	}
+}
+async function referencing(t) {
+	return dst`select cl.relname as tbl, a.attname as col from pg_constraint c
+		join pg_class cl on cl.oid = c.conrelid join pg_attribute a on a.attrelid = c.conrelid and a.attnum = any(c.conkey)
+		where c.contype = 'f' and c.confrelid = ${'public.' + (t === 'user' ? '"user"' : t)}::regclass`;
+}
+async function cleanup(report) {
+	const has = await dst`select 1 from information_schema.tables where table_name = 'import_map'`;
+	if (!has.length) return report.push('cleanup: nothing imported yet');
+	for (const spec of TABLES) {
+		const dCols = await columns(dst, spec.t);
+		if (!dCols.length || spec.t === 'user') continue;
+		const cols = new Set(dCols.map((c) => c.column_name));
+		const imported = new Set((await dst`select distinct dst_id from import_map where tbl = ${spec.t}`).map((r) => String(r.dst_id)));
+		if (!imported.size) continue;
+		const rows = await dst`select * from ${dst(spec.t)} order by id`;
+		const keeper = new Map(); let removed = 0;
+		const refs = await referencing(spec.t);
+		for (const row of rows) {
+			const key = pickKey(spec.t, row, cols);
+			if (!key) continue;
+			const sig = key.map((c) => (row[c] instanceof Date ? row[c].toISOString() : String(row[c]))).join('\u0001') + '|' + key.join(',');
+			if (!keeper.has(sig)) { keeper.set(sig, row); continue; }
+			if (!imported.has(String(row.id))) continue; // never delete rows the import didn't create
+			const keep = keeper.get(sig);
+			if (DRY) { removed++; continue; }
+			await fillNulls(spec.t, keep.id, row, dCols);
+			for (const r of refs) await dst`update ${dst(r.tbl)} set ${dst(r.col)} = ${keep.id} where ${dst(r.col)} = ${row.id}`;
+			await dst`update import_map set dst_id = ${String(keep.id)} where tbl = ${spec.t} and dst_id = ${String(row.id)}`;
+			await dst`delete from ${dst(spec.t)} where id = ${row.id}`;
+			removed++;
+		}
+		report.push(`cleanup ${spec.t}: ${removed} duplicate${removed === 1 ? '' : 's'} ${DRY ? 'would be ' : ''}merged`);
+	}
+}
 
 const dst = postgres(target, { max: 1, onnotice: () => {} });
 
@@ -73,6 +145,7 @@ async function main() {
 			primary key (source, tbl, src_id))`;
 	}
 	const report = [];
+	if (CLEANUP) await cleanup(report);
 	for (const [source, url] of Object.entries(sources)) {
 		const src = postgres(url, { max: 1, onnotice: () => {} });
 		const idMap = {}; // tbl -> Map(srcId -> dstId)
@@ -92,7 +165,7 @@ async function main() {
 			const sNames = new Set(sCols.map((c) => c.column_name));
 			const map = await loadMap(spec.t);
 			const rows = await src`select * from ${src(spec.t)} order by 1`;
-			let added = 0, skipped = 0;
+			let added = 0, skipped = 0, merged = 0;
 			for (const row of rows) {
 				const srcId = String(row.id);
 				if (map.has(srcId)) { skipped++; continue; }
@@ -108,6 +181,7 @@ async function main() {
 					const m = await loadMap(ref);
 					out[col] = m.has(String(out[col])) ? Number(m.get(String(out[col]))) : null;
 				}
+				if (Object.keys(spec.fk || {}).some((col) => out[col] == null && dCols.find((c) => c.column_name === col)?.is_nullable === 'NO')) { skipped++; continue; } // parent missing
 				for (const col of USER_FK) if (col in out && out[col] != null && !(await loadMap('user')).has(String(out[col]))) out[col] = null;
 				// secrets
 				if (spec.t === 'user' && 'password_hash' in out && process.env.IMPORT_KEEP_PASSWORDS !== '1') {
@@ -145,13 +219,24 @@ async function main() {
 						continue;
 					}
 				}
+				if (spec.t !== 'user') {
+					const key = pickKey(spec.t, out, new Set(dCols.map((c) => c.column_name)));
+					const existing = key ? await findByKey(spec.t, key, out) : null;
+					if (existing != null) {
+						await fillNulls(spec.t, existing, out, dCols);
+						map.set(srcId, String(existing));
+						await dst`insert into import_map ${dst({ source, tbl: spec.t, src_id: srcId, dst_id: String(existing) })} on conflict do nothing`;
+						merged++;
+						continue;
+					}
+				}
 				for (const k of Object.keys(out)) if (out[k] !== null && typeof out[k] === 'object' && !(out[k] instanceof Date)) out[k] = dst.json(out[k]);
 				const [ins] = await dst`insert into ${dst(spec.t)} ${dst(out)} returning id`;
 				map.set(srcId, String(ins.id));
 				await dst`insert into import_map ${dst({ source, tbl: spec.t, src_id: srcId, dst_id: String(ins.id) })}`;
 				added++;
 			}
-			report.push(`${source}.${spec.t}: ${added} ${DRY ? 'would be added' : 'added'}, ${skipped} already there`);
+			report.push(`${source}.${spec.t}: ${added} ${DRY ? 'would be added' : 'added'}, ${merged} merged into existing, ${skipped} already there`);
 		}
 		await src.end();
 	}
