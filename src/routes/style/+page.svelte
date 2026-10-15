@@ -5,7 +5,7 @@
 	import NearbyFeed from '$lib/components/NearbyFeed.svelte';
 	const sample = [
 		{ kind: 'postup' as const, id: 1, at: new Date(Date.now() - 20 * 60000).toISOString(), who: 'Maya', avatarUrl: null, activity: 'Star Fox 64 mod', cafe: 'Bean Theory', placeId: null, projectName: 'Star Fox 64 mod', projectId: null, live: true },
-		{ kind: 'update' as const, id: 2, at: new Date(Date.now() - 26 * 3600000).toISOString(), projectId: 0, projectName: 'Tiny synth', title: 'First sound!', body: 'Got the oscillator working on the breadboard.' }
+		{ kind: 'update' as const, id: 2, at: new Date(Date.now() - 26 * 3600000).toISOString(), projectId: 1, projectName: 'Tiny synth', title: 'First sound!', body: 'Got the oscillator working on the breadboard.' }
 	];
 	const pick = (t: Theme) => saveTheme(t);
 </script>
