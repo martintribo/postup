@@ -35,15 +35,33 @@ def sub(m):
     t=color_for(base if base not in('ring','border') else ('ring' if base=='ring' else 'border'),fam,shade)
     if t is None: return m.group(0)
     return f'{pre}{util}-{t}{op or ""}'
+# Tailwind palette hex (used in <style> blocks and inline style strings) -> tokens.
+TWHEX={'f9fafb':'bg','f3f4f6':'surface-2','e5e7eb':'border','d1d5db':'border','9ca3af':'subtle','6b7280':'muted','4b5563':'muted',
+ '374151':'text','1f2937':'text','111827':'text','eff6ff':'accent-soft','dbeafe':'accent-soft','bfdbfe':'accent-soft','93c5fd':'accent','60a5fa':'accent','3b82f6':'accent','2563eb':'accent',
+ '1d4ed8':'accent-hover','1e40af':'accent-hover','059669':'live','10b981':'live','16a34a':'live','22c55e':'live','047857':'live','d1fae5':'accent-soft','ecfdf5':'accent-soft',
+ 'dc2626':'danger','ef4444':'danger','b91c1c':'danger','fee2e2':'danger-soft','fef2f2':'danger-soft'}
+HEXRX=re.compile(r'(?<!=")(?<!=\')#('+'|'.join(TWHEX)+r')\b',re.I)
+def strip_dark_media(s):
+    out=''; i=0
+    while True:
+        j=s.find('@media (prefers-color-scheme: dark)',i)
+        if j<0: return out+s[i:]
+        k=s.index('{',j); depth=1; k+=1
+        while depth:
+            depth+= {'{':1,'}':-1}.get(s[k],0); k+=1
+        out+=s[i:j].rstrip(' \t'); i=k
 def run(p):
     s=p.read_text(); o=s
+    s=strip_dark_media(s); s=HEXRX.sub(lambda m:'var(--pu-'+TWHEX[m.group(1).lower()]+')',s)
+    s=re.sub(r'background(-color)?:\s*(white|#fff(fff)?)\b',lambda m:'background'+(m.group(1) or '')+': var(--pu-surface)',s)
     s=DARK.sub('',s); s=RX.sub(sub,s); s=s.replace('bg-opacity-50','')
     for k,v in HEX.items(): s=s.replace(k,v) if p.name=='Map.svelte' else s
     if p.name=='Map.svelte':
         s=s.replace("return window.matchMedia('(prefers-color-scheme: dark)').matches;","return document.documentElement.dataset.theme === 'night';")
         s=s.replace("const handleChange = (e: MediaQueryListEvent) => {\n\t\t\tupdateTileLayer(e.matches);","const handleChange = () => {\n\t\t\tupdateTileLayer(isDarkMode());")
-        if 'themeObserver' not in s:
-            s=s.replace("\t\t// Calculate bounds for 50x50","\t\t// Basemap follows the active style (Night = dark tiles).\n\t\tconst themeObserver = new MutationObserver(() => updateTileLayer(isDarkMode()));\n\t\tthemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });\n\n\t\t// Calculate bounds for 50x50",1)
+        s=s.replace("(e: MediaQueryListEvent) => updateTileLayer(e.matches)","() => updateTileLayer(isDarkMode())")
+        if 'themeObserver' not in s and 'updateTileLayer(darkMode);' in s:
+            s=s.replace("updateTileLayer(darkMode);","updateTileLayer(darkMode);\n\t\t// Basemap follows the active style (Night = dark tiles).\n\t\tconst themeObserver = new MutationObserver(() => updateTileLayer(isDarkMode()));\n\t\tthemeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });",1)
     s=re.sub(r'class="([^"]*?)\s+"',lambda m:'class="'+m.group(1)+'"',s)
     if s!=o: p.write_text(s); print('tokenized',p)
 files=[pathlib.Path(f) for f in sys.argv[1:]] or [p for p in pathlib.Path('src').rglob('*.svelte') if 'stories' not in p.parts]

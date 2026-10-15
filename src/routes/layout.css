@@ -63,3 +63,21 @@
 		color: var(--pu-text);
 	}
 }
+
+/* Leaflet chrome follows the active style. */
+.leaflet-container {
+	font-family: var(--pu-font);
+	background: var(--pu-surface-2);
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip,
+.leaflet-bar a,
+.leaflet-bar a:hover {
+	background: var(--pu-surface);
+	color: var(--pu-text);
+	border-color: var(--pu-border);
+}
+.leaflet-container .leaflet-control-attribution {
+	background: color-mix(in srgb, var(--pu-surface) 80%, transparent);
+	color: var(--pu-muted);
+}
