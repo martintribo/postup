@@ -1,4 +1,10 @@
 <script lang="ts">
+	import TopBar from '$lib/components/ui/TopBar.svelte';
+	import Icon from '$lib/components/ui/Icon.svelte';
+	import Av from '$lib/components/ui/Av.svelte';
+	import GCard from '$lib/components/ui/GCard.svelte';
+	import { shareLink } from '$lib/share';
+	import { clock } from '$lib/time';
 	import { superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import { z } from 'zod';
@@ -67,21 +73,36 @@
 	}
 </script>
 
-<div class="min-h-screen bg-surface text-ink">
-	<!-- Header -->
-	<header class="border-b border-line px-4 py-3" style="display: flex; align-items: center; gap: 1rem;">
-		<a href="/places" class="text-muted hover:text-ink transition-colors">
-			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-			</svg>
-		</a>
-		<h1 class="text-xl font-semibold truncate">{p.name}</h1>
-		{#if p.category}
-			<span class="px-2 py-0.5 text-xs rounded-full bg-surface-2 text-muted flex-shrink-0">{p.category}</span>
+<div class="scr-cafe" data-testid="cafe-page">
+	<div class="hero-img nocover">
+		<div class="hg"></div>
+		<TopBar clear href="/">
+			{#snippet right()}<button class="ib fl" onclick={() => shareLink(`/places/${p.id}`, `Work from ${p.name} on PostUp`)} aria-label="Share"><Icon name="share" size={20} /></button>{/snippet}
+		</TopBar>
+		<div class="hi-t"><h1>{p.name}</h1><p><Icon name="pin" size={14} /> {p.address}</p></div>
+	</div>
+	<div class="pad">
+		<div class="sp-h"><h2>Here now</h2>{#if data.hereNow.length}<span class="ok sm"><span class="dot"></span> {data.hereNow.length} live</span>{/if}</div>
+		{#if data.hereNow.length}
+			<div class="grp">
+				{#each data.hereNow as h (h.id)}
+					<a class="lrow" href="/postups/{h.id}">
+						<Av name={h.who} src={h.avatarUrl} size={44} />
+						<div class="lm"><div class="l1"><b>{h.who}</b><span class="dot"></span><span class="ok">Live</span></div><div class="l2">till {clock(h.endsAt)}</div>{#if h.project}<span class="tag">{h.project}</span>{/if}</div>
+						<span class="pill sm2">{h.ask ? 'Ask' : 'Join'}</span>
+					</a>
+				{/each}
+			</div>
+		{:else}
+			<p class="mu sm">Be the first here today. Post up and people nearby can join you.</p>
 		{/if}
-	</header>
-
-	<div class="max-w-4xl mx-auto px-4 py-6 space-y-8">
+		<GCard googlePlaceId={p.googlePlaceId} name={p.name} lat={p.latitude} lng={p.longitude} />
+		{#if data.week.n}
+			<p class="mu sm"><span class="stk">{#each data.week.who as w, i (i)}<Av name={w} size={20} />{/each}</span> {data.week.n} {data.week.n === 1 ? 'postup' : 'postups'} this week{#if data.week.regular} · <a class="cl" href="/projects/{data.week.regularId}">{data.week.regular}</a> regular{/if}</p>
+		{/if}
+	</div>
+	<div class="cta"><a class="btn" href="/post?place={p.id}"><Icon name="plus" size={18} /> Post up here</a></div>
+<div class="max-w-4xl mx-auto px-4 py-6 space-y-8">
 		<!-- Place info + stats -->
 		<section>
 			<p class="text-muted">{p.address}</p>
@@ -172,30 +193,7 @@
 		</section>
 
 		<!-- Active post-ups -->
-		<section>
-			<h2 class="text-lg font-semibold mb-3">
-				Posting up now
-				{#if data.activePosts.length > 0}
-					<span class="text-sm font-normal text-muted ml-1">({data.activePosts.length})</span>
-				{/if}
-			</h2>
-			{#if data.activePosts.length > 0}
-				<div class="space-y-2">
-					{#each data.activePosts as postItem (postItem.id)}
-						<div class="p-3 border border-line rounded-md bg-bg">
-							<p class="font-medium text-ink">{postItem.name}</p>
-							<p class="text-sm text-muted mt-0.5">{postItem.activity}</p>
-							<p class="text-xs text-muted mt-1">
-								{postItem.hours} {postItem.hours === 1 ? 'hour' : 'hours'} &middot;
-								started {timeAgo(postItem.startTime)}
-							</p>
-						</div>
-					{/each}
-				</div>
-			{:else}
-				<p class="text-sm text-muted italic">No one is posting up here right now.</p>
-			{/if}
-		</section>
+		
 
 		<!-- Reviews -->
 		<section>

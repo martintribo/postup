@@ -52,3 +52,5 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 
 .pthumb { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none; }
 .inv .invimg { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-lg); }
+.gcard .row3 { display: flex; gap: 14px; } .gcard .row3 > * { display: inline-flex; align-items: center; gap: 4px; }
+.bs { max-height: 92dvh; overflow-y: auto; }
