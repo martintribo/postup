@@ -2,6 +2,8 @@
 	import { onMount } from 'svelte';
 	import Map, { type NearbyPlace } from '$lib/components/Map.svelte';
 	import LocationAutocomplete from '$lib/components/LocationAutocomplete.svelte';
+	import { page } from '$app/state';
+	import NearbyFeed from '$lib/components/NearbyFeed.svelte';
 	import GooglePlaceSearch from '$lib/components/GooglePlaceSearch.svelte';
 	import { flag } from '$lib/flags';
 	import { superForm } from 'sveltekit-superforms';
@@ -23,6 +25,9 @@
 	});
 
 	let { data } = $props();
+	// ?view=map forces the map; otherwise the feed shows when the server sent one (nobody live).
+	let mapForced = $state(false);
+	const showFeed = $derived(!!data.feed && !mapForced && page.url.searchParams.get('view') !== 'map');
 
 	const formData = $derived.by(() => data.form);
 	const { form, enhance, submitting, errors, message } = superForm(formData, {
@@ -327,7 +332,11 @@
 	<form bind:this={clearLocationForm} method="POST" action="?/clearLocation" use:enhanceForm style="display:none;"></form>
 
 	<!-- Main Content Area -->
-	<div class="flex flex-col lg:flex-row flex-1 min-h-0">
+	<div class="flex flex-col lg:flex-row flex-1 min-h-0 relative" class:pu-feed-mode={showFeed}>
+		{#if showFeed && data.feed}
+			<NearbyFeed items={data.feed.items} weekCount={data.feed.weekCount} onPostUp={openFormModal} onOpenMap={() => (mapForced = true)} />
+		{/if}
+
 		<!-- Map Container - Full width on vertical, flexible on horizontal -->
 		<div class="flex-1 min-h-0 lg:min-w-0 relative">
 			{#if data.location}
@@ -1056,3 +1065,8 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	/* Feed-first: hide the map, panels and map bars (they stay mounted for a quick switch). */
+	.pu-feed-mode > :global(:not(.pu-feed)) { display: none !important; }
+</style>

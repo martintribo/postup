@@ -8,6 +8,8 @@ import { post, project } from '$lib/server/db/schema';
 import * as auth from '$lib/server/auth';
 import { and, desc, eq, sql } from 'drizzle-orm';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
+import { getNearbyFeed } from '$lib/server/feed';
+import { flag } from '$lib/flags';
 import { liveCondition, computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
 
 const postSchema = z.object({
@@ -53,7 +55,11 @@ export const load: PageServerLoad = async (event) => {
 		? await db.select().from(project).where(sql`${project.userId} = ${userId} AND ${project.active} = true`).orderBy(desc(project.createdAt))
 		: [];
 
+	// M4: feed-first home when nobody nearby is live.
+	const feed = flag('feed_home') && posts.length === 0 ? await getNearbyFeed(userLocation.latitude, userLocation.longitude) : null;
+
 	return {
+		feed,
 		location: userLocation,
 		locationSource,
 		suggestUpdate,
