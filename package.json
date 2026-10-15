@@ -81,5 +81,11 @@
 		"zod": "^4.1.13",
 		"postgres": "^3.4.7",
 		"aws4fetch": "^1.0.20"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@tailwindcss/oxide",
+			"esbuild"
+		]
 	}
 }
