@@ -1,0 +1,30 @@
+/* Night: dark, vibrant. Also used for the dark basemap. */
+[data-theme='night'] {
+	color-scheme: dark;
+	--pu-bg: #0b0c10;
+	--pu-surface: #15171d;
+	--pu-surface-2: #1c1f27;
+	--pu-text: #f6f7fb;
+	--pu-muted: #9aa1b2;
+	--pu-subtle: #7d8496;
+	--pu-border: #2a2e39;
+	--pu-accent: #3cf2a4;
+	--pu-accent-hover: #2fd68f;
+	--pu-accent-soft: rgb(60 242 164 / 0.14);
+	--pu-accent-text: #05140d;
+	--pu-live: #3cf2a4;
+	--pu-danger: #ff6b6b;
+	--pu-danger-soft: rgb(255 107 107 / 0.14);
+	--pu-shadow-sm: 0 0 0 1px rgb(255 255 255 / 0.06);
+	--pu-shadow: 0 0 0 1px rgb(255 255 255 / 0.07), 0 10px 30px rgb(0 0 0 / 0.5);
+	--pu-shadow-lg: 0 0 0 1px rgb(255 255 255 / 0.08), 0 20px 50px rgb(0 0 0 / 0.6);
+}
+[data-theme='night'] body {
+	background-image:
+		radial-gradient(400px 300px at 90% 0, rgb(167 139 250 / 0.14), transparent),
+		radial-gradient(400px 300px at 0 100%, rgb(60 242 164 / 0.08), transparent);
+	background-attachment: fixed;
+}
+[data-theme='night'] .bg-brand {
+	box-shadow: 0 0 24px rgb(60 242 164 / 0.35);
+}

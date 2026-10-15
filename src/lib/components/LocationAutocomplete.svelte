@@ -170,23 +170,23 @@
 		onkeydown={handleKeydown}
 		onblur={handleBlur}
 		placeholder="Search for a location..."
-		class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+		class="w-full px-3 py-2 border border-line rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand bg-surface text-ink"
 		autocomplete="off"
 	/>
 	{#if showSuggestions && suggestions.length > 0}
 		<ul
-			class="absolute z-10 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md shadow-lg max-h-60 overflow-auto"
+			class="absolute z-10 w-full mt-1 bg-surface border border-line rounded-md shadow-lg max-h-60 overflow-auto"
 		>
 			{#each suggestions as suggestion, index (suggestion.id || index.toString())}
 				<li>
 					<button
 						type="button"
 						onclick={() => selectSuggestion(suggestion)}
-						class="w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 focus:bg-gray-100 dark:focus:bg-gray-700 focus:outline-none {selectedIndex === index
-							? 'bg-gray-100 dark:bg-gray-700'
+						class="w-full text-left px-4 py-2 hover:bg-surface-2 focus:bg-surface-2 focus:outline-none {selectedIndex === index
+							? 'bg-surface-2 '
 							: ''}"
 					>
-						<div class="text-sm text-gray-900 dark:text-gray-100">
+						<div class="text-sm text-ink">
 							{suggestion.properties?.full_address || suggestion.place_name || suggestion.text || 'Unknown location'}
 						</div>
 					</button>

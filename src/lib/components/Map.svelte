@@ -32,7 +32,7 @@
 	 */
 	function isDarkMode(): boolean {
 		if (typeof window === 'undefined') return false;
-		return window.matchMedia('(prefers-color-scheme: dark)').matches;
+		return document.documentElement.dataset.theme === 'night';
 	}
 
 	const STADIA_ATTRIBUTION =
@@ -106,10 +106,10 @@
 	 */
 	function createCoffeeIcon(): L.DivIcon {
 		const isDark = isDarkMode();
-		const bgColor = isDark ? '#2563eb' : '#2563eb'; // Blue circle background
+		const bgColor = isDark ? 'var(--pu-accent)' : 'var(--pu-accent)'; // Blue circle background
 		return L.divIcon({
 			className: 'custom-coffee-marker',
-			html: `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: ${bgColor}; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);"><span class="material-symbols-outlined" style="font-size: 24px; color: white;">local_cafe</span></div>`,
+			html: `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: ${bgColor}; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);"><span class="material-symbols-outlined" style="font-size: 24px; color: var(--pu-accent-text);">local_cafe</span></div>`,
 			iconSize: [40, 40],
 			iconAnchor: [20, 40],
 			popupAnchor: [0, -40]
@@ -139,12 +139,12 @@
 			const popupContent = `
 				<div style="min-width: 200px;">
 					<div style="font-weight: 600; margin-bottom: 4px;">${postItem.name}</div>
-					<div style="font-size: 0.875rem; color: #555; margin-bottom: 4px;">${postItem.activity}</div>
-					<div style="font-size: 0.875rem; color: #666; margin-bottom: 4px;">${postItem.location}</div>
-					<div style="font-size: 0.75rem; color: #888;">
+					<div style="font-size: 0.875rem; color: var(--pu-muted); margin-bottom: 4px;">${postItem.activity}</div>
+					<div style="font-size: 0.875rem; color: var(--pu-muted); margin-bottom: 4px;">${postItem.location}</div>
+					<div style="font-size: 0.75rem; color: var(--pu-subtle);">
 						${formatDate(postItem.startTime)} – ${formatDate(endTime)}
 					</div>
-					<div style="font-size: 0.75rem; color: #888; margin-top: 4px;">
+					<div style="font-size: 0.75rem; color: var(--pu-subtle); margin-top: 4px;">
 						${postItem.hours} ${postItem.hours === 1 ? 'hour' : 'hours'}
 					</div>
 				</div>
@@ -171,8 +171,8 @@
 
 		// Listen for changes in system dark mode preference
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		const handleChange = (e: MediaQueryListEvent) => {
-			updateTileLayer(e.matches);
+		const handleChange = () => {
+			updateTileLayer(isDarkMode());
 		};
 
 		// Modern browsers
@@ -182,6 +182,10 @@
 			// Fallback for older browsers
 			mediaQuery.addListener(handleChange);
 		}
+
+		// Basemap follows the active style (Night = dark tiles).
+		const themeObserver = new MutationObserver(() => updateTileLayer(isDarkMode()));
+		themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 		// Calculate bounds for 50x50 square mile area
 		const bounds = calculateBounds(latitude, longitude);
