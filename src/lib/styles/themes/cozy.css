@@ -1,0 +1,36 @@
+/* Cozy: warm editorial. */
+[data-theme='cozy'] {
+	color-scheme: light;
+	--pu-bg: #fbf6ee;
+	--pu-surface: #fffaf2;
+	--pu-surface-2: #ece2d2;
+	--pu-text: #2a1d14;
+	--pu-muted: #7a6652;
+	--pu-subtle: #9a8670;
+	--pu-border: #dfd2bd;
+	--pu-accent: #c0532f;
+	--pu-accent-hover: #a8452a;
+	--pu-accent-soft: #f6e3d6;
+	--pu-accent-text: #ffffff;
+	--pu-live: #4f8a3c;
+	--pu-danger: #b8342a;
+	--pu-danger-soft: #f7e0da;
+	--pu-radius: 18px;
+	--pu-radius-sm: 12px;
+	--pu-radius-lg: 24px;
+	--pu-shadow-sm: 0 1px 0 rgb(62 46 34 / 0.08);
+	--pu-shadow: 0 2px 0 rgb(62 46 34 / 0.06), 0 10px 24px rgb(62 46 34 / 0.1);
+	--pu-shadow-lg: 0 2px 0 rgb(62 46 34 / 0.06), 0 18px 40px rgb(62 46 34 / 0.18);
+	--pu-font-display: 'Fraunces', Georgia, serif;
+	--pu-display-weight: 700;
+}
+[data-theme='cozy'] body {
+	background-image: radial-gradient(rgb(120 90 60 / 0.06) 1px, transparent 1px);
+	background-size: 4px 4px;
+}
+[data-theme='cozy'] img:not(.leaflet-tile) {
+	filter: sepia(0.28) saturate(1.1) contrast(1.05) brightness(1.02);
+}
+[data-theme='cozy'] .leaflet-tile-pane {
+	filter: sepia(0.15);
+}
