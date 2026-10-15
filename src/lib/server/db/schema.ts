@@ -44,6 +44,8 @@ export const project = pgTable('project', {
 	shortDescription: text('short_description').notNull(),
 	description: text('description').notNull(),
 	active: boolean('active').notNull().default(true),
+	/** Hidden from public lists (test/seed junk). */
+	hidden: boolean('hidden').notNull().default(false),
 	sessionId: text('session_id'),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),

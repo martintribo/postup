@@ -1,0 +1,15 @@
+[data-theme='bold'] {
+	--pu-bg: #fff6e5;
+	--pu-surface: #ffffff;
+	--pu-text: #111111;
+	--pu-muted: #444444;
+	--pu-accent: #ff5a36;
+	--pu-accent-text: #111111;
+	--pu-live: #19c37d;
+	--pu-border: #111111;
+	--pu-radius: 12px;
+	--pu-border-width: 3px;
+	--pu-shadow: 4px 4px 0 #111111;
+	--pu-font: 'Space Grotesk', system-ui, sans-serif;
+	--pu-font-display: 'Archivo Black', 'Space Grotesk', system-ui, sans-serif;
+}

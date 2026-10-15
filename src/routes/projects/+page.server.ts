@@ -7,9 +7,11 @@ export const load: PageServerLoad = async () => {
 	const projects = await db
 		.select()
 		.from(project)
+		.where(eq(project.hidden, false))
 		.orderBy(desc(project.createdAt));
 
 	return {
+		title: 'Projects',
 		projects
 	};
 };

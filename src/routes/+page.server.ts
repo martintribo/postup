@@ -1,3 +1,4 @@
+import { guessLocation } from '$lib/server/location';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -6,7 +7,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post, project } from '$lib/server/db/schema';
 import * as auth from '$lib/server/auth';
-import { desc, eq, sql, gt } from 'drizzle-orm';
+import { and, desc, eq, sql, gt } from 'drizzle-orm';
 import { env as privateEnv } from '$env/dynamic/private';
 import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
 
@@ -18,44 +19,6 @@ const postSchema = z.object({
 	longitude: z.number(),
 	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24')
 });
-
-interface GeoLocation {
-	latitude: number;
-	longitude: number;
-	city?: string;
-	country?: string;
-}
-
-async function getLocationFromIP(ip: string): Promise<GeoLocation | null> {
-	try {
-		// Using ip-api.com (free, no API key required)
-		const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,lat,lon,city,country`);
-		const data = await response.json();
-
-		if (data.status === 'success') {
-			return {
-				latitude: data.lat,
-				longitude: data.lon,
-				city: data.city,
-				country: data.country
-			};
-		}
-		return null;
-	} catch (error) {
-		console.error('Error fetching location:', error);
-		return null;
-	}
-}
-
-function getClientIP(event: { getClientAddress: () => string }): string {
-	return event.getClientAddress();
-}
-
-function isLocalhost(ip: string): boolean {
-	// Check for common localhost IPs
-	const localhostIPs = ['127.0.0.1', '::1', 'localhost', '::ffff:127.0.0.1'];
-	return localhostIPs.includes(ip) || ip.startsWith('127.') || ip.startsWith('::1');
-}
 
 interface ReverseGeocodeResult {
 	neighborhood?: string;
@@ -134,42 +97,16 @@ async function getActivePosts(userLatitude: number, userLongitude: number) {
 		.orderBy(desc(post.createdAt));
 }
 
-async function getUserLocation(event: { getClientAddress: () => string }): Promise<GeoLocation> {
-	const clientIP = getClientIP(event);
-	
-	// If localhost, default to Los Angeles
-	if (isLocalhost(clientIP)) {
-		return {
-			latitude: 34.0522,
-			longitude: -118.2437,
-			city: 'Los Angeles',
-			country: 'USA'
-		};
-	}
-
-	const location = await getLocationFromIP(clientIP);
-
-	// Fallback to default location (London) if geo IP fails
-	const defaultLocation: GeoLocation = {
-		latitude: 51.505,
-		longitude: -0.09,
-		city: 'London',
-		country: 'UK'
-	};
-
-	return location || defaultLocation;
-}
-
 export const load: PageServerLoad = async (event) => {
 	const anonymousSessionId = event.locals.anonymousSessionId;
-	const userLocation = await getUserLocation(event);
+	const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
 	
 	const form = await superValidate(zod4(postSchema));
 	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 	const projects = await db
 		.select()
 		.from(project)
-		.where(eq(project.active, true))
+		.where(and(eq(project.active, true), eq(project.hidden, false)))
 		.orderBy(desc(project.createdAt));
 
 	return {
@@ -209,7 +146,7 @@ export const actions: Actions = {
 			await db.delete(post).where(eq(post.id, parseInt(postId, 10)));
 
 			// Reload posts after deletion
-			const userLocation = await getUserLocation(event);
+			const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return { posts };
 		} catch (error) {
@@ -219,7 +156,7 @@ export const actions: Actions = {
 	},
 	create: async (event) => {
 		const form = await superValidate(event.request, zod4(postSchema));
-		const userLocation = await getUserLocation(event);
+		const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
 
 		if (!form.valid) {
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);

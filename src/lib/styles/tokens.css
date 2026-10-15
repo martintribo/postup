@@ -1,0 +1,26 @@
+/* Design tokens. Components use these variables, never raw colours.
+   Pick a theme with <html data-theme="fresh|bold">. */
+:root,
+[data-theme='fresh'] {
+	--pu-bg: #f7f8f6;
+	--pu-surface: #ffffff;
+	--pu-text: #14231b;
+	--pu-muted: #5d6b63;
+	--pu-accent: #1f7a4d;
+	--pu-accent-text: #ffffff;
+	--pu-live: #22c55e;
+	--pu-border: #e3e7e4;
+	--pu-radius: 14px;
+	--pu-border-width: 1px;
+	--pu-shadow: 0 2px 10px rgb(0 0 0 / 0.08);
+	--pu-font: 'Inter', system-ui, sans-serif;
+	--pu-font-display: 'Inter', system-ui, sans-serif;
+}
+:root.dark[data-theme='fresh'],
+:root.dark:not([data-theme]) {
+	--pu-bg: #0f1713;
+	--pu-surface: #17221c;
+	--pu-text: #e8efe9;
+	--pu-muted: #9aa9a0;
+	--pu-border: #26352c;
+}
