@@ -282,7 +282,7 @@
 		<div style="min-width: 10rem;">
 			{#if data.user}
 				<form method="POST" action="?/logout" use:enhanceForm style="display: flex; align-items: center; gap: 0.75rem;">
-					<a href="/me" class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" data-testid="me-link">{data.user.displayName || data.user.username}</a>
+					<a href="/me" class="text-sm font-medium text-ink truncate" data-testid="me-link">{data.user.displayName || data.user.username}</a>
 					{#if flag('chat')}<a href="/inbox" class="text-sm" data-testid="inbox-link">Inbox</a>{/if}
 					<a href="/activity" class="text-sm" data-testid="activity-link">Activity{#if data.unread}<span class="pu-unread" data-testid="unread">{data.unread}</span>{/if}</a>
 					<button
