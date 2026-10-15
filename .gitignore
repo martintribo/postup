@@ -25,3 +25,8 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 storybook-static
+<<<<<<< Updated upstream
+=======
+certs/
+static/uploads/import/
+>>>>>>> Stashed changes
