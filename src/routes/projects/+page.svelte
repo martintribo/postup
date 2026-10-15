@@ -62,9 +62,9 @@
 		</div>
 	</header>
 
-	<div class="max-w-6xl mx-auto flex gap-6 p-4" style="flex-direction: row;">
+	<div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4">
 		<!-- Filters Sidebar -->
-		<aside style="width: 16rem; flex-shrink: 0;">
+		<aside class="w-full md:w-64 md:shrink-0">
 			<div class="lg:sticky lg:top-4 space-y-6">
 				<!-- Active Toggle -->
 				<div>
