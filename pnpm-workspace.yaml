@@ -1,3 +1,7 @@
 onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
+# pnpm 11 reads allowBuilds instead of onlyBuiltDependencies
+allowBuilds:
+  '@tailwindcss/oxide': true
+  esbuild: true
