@@ -137,6 +137,9 @@
 		<p class="pu-muted">{who} isn't at {cafe} after all.</p>
 		<a class="pu-btn pu-primary" href="/">See who's around now</a>
 	{/if}
+	{#if data.chatEnabled && (data.isOwner || data.myRequest?.status === 'approved')}
+		<a class="pu-btn" href="/postups/{p.id}/chat" data-testid="open-chat">Group chat</a>
+	{/if}
 	{#if err}<p class="pu-err" role="alert">{err}</p>{/if}
 </main>
 

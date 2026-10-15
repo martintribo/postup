@@ -6,6 +6,8 @@ test('home opens on the Nearby feed when nobody is live, map when someone is', a
 	const sql = postgres(process.env.DATABASE_URL!);
 	await sql`update post set status='ended' where status='live'`;
 	const tag = `feed-${Date.now()}`;
+	// Keep the feed small and deterministic: push earlier test rows out of the 7-day window.
+	await sql`update post set start_time = now() - interval '30 days' where status <> 'live'`;
 	await sql`insert into post (name, activity, location, latitude, longitude, hours, created_at, start_time, ends_at, status)
 		values ('Maya', ${tag}, 'Bean Theory', 33.976, -118.417, 2, now() - interval '1 day', now() - interval '1 day', now() - interval '22 hours', 'ended')`;
 

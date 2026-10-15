@@ -205,3 +205,27 @@ export const notification = pgTable(
 	},
 	(t) => [index('notification_user_idx').on(t.userId, t.createdAt)]
 );
+
+/** M7: one group chat per postup (members = poster + approved joiners). */
+export const message = pgTable(
+	'message',
+	{
+		id: serial('id').primaryKey(),
+		postId: integer('post_id').notNull().references(() => post.id),
+		userId: text('user_id').notNull().references(() => user.id),
+		body: text('body').notNull(),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+		deletedAt: timestamp('deleted_at', { withTimezone: true, mode: 'date' })
+	},
+	(t) => [index('message_post_idx').on(t.postId, t.id)]
+);
+
+export const chatRead = pgTable(
+	'chat_read',
+	{
+		postId: integer('post_id').notNull().references(() => post.id),
+		userId: text('user_id').notNull().references(() => user.id),
+		lastReadId: integer('last_read_id').notNull().default(0)
+	},
+	(t) => [primaryKey({ columns: [t.postId, t.userId] })]
+);

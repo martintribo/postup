@@ -15,6 +15,8 @@ export const config = {
 	askHidesCafe: (env.PUBLIC_ASK_HIDE_CAFE ?? '1') !== '0',
 	/** D5: default join mode for new postups. */
 	defaultJoinMode: (env.PUBLIC_DEFAULT_JOIN_MODE === 'ask' ? 'ask' : 'open') as 'open' | 'ask',
+	/** D6: chat stays readable this many hours after a postup ends (PUBLIC_CHAT_READ_HOURS). */
+	chatReadHours: Number(env.PUBLIC_CHAT_READ_HOURS || 24),
 	/** D8 style: Fresh by default; 'bold' is the other candidate. */
 	theme: (env.PUBLIC_THEME || 'fresh') as Theme
 };

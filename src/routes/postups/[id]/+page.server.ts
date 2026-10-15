@@ -31,6 +31,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 		hideCafe,
 		isOwner,
 		joinEnabled: flag('join'),
+		chatEnabled: flag('chat'),
 		signedIn: !!locals.user,
 		myRequest: mine ? { id: mine.id, status: mine.status } : null,
 		requests: isOwner ? (await listRequests(p.id)).map((r) => ({ ...r, createdAt: r.createdAt.toISOString() })) : [],
