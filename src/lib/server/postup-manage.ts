@@ -11,6 +11,7 @@ export async function getPostup(id: number) {
 			userId: post.userId,
 			name: post.name,
 			displayName: user.displayName,
+			username: user.username,
 			avatarUrl: user.avatarUrl,
 			activity: post.activity,
 			goals: post.goals,

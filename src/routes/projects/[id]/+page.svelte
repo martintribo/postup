@@ -1,6 +1,11 @@
 <script lang="ts">
 	import ShareButton from '$lib/components/ShareButton.svelte';
+	import { invalidateAll } from '$app/navigation';
 	let { data } = $props();
+	async function toggle() {
+		await fetch('/api/follows', { method: data.following ? 'DELETE' : 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ targetType: 'project', targetId: data.project.id }) });
+		await invalidateAll();
+	}
 	const p = $derived(data.project);
 </script>
 
@@ -11,6 +16,7 @@
 	<p>{p.short}</p>
 	<div class="row">
 		{#if data.liveId}<a class="cta" href="/postups/{data.liveId}">Join {p.owner || 'them'} now</a>{/if}
+		{#if data.signedIn}<button class="cta" onclick={toggle} data-testid="follow-project">{data.following ? 'Following' : 'Follow'}</button>{/if}
 		<ShareButton path="/projects/{p.id}" text={data.title} />
 	</div>
 	<h2>Updates</h2>

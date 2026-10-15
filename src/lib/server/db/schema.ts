@@ -10,6 +10,8 @@ export const user = pgTable('user', {
 	avatarUrl: text('avatar_url'),
 	email: text('email'),
 	bio: text('bio'),
+	/** Set when the account is deleted; personal data is wiped at the same time. */
+	deletedAt: timestamp('deleted_at', { withTimezone: true, mode: 'date' }),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())
 });
 
@@ -261,3 +263,15 @@ export const deviceToken = pgTable('device_token', {
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	lastSeenAt: timestamp('last_seen_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())
 });
+
+/** M11: follow a person or a project. */
+export const follow = pgTable(
+	'follow',
+	{
+		followerId: text('follower_id').notNull().references(() => user.id),
+		targetType: text('target_type').notNull(), // user | project
+		targetId: text('target_id').notNull(),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+	},
+	(t) => [primaryKey({ columns: [t.followerId, t.targetType, t.targetId] })]
+);

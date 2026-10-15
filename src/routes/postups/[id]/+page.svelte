@@ -62,7 +62,7 @@
 	<a href="/" class="pu-back">← Back</a>
 	{#if p.state === 'live'}
 		{#if data.isOwner}<div class="pu-live-badge" data-testid="you-are-live">You're live</div>{/if}
-		<h1>{who} <span class="pu-muted">at</span> {#if p.placeId}<a href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if}</h1>
+		<h1>{#if p.username}<a href="/u/{p.username}">{who}</a>{:else}{who}{/if} <span class="pu-muted">at</span> {#if p.placeId}<a href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if}</h1>
 		<p class="pu-act">{p.activity}</p>
 		{#if p.note}<p class="pu-muted">{p.note}</p>{/if}
 		{#if p.projectName}<p class="pu-muted">For <a href="/projects/{p.projectId}">{p.projectName}</a></p>{/if}

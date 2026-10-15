@@ -42,7 +42,8 @@ export async function validateSessionToken(token: string) {
 				id: table.user.id,
 				username: table.user.username,
 				displayName: table.user.displayName,
-				avatarUrl: table.user.avatarUrl
+				avatarUrl: table.user.avatarUrl,
+				deletedAt: table.user.deletedAt
 			},
 			session: table.session
 		})
@@ -54,6 +55,7 @@ export async function validateSessionToken(token: string) {
 		return { session: null, user: null };
 	}
 	const { session, user } = result;
+	if ((user as { deletedAt?: Date | null }).deletedAt) return { session: null, user: null };
 
 	const sessionExpired = Date.now() >= session.expiresAt.getTime();
 	if (sessionExpired) {

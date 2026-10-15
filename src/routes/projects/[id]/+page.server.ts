@@ -4,9 +4,10 @@ import { db } from '$lib/server/db';
 import { project, projectStatus, user, post } from '$lib/server/db/schema';
 import { liveCondition } from '$lib/server/postups';
 import type { PageServerLoad } from './$types';
+import { isFollowing } from '$lib/server/profile';
 
 /** Project page + shared-project landing (mockups #project, #invite-project). */
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
 	const id = Number(params.id);
 	const [p] = await db
 		.select({ id: project.id, name: project.name, short: project.shortDescription, description: project.description, hidden: project.hidden, owner: sql<string | null>`coalesce(${user.displayName}, ${user.username})` })
@@ -21,6 +22,8 @@ export const load: PageServerLoad = async ({ params }) => {
 		description: p.short || 'A project on PostUp',
 		project: p,
 		liveId: live?.id ?? null,
+		signedIn: !!locals.user,
+		following: locals.user ? await isFollowing(locals.user.id, 'project', String(id)) : false,
 		updates: updates.map((u) => ({ id: u.id, title: u.title, body: u.body, at: u.occurredAt.toISOString() }))
 	};
 };
