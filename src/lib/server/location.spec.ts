@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 vi.mock('$env/dynamic/public', () => ({ env: {} }));
-import { guessLocation } from './location';
+import { guessLocation } from './guess-location';
 
 describe('guessLocation', () => {
 	it('uses Vercel edge headers first', async () => {

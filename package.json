@@ -5,6 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
+		"dev:https": "npm run setup-https && vite dev",
+		"setup-https": "bash scripts/setup-https.sh",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
@@ -19,7 +21,7 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
 		"db:studio": "drizzle-kit studio",
-		"storybook": "storybook dev -p 6006",
+		"storybook": "storybook dev -p 6008 --host 0.0.0.0",
 		"build-storybook": "storybook build",
 		"hub:services": "bash scripts/hub-services.sh"
 	},
@@ -41,6 +43,7 @@
 		"@tailwindcss/forms": "^0.5.10",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.17",
+		"@types/d3-force": "^3.0.10",
 		"@types/leaflet": "^1.9.21",
 		"@types/node": "^22",
 		"@vitest/browser-playwright": "^4.0.10",
@@ -71,9 +74,12 @@
 		"@neondatabase/serverless": "^1.0.2",
 		"@node-rs/argon2": "^2.0.2",
 		"arctic": "^3.7.0",
+		"d3-force": "^3.0.0",
 		"leaflet": "^1.9.4",
-		"postgres": "^3.4.9",
+		"openai": "^6.32.0",
 		"sveltekit-superforms": "^2.28.1",
-		"zod": "^4.1.13"
+		"zod": "^4.1.13",
+		"postgres": "^3.4.7",
+		"aws4fetch": "^1.0.20"
 	}
 }

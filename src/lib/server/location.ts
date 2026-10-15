@@ -1,66 +1,118 @@
-import { config } from '$lib/config';
+import type { RequestEvent } from '@sveltejs/kit';
+import * as auth from '$lib/server/auth';
+import { guessLocation } from '$lib/server/guess-location';
+import { env as privateEnv } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
 
 export interface GeoLocation {
 	latitude: number;
 	longitude: number;
 	city?: string;
 	country?: string;
-	source: 'edge' | 'ip' | 'default';
 }
 
-/**
- * Best guess at where the visitor is, used only until the browser grants location.
- * Order: Vercel edge geo headers -> ip-api on the real client IP -> launch area.
- * The old code looked up the serverless function's own IP when headers were missing,
- * which is the likely cause of the Clarksville, TN default on prod.
- */
-export async function guessLocation(
-	headers: Headers,
-	clientAddress: string,
-	fetcher: typeof fetch = fetch
-): Promise<GeoLocation> {
-	const lat = Number(headers.get('x-vercel-ip-latitude'));
-	const lng = Number(headers.get('x-vercel-ip-longitude'));
-	if (headers.get('x-vercel-ip-latitude') && Number.isFinite(lat) && Number.isFinite(lng)) {
-		const city = headers.get('x-vercel-ip-city');
-		return {
-			latitude: lat,
-			longitude: lng,
-			city: city ? decodeURIComponent(city) : undefined,
-			country: headers.get('x-vercel-ip-country') ?? undefined,
-			source: 'edge'
-		};
-	}
+export interface ReverseGeocodeResult {
+	neighborhood?: string;
+	locality?: string;
+	district?: string;
+}
 
-	const forwarded = headers.get('x-forwarded-for')?.split(',')[0]?.trim();
-	const ip = forwarded || clientAddress;
-	if (ip && !isPrivate(ip)) {
-		try {
-			const r = await fetcher(`http://ip-api.com/json/${ip}?fields=status,lat,lon,city,country`);
-			const d = await r.json();
-			if (d.status === 'success') {
-				return { latitude: d.lat, longitude: d.lon, city: d.city, country: d.country, source: 'ip' };
-			}
-		} catch {
-			/* fall through */
+export async function getLocationFromIP(ip: string): Promise<GeoLocation | null> {
+	try {
+		const response = await fetch(`http://ip-api.com/json/${ip}?fields=status,message,lat,lon,city,country`);
+		const data = await response.json();
+		if (data.status === 'success') {
+			return { latitude: data.lat, longitude: data.lon, city: data.city, country: data.country };
 		}
+		return null;
+	} catch (error) {
+		console.error('Error fetching location:', error);
+		return null;
 	}
-
-	const a = config.launchArea;
-	return { latitude: a.latitude, longitude: a.longitude, city: a.name, source: 'default' };
 }
 
-export function isPrivate(ip: string): boolean {
-	return (
-		ip === 'localhost' ||
-		ip.startsWith('127.') ||
-		ip === '::1' ||
-		ip.startsWith('::ffff:127.') ||
-		ip.startsWith('10.') ||
-		ip.startsWith('192.168.') ||
-		/^172\.(1[6-9]|2\d|3[01])\./.test(ip) ||
-		ip.startsWith('100.') ||
-		ip.startsWith('fc') ||
-		ip.startsWith('fd')
-	);
+export function getClientIP(event: { getClientAddress: () => string }): string {
+	return event.getClientAddress();
+}
+
+export function isLocalhost(ip: string): boolean {
+	const localhostIPs = ['127.0.0.1', '::1', 'localhost', '::ffff:127.0.0.1'];
+	return localhostIPs.includes(ip) || ip.startsWith('127.') || ip.startsWith('::1');
+}
+
+export function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+	const R = 3959;
+	const dLat = (lat2 - lat1) * Math.PI / 180;
+	const dLon = (lon2 - lon1) * Math.PI / 180;
+	const a = Math.sin(dLat / 2) ** 2 +
+		Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+		Math.sin(dLon / 2) ** 2;
+	return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+export async function reverseGeocode(latitude: number, longitude: number): Promise<ReverseGeocodeResult> {
+	const accessToken = privateEnv.MAPBOX_ACCESS_TOKEN || publicEnv.PUBLIC_MAPBOX_ACCESS_TOKEN;
+	if (!accessToken) {
+		console.error('Mapbox access token is not configured');
+		return {};
+	}
+
+	try {
+		const params = new URLSearchParams({
+			longitude: longitude.toString(),
+			latitude: latitude.toString(),
+			types: 'neighborhood,locality,district',
+			access_token: accessToken
+		});
+
+		const response = await fetch(`https://api.mapbox.com/search/geocode/v6/reverse?${params.toString()}`);
+		if (!response.ok) throw new Error(`Mapbox API error: ${response.status}`);
+
+		const data = await response.json();
+		const features = data.features || [];
+		const result: ReverseGeocodeResult = {};
+
+		if (features.length > 0) {
+			const context = features[0].properties?.context || features[0].context || [];
+			if (Array.isArray(context)) {
+				for (const ctx of context) {
+					if (ctx.id?.startsWith('neighborhood.')) result.neighborhood = ctx.text;
+					else if (ctx.id?.startsWith('locality.')) result.locality = ctx.text;
+					else if (ctx.id?.startsWith('district.')) result.district = ctx.text;
+				}
+			}
+		}
+		return result;
+	} catch (error) {
+		console.error('Error reverse geocoding:', error);
+		return {};
+	}
+}
+
+function getStoredLocation(event: RequestEvent): GeoLocation | null {
+	const cookie = event.cookies.get(auth.userLocationCookieName);
+	if (!cookie) return null;
+	try {
+		const parsed = JSON.parse(cookie);
+		if (typeof parsed.latitude === 'number' && typeof parsed.longitude === 'number') {
+			return parsed;
+		}
+	} catch {}
+	return null;
+}
+
+export async function getUserLocation(event: RequestEvent): Promise<{ location: GeoLocation; source: 'precise' | 'ip' | 'default'; suggestUpdate: boolean }> {
+	const stored = getStoredLocation(event);
+	// M0: edge geo headers -> real client IP -> launch area (never the server's own IP).
+	const guess = await guessLocation(event.request.headers, event.getClientAddress());
+	const ipLocation: GeoLocation | null = guess.source === 'default' ? null : guess;
+
+	if (stored) {
+		const suggestUpdate = ipLocation
+			? haversineDistance(stored.latitude, stored.longitude, ipLocation.latitude, ipLocation.longitude) > 25
+			: false;
+		return { location: stored, source: 'precise', suggestUpdate };
+	}
+
+	return { location: guess, source: ipLocation ? 'ip' : 'default', suggestUpdate: false };
 }

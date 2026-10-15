@@ -1,20 +1,25 @@
 <script lang="ts">
-	import Map from '$lib/components/Map.svelte';
+	import { onMount } from 'svelte';
+	import Map, { type NearbyPlace } from '$lib/components/Map.svelte';
 	import LocationAutocomplete from '$lib/components/LocationAutocomplete.svelte';
+	import GooglePlaceSearch from '$lib/components/GooglePlaceSearch.svelte';
+	import { flag } from '$lib/flags';
 	import { superForm } from 'sveltekit-superforms';
 	import { zod4Client } from 'sveltekit-superforms/adapters';
 	import type { PageData } from './$types';
 	import { z } from 'zod';
 	import { invalidateAll } from '$app/navigation';
 	import { enhance as enhanceForm } from '$app/forms';
+	import { env } from '$env/dynamic/public';
 
 	const postSchema = z.object({
-		name: z.string().min(1, 'Name is required'),
 		activity: z.string().min(1, 'Activity is required'),
+		goals: z.string().optional(),
 		location: z.string().min(1, 'Location is required'),
 		latitude: z.number(),
 		longitude: z.number(),
-		hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24')
+		hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24'),
+		projectId: z.number().int().optional()
 	});
 
 	let { data } = $props();
@@ -37,14 +42,111 @@
 	let selectedLocation = $state<{ name: string; latitude: number; longitude: number } | null>(null);
 	let showFormModal = $state(false);
 	let showFaqModal = $state(false);
+	let geolocating = $state(false);
+	let geoError = $state<string | null>(null);
 
 	// Initialize hours if not set
 	if (!$form.hours) {
 		$form.hours = 1;
 	}
 
+	let allCafes = $state<NearbyPlace[]>([]);
+	let nearbySuggestions = $state<NearbyPlace[]>([]);
+	let formStep = $state(1);
+	let autoLocating = $state(false);
+
+	// Add project inline
+	let showAddProject = $state(false);
+	let newProjectName = $state('');
+	let newProjectType = $state('software');
+	let newProjectDesc = $state('');
+	let addingProject = $state(false);
+
+	async function addProject() {
+		if (!newProjectName.trim()) return;
+		addingProject = true;
+		try {
+			const res = await fetch('/api/projects', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					name: newProjectName.trim(),
+					type: newProjectType,
+					shortDescription: newProjectDesc.trim()
+				})
+			});
+			if (res.ok) {
+				const { project } = await res.json();
+				// Add to local list and select it
+				data.myProjects = [...(data.myProjects ?? []), project];
+				$form.projectId = project.id;
+				if (!$form.activity) $form.activity = `Working on ${project.name}`;
+				// Reset
+				showAddProject = false;
+				newProjectName = '';
+				newProjectType = 'software';
+				newProjectDesc = '';
+			}
+		} catch {
+			// ignore
+		}
+		addingProject = false;
+	}
+
+	function onCafesLoaded(cafes: NearbyPlace[]) {
+		allCafes = cafes;
+	}
+
+	function haversineMeters(lat1: number, lon1: number, lat2: number, lon2: number): number {
+		const R = 6371000;
+		const dLat = (lat2 - lat1) * Math.PI / 180;
+		const dLon = (lon2 - lon1) * Math.PI / 180;
+		const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.sin(dLon / 2) ** 2;
+		return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+	}
+
+	async function findNearbyCafes() {
+		autoLocating = true;
+		nearbySuggestions = [];
+		try {
+			if (navigator.geolocation) {
+				const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+					navigator.geolocation.getCurrentPosition(resolve, reject, {
+						enableHighAccuracy: true,
+						timeout: 8000,
+						maximumAge: 60000
+					});
+				});
+				const userLat = pos.coords.latitude;
+				const userLng = pos.coords.longitude;
+
+				// Find cafes within ~150m (parking lot distance)
+				const maxDistance = 150;
+				nearbySuggestions = allCafes
+					.map((c) => ({ cafe: c, dist: haversineMeters(userLat, userLng, c.latitude, c.longitude) }))
+					.filter((c) => c.dist <= maxDistance)
+					.sort((a, b) => a.dist - b.dist)
+					.map((c) => c.cafe);
+			}
+		} catch {
+			// Geolocation failed — show no suggestions
+		}
+		autoLocating = false;
+	}
+
+	function selectCafe(cafe: NearbyPlace) {
+		locationValue = cafe.name;
+		$form.location = cafe.name;
+		$form.latitude = cafe.latitude;
+		$form.longitude = cafe.longitude;
+		nearbySuggestions = [];
+		formStep = 2;
+	}
+
 	function openFormModal() {
+		formStep = 1;
 		showFormModal = true;
+		findNearbyCafes();
 	}
 
 	function closeFormModal() {
@@ -65,6 +167,13 @@
 		$form.location = location.name;
 		$form.latitude = location.latitude;
 		$form.longitude = location.longitude;
+		$form.googlePlaceId = undefined;
+		formStep = 2;
+	}
+
+	function handleGoogleSelect(p: { googlePlaceId: string; name: string; latitude: number; longitude: number }) {
+		handleLocationSelect(p);
+		$form.googlePlaceId = p.googlePlaceId;
 	}
 
 	function incrementHours() {
@@ -78,6 +187,72 @@
 			$form.hours--;
 		}
 	}
+
+	let setLocationForm: HTMLFormElement;
+	let clearLocationForm: HTMLFormElement;
+	let pendingLatitude = $state('');
+	let pendingLongitude = $state('');
+
+	async function requestPreciseLocation() {
+		if (!navigator.geolocation) {
+			geoError = 'Geolocation is not supported by your browser';
+			return;
+		}
+		geolocating = true;
+		geoError = null;
+
+		navigator.geolocation.getCurrentPosition(
+			(position) => {
+				pendingLatitude = position.coords.latitude.toString();
+				pendingLongitude = position.coords.longitude.toString();
+				geolocating = false;
+				// Tick to let bindings update, then submit
+				requestAnimationFrame(() => {
+					setLocationForm.requestSubmit();
+				});
+			},
+			(err) => {
+				geolocating = false;
+				switch (err.code) {
+					case err.PERMISSION_DENIED:
+						geoError = 'Location permission denied';
+						break;
+					case err.POSITION_UNAVAILABLE:
+						geoError = 'Location unavailable';
+						break;
+					case err.TIMEOUT:
+						geoError = 'Location request timed out';
+						break;
+					default:
+						geoError = 'Could not get location';
+				}
+			},
+			{ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+		);
+	}
+
+	function clearPreciseLocation() {
+		clearLocationForm.requestSubmit();
+	}
+
+	// Auto-request geolocation on first visit if not already set
+	onMount(() => {
+		if (data.locationSource !== 'precise' && navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					pendingLatitude = position.coords.latitude.toString();
+					pendingLongitude = position.coords.longitude.toString();
+					requestAnimationFrame(() => {
+						setLocationForm.requestSubmit();
+					});
+				},
+				() => {
+					// Silently fall back to IP-based location
+				},
+				{ enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+			);
+		}
+	});
 
 	const projectTypeStyles: Record<string, { border: string; bg: string; text: string }> = {
 		software: { border: 'border-l-blue-500 dark:border-l-blue-400', bg: 'bg-blue-100 dark:bg-blue-900/50', text: 'text-blue-600 dark:text-blue-400' },
@@ -144,6 +319,13 @@
 		</div>
 	</header>
 
+	<!-- Hidden forms for location actions -->
+	<form bind:this={setLocationForm} method="POST" action="?/setLocation" use:enhanceForm style="display:none;">
+		<input type="hidden" name="latitude" value={pendingLatitude} />
+		<input type="hidden" name="longitude" value={pendingLongitude} />
+	</form>
+	<form bind:this={clearLocationForm} method="POST" action="?/clearLocation" use:enhanceForm style="display:none;"></form>
+
 	<!-- Main Content Area -->
 	<div class="flex flex-col lg:flex-row flex-1 min-h-0">
 		<!-- Map Container - Full width on vertical, flexible on horizontal -->
@@ -155,25 +337,105 @@
 					city={data.location.city}
 					country={data.location.country}
 					posts={data.posts}
+					{onCafesLoaded}
 				/>
 			{:else}
 				<div class="h-full flex items-center justify-center">
 					<p class="text-gray-500 dark:text-gray-400">Loading map...</p>
 				</div>
 			{/if}
-			
+
+			<!-- Location control - top left of map -->
+			<div class="absolute top-3 left-3 z-[1000] flex flex-col gap-2">
+				{#if data.locationSource === 'precise'}
+					<div class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+						<div class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
+						<span class="text-xs text-gray-600 dark:text-gray-400">
+							{data.location.city || 'Your location'}
+						</span>
+						<button
+							type="button"
+							onclick={requestPreciseLocation}
+							disabled={geolocating}
+							class="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+							title="Update location"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182M2.985 19.644l3.181-3.182" />
+							</svg>
+						</button>
+						<button
+							type="button"
+							onclick={clearPreciseLocation}
+							class="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+							title="Use approximate location"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+							</svg>
+						</button>
+					</div>
+				{:else}
+					<button
+						type="button"
+						onclick={requestPreciseLocation}
+						disabled={geolocating}
+						class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+						title="Use my precise location"
+					>
+						{#if geolocating}
+							<div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+							<span class="text-xs text-gray-600 dark:text-gray-400">Locating...</span>
+						{:else}
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+								<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+								<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+							</svg>
+							<span class="text-xs text-gray-600 dark:text-gray-400">Use my location</span>
+						{/if}
+					</button>
+				{/if}
+				{#if geoError}
+					<div class="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
+						<p class="text-xs text-red-600 dark:text-red-400">{geoError}</p>
+					</div>
+				{/if}
+				{#if data.suggestUpdate}
+					<button
+						type="button"
+						onclick={requestPreciseLocation}
+						disabled={geolocating}
+						class="flex items-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg hover:border-amber-400 transition-colors"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+						</svg>
+						<span class="text-xs text-amber-700 dark:text-amber-300">Looks like you moved — update location?</span>
+					</button>
+				{/if}
+			</div>
+
 			<!-- Floating slogan and button -->
 			<div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 sm:px-4 py-2 sm:py-3 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 w-[calc(100%-2rem)] max-w-[450px]">
 				<div class="flex-1 flex justify-center">
 					<p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400 text-center min-w-0">Doing something and open to company?</p>
 				</div>
-				<button
-					type="button"
-					onclick={openFormModal}
-					class="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0"
-				>
-					Post Up
-				</button>
+				{#if data.user}
+					<button
+						type="button"
+						onclick={openFormModal}
+						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0"
+					>
+						Post Up
+					</button>
+				{:else}
+					<a
+						href="/login"
+						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0 text-center"
+					>
+						Log in to Post Up
+					</a>
+				{/if}
 			</div>
 		</div>
 
@@ -195,6 +457,11 @@
 											<p class="text-sm text-gray-700 dark:text-gray-300 mt-0.5">
 												{postItem.activity}
 											</p>
+											{#if postItem.goals}
+												<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 italic">
+													Goal: {postItem.goals}
+												</p>
+											{/if}
 											<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
 												{postItem.location}
 											</p>
@@ -239,7 +506,7 @@
 												</span>
 											</div>
 										</div>
-										{#if data.anonymousSessionId && postItem.sessionId === data.anonymousSessionId}
+										{#if data.userSessionId && postItem.sessionId === data.userSessionId}
 											<form method="POST" action="?/delete" use:enhanceForm>
 												<input type="hidden" name="postId" value={postItem.id} />
 												<button
@@ -369,129 +636,308 @@
 			>
 				<div class="p-6">
 					<div class="flex items-center justify-between mb-4">
-						<h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100">Post up</h2>
+						<div class="flex items-center gap-2">
+							{#if formStep === 2}
+								<button
+									type="button"
+									onclick={() => { formStep = 1; }}
+									class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+									aria-label="Back"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
+								</button>
+							{/if}
+							<h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+								{formStep === 1 ? 'Where are you?' : 'What are you up to?'}
+							</h2>
+						</div>
 						<button
 							type="button"
 							onclick={closeFormModal}
 							class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
 							aria-label="Close modal"
 						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								class="h-6 w-6"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke="currentColor"
-								stroke-width="2"
-							>
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
 							</svg>
 						</button>
 					</div>
 
 					<form method="POST" action="?/create" use:enhance class="space-y-4">
-						<!-- Name Field -->
-						<div>
-							<label for="modal-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-								Your Name
-							</label>
-							<input
-								type="text"
-								id="modal-name"
-								name="name"
-								bind:value={$form.name}
-								class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-								placeholder="e.g., John, Sarah, etc."
-							/>
-							{#if $errors.name}
-								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.name}</p>
-							{/if}
-						</div>
+						{#if formStep === 1}
+							<!-- STEP 1: Location + Hours -->
 
-						<!-- Activity Field -->
-						<div>
-							<label for="modal-activity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-								What are you doing?
-							</label>
-							<input
-								type="text"
-								id="modal-activity"
-								name="activity"
-								bind:value={$form.activity}
-								class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-								placeholder="e.g., Working on laptop, Reading, etc."
-							/>
-							{#if $errors.activity}
-								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.activity}</p>
-							{/if}
-						</div>
+							<!-- Location -->
+							<div>
+								{#if autoLocating}
+									<div class="flex items-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-800">
+										<div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+										<span class="text-sm text-gray-500 dark:text-gray-400">Finding nearby cafes...</span>
+									</div>
+								{:else if nearbySuggestions.length > 0 && !$form.location}
+									<div class="space-y-3">
+										<p class="text-sm text-gray-500 dark:text-gray-400">You're near these places:</p>
+										<div class="space-y-2">
+											{#each nearbySuggestions as cafe (cafe.id)}
+												<button
+													type="button"
+													onclick={() => selectCafe(cafe)}
+													class="w-full flex items-center gap-3 p-2 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+												>
+													<div class="w-14 h-14 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
+														<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+													</div>
+													<div class="text-left min-w-0 flex-1">
+														<div class="font-medium text-gray-900 dark:text-gray-100 truncate">{cafe.name}</div>
+														{#if cafe.isOpen === true}
+															<div class="text-xs text-green-600 dark:text-green-400">Open{cafe.closesAt ? ` · closes ${cafe.closesAt}` : ''}</div>
+														{:else if cafe.isOpen === false}
+															<div class="text-xs text-red-500">Closed</div>
+														{/if}
+														{#if cafe.address}
+															<div class="text-xs text-gray-400 truncate mt-0.5">{cafe.address}</div>
+														{/if}
+													</div>
+												</button>
+											{/each}
+										</div>
+										<button
+											type="button"
+											onclick={() => { nearbySuggestions = []; }}
+											class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+										>
+											Search for a different place
+										</button>
+									</div>
+								{:else}
+									<label for="modal-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+										Search for a place
+									</label>
+									{#if flag('places_v2')}
+										<GooglePlaceSearch onSelect={handleGoogleSelect} near={data.location ?? undefined} />
+									{/if}
+									<LocationAutocomplete
+										name="location"
+										value={locationValue}
+										onSelect={handleLocationSelect}
+										proximity={data.location ? { latitude: data.location.latitude, longitude: data.location.longitude } : undefined}
+									/>
+								{/if}
 
-						<!-- Location Autocomplete -->
-						<div>
-							<label for="modal-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-								Location
-							</label>
-							<LocationAutocomplete
-								name="location"
-								value={locationValue}
-								onSelect={handleLocationSelect}
-								proximity={data.location ? { latitude: data.location.latitude, longitude: data.location.longitude } : undefined}
-							/>
-							<input type="hidden" name="location" bind:value={$form.location} />
-							<input type="hidden" name="latitude" bind:value={$form.latitude} />
-							<input type="hidden" name="longitude" bind:value={$form.longitude} />
-							{#if $errors.location}
-								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.location}</p>
-							{/if}
-						</div>
+								{#if $form.location}
+									<div class="mt-2 flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+										<span class="text-sm text-blue-700 dark:text-blue-300 truncate flex-1">{$form.location}</span>
+										<button
+											type="button"
+											onclick={() => { $form.location = ''; locationValue = ''; nearbySuggestions = []; findNearbyCafes(); }}
+											class="text-blue-400 hover:text-blue-600 flex-shrink-0"
+										>
+											<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+										</button>
+									</div>
+								{/if}
 
-						<!-- Hours Counter -->
-						<div>
-							<label for="modal-hours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-								Hours
-							</label>
-							<div class="flex items-center gap-3">
-								<button
-									type="button"
-									onclick={decrementHours}
-									class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-									disabled={$form.hours <= 1}
-								>
-									−
-								</button>
+								<input type="hidden" name="location" bind:value={$form.location} />
+								<input type="hidden" name="latitude" bind:value={$form.latitude} />
+								<input type="hidden" name="longitude" bind:value={$form.longitude} />
+								{#if $form.googlePlaceId}<input type="hidden" name="googlePlaceId" value={$form.googlePlaceId} />{/if}
+								{#if $errors.location}
+									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.location}</p>
+								{/if}
+							</div>
+
+							<!-- Hours Counter -->
+						{:else}
+							<!-- STEP 2: Project + Activity -->
+
+							<!-- Project selector -->
+							<div>
+								<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+									Working on a project?
+								</label>
+								<div class="flex flex-wrap gap-2">
+									{#each data.myProjects ?? [] as proj (proj.id)}
+										<button
+											type="button"
+											onclick={() => {
+												if ($form.projectId === proj.id) {
+													$form.projectId = undefined;
+													if ($form.activity === `Working on ${proj.name}`) $form.activity = '';
+												} else {
+													$form.projectId = proj.id;
+													if (!$form.activity) $form.activity = `Working on ${proj.name}`;
+												}
+											}}
+											class="px-3 py-1.5 text-sm rounded-full border transition-colors {$form.projectId === proj.id ? 'bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-500 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'}"
+										>
+											{proj.name}
+										</button>
+									{/each}
+									<button
+										type="button"
+										onclick={() => { showAddProject = true; }}
+										class="px-3 py-1.5 text-sm rounded-full border border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1"
+									>
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
+										Add project
+									</button>
+								</div>
+
+								{#if showAddProject}
+									<div class="mt-3 p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 space-y-3">
+										<div>
+											<label for="new-project-name" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Project name</label>
+											<input
+												type="text"
+												id="new-project-name"
+												bind:value={newProjectName}
+												class="w-full px-2.5 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+												placeholder="e.g., My side project"
+											/>
+										</div>
+										<div>
+											<label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Type</label>
+											<div class="flex flex-wrap gap-1.5">
+												{#each ['software', 'art', 'writing', 'business', 'activities'] as t}
+													<button
+														type="button"
+														onclick={() => { newProjectType = t; }}
+														class="px-2.5 py-1 text-xs rounded-full border transition-colors {newProjectType === t ? 'bg-blue-100 dark:bg-blue-900/40 border-blue-400 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-400'}"
+													>
+														{t}
+													</button>
+												{/each}
+											</div>
+										</div>
+										<div>
+											<label for="new-project-desc" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Short description <span class="font-normal text-gray-400">(optional)</span></label>
+											<input
+												type="text"
+												id="new-project-desc"
+												bind:value={newProjectDesc}
+												class="w-full px-2.5 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+												placeholder="What's it about?"
+											/>
+										</div>
+										<div class="flex gap-2">
+											<button
+												type="button"
+												onclick={addProject}
+												disabled={!newProjectName.trim() || addingProject}
+												class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+											>
+												{addingProject ? 'Adding...' : 'Add'}
+											</button>
+											<button
+												type="button"
+												onclick={() => { showAddProject = false; }}
+												class="px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+											>
+												Cancel
+											</button>
+										</div>
+									</div>
+								{/if}
+							</div>
+
+							<!-- Activity Field -->
+							<div>
+								<label for="modal-activity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+									What are you doing?
+								</label>
 								<input
-									type="number"
-									id="modal-hours"
-									name="hours"
-									bind:value={$form.hours}
-									min="1"
-									max="24"
-									class="w-20 px-3 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									type="text"
+									id="modal-activity"
+									name="activity"
+									bind:value={$form.activity}
+									class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									placeholder="e.g., Working on laptop, Reading, etc."
 								/>
+								{#if $errors.activity}
+									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.activity}</p>
+								{/if}
+							</div>
+
+							<!-- Goals Field -->
+							<div>
+								<label for="modal-goals" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+									Goals for this session
+									<span class="font-normal text-gray-400 dark:text-gray-500">(optional)</span>
+								</label>
+								<input
+									type="text"
+									id="modal-goals"
+									name="goals"
+									bind:value={$form.goals}
+									class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									placeholder="e.g., Finish the landing page, Read 50 pages"
+								/>
+							</div>
+
+							<!-- Location summary -->
+							<div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+								<span class="truncate">{$form.location}</span>
 								<button
 									type="button"
-									onclick={incrementHours}
-									class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-									disabled={$form.hours >= 24}
+									onclick={() => { $form.location = ''; locationValue = ''; formStep = 1; nearbySuggestions = []; findNearbyCafes(); }}
+									class="ml-auto text-gray-400 hover:text-gray-600 flex-shrink-0"
 								>
-									+
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
 								</button>
 							</div>
-							{#if $errors.hours}
-								<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.hours[0]}</p>
+
+							<!-- Hours Counter -->
+							<div>
+								<label for="modal-hours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+									How long are you staying?
+								</label>
+								<div class="flex items-center gap-3">
+									<button
+										type="button"
+										onclick={decrementHours}
+										class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+										disabled={$form.hours <= 1}
+									>
+										−
+									</button>
+									<input
+										type="number"
+										id="modal-hours"
+										name="hours"
+										bind:value={$form.hours}
+										min="1"
+										max="24"
+										class="w-20 px-3 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									/>
+									<button
+										type="button"
+										onclick={incrementHours}
+										class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+										disabled={$form.hours >= 24}
+									>
+										+
+									</button>
+									<span class="text-sm text-gray-500 dark:text-gray-400">{$form.hours === 1 ? 'hour' : 'hours'}</span>
+								</div>
+								{#if $errors.hours}
+									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.hours[0]}</p>
+								{/if}
+							</div>
+
+							<!-- Submit Button -->
+							<button
+								type="submit"
+								disabled={!$form.activity}
+								class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+							>
+								Post up
+							</button>
+
+							{#if $message}
+								<p class="text-sm text-green-600 dark:text-green-400">{$message}</p>
 							{/if}
-						</div>
-
-						<!-- Submit Button -->
-						<button
-							type="submit"
-							class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-						>
-							Post up
-						</button>
-
-						{#if $message}
-							<p class="text-sm text-green-600 dark:text-green-400">{$message}</p>
 						{/if}
 					</form>
 				</div>

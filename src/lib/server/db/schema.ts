@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, timestamp, real, boolean, primaryKey, jsonb } from 'drizzle-orm/pg-core';
+import { pgEnum, index, pgTable, serial, integer, text, timestamp, real, boolean, primaryKey, jsonb } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
@@ -36,6 +36,48 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
+export const place = pgTable('place', {
+	id: serial('id').primaryKey(),
+	name: text('name').notNull(),
+	address: text('address').notNull(),
+	latitude: real('latitude').notNull(),
+	longitude: real('longitude').notNull(),
+	mapboxId: text('mapbox_id'),
+	category: text('category'),
+	openHours: jsonb('open_hours'),
+	website: text('website'),
+	phone: text('phone'),
+	googlePlaceId: text('google_place_id').unique(),
+	parking: text('parking'),
+	sessionId: text('session_id'),
+	createdBy: text('created_by').references(() => user.id),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export const placeReview = pgTable('place_review', {
+	id: serial('id').primaryKey(),
+	placeId: integer('place_id').notNull().references(() => place.id),
+	userId: text('user_id').references(() => user.id),
+	sessionId: text('session_id'),
+	rating: integer('rating').notNull(),
+	text: text('text'),
+	wifiRating: integer('wifi_rating'),
+	noiseLevel: text('noise_level'),
+	hasOutlets: boolean('has_outlets'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
+});
+
+export const placeTag = pgTable('place_tag', {
+	id: serial('id').primaryKey(),
+	placeId: integer('place_id').notNull().references(() => place.id),
+	tag: text('tag').notNull(),
+	votes: integer('votes').notNull().default(1)
+});
+
+export const joinMode = pgEnum('join_mode', ['open', 'ask']);
+export const postStatus = pgEnum('post_status', ['live', 'ended', 'cancelled']);
+
 export const post = pgTable('post', {
 	id: serial('id').primaryKey(),
 	name: text('name').notNull(),
@@ -44,14 +86,24 @@ export const post = pgTable('post', {
 	latitude: real('latitude').notNull(),
 	longitude: real('longitude').notNull(),
 	hours: integer('hours').notNull(),
+	goals: text('goals'),
 	neighborhood: text('neighborhood'),
 	locality: text('locality'),
 	district: text('district'),
+	placeId: integer('place_id').references(() => place.id),
 	sessionId: text('session_id'),
 	userId: text('user_id').references(() => user.id),
+	/** Optional project this postup is for (M3). */
+	projectId: integer('project_id'),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
-	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
-});
+	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	/** Authoritative end time; backfilled from start_time + hours. */
+	endsAt: timestamp('ends_at', { withTimezone: true, mode: 'date' }),
+	joinMode: joinMode('join_mode').notNull().default('open'),
+	capacity: integer('capacity'),
+	status: postStatus('status').notNull().default('live'),
+	note: text('note')
+}, (t) => [index('post_status_ends_at_idx').on(t.status, t.endsAt)]);
 
 export type Session = typeof session.$inferSelect;
 
@@ -116,3 +168,7 @@ export const projectChange = pgTable('project_change', {
 
 export type AgentToken = typeof agentToken.$inferSelect;
 export type ProjectChange = typeof projectChange.$inferSelect;
+
+export type Place = typeof place.$inferSelect;
+export type PlaceReview = typeof placeReview.$inferSelect;
+export type PlaceTag = typeof placeTag.$inferSelect;

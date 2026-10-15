@@ -1,0 +1,13 @@
+{
+	"version": "7",
+	"dialect": "postgresql",
+	"entries": [
+		{
+			"idx": 0,
+			"version": "7",
+			"when": 1760371200000,
+			"tag": "0001_drop_place_photo_archive",
+			"breakpoints": true
+		}
+	]
+}

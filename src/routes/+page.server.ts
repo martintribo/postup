@@ -1,4 +1,3 @@
-import { guessLocation } from '$lib/server/location';
 import type { PageServerLoad, Actions } from './$types';
 import { superValidate } from 'sveltekit-superforms/server';
 import { zod4 } from 'sveltekit-superforms/adapters';
@@ -7,84 +6,23 @@ import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post, project } from '$lib/server/db/schema';
 import * as auth from '$lib/server/auth';
-import { and, desc, eq, sql, gt } from 'drizzle-orm';
-import { env as privateEnv } from '$env/dynamic/private';
-import { PUBLIC_MAPBOX_ACCESS_TOKEN } from '$env/static/public';
+import { and, desc, eq, sql } from 'drizzle-orm';
+import { getUserLocation, reverseGeocode } from '$lib/server/location';
+import { liveCondition, computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
 
 const postSchema = z.object({
-	name: z.string().min(1, 'Name is required'),
 	activity: z.string().min(1, 'Activity is required'),
+	goals: z.string().optional(),
 	location: z.string().min(1, 'Location is required'),
 	latitude: z.number(),
 	longitude: z.number(),
-	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24')
+	hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24'),
+	projectId: z.number().int().optional(),
+	placeId: z.number().int().optional(),
+	googlePlaceId: z.string().optional()
 });
 
-interface ReverseGeocodeResult {
-	neighborhood?: string;
-	locality?: string;
-	district?: string;
-}
-
-async function reverseGeocode(latitude: number, longitude: number): Promise<ReverseGeocodeResult> {
-	const accessToken = privateEnv.MAPBOX_ACCESS_TOKEN || PUBLIC_MAPBOX_ACCESS_TOKEN;
-	
-	if (!accessToken) {
-		console.error('Mapbox access token is not configured');
-		return {};
-	}
-
-	try {
-		const params = new URLSearchParams({
-			longitude: longitude.toString(),
-			latitude: latitude.toString(),
-			types: 'neighborhood,locality,district',
-			access_token: accessToken
-		});
-
-		const response = await fetch(
-			`https://api.mapbox.com/search/geocode/v6/reverse?${params.toString()}`
-		);
-
-		if (!response.ok) {
-			throw new Error(`Mapbox API error: ${response.status}`);
-		}
-
-		const data = await response.json();
-		
-		// Mapbox v6 response structure: features array with context array
-		const features = data.features || [];
-		const result: ReverseGeocodeResult = {};
-
-		if (features.length > 0) {
-			const feature = features[0];
-			// Context is an array of objects with id and text properties
-			const context = feature.properties?.context || feature.context || [];
-
-			if (Array.isArray(context)) {
-				for (const ctx of context) {
-					// Context objects have id (e.g., "neighborhood.12345") and text (the name)
-					if (ctx.id?.startsWith('neighborhood.')) {
-						result.neighborhood = ctx.text;
-					} else if (ctx.id?.startsWith('locality.')) {
-						result.locality = ctx.text;
-					} else if (ctx.id?.startsWith('district.')) {
-						result.district = ctx.text;
-					}
-				}
-			}
-		}
-
-		return result;
-	} catch (error) {
-		console.error('Error reverse geocoding:', error);
-		return {};
-	}
-}
-
 async function getActivePosts(userLatitude: number, userLongitude: number) {
-	// Haversine formula to calculate distance in miles
-	// 3959 is the Earth's radius in miles
 	const distanceInMiles = 200;
 
 	return await db
@@ -92,15 +30,15 @@ async function getActivePosts(userLatitude: number, userLongitude: number) {
 		.from(post)
 		.where(
 			// Use SQL now() — postgres-js stringifies JS Date as Date.toString(), which PG rejects.
-			sql`${post.startTime} + (${post.hours} || ' hours')::interval > now() AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
+			sql`${liveCondition} AND (3959 * acos(cos(radians(${userLatitude})) * cos(radians(${post.latitude})) * cos(radians(${post.longitude}) - radians(${userLongitude})) + sin(radians(${userLatitude})) * sin(radians(${post.latitude})))) <= ${distanceInMiles}`
 		)
 		.orderBy(desc(post.createdAt));
 }
 
 export const load: PageServerLoad = async (event) => {
 	const anonymousSessionId = event.locals.anonymousSessionId;
-	const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
-	
+	const { location: userLocation, source: locationSource, suggestUpdate } = await getUserLocation(event);
+
 	const form = await superValidate(zod4(postSchema));
 	const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 	const projects = await db
@@ -109,27 +47,39 @@ export const load: PageServerLoad = async (event) => {
 		.where(and(eq(project.active, true), eq(project.hidden, false)))
 		.orderBy(desc(project.createdAt));
 
+	// User's own projects for the post-up form
+	const userId = event.locals.user?.id;
+	const myProjects = userId
+		? await db.select().from(project).where(sql`${project.userId} = ${userId} AND ${project.active} = true`).orderBy(desc(project.createdAt))
+		: [];
+
 	return {
 		location: userLocation,
+		locationSource,
+		suggestUpdate,
 		form,
 		posts,
 		projects,
-		anonymousSessionId
+		myProjects,
+		anonymousSessionId,
+		userSessionId: event.locals.session?.id ?? null
 	};
 };
 
 export const actions: Actions = {
 	delete: async (event) => {
+		if (!event.locals.user) {
+			return fail(401, { message: 'You must be logged in' });
+		}
+
 		const formData = await event.request.formData();
 		const postId = formData.get('postId');
-		const anonymousSessionId = event.locals.anonymousSessionId;
 
 		if (!postId || typeof postId !== 'string') {
 			return fail(400, { message: 'Invalid post ID' });
 		}
 
 		try {
-			// Verify that the post belongs to the current session
 			const [existingPost] = await db
 				.select()
 				.from(post)
@@ -139,14 +89,14 @@ export const actions: Actions = {
 				return fail(404, { message: 'Post not found' });
 			}
 
-			if (existingPost.sessionId !== anonymousSessionId) {
+			if (existingPost.sessionId !== event.locals.session?.id) {
 				return fail(403, { message: 'Not authorized to delete this post' });
 			}
 
 			await db.delete(post).where(eq(post.id, parseInt(postId, 10)));
 
 			// Reload posts after deletion
-			const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
+			const { location: userLocation } = await getUserLocation(event);
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
 			return { posts };
 		} catch (error) {
@@ -154,9 +104,42 @@ export const actions: Actions = {
 			return fail(500, { message: 'Failed to delete post' });
 		}
 	},
+	setLocation: async (event) => {
+		const formData = await event.request.formData();
+		const latitude = parseFloat(formData.get('latitude') as string);
+		const longitude = parseFloat(formData.get('longitude') as string);
+
+		if (isNaN(latitude) || isNaN(longitude)) {
+			return fail(400, { message: 'Invalid coordinates' });
+		}
+
+		// Reverse geocode to get a friendly name
+		const geocodeResult = await reverseGeocode(latitude, longitude);
+		const cityName = geocodeResult.locality || geocodeResult.neighborhood || geocodeResult.district;
+
+		const locationData = { latitude, longitude, city: cityName || undefined };
+
+		event.cookies.set(auth.userLocationCookieName, JSON.stringify(locationData), {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: auth.isSecureRequest(event),
+			maxAge: 60 * 60 * 24 * 90 // 90 days
+		});
+
+		return { locationUpdated: true };
+	},
+	clearLocation: async (event) => {
+		event.cookies.delete(auth.userLocationCookieName, { path: '/' });
+		return { locationCleared: true };
+	},
 	create: async (event) => {
+		if (!event.locals.user) {
+			return fail(401, { message: 'You must be logged in to post up' });
+		}
+
 		const form = await superValidate(event.request, zod4(postSchema));
-		const userLocation = await guessLocation(event.request.headers, event.getClientAddress());
+		const { location: userLocation } = await getUserLocation(event);
 
 		if (!form.valid) {
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
@@ -166,11 +149,24 @@ export const actions: Actions = {
 		try {
 			// Reverse geocode to get neighborhood, locality, and district
 			const geocodeResult = await reverseGeocode(form.data.latitude, form.data.longitude);
-			const anonymousSessionId = event.locals.anonymousSessionId;
 
+			let placeId = form.data.placeId ?? null;
+			if (!placeId && form.data.googlePlaceId) {
+				placeId = await upsertGooglePlace(
+					{ googlePlaceId: form.data.googlePlaceId, name: form.data.location, latitude: form.data.latitude, longitude: form.data.longitude },
+					event.locals.user!.id
+				);
+			}
+			const startTime = new Date();
 			const result = await db.insert(post).values({
-				name: form.data.name,
+				userId: event.locals.user!.id,
+				placeId,
+				projectId: form.data.projectId ?? null,
+				startTime,
+				endsAt: computeEndsAt(startTime, form.data.hours),
+				name: event.locals.user!.username,
 				activity: form.data.activity,
+				goals: form.data.goals || null,
 				location: form.data.location,
 				latitude: form.data.latitude,
 				longitude: form.data.longitude,
@@ -178,7 +174,7 @@ export const actions: Actions = {
 				neighborhood: geocodeResult.neighborhood,
 				locality: geocodeResult.locality,
 				district: geocodeResult.district,
-				sessionId: anonymousSessionId
+				sessionId: event.locals.session?.id
 			}).returning();
 
 			// Reload posts after creating a new one
