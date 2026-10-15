@@ -348,16 +348,16 @@
 			<!-- Location control - top left of map -->
 			<div class="absolute top-3 left-3 z-[1000] flex flex-col gap-2">
 				{#if data.locationSource === 'precise'}
-					<div class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
-						<div class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
-						<span class="text-xs text-gray-600 dark:text-gray-400">
+					<div class="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg shadow-md border border-line">
+						<div class="w-2 h-2 rounded-full bg-live flex-shrink-0"></div>
+						<span class="text-xs text-muted">
 							{data.location.city || 'Your location'}
 						</span>
 						<button
 							type="button"
 							onclick={requestPreciseLocation}
 							disabled={geolocating}
-							class="p-1 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+							class="p-1 text-subtle hover:text-brand transition-colors"
 							title="Update location"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -367,7 +367,7 @@
 						<button
 							type="button"
 							onclick={clearPreciseLocation}
-							class="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+							class="p-1 text-subtle hover:text-danger transition-colors"
 							title="Use approximate location"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -380,24 +380,24 @@
 						type="button"
 						onclick={requestPreciseLocation}
 						disabled={geolocating}
-						class="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
+						class="flex items-center gap-2 px-3 py-2 bg-surface rounded-lg shadow-md border border-line hover:border-brand transition-colors"
 						title="Use my precise location"
 					>
 						{#if geolocating}
-							<div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-							<span class="text-xs text-gray-600 dark:text-gray-400">Locating...</span>
+							<div class="w-4 h-4 border-2 border-brand border-t-transparent rounded-full animate-spin"></div>
+							<span class="text-xs text-muted">Locating...</span>
 						{:else}
-							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
 								<path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
 							</svg>
-							<span class="text-xs text-gray-600 dark:text-gray-400">Use my location</span>
+							<span class="text-xs text-muted">Use my location</span>
 						{/if}
 					</button>
 				{/if}
 				{#if geoError}
-					<div class="px-3 py-1.5 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg">
-						<p class="text-xs text-red-600 dark:text-red-400">{geoError}</p>
+					<div class="px-3 py-1.5 bg-danger-soft border border-danger rounded-lg">
+						<p class="text-xs text-danger">{geoError}</p>
 					</div>
 				{/if}
 				{#if data.suggestUpdate}
@@ -405,12 +405,12 @@
 						type="button"
 						onclick={requestPreciseLocation}
 						disabled={geolocating}
-						class="flex items-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800 rounded-lg hover:border-amber-400 transition-colors"
+						class="flex items-center gap-2 px-3 py-2 bg-brand-soft border border-line rounded-lg hover:border-line transition-colors"
 					>
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-ink flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
 						</svg>
-						<span class="text-xs text-amber-700 dark:text-amber-300">Looks like you moved — update location?</span>
+						<span class="text-xs text-ink">Looks like you moved — update location?</span>
 					</button>
 				{/if}
 			</div>
@@ -424,14 +424,14 @@
 					<button
 						type="button"
 						onclick={openFormModal}
-						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0"
+						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-brand text-on-brand text-sm sm:text-base font-bold rounded-md hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0"
 					>
 						Post Up
 					</button>
 				{:else}
 					<a
 						href="/login"
-						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white text-sm sm:text-base font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0 text-center"
+						class="px-3 sm:px-4 py-1.5 sm:py-2 bg-brand text-on-brand text-sm sm:text-base font-bold rounded-md hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 transition-colors whitespace-nowrap flex-shrink-0 text-center"
 					>
 						Log in to Post Up
 					</a>
@@ -458,11 +458,11 @@
 												{postItem.activity}
 											</p>
 											{#if postItem.goals}
-												<p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5 italic">
+												<p class="text-xs text-muted mt-0.5 italic">
 													Goal: {postItem.goals}
 												</p>
 											{/if}
-											<p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+											<p class="text-sm text-muted mt-1">
 												{postItem.location}
 											</p>
 											{#if postItem.neighborhood || postItem.locality || postItem.district}
@@ -641,13 +641,13 @@
 								<button
 									type="button"
 									onclick={() => { formStep = 1; }}
-									class="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+									class="p-1 text-subtle hover:text-muted transition-colors"
 									aria-label="Back"
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
 								</button>
 							{/if}
-							<h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+							<h2 id="modal-title" class="text-xl font-semibold text-ink">
 								{formStep === 1 ? 'Where are you?' : 'What are you up to?'}
 							</h2>
 						</div>
@@ -670,32 +670,32 @@
 							<!-- Location -->
 							<div>
 								{#if autoLocating}
-									<div class="flex items-center gap-2 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-800">
-										<div class="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-										<span class="text-sm text-gray-500 dark:text-gray-400">Finding nearby cafes...</span>
+									<div class="flex items-center gap-2 px-3 py-2 border border-line rounded-md bg-bg">
+										<div class="w-4 h-4 border-2 border-brand border-t-transparent rounded-full animate-spin"></div>
+										<span class="text-sm text-muted">Finding nearby cafes...</span>
 									</div>
 								{:else if nearbySuggestions.length > 0 && !$form.location}
 									<div class="space-y-3">
-										<p class="text-sm text-gray-500 dark:text-gray-400">You're near these places:</p>
+										<p class="text-sm text-muted">You're near these places:</p>
 										<div class="space-y-2">
 											{#each nearbySuggestions as cafe (cafe.id)}
 												<button
 													type="button"
 													onclick={() => selectCafe(cafe)}
-													class="w-full flex items-center gap-3 p-2 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+													class="w-full flex items-center gap-3 p-2 border border-line rounded-lg hover:border-brand hover:bg-brand-soft transition-colors"
 												>
-													<div class="w-14 h-14 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center flex-shrink-0">
-														<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+													<div class="w-14 h-14 rounded-lg bg-surface-2 flex items-center justify-center flex-shrink-0">
+														<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-subtle" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
 													</div>
 													<div class="text-left min-w-0 flex-1">
-														<div class="font-medium text-gray-900 dark:text-gray-100 truncate">{cafe.name}</div>
+														<div class="font-medium text-ink truncate">{cafe.name}</div>
 														{#if cafe.isOpen === true}
-															<div class="text-xs text-green-600 dark:text-green-400">Open{cafe.closesAt ? ` · closes ${cafe.closesAt}` : ''}</div>
+															<div class="text-xs text-live">Open{cafe.closesAt ? ` · closes ${cafe.closesAt}` : ''}</div>
 														{:else if cafe.isOpen === false}
-															<div class="text-xs text-red-500">Closed</div>
+															<div class="text-xs text-danger">Closed</div>
 														{/if}
 														{#if cafe.address}
-															<div class="text-xs text-gray-400 truncate mt-0.5">{cafe.address}</div>
+															<div class="text-xs text-subtle truncate mt-0.5">{cafe.address}</div>
 														{/if}
 													</div>
 												</button>
@@ -704,13 +704,13 @@
 										<button
 											type="button"
 											onclick={() => { nearbySuggestions = []; }}
-											class="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+											class="text-xs text-brand hover:underline"
 										>
 											Search for a different place
 										</button>
 									</div>
 								{:else}
-									<label for="modal-location" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+									<label for="modal-location" class="block text-sm font-medium text-ink mb-1">
 										Search for a place
 									</label>
 									{#if flag('places_v2')}
@@ -725,13 +725,13 @@
 								{/if}
 
 								{#if $form.location}
-									<div class="mt-2 flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-										<span class="text-sm text-blue-700 dark:text-blue-300 truncate flex-1">{$form.location}</span>
+									<div class="mt-2 flex items-center gap-2 px-3 py-2 bg-brand-soft rounded-lg border border-brand">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-brand flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+										<span class="text-sm text-brand truncate flex-1">{$form.location}</span>
 										<button
 											type="button"
 											onclick={() => { $form.location = ''; locationValue = ''; nearbySuggestions = []; findNearbyCafes(); }}
-											class="text-blue-400 hover:text-blue-600 flex-shrink-0"
+											class="text-brand hover:text-brand flex-shrink-0"
 										>
 											<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
 										</button>
@@ -743,7 +743,7 @@
 								<input type="hidden" name="longitude" bind:value={$form.longitude} />
 								{#if $form.googlePlaceId}<input type="hidden" name="googlePlaceId" value={$form.googlePlaceId} />{/if}
 								{#if $errors.location}
-									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.location}</p>
+									<p class="mt-1 text-sm text-danger">{$errors.location}</p>
 								{/if}
 							</div>
 
@@ -753,7 +753,7 @@
 
 							<!-- Project selector -->
 							<div>
-								<label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+								<label class="block text-sm font-medium text-ink mb-2">
 									Working on a project?
 								</label>
 								<div class="flex flex-wrap gap-2">
@@ -769,7 +769,7 @@
 													if (!$form.activity) $form.activity = `Working on ${proj.name}`;
 												}
 											}}
-											class="px-3 py-1.5 text-sm rounded-full border transition-colors {$form.projectId === proj.id ? 'bg-blue-100 dark:bg-blue-900/40 border-blue-400 dark:border-blue-500 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:border-gray-400'}"
+											class="px-3 py-1.5 text-sm rounded-full border transition-colors {$form.projectId === proj.id ? 'bg-brand-soft border-brand text-brand ' : 'border-line text-muted hover:border-line'}"
 										>
 											{proj.name}
 										</button>
@@ -777,7 +777,7 @@
 									<button
 										type="button"
 										onclick={() => { showAddProject = true; }}
-										class="px-3 py-1.5 text-sm rounded-full border border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center gap-1"
+										class="px-3 py-1.5 text-sm rounded-full border border-dashed border-line text-muted hover:border-brand hover:text-brand transition-colors flex items-center gap-1"
 									>
 										<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" /></svg>
 										Add project
@@ -785,25 +785,25 @@
 								</div>
 
 								{#if showAddProject}
-									<div class="mt-3 p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800 space-y-3">
+									<div class="mt-3 p-3 border border-line rounded-lg bg-bg space-y-3">
 										<div>
-											<label for="new-project-name" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Project name</label>
+											<label for="new-project-name" class="block text-xs font-medium text-muted mb-1">Project name</label>
 											<input
 												type="text"
 												id="new-project-name"
 												bind:value={newProjectName}
-												class="w-full px-2.5 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+												class="w-full px-2.5 py-1.5 text-sm border border-line rounded-md bg-surface text-ink focus:outline-none focus:ring-2 focus:ring-brand"
 												placeholder="e.g., My side project"
 											/>
 										</div>
 										<div>
-											<label class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Type</label>
+											<label class="block text-xs font-medium text-muted mb-1">Type</label>
 											<div class="flex flex-wrap gap-1.5">
 												{#each ['software', 'art', 'writing', 'business', 'activities'] as t}
 													<button
 														type="button"
 														onclick={() => { newProjectType = t; }}
-														class="px-2.5 py-1 text-xs rounded-full border transition-colors {newProjectType === t ? 'bg-blue-100 dark:bg-blue-900/40 border-blue-400 text-blue-700 dark:text-blue-300' : 'border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 hover:border-gray-400'}"
+														class="px-2.5 py-1 text-xs rounded-full border transition-colors {newProjectType === t ? 'bg-brand-soft border-brand text-brand ' : 'border-line text-muted hover:border-line'}"
 													>
 														{t}
 													</button>
@@ -811,12 +811,12 @@
 											</div>
 										</div>
 										<div>
-											<label for="new-project-desc" class="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Short description <span class="font-normal text-gray-400">(optional)</span></label>
+											<label for="new-project-desc" class="block text-xs font-medium text-muted mb-1">Short description <span class="font-normal text-subtle">(optional)</span></label>
 											<input
 												type="text"
 												id="new-project-desc"
 												bind:value={newProjectDesc}
-												class="w-full px-2.5 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+												class="w-full px-2.5 py-1.5 text-sm border border-line rounded-md bg-surface text-ink focus:outline-none focus:ring-2 focus:ring-brand"
 												placeholder="What's it about?"
 											/>
 										</div>
@@ -825,14 +825,14 @@
 												type="button"
 												onclick={addProject}
 												disabled={!newProjectName.trim() || addingProject}
-												class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+												class="px-3 py-1.5 text-sm bg-brand text-on-brand rounded-md hover:bg-brand-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 											>
 												{addingProject ? 'Adding...' : 'Add'}
 											</button>
 											<button
 												type="button"
 												onclick={() => { showAddProject = false; }}
-												class="px-3 py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
+												class="px-3 py-1.5 text-sm text-muted hover:text-ink transition-colors"
 											>
 												Cancel
 											</button>
@@ -843,7 +843,7 @@
 
 							<!-- Activity Field -->
 							<div>
-								<label for="modal-activity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+								<label for="modal-activity" class="block text-sm font-medium text-ink mb-1">
 									What are you doing?
 								</label>
 								<input
@@ -851,38 +851,38 @@
 									id="modal-activity"
 									name="activity"
 									bind:value={$form.activity}
-									class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									class="w-full px-3 py-2 border border-line rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand bg-surface text-ink"
 									placeholder="e.g., Working on laptop, Reading, etc."
 								/>
 								{#if $errors.activity}
-									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.activity}</p>
+									<p class="mt-1 text-sm text-danger">{$errors.activity}</p>
 								{/if}
 							</div>
 
 							<!-- Goals Field -->
 							<div>
-								<label for="modal-goals" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+								<label for="modal-goals" class="block text-sm font-medium text-ink mb-1">
 									Goals for this session
-									<span class="font-normal text-gray-400 dark:text-gray-500">(optional)</span>
+									<span class="font-normal text-subtle">(optional)</span>
 								</label>
 								<input
 									type="text"
 									id="modal-goals"
 									name="goals"
 									bind:value={$form.goals}
-									class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+									class="w-full px-3 py-2 border border-line rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand bg-surface text-ink"
 									placeholder="e.g., Finish the landing page, Read 50 pages"
 								/>
 							</div>
 
 							<!-- Location summary -->
-							<div class="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">
-								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+							<div class="p-3 bg-bg rounded-lg text-sm text-muted flex items-center gap-2">
+								<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-subtle flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
 								<span class="truncate">{$form.location}</span>
 								<button
 									type="button"
 									onclick={() => { $form.location = ''; locationValue = ''; formStep = 1; nearbySuggestions = []; findNearbyCafes(); }}
-									class="ml-auto text-gray-400 hover:text-gray-600 flex-shrink-0"
+									class="ml-auto text-subtle hover:text-muted flex-shrink-0"
 								>
 									<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
 								</button>
@@ -890,14 +890,14 @@
 
 							<!-- Hours Counter -->
 							<div>
-								<label for="modal-hours" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+								<label for="modal-hours" class="block text-sm font-medium text-ink mb-1">
 									How long are you staying?
 								</label>
 								<div class="flex items-center gap-3">
 									<button
 										type="button"
 										onclick={decrementHours}
-										class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+										class="w-10 h-10 flex items-center justify-center border border-line rounded-md hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-brand disabled:opacity-50 disabled:cursor-not-allowed"
 										disabled={$form.hours <= 1}
 									>
 										−
@@ -909,20 +909,20 @@
 										bind:value={$form.hours}
 										min="1"
 										max="24"
-										class="w-20 px-3 py-2 text-center border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+										class="w-20 px-3 py-2 text-center border border-line rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand bg-surface text-ink"
 									/>
 									<button
 										type="button"
 										onclick={incrementHours}
-										class="w-10 h-10 flex items-center justify-center border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+										class="w-10 h-10 flex items-center justify-center border border-line rounded-md hover:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-brand disabled:opacity-50 disabled:cursor-not-allowed"
 										disabled={$form.hours >= 24}
 									>
 										+
 									</button>
-									<span class="text-sm text-gray-500 dark:text-gray-400">{$form.hours === 1 ? 'hour' : 'hours'}</span>
+									<span class="text-sm text-muted">{$form.hours === 1 ? 'hour' : 'hours'}</span>
 								</div>
 								{#if $errors.hours}
-									<p class="mt-1 text-sm text-red-600 dark:text-red-400">{$errors.hours[0]}</p>
+									<p class="mt-1 text-sm text-danger">{$errors.hours[0]}</p>
 								{/if}
 							</div>
 
@@ -930,13 +930,13 @@
 							<button
 								type="submit"
 								disabled={!$form.activity}
-								class="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+								class="w-full px-4 py-2 bg-brand text-on-brand rounded-md hover:bg-brand-hover focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
 							>
 								Post up
 							</button>
 
 							{#if $message}
-								<p class="text-sm text-green-600 dark:text-green-400">{$message}</p>
+								<p class="text-sm text-live">{$message}</p>
 							{/if}
 						{/if}
 					</form>

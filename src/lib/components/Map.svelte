@@ -234,7 +234,7 @@
 	function createUserLocationIcon(): L.DivIcon {
 		return L.divIcon({
 			className: 'custom-user-marker',
-			html: `<div style="width: 18px; height: 18px; border-radius: 50%; background-color: #3b82f6; border: 3px solid white; box-shadow: 0 0 0 2px rgba(59,130,246,0.3), 0 1px 4px rgba(0,0,0,0.3);"></div>`,
+			html: `<div style="width: 18px; height: 18px; border-radius: 50%; background-color: var(--pu-accent); border: 3px solid white; box-shadow: 0 0 0 2px rgba(59,130,246,0.3), 0 1px 4px rgba(0,0,0,0.3);"></div>`,
 			iconSize: [18, 18],
 			iconAnchor: [9, 9]
 		});
@@ -253,7 +253,7 @@
 	function createPostIcon(): L.DivIcon {
 		return L.divIcon({
 			className: 'custom-coffee-marker',
-			html: `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: #2563eb; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"><span class="material-symbols-outlined" style="font-size: 24px; color: white;">local_cafe</span></div>`,
+			html: `<div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--pu-accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"><span class="material-symbols-outlined" style="font-size: 24px; color: var(--pu-accent-text);">local_cafe</span></div>`,
 			iconSize: [40, 40],
 			iconAnchor: [20, 40],
 			popupAnchor: [0, -40]
@@ -261,7 +261,7 @@
 	}
 
 	function createPlaceIcon(isOpen: boolean | null): L.DivIcon {
-		const bgColor = isOpen === true ? '#059669' : isOpen === false ? '#9ca3af' : '#d1d5db';
+		const bgColor = isOpen === true ? 'var(--pu-live)' : isOpen === false ? 'var(--pu-subtle)' : 'var(--pu-border)';
 		const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`;
 		return L.divIcon({
 			className: 'custom-place-marker',
@@ -273,12 +273,12 @@
 	}
 
 	function createNumberedIcon(n: number, isOpen: boolean | null, highlighted: boolean): L.DivIcon {
-		const bgColor = isOpen === true ? '#059669' : isOpen === false ? '#9ca3af' : '#4b5563';
-		const ring = highlighted ? '0 0 0 3px #2563eb, 0 2px 8px rgba(0,0,0,0.35)' : '0 1px 3px rgba(0,0,0,0.3)';
+		const bgColor = isOpen === true ? 'var(--pu-live)' : isOpen === false ? 'var(--pu-subtle)' : 'var(--pu-muted)';
+		const ring = highlighted ? '0 0 0 3px var(--pu-accent), 0 2px 8px rgba(0,0,0,0.35)' : '0 1px 3px rgba(0,0,0,0.3)';
 		const scale = highlighted ? 'transform: scale(1.18);' : '';
 		return L.divIcon({
 			className: 'custom-place-marker numbered-place-marker',
-			html: `<div data-n="${n}" style="width: 28px; height: 28px; border-radius: 50%; background-color: ${bgColor}; color: white; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; box-shadow: ${ring}; cursor: pointer; ${scale}">${n}</div>`,
+			html: `<div data-n="${n}" style="width: 28px; height: 28px; border-radius: 50%; background-color: ${bgColor}; color: var(--pu-accent-text); font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; box-shadow: ${ring}; cursor: pointer; ${scale}">${n}</div>`,
 			iconSize: [28, 28],
 			iconAnchor: [14, 28],
 			popupAnchor: [0, -28]
@@ -317,29 +317,29 @@
 
 	function buildPlacePopup(cafe: NearbyPlace): string {
 		const link = cafe.claimed && cafe.id
-			? `<a href="/places/${cafe.id}" style="color: #2563eb; text-decoration: underline; font-size: 0.75rem;">View profile</a>`
-			: `<a href="/places/add?mapboxId=${encodeURIComponent(cafe.mapboxId || '')}&name=${encodeURIComponent(cafe.name)}&address=${encodeURIComponent(cafe.address)}&lat=${cafe.latitude}&lng=${cafe.longitude}" style="color: #059669; text-decoration: underline; font-size: 0.75rem;">Add to postup</a>`;
+			? `<a href="/places/${cafe.id}" style="color: var(--pu-accent); text-decoration: underline; font-size: 0.75rem;">View profile</a>`
+			: `<a href="/places/add?mapboxId=${encodeURIComponent(cafe.mapboxId || '')}&name=${encodeURIComponent(cafe.name)}&address=${encodeURIComponent(cafe.address)}&lat=${cafe.latitude}&lng=${cafe.longitude}" style="color: var(--pu-live); text-decoration: underline; font-size: 0.75rem;">Add to postup</a>`;
 
 		let hoursLine = '';
 		if (cafe.isOpen === true) {
 			const detail = cafe.closesAt ? ` · closes ${cafe.closesAt}` : '';
-			hoursLine = `<div style="font-size: 0.75rem; color: #059669; margin-bottom: 4px;">${cafe.closesAt ? 'Open' + detail : 'Open 24 hours'}</div>`;
+			hoursLine = `<div style="font-size: 0.75rem; color: var(--pu-live); margin-bottom: 4px;">${cafe.closesAt ? 'Open' + detail : 'Open 24 hours'}</div>`;
 		} else if (cafe.isOpen === false) {
 			const parts = [];
 			if (cafe.closesAt) parts.push(`closed ${cafe.closesAt}`);
 			if (cafe.opensAt) parts.push(`opens ${cafe.opensAt}`);
 			const detail = parts.length > 0 ? ` · ${parts.join(' · ')}` : '';
-			hoursLine = `<div style="font-size: 0.75rem; color: #dc2626; margin-bottom: 4px;">Closed${detail}</div>`;
+			hoursLine = `<div style="font-size: 0.75rem; color: var(--pu-danger); margin-bottom: 4px;">Closed${detail}</div>`;
 		}
 
 		let contactLine = '';
 		const contactParts = [];
 		if (cafe.website) {
 			const domain = cafe.website.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-			contactParts.push(`<a href="${cafe.website}" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline;">${domain}</a>`);
+			contactParts.push(`<a href="${cafe.website}" target="_blank" rel="noopener noreferrer" style="color: var(--pu-accent); text-decoration: underline;">${domain}</a>`);
 		}
 		if (cafe.phone) {
-			contactParts.push(`<a href="tel:${cafe.phone}" style="color: #2563eb; text-decoration: underline;">${cafe.phone}</a>`);
+			contactParts.push(`<a href="tel:${cafe.phone}" style="color: var(--pu-accent); text-decoration: underline;">${cafe.phone}</a>`);
 		}
 		if (contactParts.length > 0) {
 			contactLine = `<div style="font-size: 0.75rem; margin-bottom: 4px;">${contactParts.join(' · ')}</div>`;
@@ -348,7 +348,7 @@
 		return `
 			<div style="min-width: 200px; max-width: 260px;">
 				<div style="font-weight: 600; margin-bottom: 2px;">${cafe.name}</div>
-				<div style="font-size: 0.8rem; color: #666; margin-bottom: 4px;">${cafe.address}</div>
+				<div style="font-size: 0.8rem; color: var(--pu-muted); margin-bottom: 4px;">${cafe.address}</div>
 				${hoursLine}
 				${contactLine}
 				${link}
@@ -598,7 +598,7 @@
 		searchMarker = L.marker([result.latitude, result.longitude], {
 			icon: L.divIcon({
 				className: 'custom-search-marker',
-				html: `<div style="width: 36px; height: 36px; border-radius: 50%; background-color: #dc2626; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>`,
+				html: `<div style="width: 36px; height: 36px; border-radius: 50%; background-color: var(--pu-danger); display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.3);"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>`,
 				iconSize: [36, 36],
 				iconAnchor: [18, 36],
 				popupAnchor: [0, -36]
@@ -609,7 +609,7 @@
 		searchMarker.bindPopup(`
 			<div style="min-width: 180px;">
 				<div style="font-weight: 600; margin-bottom: 2px;">${result.name}</div>
-				<div style="font-size: 0.8rem; color: #666;">${result.address}</div>
+				<div style="font-size: 0.8rem; color: var(--pu-muted);">${result.address}</div>
 			</div>
 		`).openPopup();
 
@@ -710,9 +710,12 @@
 
 		const darkMode = isDarkMode();
 		updateTileLayer(darkMode);
+		// Basemap follows the active style (Night = dark tiles).
+		const themeObserver = new MutationObserver(() => updateTileLayer(isDarkMode()));
+		themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		const handleChange = (e: MediaQueryListEvent) => updateTileLayer(e.matches);
+		const handleChange = () => updateTileLayer(isDarkMode());
 		mediaQuery.addEventListener('change', handleChange);
 
 		const bounds = calculateBounds(latitude, longitude);
@@ -950,7 +953,7 @@
 	}
 
 	.leader-on {
-		stroke: #2563eb;
+		stroke: var(--pu-accent);
 		stroke-width: 2.5;
 	}
 
@@ -977,8 +980,8 @@
 	.search-input-wrapper {
 		display: flex;
 		align-items: center;
-		background: white;
-		border: 1px solid #d1d5db;
+		background: var(--pu-surface);
+		border: 1px solid var(--pu-border);
 		border-radius: 8px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 		overflow: hidden;
@@ -986,7 +989,7 @@
 
 	.search-icon {
 		margin-left: 10px;
-		color: #9ca3af;
+		color: var(--pu-subtle);
 		flex-shrink: 0;
 	}
 
@@ -997,31 +1000,31 @@
 		outline: none;
 		font-size: 0.875rem;
 		background: transparent;
-		color: #111827;
+		color: var(--pu-text);
 	}
 
 	.search-input::placeholder {
-		color: #9ca3af;
+		color: var(--pu-subtle);
 	}
 
 	.search-clear {
 		padding: 6px 10px;
 		background: none;
 		border: none;
-		color: #9ca3af;
+		color: var(--pu-subtle);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 	}
 
 	.search-clear:hover {
-		color: #6b7280;
+		color: var(--pu-muted);
 	}
 
 	.search-results {
 		margin-top: 4px;
-		background: white;
-		border: 1px solid #e5e7eb;
+		background: var(--pu-surface);
+		border: 1px solid var(--pu-border);
 		border-radius: 8px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 		overflow: hidden;
@@ -1041,53 +1044,22 @@
 
 	.search-result-item:hover,
 	.search-result-item.selected {
-		background: #f3f4f6;
+		background: var(--pu-surface-2);
 	}
 
 	.search-result-name {
 		font-size: 0.875rem;
 		font-weight: 500;
-		color: #111827;
+		color: var(--pu-text);
 	}
 
 	.search-result-address {
 		font-size: 0.75rem;
-		color: #6b7280;
+		color: var(--pu-muted);
 		margin-top: 1px;
 	}
 
-	@media (prefers-color-scheme: dark) {
-		.search-input-wrapper {
-			background: #1f2937;
-			border-color: #374151;
-		}
 
-		.search-input {
-			color: #f3f4f6;
-		}
-
-		.search-input::placeholder {
-			color: #6b7280;
-		}
-
-		.search-results {
-			background: #1f2937;
-			border-color: #374151;
-		}
-
-		.search-result-item:hover,
-		.search-result-item.selected {
-			background: #374151;
-		}
-
-		.search-result-name {
-			color: #f3f4f6;
-		}
-
-		.search-result-address {
-			color: #9ca3af;
-		}
-	}
 
 	.open-now-btn,
 	.leaders-btn {
@@ -1099,9 +1071,9 @@
 		padding: 7px 14px;
 		font-size: 0.875rem;
 		font-weight: 500;
-		color: #374151;
-		background: white;
-		border: 1px solid #d1d5db;
+		color: var(--pu-text);
+		background: var(--pu-surface);
+		border: 1px solid var(--pu-border);
 		border-radius: 9999px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
 		cursor: pointer;
@@ -1120,27 +1092,27 @@
 
 	.open-now-btn:hover,
 	.leaders-btn:hover {
-		border-color: #2563eb;
-		color: #2563eb;
+		border-color: var(--pu-accent);
+		color: var(--pu-accent);
 	}
 
 	.open-now-btn.active,
 	.leaders-btn.active {
-		background: #eff6ff;
-		border-color: #2563eb;
-		color: #1d4ed8;
+		background: var(--pu-accent-soft);
+		border-color: var(--pu-accent);
+		color: var(--pu-accent-hover);
 	}
 
 	.open-now-dot {
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
-		background: #d1d5db;
+		background: var(--pu-border);
 		transition: background 0.15s;
 	}
 
 	.open-now-dot.active {
-		background: #059669;
+		background: var(--pu-live);
 	}
 
 	.search-area-btn {
@@ -1152,9 +1124,9 @@
 		padding: 8px 16px;
 		font-size: 0.875rem;
 		font-weight: 500;
-		color: #1e40af;
-		background: white;
-		border: 1px solid #bfdbfe;
+		color: var(--pu-accent-hover);
+		background: var(--pu-surface);
+		border: 1px solid var(--pu-accent-soft);
 		border-radius: 9999px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 		cursor: pointer;
@@ -1162,12 +1134,12 @@
 	}
 
 	.search-area-btn:hover {
-		background: #eff6ff;
-		border-color: #93c5fd;
+		background: var(--pu-accent-soft);
+		border-color: var(--pu-accent);
 	}
 
 	.search-area-btn:disabled {
-		color: #9ca3af;
+		color: var(--pu-subtle);
 		cursor: wait;
 	}
 
@@ -1175,8 +1147,8 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 0;
-		background: #f9fafb;
-		border-left: 1px solid #e5e7eb;
+		background: var(--pu-bg);
+		border-left: 1px solid var(--pu-border);
 		z-index: 500;
 	}
 
@@ -1185,19 +1157,19 @@
 		align-items: baseline;
 		justify-content: space-between;
 		padding: 10px 12px 8px;
-		border-bottom: 1px solid #e5e7eb;
-		background: white;
+		border-bottom: 1px solid var(--pu-border);
+		background: var(--pu-surface);
 	}
 
 	.panel-title {
 		font-size: 0.9rem;
 		font-weight: 650;
-		color: #111827;
+		color: var(--pu-text);
 	}
 
 	.panel-sub {
 		font-size: 0.7rem;
-		color: #6b7280;
+		color: var(--pu-muted);
 	}
 
 	.panel-banner {
@@ -1234,7 +1206,7 @@
 	}
 
 	.panel-row.is-hot {
-		background: #dbeafe;
+		background: var(--pu-accent-soft);
 	}
 
 	.num-badge {
@@ -1243,8 +1215,8 @@
 		height: 22px;
 		margin-top: 8px;
 		border-radius: 50%;
-		background: #111827;
-		color: white;
+		background: var(--pu-text);
+		color: var(--pu-accent-text);
 		font-size: 11px;
 		font-weight: 700;
 		display: flex;
@@ -1261,20 +1233,20 @@
 
 	.card-fallback {
 		padding: 10px 12px;
-		background: white;
-		border: 1px solid #e5e7eb;
+		background: var(--pu-surface);
+		border: 1px solid var(--pu-border);
 		border-radius: 8px;
 	}
 
 	.card-fallback-name {
 		font-size: 0.85rem;
 		font-weight: 600;
-		color: #111827;
+		color: var(--pu-text);
 	}
 
 	.card-fallback-addr {
 		font-size: 0.75rem;
-		color: #6b7280;
+		color: var(--pu-muted);
 		margin-top: 2px;
 	}
 
@@ -1287,7 +1259,7 @@
 	.panel-empty {
 		padding: 16px 8px;
 		font-size: 0.8rem;
-		color: #6b7280;
+		color: var(--pu-muted);
 		text-align: center;
 	}
 
@@ -1299,7 +1271,7 @@
 
 		.places-panel {
 			border-left: none;
-			border-top: 1px solid #e5e7eb;
+			border-top: 1px solid var(--pu-border);
 			border-radius: 16px 16px 0 0;
 			box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.12);
 		}
@@ -1315,52 +1287,5 @@
 		}
 	}
 
-	@media (prefers-color-scheme: dark) {
-		.open-now-btn,
-		.leaders-btn {
-			background: #1f2937;
-			border-color: #374151;
-			color: #d1d5db;
-		}
 
-		.open-now-btn:hover,
-		.leaders-btn:hover {
-			border-color: #60a5fa;
-			color: #93c5fd;
-		}
-
-		.open-now-btn.active,
-		.leaders-btn.active {
-			background: #1e3a5f;
-			border-color: #3b82f6;
-			color: #93c5fd;
-		}
-
-		.places-panel {
-			background: #111827;
-			border-color: #374151;
-		}
-
-		.panel-head {
-			background: #1f2937;
-			border-color: #374151;
-		}
-
-		.panel-title {
-			color: #f3f4f6;
-		}
-
-		.card-fallback {
-			background: #1f2937;
-			border-color: #374151;
-		}
-
-		.card-fallback-name {
-			color: #f3f4f6;
-		}
-
-		.panel-row.is-hot {
-			background: #1e3a5f;
-		}
-	}
 </style>
