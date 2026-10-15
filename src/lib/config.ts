@@ -19,7 +19,7 @@ export const config = {
 	theme: (env.PUBLIC_THEME || 'fresh') as Theme
 };
 
-export const THEMES = ['fresh', 'bold'] as const;
+export const THEMES = ['fresh', 'cozy', 'night', 'bold'] as const;
 export type Theme = (typeof THEMES)[number];
 
 export function isTheme(t: string | null | undefined): t is Theme {
