@@ -9,13 +9,13 @@
 </script>
 
 {#if data.feed.items.length}
-	<NearbyFeed items={data.feed.items} weekCount={data.feed.weekCount} onPostUp={() => goto('/post')} onOpenMap={() => goto('/')} />
+	<NearbyFeed items={data.feed.items} weekCount={data.feed.weekCount} onPostUp={() => goto('/post')} onOpenMap={() => goto('/')} area={data.area} />
 {:else}
 	<div class="scr-projects" data-testid="nearby-projects">
 		<TopBar title="Nearby" back={false} />
 		<div class="pad pjs">
 			<Welcome id="feed" text="Post up at a cafe. See who's working nearby." cls="pwel" />
-			<div class="hero"><h1>What people are building</h1><p class="mu">Recent projects from people who post up around here</p></div>
+			<div class="hero"><h1>What people are building</h1><p class="mu">Near {data.area} · recent projects from people who post up around here</p></div>
 			<a class="btn newp" href="/post"><Icon name="plus" size={18} /> Post up</a>
 			{#if data.projects.length}
 				<div class="pgrid">{#each data.projects as c (c.id)}<ProjectCard {c} />{/each}</div>

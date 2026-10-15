@@ -4,6 +4,7 @@ import { db } from '$lib/server/db';
 import { post, project } from '$lib/server/db/schema';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
 import { computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
+import { config } from '$lib/config';
 import type { Actions, PageServerLoad } from './$types';
 
 /** Post-up form (mockups #post, #where, #post-signin, #project-attach). Signed-out visitors can fill it; the sign-in sheet opens on submit. */
@@ -25,7 +26,7 @@ export const load: PageServerLoad = async (event) => {
 		const [p] = await db.select({ id: project.id, name: project.name }).from(project).where(eq(project.id, pid));
 		attach = p ?? null;
 	}
-	return { title: 'Post up', places, mine, attach, location, signedIn: !!user, placeId: Number(event.url.searchParams.get('place')) || null };
+	return { title: 'Post up', places, mine, attach, location, signedIn: !!user, defaultJoin: config.defaultJoinMode, placeId: Number(event.url.searchParams.get('place')) || null };
 };
 
 export const actions: Actions = {

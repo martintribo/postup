@@ -7,5 +7,7 @@ export default defineConfig({
 	dialect: 'postgresql',
 	dbCredentials: { url: process.env.DATABASE_URL },
 	verbose: true,
-	strict: true
+	strict: true,
+	// import_map is the dev-data importer's bookkeeping (scripts/import-dev-data.mjs); never offer to drop it.
+	tablesFilter: ['!import_map']
 });

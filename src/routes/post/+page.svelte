@@ -18,7 +18,7 @@
 	let projectId = $state<number | null>(data.attach?.id ?? data.mine[0]?.id ?? null);
 	const untilAt = (() => { const d = new Date(Date.now() + 3.5 * 3600e3); d.setMinutes(0, 0, 0); if (d.getTime() < Date.now() + 3.5 * 3600e3) d.setHours(d.getHours() + 1); return d; })();
 	let until = $state('2h');
-	let join = $state('open');
+	let join = $state<string>(data.defaultJoin);
 	let when = $state('now');
 	let picking = $state(false);
 	let q = $state('');

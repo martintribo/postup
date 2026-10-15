@@ -62,10 +62,12 @@
 			listenDeepLinks();
 			if (page.data?.user) registerPush();
 		}
+		document.addEventListener('click', interceptLogin, true);
 		const onTheme = () => bump++;
 		window.addEventListener('pu-theme', onTheme);
 		window.addEventListener('storage', onTheme);
 		return () => {
+			document.removeEventListener('click', interceptLogin, true);
 			window.removeEventListener('pu-theme', onTheme);
 			window.removeEventListener('storage', onTheme);
 		};
@@ -90,7 +92,6 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </svelte:head>
 
-<svelte:document onclick={interceptLogin} />
 <OfflineBanner />
 {#if bare}
 	{@render children()}

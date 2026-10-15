@@ -95,9 +95,10 @@ export const load: PageServerLoad = async (event) => {
 			and (3959 * acos(least(1, cos(radians(${lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${lng})) + sin(radians(${lat})) * sin(radians(pl.latitude))))) <= 25
 		group by pl.id, pl.name order by n desc limit 5`)) as unknown as { id: number; name: string; n: number; who: string[] }[];
 
-	const projectCards = (await listProjectCards('all', event.locals.user?.id)).slice(0, 6).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
+	const projectCards = (await listProjectCards('all', event.locals.user?.id)).slice(0, posts.length ? 6 : 12).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
 	return {
 		projectCards,
+		areaName: config.launchArea.name,
 		people,
 		week: [...week],
 		unread: unread?.n ?? 0,

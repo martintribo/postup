@@ -7,8 +7,10 @@
 		items,
 		weekCount,
 		onPostUp,
-		onOpenMap
-	}: { items: FeedItem[]; weekCount: number; onPostUp: () => void; onOpenMap: () => void } = $props();
+		onOpenMap,
+		area = ''
+	}: { items: FeedItem[]; weekCount: number; onPostUp: () => void; onOpenMap: () => void; area?: string } = $props();
+	const anyLive = $derived(items.some((i) => i.kind === 'postup' && i.live));
 
 	let showWelcome = $state(false);
 	onMount(() => {
@@ -33,9 +35,9 @@
 	<header class="pu-feed-head">
 		<div>
 			<h2>Nearby</h2>
-			<p class="pu-muted">Good things happen at cafes{weekCount ? ` · ${weekCount} postup${weekCount === 1 ? '' : 's'} this week` : ''}</p>
+			<p class="pu-muted">{area ? `Near ${area} · ` : ''}Good things happen at cafes{weekCount ? ` · ${weekCount} postup${weekCount === 1 ? '' : 's'} this week` : ''}</p>
 		</div>
-		<button type="button" class="pu-link" onclick={onOpenMap} data-testid="open-map">Open map</button>
+		{#if anyLive}<button type="button" class="pu-link" onclick={onOpenMap} data-testid="open-map">Open map</button>{/if}
 	</header>
 
 	{#if showWelcome}

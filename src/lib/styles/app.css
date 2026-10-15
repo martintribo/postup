@@ -54,3 +54,5 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 .inv .invimg { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-lg); }
 .gcard .row3 { display: flex; gap: 14px; } .gcard .row3 > * { display: inline-flex; align-items: center; gap: 4px; }
 .bs { max-height: 92dvh; overflow-y: auto; }
+.home-projects .home-cta { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .home-projects .home-cta { display: none; } }

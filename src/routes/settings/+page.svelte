@@ -21,7 +21,7 @@
 		{#each data.blocked as b (b.id)}
 			<form method="POST" action="?/unblock" use:enhance class="row"><span>{b.name || b.username}</span><input type="hidden" name="userId" value={b.id} /><button class="btn">Unblock</button></form>
 		{/each}
-	{:else}<p class="m">Nobody.</p>{/if}
+	{:else}<p class="m">People you block can't see your postups or ask to join them. Block anyone from the … menu on their postup or profile.</p>{/if}
 
 	<h2>Account</h2>
 	<form method="POST" action="?/signout"><button class="btn">Sign out</button></form>

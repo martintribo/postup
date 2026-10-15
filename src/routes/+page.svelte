@@ -6,6 +6,8 @@
 	import Av from '$lib/components/ui/Av.svelte';
 	import { enhance } from '$app/forms';
 	import Welcome from '$lib/components/ui/Welcome.svelte';
+	import ProjectCard from '$lib/components/ui/ProjectCard.svelte';
+	import TopBar from '$lib/components/ui/TopBar.svelte';
 
 	let { data } = $props();
 	let mounted = $state(false);
@@ -41,6 +43,26 @@
 	<input type="hidden" name="longitude" value={lng} />
 </form>
 
+{#if !live.length}
+	<!-- Martin: no live postups -> no map. Home focuses on projects (recent, any age) plus this week's cafes. -->
+	<div class="scr-projects home-projects" data-testid="home-projects">
+		<TopBar title="postup" back={false} />
+		<div class="pad pjs">
+			<Welcome id="home" text="See who's working from cafes nearby. Post up, or join someone." cls="pwel" />
+			<div class="hero"><h1>What people nearby are building</h1><p class="mu">Near {data.location.city || data.areaName} · projects from people who post up around here. When someone's working at a cafe, they show up here live.</p></div>
+			<a class="btn newp" href="/post"><Icon name="plus" size={18} /> Post up</a>
+			{#if data.week?.length}
+				<div class="chips pchips">{#each data.week as c (c.id)}<a class="chip" href="/places/{c.id}"><Icon name="coffee" size={14} /> {c.name} · {c.n} this week</a>{/each}</div>
+			{/if}
+			{#if data.projectCards?.length}
+				<div class="pgrid">{#each data.projectCards as c (c.id)}<ProjectCard {c} />{/each}</div>
+			{:else}
+				<div class="estate pgrid-empty"><h2>Be the first here</h2><p class="mu">Post up at a cafe or share what you're building, and people nearby will see it.</p><a class="btn sec" href="/projects/new">Share a project</a></div>
+			{/if}
+			<a class="btn lg home-cta" href="/post"><Icon name="plus" size={18} /> Post up</a>
+		</div>
+	</div>
+{:else}
 <div class="home" data-testid="home">
 	<div class="map hmap">
 		{#if mounted}
@@ -107,3 +129,4 @@
 		{#if live.length}<a class="btn" href="/post"><Icon name="plus" size={18} /> Post up</a>{/if}
 	</section>
 </div>
+{/if}

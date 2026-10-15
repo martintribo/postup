@@ -70,6 +70,7 @@
 		<p class="pu-muted">{p.joinMode === 'ask' ? 'Ask to join' : 'Anyone can join'}{p.capacity ? ` · up to ${p.capacity}` : ''}</p>
 
 		{#if data.joinEnabled && !data.isOwner}
+			<p class="pu-muted" data-testid="join-explainer">{p.joinMode === 'ask' ? `Ask, and ${who.split(' ')[0]} decides. If yes, you'll see the cafe and can say hi there.` : `Let ${who.split(' ')[0]} know you're coming, then say hi at the cafe.`}</p>
 			<div class="pu-card" data-testid="join-box">
 				{#if data.myRequest?.status === 'approved'}
 					<b data-testid="joined">You're in. See you at {cafe}!</b>

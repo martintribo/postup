@@ -11,7 +11,7 @@
 	<a href="/" class="pu-back">← Back</a>
 	<h1>Activity</h1>
 	{#if data.items.length === 0}
-		<p class="pu-muted">Nothing yet. When someone joins or asks to join your postup, you'll see it here.</p>
+		<p class="pu-muted">When someone joins or asks to join your postup, it shows up here. <a href="/post">Post up</a> to get started.</p>
 	{:else}
 		<ul>
 			{#each data.items as n (n.id)}
