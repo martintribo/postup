@@ -4,6 +4,14 @@ import { env } from '$env/dynamic/public';
  * Product defaults for decisions still pending with Martin (see implementation-plan.md).
  * Each can be overridden with a PUBLIC_* env var without a code change.
  */
+// Declared before `config`: it calls isTheme() at import time (TDZ otherwise).
+export const THEMES = ['fresh', 'cozy', 'night', 'bold'] as const;
+export type Theme = (typeof THEMES)[number];
+
+export function isTheme(t: string | null | undefined): t is Theme {
+	return !!t && (THEMES as readonly string[]).includes(t);
+}
+
 export const config = {
 	/** D1 launch area: Playa Vista / Westside LA (recommended default). */
 	launchArea: {
@@ -23,10 +31,3 @@ export const config = {
 	/** Floating style switcher. Always on in `vite dev`; set PUBLIC_STYLE_SWITCHER=1 to show it on a preview build. */
 	styleSwitcher: env.PUBLIC_STYLE_SWITCHER === '1'
 };
-
-export const THEMES = ['fresh', 'cozy', 'night', 'bold'] as const;
-export type Theme = (typeof THEMES)[number];
-
-export function isTheme(t: string | null | undefined): t is Theme {
-	return !!t && (THEMES as readonly string[]).includes(t);
-}
