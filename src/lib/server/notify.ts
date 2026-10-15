@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { notification, user } from '$lib/server/db/schema';
 import { flag } from '$lib/flags';
 import { env } from '$env/dynamic/private';
+import { sendPush } from '$lib/server/push';
 
 /**
  * Record an in-app notification; optionally email it (ff email_alerts, D9).
@@ -11,6 +12,7 @@ import { env } from '$env/dynamic/private';
  */
 export async function notify(n: { userId: string; type: string; postId?: number | null; actorId?: string | null; body: string }) {
 	await db.insert(notification).values({ userId: n.userId, type: n.type, postId: n.postId ?? null, actorId: n.actorId ?? null, body: n.body });
+	await sendPush(n.userId, n.body, n.postId ? `/postups/${n.postId}` : '/activity').catch((e) => console.error('push failed', e));
 	if (!flag('email_alerts')) return;
 	const [u] = await db.select({ email: user.email }).from(user).where(eq(user.id, n.userId));
 	if (!u?.email) return;

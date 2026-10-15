@@ -6,6 +6,7 @@
 	import { config, isTheme } from '$lib/config';
 	import favicon from '$lib/assets/favicon.svg';
 	import { onMount } from 'svelte';
+	import { isNative, registerPush, listenDeepLinks } from '$lib/native';
 
 	let { children } = $props();
 
@@ -22,6 +23,10 @@
 	const title = $derived(page.data?.title ? `${page.data.title} · ${SITE}` : `${SITE} · Work from a cafe, together`);
 
 	onMount(() => {
+		if (isNative()) {
+			listenDeepLinks();
+			if (page.data?.user) registerPush();
+		}
 		// Detect system dark mode preference
 		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 		

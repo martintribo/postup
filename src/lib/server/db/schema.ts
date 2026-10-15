@@ -252,3 +252,12 @@ export const block = pgTable(
 	},
 	(t) => [primaryKey({ columns: [t.blockerId, t.blockedId] })]
 );
+
+/** M10: native push tokens (APNs via FCM, or FCM). */
+export const deviceToken = pgTable('device_token', {
+	token: text('token').primaryKey(),
+	userId: text('user_id').notNull().references(() => user.id),
+	platform: text('platform').notNull(), // ios | android
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
+	lastSeenAt: timestamp('last_seen_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())
+});
