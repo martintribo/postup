@@ -58,7 +58,13 @@ export const load: PageServerLoad = async (event) => {
 	// M4: feed-first home when nobody nearby is live.
 	const feed = flag('feed_home') && posts.length === 0 ? await getNearbyFeed(userLocation.latitude, userLocation.longitude) : null;
 
+	// M5: "You're live" banner for the signed-in poster.
+	const [myLive] = event.locals.user
+		? await db.select({ id: post.id, activity: post.activity }).from(post).where(and(eq(post.userId, event.locals.user.id), liveCondition)).orderBy(desc(post.startTime)).limit(1)
+		: [];
+
 	return {
+		myLive: myLive ?? null,
 		feed,
 		location: userLocation,
 		locationSource,
@@ -184,8 +190,9 @@ export const actions: Actions = {
 			}).returning();
 
 			// Reload posts after creating a new one
+			const createdId = result[0]?.id ?? null;
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);
-			return { form, posts };
+			return { form, posts, createdId };
 		} catch (error) {
 			console.error('Error creating post:', error);
 			const posts = await getActivePosts(userLocation.latitude, userLocation.longitude);

@@ -3,6 +3,7 @@
 	import Map, { type NearbyPlace } from '$lib/components/Map.svelte';
 	import LocationAutocomplete from '$lib/components/LocationAutocomplete.svelte';
 	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import NearbyFeed from '$lib/components/NearbyFeed.svelte';
 	import GooglePlaceSearch from '$lib/components/GooglePlaceSearch.svelte';
 	import { flag } from '$lib/flags';
@@ -21,7 +22,8 @@
 		latitude: z.number(),
 		longitude: z.number(),
 		hours: z.number().int().min(1, 'Hours must be at least 1').max(24, 'Hours cannot exceed 24'),
-		projectId: z.number().int().optional()
+		projectId: z.number().int().optional(),
+		googlePlaceId: z.string().optional()
 	});
 
 	let { data } = $props();
@@ -33,7 +35,11 @@
 	const { form, enhance, submitting, errors, message } = superForm(formData, {
 		validators: zod4Client(postSchema),
 		resetForm: true,
-		dataType: 'json'
+		dataType: 'json',
+		onResult: ({ result }) => {
+			// M5: land on "You're live" after posting.
+			if (result.type === 'success' && result.data?.createdId) goto(`/postups/${result.data.createdId}`);
+		}
 	});
 
 	$effect(() => {
@@ -330,6 +336,10 @@
 		<input type="hidden" name="longitude" value={pendingLongitude} />
 	</form>
 	<form bind:this={clearLocationForm} method="POST" action="?/clearLocation" use:enhanceForm style="display:none;"></form>
+
+	{#if data.myLive}
+		<a href="/postups/{data.myLive.id}" class="pu-live-bar" data-testid="live-bar">You're live · {data.myLive.activity} <span>Manage ›</span></a>
+	{/if}
 
 	<!-- Main Content Area -->
 	<div class="flex flex-col lg:flex-row flex-1 min-h-0 relative" class:pu-feed-mode={showFeed}>
@@ -1068,5 +1078,6 @@
 
 <style>
 	/* Feed-first: hide the map, panels and map bars (they stay mounted for a quick switch). */
+	.pu-live-bar { display: flex; justify-content: space-between; gap: 8px; padding: 8px 16px; background: var(--pu-live); color: #fff; font-weight: 600; text-decoration: none; }
 	.pu-feed-mode > :global(:not(.pu-feed)) { display: none !important; }
 </style>
