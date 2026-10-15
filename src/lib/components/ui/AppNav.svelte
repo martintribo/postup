@@ -11,7 +11,7 @@
 
 {#if !hideTabs}
 	<nav class="tab t5" data-testid="tabbar" aria-label="Main">
-		<a href="/" class:on={at('/') || at('/places')}><Icon name="map" size={22} /><span>Map</span></a>
+		<a href="/" class:on={at('/') || at('/places')}><Icon name="map" size={22} /><span>Home</span></a>
 		<a href="/nearby" class:on={at('/nearby')}><Icon name="list" size={22} /><span>Nearby</span></a>
 		<a href="/post" class="tp"><Icon name="plus" size={22} /><span>Post up</span></a>
 		<a href="/projects" class:on={at('/projects')}><Icon name="folder" size={22} /><span>Projects</span></a>
@@ -21,7 +21,7 @@
 
 <aside class="rail" data-testid="rail" aria-label="Main">
 	<a class="rlogo" href="/" aria-label="PostUp home"><Icon name="coffee" size={22} /></a>
-	<a href="/" class:on={at('/') || at('/places')}><Icon name="map" size={22} /><span>Map</span></a>
+	<a href="/" class:on={at('/') || at('/places')}><Icon name="map" size={22} /><span>Home</span></a>
 	<a href="/nearby" class:on={at('/nearby')}><Icon name="list" size={22} /><span>Nearby</span></a>
 	<a href="/projects" class:on={at('/projects')}><Icon name="folder" size={22} /><span>Projects</span></a>
 	<a href="/inbox" class:on={at('/inbox')}><Icon name="chat" size={22} /><span>Inbox</span></a>
