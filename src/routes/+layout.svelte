@@ -34,29 +34,9 @@
 			listenDeepLinks();
 			if (page.data?.user) registerPush();
 		}
-		// Detect system dark mode preference
-		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-		
-		const updateTheme = (e?: MediaQueryListEvent) => {
-			const isDark = e ? e.matches : mediaQuery.matches;
-			if (isDark) {
-				document.documentElement.classList.add('dark');
-			} else {
-				document.documentElement.classList.remove('dark');
-			}
-		};
-
-		// Set initial theme
-		updateTheme();
-
-		// Listen for changes
-		if (mediaQuery.addEventListener) {
-			mediaQuery.addEventListener('change', updateTheme);
-		} else {
-			// Fallback for older browsers
-			mediaQuery.addListener(updateTheme);
-		}
-
+		const onTheme = () => bump++;
+		window.addEventListener('pu-theme', onTheme);
+		window.addEventListener('storage', onTheme);
 		return () => {
 			window.removeEventListener('pu-theme', onTheme);
 			window.removeEventListener('storage', onTheme);
