@@ -15,6 +15,7 @@
 		<TopBar title="Nearby" back={false} />
 		<div class="pad pjs">
 			<Welcome id="feed" text="Post up at a cafe. See who's working nearby." cls="pwel" />
+			<p class="mu area-ph">Near {data.area} · recent projects from people who post up around here</p>
 			<div class="hero"><h1>What people are building</h1><p class="mu">Near {data.area} · recent projects from people who post up around here</p></div>
 			<a class="btn newp" href="/post"><Icon name="plus" size={18} /> Post up</a>
 			{#if data.projects.length}

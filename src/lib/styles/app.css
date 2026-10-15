@@ -56,3 +56,6 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 .bs { max-height: 92dvh; overflow-y: auto; }
 .home-projects .home-cta { grid-column: 1 / -1; }
 @media (min-width: 1024px) { .home-projects .home-cta { display: none; } }
+
+.area-ph { margin: 0 0 12px; font-size: 14px; }
+@media (min-width: 1024px) { .area-ph { display: none; } }
