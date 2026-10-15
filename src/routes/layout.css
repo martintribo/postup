@@ -1,3 +1,65 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
+
+/* Map Tailwind utilities onto the design tokens (src/lib/styles/tokens.css).
+   Use these, not gray-/blue-* palette classes: bg-bg, bg-surface, bg-surface-2,
+   text-ink, text-muted, text-subtle, border-line, bg-brand, bg-brand-hover,
+   bg-brand-soft, text-on-brand, text-live, text-danger, bg-danger-soft, font-display. */
+@theme inline {
+	--color-bg: var(--pu-bg);
+	--color-surface: var(--pu-surface);
+	--color-surface-2: var(--pu-surface-2);
+	--color-ink: var(--pu-text);
+	--color-muted: var(--pu-muted);
+	--color-subtle: var(--pu-subtle);
+	--color-line: var(--pu-border);
+	--color-brand: var(--pu-accent);
+	--color-brand-hover: var(--pu-accent-hover);
+	--color-brand-soft: var(--pu-accent-soft);
+	--color-on-brand: var(--pu-accent-text);
+	--color-live: var(--pu-live);
+	--color-danger: var(--pu-danger);
+	--color-danger-soft: var(--pu-danger-soft);
+	--font-sans: var(--pu-font);
+	--font-display: var(--pu-font-display);
+	--radius-md: var(--pu-radius-sm);
+	--radius-lg: var(--pu-radius);
+	--radius-xl: var(--pu-radius-lg);
+	--shadow-sm: var(--pu-shadow-sm);
+	--shadow: var(--pu-shadow-sm);
+	--shadow-md: var(--pu-shadow);
+	--shadow-lg: var(--pu-shadow-lg);
+	--shadow-xl: var(--pu-shadow-lg);
+}
+
+@layer base {
+	html {
+		background: var(--pu-bg);
+		color: var(--pu-text);
+		font-family: var(--pu-font);
+	}
+	body {
+		background-color: var(--pu-bg);
+		color: var(--pu-text);
+		-webkit-font-smoothing: antialiased;
+	}
+	*,
+	::before,
+	::after {
+		border-color: var(--pu-border);
+	}
+	h1,
+	h2,
+	.font-display {
+		font-family: var(--pu-font-display);
+		text-transform: var(--pu-display-transform);
+		font-weight: var(--pu-display-weight);
+	}
+	input,
+	textarea,
+	select {
+		background-color: var(--pu-surface);
+		color: var(--pu-text);
+	}
+}
