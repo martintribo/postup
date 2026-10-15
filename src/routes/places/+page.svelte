@@ -48,9 +48,9 @@
 		<h1 class="text-xl font-semibold">Places</h1>
 	</header>
 
-	<div style="display: flex; flex-direction: row; min-height: calc(100vh - 57px);">
+	<div class="flex flex-col md:flex-row" style="min-height: calc(100vh - 57px);">
 		<!-- Filters sidebar -->
-		<aside class="border-r border-line p-4 bg-bg" style="width: 16rem; flex-shrink: 0;">
+		<aside class="w-full md:w-64 md:shrink-0 border-b md:border-b-0 md:border-r border-line p-4 bg-bg">
 			<div class="space-y-5">
 				<!-- Search -->
 				<div>
