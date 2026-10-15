@@ -1,47 +1,15 @@
-import type { PageServerLoad } from './$types';
+import { listProjectCards, dayLabel } from '$lib/server/projects-view';
 import { db } from '$lib/server/db';
-import { project, projectChange, projectStatus } from '$lib/server/db/schema';
-import { and, desc, eq, inArray } from 'drizzle-orm';
+import { projectChange } from '$lib/server/db/schema';
+import { and, eq, sql } from 'drizzle-orm';
+import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
-	const projects = await db
-		.select()
-		.from(project)
-		.where(eq(project.hidden, false))
-		.orderBy(desc(project.createdAt));
-
-	const statusesByProject = new Map<number, typeof projectStatus.$inferSelect[]>();
-	if (projects.length > 0) {
-		const rows = await db
-			.select()
-			.from(projectStatus)
-			.where(inArray(projectStatus.projectId, projects.map((p) => p.id)))
-			.orderBy(desc(projectStatus.occurredAt));
-		for (const row of rows) {
-			const list = statusesByProject.get(row.projectId) ?? [];
-			list.push(row);
-			statusesByProject.set(row.projectId, list);
-		}
-	}
-
-	const projectsWithStatuses = projects.map((p) => ({
-		...p,
-		statuses: statusesByProject.get(p.id) ?? []
-	}));
-
-	const pendingChanges = locals.user
-		? await db
-				.select()
-				.from(projectChange)
-				.where(
-					and(eq(projectChange.userId, locals.user.id), eq(projectChange.status, 'pending'))
-				)
-				.orderBy(desc(projectChange.createdAt))
+export const load: PageServerLoad = async ({ url, locals }) => {
+	const f = url.searchParams.get('f');
+	const filter = f === 'following' || f === 'mine' ? f : 'all';
+	const cards = (await listProjectCards(filter, locals.user?.id)).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
+	const [pending] = locals.user
+		? await db.select({ n: sql<number>`count(*)::int` }).from(projectChange).where(and(eq(projectChange.userId, locals.user.id), eq(projectChange.status, 'pending')))
 		: [];
-
-	return {
-		title: 'Projects',
-		projects: projectsWithStatuses,
-		pendingChanges
-	};
+	return { title: 'Projects', filter, cards, pending: pending?.n ?? 0, signedIn: !!locals.user };
 };

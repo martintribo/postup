@@ -19,8 +19,6 @@
 	.app .tab { display: none; }
 	.app-main { padding-bottom: 0; margin-left: 92px; }
 	.rail { display: flex; position: fixed; }
-	/* Generic page: centred column beside the rail. */
-	.app:not(.homepage) .app-main > * { width: 100%; max-width: 1080px; margin-inline: auto; }
 	.app .cta { position: static; background: none; padding-inline: var(--s4); }
 	/* Home: full-bleed map with a floating panel on the right (mockup desktop #home). */
 	.home .hmap { display: block; position: fixed; left: 92px; right: 0; top: 0; bottom: 0; height: auto; }
@@ -30,3 +28,27 @@
 /* Dev style switcher sits above the phone tab bar. */
 html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 @media (min-width: 1024px) { html { --pu-tabbar: 0px !important; } }
+
+/* Projects */
+.pgrid-empty, .pgrid-note { grid-column: 1 / -1; }
+.app a.fc { color: inherit; text-decoration: none; display: flex; flex-direction: column; }
+.app a.chip { text-decoration: none; }
+.fm.fb { display: flex; align-items: center; justify-content: center; width: 100%; }
+.hero-img.nocover { background: linear-gradient(140deg, color-mix(in srgb, var(--brand) 55%, #fff), var(--brand-7)); }
+.toast { position: fixed; left: 50%; bottom: calc(var(--tab) + 24px); transform: translateX(-50%); z-index: 80; background: var(--n900); color: var(--n0); padding: 8px 14px; border-radius: var(--pill); font-weight: 600; font-size: var(--t-sm); }
+.scr-project .about-ph { color: var(--n600); }
+@media (min-width: 1024px) { .scr-project .about-ph { display: none; } }
+.photo-pick { cursor: pointer; overflow: hidden; position: relative; }
+.photo-pick.has { padding: 0; border-style: solid; }
+.photo-pick.has img { width: 100%; height: 100%; object-fit: cover; }
+.addph.photo-pick.has { height: 160px; }
+.form .err { color: var(--danger); font-weight: 600; font-size: var(--t-sm); }
+/* Form screens on desktop: centred dialog over a dimmed backdrop (mockup desktop #post, #project-new). */
+@media (min-width: 1024px) {
+	.formscr { width: 520px; margin: 6vh auto; background: var(--n0); border-radius: var(--r-xl); box-shadow: var(--sh3); overflow: hidden; }
+	.app:has(.formscr) { background: var(--n100); }
+	.formscr .cta { position: static; }
+}
+
+.pthumb { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none; }
+.inv .invimg { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-lg); }

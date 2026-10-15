@@ -8,6 +8,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
 import { post, project, place, user } from '$lib/server/db/schema';
 import { inArray } from 'drizzle-orm';
+import { listProjectCards, dayLabel } from '$lib/server/projects-view';
 import * as auth from '$lib/server/auth';
 import { and, desc, eq, sql } from 'drizzle-orm';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
@@ -94,7 +95,9 @@ export const load: PageServerLoad = async (event) => {
 			and (3959 * acos(least(1, cos(radians(${lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${lng})) + sin(radians(${lat})) * sin(radians(pl.latitude))))) <= 25
 		group by pl.id, pl.name order by n desc limit 5`)) as unknown as { id: number; name: string; n: number; who: string[] }[];
 
+	const projectCards = (await listProjectCards('all', event.locals.user?.id)).slice(0, 6).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
 	return {
+		projectCards,
 		people,
 		week: [...week],
 		unread: unread?.n ?? 0,

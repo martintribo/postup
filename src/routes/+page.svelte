@@ -5,6 +5,7 @@
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
 	import { enhance } from '$app/forms';
+	import Welcome from '$lib/components/ui/Welcome.svelte';
 
 	let { data } = $props();
 	let mounted = $state(false);
@@ -53,6 +54,7 @@
 
 	<section class="sheet-p livep" data-testid="live-now">
 		<span class="grab"></span>
+		<Welcome id="home" text="Post up at a cafe. See who's working nearby." />
 		{#if data.myLive}
 			<a class="lrow you-live" href="/postups/{data.myLive.id}">
 				<span class="ci"><span class="dot"></span></span>
@@ -87,6 +89,17 @@
 						<b>{c.name}</b>
 						<div class="l2"><span class="stk">{#each c.who ?? [] as w, i (i)}<Av name={w} size={20} />{/each}</span> {c.n} {c.n === 1 ? 'postup' : 'postups'}</div>
 					</div>
+					<Icon name="chev" size={18} class="mu" />
+				</a>
+			{/each}
+		{/if}
+		{#if data.projectCards?.length}
+			<div class="sp-h" style="margin-top:12px"><h3>{live.length || data.week?.length ? 'Projects nearby' : 'What people are building'}</h3><a class="lnk sm" href="/projects">See all</a></div>
+			{#if !live.length && !data.week?.length}<p class="mu sm">Recent projects from people who post up around here.</p>{/if}
+			{#each data.projectCards as c (c.id)}
+				<a class="lrow" href="/projects/{c.id}" data-testid="home-project">
+					{#if c.cover}<img class="pthumb" src={c.cover} alt="" />{:else}<span class="ci pj"><Icon name="folder" size={20} /></span>{/if}
+					<div class="lm"><b>{c.name}</b><div class="l2">{c.owner ?? ''}{c.owner && (c.lastUpdate || c.short) ? ' · ' : ''}{c.lastUpdate || c.short}</div></div>
 					<Icon name="chev" size={18} class="mu" />
 				</a>
 			{/each}

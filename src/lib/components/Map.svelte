@@ -262,7 +262,31 @@
 		});
 	}
 
+	// Mockup live pin: avatar with a pulse ring, count badge when several people share a spot.
+	const PIN_COLORS = ['#7c3aed', '#e11d48', '#0891b2', '#d97706', '#2563eb', '#10a364', '#db2777', '#4f46e5'];
+	function livePinIcon(name: string, count: number): L.DivIcon {
+		const n = name || '?';
+		const c = PIN_COLORS[[...n].reduce((a, ch) => (a * 31 + ch.charCodeAt(0)) >>> 0, 7) % PIN_COLORS.length];
+		const safe = n[0].toUpperCase().replace(/[<>&"]/g, '');
+		return L.divIcon({
+			className: 'pu-live-pin',
+			html: `<span class="mk live" style="position:relative;transform:none"><span class="pulse"></span><span class="av" style="--c:${c};width:34px;height:34px;font-size:14px">${safe}</span><em>${count > 1 ? count : ''}</em></span>`,
+			iconSize: [34, 34],
+			iconAnchor: [17, 17],
+			popupAnchor: [0, -20]
+		});
+	}
+	function cafePinIcon(): L.DivIcon {
+		return L.divIcon({
+			className: 'pu-cafe-pin',
+			html: `<span class="mk cafe" style="position:relative;transform:none"><span class="cp"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17M8 3v3M12 3v3"/></svg></span></span>`,
+			iconSize: [32, 32],
+			iconAnchor: [16, 16]
+		});
+	}
+
 	function createPlaceIcon(isOpen: boolean | null): L.DivIcon {
+		if (!chrome) return cafePinIcon();
 		const bgColor = isOpen === true ? 'var(--pu-live)' : isOpen === false ? 'var(--pu-subtle)' : 'var(--pu-border)';
 		const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>`;
 		return L.divIcon({
@@ -275,6 +299,7 @@
 	}
 
 	function createNumberedIcon(n: number, isOpen: boolean | null, highlighted: boolean): L.DivIcon {
+		if (!chrome) return cafePinIcon();
 		const bgColor = isOpen === true ? 'var(--pu-live)' : isOpen === false ? 'var(--pu-subtle)' : 'var(--pu-muted)';
 		const ring = highlighted ? '0 0 0 3px var(--pu-accent), 0 2px 8px rgba(0,0,0,0.35)' : '0 1px 3px rgba(0,0,0,0.3)';
 		const scale = highlighted ? 'transform: scale(1.18);' : '';
@@ -293,12 +318,21 @@
 		postMarkers.forEach((m) => currentMap.removeLayer(m));
 		postMarkers = [];
 
+		const perSpot = new globalThis.Map<string, number>();
+		posts.forEach((p) => {
+			const k = `${p.latitude.toFixed(4)},${p.longitude.toFixed(4)}`;
+			perSpot.set(k, (perSpot.get(k) ?? 0) + 1);
+		});
+		const drawn = new Set<string>();
 		posts.forEach((postItem) => {
+			const spot = `${postItem.latitude.toFixed(4)},${postItem.longitude.toFixed(4)}`;
+			if (drawn.has(spot)) return;
+			drawn.add(spot);
 			// Ask-to-join with hidden cafe: show an area, not a pin (D2).
 			const hidden = (postItem as Post & { cafeHidden?: boolean }).cafeHidden;
 			const marker = (hidden
 				? L.circle([postItem.latitude, postItem.longitude], { radius: 700, color: '#1f7a4d', weight: 1, fillOpacity: 0.15, className: 'pu-area-marker' })
-				: L.marker([postItem.latitude, postItem.longitude], { icon: createPostIcon(), zIndexOffset: 1000 })
+				: L.marker([postItem.latitude, postItem.longitude], { icon: livePinIcon(postItem.name, perSpot.get(spot) ?? 1), zIndexOffset: 1000 })
 			).addTo(currentMap);
 
 			const endTime = getEndTime(postItem.startTime, postItem.hours);
