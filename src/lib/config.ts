@@ -16,7 +16,12 @@ export const config = {
 	/** D5: default join mode for new postups. */
 	defaultJoinMode: (env.PUBLIC_DEFAULT_JOIN_MODE === 'ask' ? 'ask' : 'open') as 'open' | 'ask',
 	/** D8 style: Fresh by default; 'bold' is the other candidate. */
-	theme: (env.PUBLIC_THEME || 'fresh') as Theme
+	/** D8 style: Fresh by default; cozy | night | bold are the other candidates. */
+	theme: (isTheme(env.PUBLIC_THEME) ? env.PUBLIC_THEME : 'fresh') as Theme,
+	/** Use Night when the OS is in dark mode and nobody picked a style. Off by default. */
+	autoDark: env.PUBLIC_THEME_AUTO_DARK === '1',
+	/** Floating style switcher. Always on in `vite dev`; set PUBLIC_STYLE_SWITCHER=1 to show it on a preview build. */
+	styleSwitcher: env.PUBLIC_STYLE_SWITCHER === '1'
 };
 
 export const THEMES = ['fresh', 'cozy', 'night', 'bold'] as const;
