@@ -21,7 +21,7 @@
 
 		{#if data.providers.length}
 			<div class="mb-6"><SignInSheet providers={data.providers} next={data.next} reason="Sign in to post up or join" /></div>
-			<p class="text-center text-xs text-gray-500 mb-4">or use your PostUp username</p>
+			<p class="text-center text-xs text-muted mb-4">or use your PostUp username</p>
 		{/if}
 
 		<!-- Card -->
