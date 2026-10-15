@@ -1,11 +1,32 @@
-import { pgTable, serial, integer, text, timestamp, real, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, serial, integer, text, timestamp, real, boolean, primaryKey } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey(),
 	age: integer('age'),
 	username: text('username').notNull().unique(),
-	passwordHash: text('password_hash').notNull()
+	/** Null for accounts created through Apple/Google. */
+	passwordHash: text('password_hash'),
+	displayName: text('display_name'),
+	avatarUrl: text('avatar_url'),
+	email: text('email'),
+	bio: text('bio'),
+	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())
 });
+
+/** One row per linked Apple/Google identity. */
+export const oauthAccount = pgTable(
+	'oauth_account',
+	{
+		provider: text('provider').notNull(),
+		providerUserId: text('provider_user_id').notNull(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id),
+		email: text('email'),
+		createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())
+	},
+	(t) => [primaryKey({ columns: [t.provider, t.providerUserId] })]
+);
 
 export const session = pgTable('session', {
 	id: text('id').primaryKey(),
@@ -27,6 +48,7 @@ export const post = pgTable('post', {
 	locality: text('locality'),
 	district: text('district'),
 	sessionId: text('session_id'),
+	userId: text('user_id').references(() => user.id),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	startTime: timestamp('start_time', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date())
 });
@@ -47,6 +69,7 @@ export const project = pgTable('project', {
 	/** Hidden from public lists (test/seed junk). */
 	hidden: boolean('hidden').notNull().default(false),
 	sessionId: text('session_id'),
+	userId: text('user_id').references(() => user.id),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	updatedAt: timestamp('updated_at', { withTimezone: true, mode: 'date' }).notNull().$defaultFn(() => new Date()),
 	lastPostUpAt: timestamp('last_post_up_at', { withTimezone: true, mode: 'date' })

@@ -1,3 +1,5 @@
+import { flag } from '$lib/flags';
+import { availableProviders } from '$lib/server/oauth';
 import { hash, verify } from '@node-rs/argon2';
 import { encodeBase32LowerCase } from '@oslojs/encoding';
 import { fail, redirect } from '@sveltejs/kit';
@@ -11,7 +13,11 @@ export const load: PageServerLoad = async (event) => {
 	if (event.locals.user) {
 		return redirect(302, '/');
 	}
-	return {};
+	return {
+		title: 'Sign in',
+		providers: flag('oauth') ? availableProviders(event.url.origin) : [],
+		next: event.url.searchParams.get('next') || '/'
+	};
 };
 
 const ARGON2_OPTIONS = {
@@ -37,7 +43,7 @@ export const actions: Actions = {
 		const results = await db.select().from(table.user).where(eq(table.user.username, username));
 		const existingUser = results.at(0);
 
-		if (!existingUser) {
+		if (!existingUser || !existingUser.passwordHash) {
 			return fail(400, { message: 'Incorrect username or password' });
 		}
 

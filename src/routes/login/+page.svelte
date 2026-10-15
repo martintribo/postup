@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
+	import SignInSheet from '$lib/components/auth/SignInSheet.svelte';
 
-	let { form }: { form: ActionData } = $props();
+	let { form, data }: { form: ActionData; data: PageData } = $props();
 	let mode = $state<'login' | 'register'>('login');
 </script>
 
@@ -17,6 +18,11 @@
 				{mode === 'login' ? 'Welcome back' : 'Create your account'}
 			</p>
 		</div>
+
+		{#if data.providers.length}
+			<div class="mb-6"><SignInSheet providers={data.providers} next={data.next} reason="Sign in to post up or join" /></div>
+			<p class="text-center text-xs text-gray-500 mb-4">or use your PostUp username</p>
+		{/if}
 
 		<!-- Card -->
 		<div class="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-800">
