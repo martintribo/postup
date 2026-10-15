@@ -95,7 +95,7 @@
 						<div class="text-xs text-muted mt-1">{stats.reviewCount} {stats.reviewCount === 1 ? 'review' : 'reviews'}</div>
 					{:else}
 						<div class="text-lg text-subtle">No ratings</div>
-						<div class="text-xs text-subtle mt-1">Be the first to review</div>
+						<div class="text-xs text-subtle mt-1">Leave a review</div>
 					{/if}
 				</div>
 
@@ -348,7 +348,7 @@
 					{/each}
 				</div>
 			{:else if !showReviewForm}
-				<p class="text-sm text-muted italic">No reviews yet. Be the first to share your experience!</p>
+				<p class="text-sm text-muted italic">Leave a review: how is the wifi, noise and seating?</p>
 			{/if}
 		</section>
 	</div>
