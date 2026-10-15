@@ -6,7 +6,8 @@ import { zod4 } from 'sveltekit-superforms/adapters';
 import { z } from 'zod';
 import { fail, redirect } from '@sveltejs/kit';
 import { db } from '$lib/server/db';
-import { post, project } from '$lib/server/db/schema';
+import { post, project, place, user } from '$lib/server/db/schema';
+import { inArray } from 'drizzle-orm';
 import * as auth from '$lib/server/auth';
 import { and, desc, eq, sql } from 'drizzle-orm';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
@@ -74,7 +75,28 @@ export const load: PageServerLoad = async (event) => {
 		? await db.select({ n: sql<number>`count(*)::int` }).from(notification).where(and(eq(notification.userId, event.locals.user.id), isNull(notification.readAt)))
 		: [];
 
+	// Live-now panel: who is posted up (names, avatars) and cafes busy this week.
+	const ids = [...new Set(posts.map((p) => p.userId).filter((x): x is string => !!x))];
+	const people = ids.length
+		? Object.fromEntries(
+				(await db.select({ id: user.id, displayName: user.displayName, username: user.username, avatarUrl: user.avatarUrl }).from(user).where(inArray(user.id, ids))).map((u) => [
+					u.id,
+					{ name: u.displayName || u.username, avatarUrl: u.avatarUrl }
+				])
+			)
+		: {};
+	const lat = userLocation.latitude, lng = userLocation.longitude;
+	const week = (await db.execute(sql`
+		select pl.id, pl.name, count(*)::int as n,
+			(array_agg(coalesce(u.display_name, u.username, p.name) order by p.start_time desc))[1:3] as who
+		from ${post} p join ${place} pl on pl.id = p.place_id left join ${user} u on u.id = p.user_id
+		where p.start_time > now() - interval '7 days' and p.join_mode <> 'ask'
+			and (3959 * acos(least(1, cos(radians(${lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${lng})) + sin(radians(${lat})) * sin(radians(pl.latitude))))) <= 25
+		group by pl.id, pl.name order by n desc limit 5`)) as unknown as { id: number; name: string; n: number; who: string[] }[];
+
 	return {
+		people,
+		week: [...week],
 		unread: unread?.n ?? 0,
 		myLive: myLive ?? null,
 		feed,

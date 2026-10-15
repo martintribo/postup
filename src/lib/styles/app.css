@@ -1,0 +1,32 @@
+/* App shell layout on top of the ported mockup kit (ui.css). Phone first; desktop at >=1024px. */
+.app { min-height: 100dvh; background: var(--n0); color: var(--n900); font: 400 var(--t)/1.4 var(--f); letter-spacing: -0.006em; }
+.app-main { display: flex; flex-direction: column; min-height: 100dvh; padding-bottom: calc(var(--tab) + var(--sab)); }
+.app.notabs .app-main { padding-bottom: 0; }
+.app .tab { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; }
+.app:not(.notabs) .cta { bottom: calc(var(--tab) + var(--sab)); padding-bottom: var(--s3); }
+.app a.lrow { color: inherit; }
+.rail { display: none; }
+
+/* Home: map on top, live-now sheet below (phone). */
+.home { display: flex; flex-direction: column; flex: 1; }
+.home .hmap { height: 380px; flex: none; z-index: 0; }
+.home .hmap > :first-child:not(.mtop) { position: absolute; inset: 0; }
+.home .mtop { z-index: 500; }
+.home .livep { flex: 1; }
+.home .you-live { background: var(--brand-1); border-radius: var(--r); padding: 10px 12px; margin: 6px 0; }
+
+@media (min-width: 1024px) {
+	.app .tab { display: none; }
+	.app-main { padding-bottom: 0; margin-left: 92px; }
+	.rail { display: flex; position: fixed; }
+	/* Generic page: centred column beside the rail. */
+	.app:not(.homepage) .app-main > * { width: 100%; max-width: 1080px; margin-inline: auto; }
+	.app .cta { position: static; background: none; padding-inline: var(--s4); }
+	/* Home: full-bleed map with a floating panel on the right (mockup desktop #home). */
+	.home .hmap { display: block; position: fixed; left: 92px; right: 0; top: 0; bottom: 0; height: auto; }
+	.home .mtop { left: 24px; right: 492px; top: 22px; }
+	.home .livep { position: fixed; right: 20px; top: 20px; bottom: 20px; width: 440px; overflow: auto; z-index: 30; background: var(--n0); border-radius: var(--r-xl); box-shadow: var(--sh3), 0 0 0 1px rgba(0, 0, 0, 0.04); padding: 20px; }
+}
+/* Dev style switcher sits above the phone tab bar. */
+html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
+@media (min-width: 1024px) { html { --pu-tabbar: 0px !important; } }

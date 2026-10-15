@@ -1,12 +1,14 @@
 import { env } from '$env/dynamic/public';
 
-/** Feature flags. Each reads PUBLIC_FF_<NAME>=1. Off by default, so prod is unchanged until set. */
+/** Feature flags. Each reads PUBLIC_FF_<NAME>. On phase/final every flag is ON by default;
+ *  set PUBLIC_FF_<NAME>=0 to turn one off. */
 const NAMES = ['oauth', 'projects_v2', 'agent_api', 'places_v2', 'feed_home', 'join', 'chat', 'webpush', 'email_alerts', 'share_links'] as const;
 export type FlagName = (typeof NAMES)[number];
 
 export function flag(name: FlagName): boolean {
 	const v = env[`PUBLIC_FF_${name.toUpperCase()}`];
-	return v === '1' || v === 'true';
+	if (v === undefined || v === '') return true;
+	return !(v === '0' || v === 'false' || v === 'off');
 }
 
 export function allFlags(): Record<FlagName, boolean> {

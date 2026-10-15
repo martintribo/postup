@@ -32,10 +32,12 @@
 		country?: string;
 		posts?: Post[];
 		showPlaces?: boolean;
+		/** false = bare map (no search, filters or places panel), for the home live-now layout. */
+		chrome?: boolean;
 		onCafesLoaded?: (cafes: NearbyPlace[]) => void;
 	}
 
-	let { latitude, longitude, city, country, posts = [], showPlaces = true, onCafesLoaded }: Props = $props();
+	let { latitude, longitude, city, country, posts = [], showPlaces = true, chrome = true, onCafesLoaded }: Props = $props();
 
 	delete (L.Icon.Default.prototype as any)._getIconUrl;
 	L.Icon.Default.mergeOptions({
@@ -761,7 +763,7 @@
 	});
 </script>
 
-<div class="map-shell">
+<div class="map-shell" class:bare={!chrome}>
 	<div bind:this={mapPane} class="map-pane">
 		<div bind:this={mapContainer} class="map-container"></div>
 
@@ -1265,7 +1267,17 @@
 		text-align: center;
 	}
 
+	.map-shell.bare { grid-template-columns: 1fr; grid-template-rows: 1fr; }
+	.map-shell.bare .places-panel,
+	.map-shell.bare .search-bar,
+	.map-shell.bare .open-now-btn,
+	.map-shell.bare .leaders-btn,
+	.map-shell.bare .leader-svg,
+	.map-shell.bare .search-area-btn { display: none; }
+	.map-shell.bare :global(.leaflet-control-zoom) { display: none; }
+
 	@media (max-width: 768px) {
+		.map-shell.bare { grid-template-rows: 1fr; }
 		.map-shell {
 			grid-template-columns: 1fr;
 			grid-template-rows: 1fr min(42vh, 360px);

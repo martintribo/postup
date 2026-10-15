@@ -13,6 +13,11 @@
 	import { onMount } from 'svelte';
 	import { isNative, registerPush, listenDeepLinks } from '$lib/native';
 	import OfflineBanner from '$lib/components/OfflineBanner.svelte';
+	import AppNav from '$lib/components/ui/AppNav.svelte';
+	import SignInSheet from '$lib/components/ui/SignInSheet.svelte';
+	import { askSignIn } from '$lib/signin.svelte';
+	import '$lib/styles/ui.css';
+	import '$lib/styles/app.css';
 
 	let { children } = $props();
 
@@ -34,6 +39,23 @@
 	};
 	const showSwitcher = dev || config.styleSwitcher;
 	const title = $derived(page.data?.title ? `${page.data.title} · ${SITE}` : `${SITE} · Work from a cafe, together`);
+
+	// Full-screen routes keep their own chrome; form screens hide the phone tab bar (mockup: no nav on forms).
+	const BARE = ['/login', '/admin', '/style', '/agent'];
+	const NO_TABS = [/^\/post$/, /^\/projects\/new$/, /^\/projects\/[^/]+\/(update|edit|attach)$/, /^\/settings/];
+	const bare = $derived(BARE.some((b) => page.url.pathname === b || page.url.pathname.startsWith(b + '/')));
+	const hideTabs = $derived(NO_TABS.some((r) => r.test(page.url.pathname)));
+	// Any link to /login opens the sign-in sheet over the current screen instead.
+	function interceptLogin(e: MouseEvent) {
+		if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+		const a = (e.target as HTMLElement)?.closest?.('a');
+		if (!a || a.hasAttribute('data-signin-skip') || page.url.pathname === '/login') return;
+		const u = new URL(a.href, location.href);
+		if (u.origin !== location.origin || u.pathname !== '/login') return;
+		e.preventDefault();
+		const next = u.searchParams.get('next') || location.pathname + location.search;
+		askSignIn({ next, sub: u.searchParams.get('why') || 'Sign in to keep going.' });
+	}
 
 	onMount(() => {
 		if (isNative()) {
@@ -68,8 +90,17 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </svelte:head>
 
+<svelte:document onclick={interceptLogin} />
 <OfflineBanner />
-{@render children()}
+{#if bare}
+	{@render children()}
+{:else}
+	<div class="app" class:notabs={hideTabs} class:homepage={page.url.pathname === '/'}>
+		<AppNav user={page.data?.user} unread={page.data?.unreadInbox ?? 0} {hideTabs} />
+		<main class="app-main">{@render children()}</main>
+	</div>
+{/if}
+<SignInSheet providers={page.data?.providers ?? []} />
 
 {#if showSwitcher}
 	<StyleSwitcher current={theme} />

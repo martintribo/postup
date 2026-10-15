@@ -26,7 +26,7 @@
 	.pu-switcher {
 		position: fixed;
 		left: 12px;
-		bottom: 12px;
+		bottom: calc(12px + var(--pu-tabbar, 0px));
 		z-index: 100000;
 		display: flex;
 		flex-direction: column;
