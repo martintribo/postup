@@ -14,11 +14,11 @@
 	};
 
 	const typeColors: Record<string, { badge: string; border: string }> = {
-		software: { badge: 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300', border: 'border-l-blue-500 dark:border-l-blue-400' },
-		art: { badge: 'bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300', border: 'border-l-purple-500 dark:border-l-purple-400' },
-		writing: { badge: 'bg-amber-100 text-amber-700 dark:bg-amber-900 dark:text-amber-300', border: 'border-l-amber-500 dark:border-l-amber-400' },
-		business: { badge: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900 dark:text-emerald-300', border: 'border-l-emerald-500 dark:border-l-emerald-400' },
-		activities: { badge: 'bg-rose-100 text-rose-700 dark:bg-rose-900 dark:text-rose-300', border: 'border-l-rose-500 dark:border-l-rose-400' },
+		software: { badge: 'bg-brand-soft text-brand ', border: 'border-l-brand ' },
+		art: { badge: 'bg-brand-soft text-ink ', border: 'border-l-line ' },
+		writing: { badge: 'bg-brand-soft text-ink ', border: 'border-l-line ' },
+		business: { badge: 'bg-brand-soft text-live ', border: 'border-l-live ' },
+		activities: { badge: 'bg-brand-soft text-ink ', border: 'border-l-danger ' },
 	};
 
 	let selectedTypes = new SvelteSet<string>();
@@ -246,7 +246,7 @@
 
 <div class="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
 	<!-- Header -->
-	<header class="border-b border-gray-200 dark:border-gray-700 px-4 py-3">
+	<header class="border-b border-line px-4 py-3">
 		<div class="max-w-6xl mx-auto flex items-center justify-between">
 			<div class="flex items-center gap-3">
 				<a href="/" aria-label="Back to home" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors">
@@ -456,20 +456,20 @@
 			<div class="lg:sticky lg:top-4 space-y-6">
 				<!-- Active Toggle -->
 				<div>
-					<h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status</h3>
+					<h3 class="text-sm font-medium text-ink mb-2">Status</h3>
 					<label class="flex items-center gap-2 text-sm cursor-pointer">
 						<input
 							type="checkbox"
 							bind:checked={showActiveOnly}
-							class="rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500"
+							class="rounded border-line text-brand focus:ring-brand"
 						/>
-						<span class="text-gray-600 dark:text-gray-400">Active only</span>
+						<span class="text-muted">Active only</span>
 					</label>
 				</div>
 
 				<!-- Type Filters -->
 				<div>
-					<h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type</h3>
+					<h3 class="text-sm font-medium text-ink mb-2">Type</h3>
 					<div class="flex flex-wrap lg:flex-col gap-2">
 						{#each Object.entries(typeLabels) as [type, label] (type)}
 							<button
@@ -477,7 +477,7 @@
 								onclick={() => toggleType(type)}
 								class="px-2.5 py-1 text-sm rounded-md border transition-colors {selectedTypes.has(type)
 									? typeColors[type].badge + ' border-transparent font-medium'
-									: 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'}"
+									: 'border-line text-muted hover:bg-bg '}"
 							>
 								{label}
 							</button>
@@ -495,7 +495,7 @@
 				</div>
 
 				<!-- TODO: Additional filters -->
-				<div class="text-xs text-gray-400 dark:text-gray-600 border border-dashed border-gray-300 dark:border-gray-700 rounded-md p-3">
+				<div class="text-xs text-subtle border border-dashed border-line rounded-md p-3">
 					<p class="font-medium mb-1">Placeholder: More filters</p>
 					<ul class="space-y-1">
 						<li>- Sort by (newest, most active, most post-ups)</li>
@@ -519,13 +519,13 @@
 								<div class="flex items-start justify-between gap-4">
 									<div class="flex-1 min-w-0">
 										<div class="flex items-center gap-2 mb-1">
-											<h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 truncate">{proj.name}</h2>
+											<h2 class="text-lg font-medium text-ink truncate">{proj.name}</h2>
 											<span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full {colors.badge}">{typeLabels[proj.type] ?? proj.type}</span>
 											{#if !proj.active}
-												<span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400">Inactive</span>
+												<span class="flex-shrink-0 text-xs px-2 py-0.5 rounded-full bg-surface-2 text-muted">Inactive</span>
 											{/if}
 										</div>
-										<p class="text-sm text-gray-600 dark:text-gray-400">{proj.shortDescription}</p>
+										<p class="text-sm text-muted">{proj.shortDescription}</p>
 									</div>
 								</div>
 
@@ -557,7 +557,7 @@
 								{/if}
 
 								<!-- Metadata Footer -->
-								<div class="mt-4 text-xs text-gray-400 dark:text-gray-500" style="display: flex; align-items: center; gap: 1rem;">
+								<div class="mt-4 text-xs text-subtle" style="display: flex; align-items: center; gap: 1rem;">
 									<span>Created {new Date(proj.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
 									{#if proj.updatedAt.getTime() !== proj.createdAt.getTime()}
 										<span>·</span>
@@ -574,7 +574,7 @@
 				</div>
 			{:else}
 				<div class="text-center py-12">
-					<p class="text-gray-500 dark:text-gray-400">No projects match your filters.</p>
+					<p class="text-muted">No projects match your filters.</p>
 				</div>
 			{/if}
 		</main>
