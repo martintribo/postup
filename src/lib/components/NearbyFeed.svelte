@@ -49,7 +49,7 @@
 
 	{#if items.length === 0}
 		<div class="pu-card pu-empty" data-testid="feed-empty">
-			<b>Be the first here this week.</b>
+			<b>Working somewhere good today?</b>
 			<p class="pu-muted">Pick a cafe, say what you're working on, and people nearby can join you.</p>
 		</div>
 	{:else}
