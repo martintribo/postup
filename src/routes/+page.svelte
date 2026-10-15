@@ -557,10 +557,6 @@
 							{/each}
 						</div>
 					</div>
-				{:else}
-					<div class="text-center text-muted py-8">
-						<p>No posts yet. Be the first to post up!</p>
-					</div>
 				{/if}
 
 				<!-- Projects List -->
