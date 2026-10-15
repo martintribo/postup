@@ -145,7 +145,7 @@
 									<span class="text-ink" title="{p.avgRating.toFixed(1)} stars">{renderStars(p.avgRating)}</span>
 									<span class="text-muted">{p.reviewCount} {p.reviewCount === 1 ? 'review' : 'reviews'}</span>
 								{:else}
-									<span class="text-subtle italic">No reviews yet</span>
+									<span class="text-subtle italic">Leave a review</span>
 								{/if}
 							</div>
 
