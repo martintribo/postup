@@ -1,7 +1,23 @@
 import type { Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
+import { flag } from '$lib/flags';
 
 const handleAuth: Handle = async ({ event, resolve }) => {
+	event.locals.agent = null;
+
+	// Agent API (seeding projects from agents) stays dark until ff agent_api is on.
+	if ((event.url.pathname.startsWith('/api/agent/') || event.url.pathname.startsWith('/agent/')) && !flag('agent_api')) {
+		return new Response('Not found', { status: 404 });
+	}
+
+	if (event.url.pathname.startsWith('/api/agent/')) {
+		const header = event.request.headers.get('authorization') ?? '';
+		const match = header.match(/^Bearer\s+(.+)$/i);
+		if (match) {
+			event.locals.agent = await auth.validateAgentToken(match[1].trim());
+		}
+	}
+
 	const sessionToken = event.cookies.get(auth.sessionCookieName);
 
 	if (!sessionToken) {
