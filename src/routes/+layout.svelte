@@ -7,6 +7,7 @@
 	import favicon from '$lib/assets/favicon.svg';
 	import { onMount } from 'svelte';
 	import { isNative, registerPush, listenDeepLinks } from '$lib/native';
+	import OfflineBanner from '$lib/components/OfflineBanner.svelte';
 
 	let { children } = $props();
 
@@ -15,7 +16,9 @@
 	// ?theme=bold previews another style (design tokens); default comes from config.
 	const theme = $derived.by(() => {
 		const q = page.url.searchParams.get('theme');
-		return isTheme(q) ? q : config.theme;
+		if (isTheme(q)) return q;
+		const saved = typeof localStorage !== 'undefined' ? localStorage.getItem('pu.theme') : null;
+		return isTheme(saved) ? saved : config.theme;
 	});
 	$effect(() => {
 		document.documentElement.dataset.theme = theme;
@@ -74,4 +77,8 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </svelte:head>
 
+<OfflineBanner />
+{#if theme === 'bold'}
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;600;700&display=swap" />
+{/if}
 {@render children()}
