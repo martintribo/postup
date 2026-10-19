@@ -1,0 +1,35 @@
+/* notes panel beside the mockup (not part of the app design) */
+.notes{font:400 13px/1.45 'Inter',system-ui,sans-serif;letter-spacing:0;color:#232322;background:#fff;border:1px solid #e3e3df;border-radius:16px;box-sizing:border-box;text-align:left;flex-shrink:0}
+.notes .nh{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #efefec;cursor:pointer;position:sticky;top:0;background:#fff;border-radius:16px 16px 0 0;z-index:1}
+.notes .nh b{font-size:13px}.notes .nid{font:500 12px ui-monospace,Menlo,monospace;color:#6b6b67}.notes .nsp{flex:1}
+.notes .nmd{font:500 12px ui-monospace,Menlo,monospace;color:#0b8553}.notes .nx{width:24px;height:24px;border-radius:6px;color:#6b6b67;font-size:16px;line-height:1}.notes .nx:hover{background:#f3f3f0}
+.notes .nb2{padding:4px 16px 16px}.notes h3{font-size:16px;margin:10px 0 2px;font-weight:700}
+.notes h4{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8a8a85;margin:12px 0 4px;font-weight:600}
+.notes ul{margin:0;padding-left:16px}.notes li{margin:3px 0}.notes li.nu{color:#8a5a00}
+.notes code{font:12px ui-monospace,Menlo,monospace;background:#f3f3f0;padding:0 4px;border-radius:4px}
+.notes .nlk{color:#0b8553;font:500 12px ui-monospace,Menlo,monospace}
+.notes .ntag{font:500 10.5px ui-monospace,Menlo,monospace;color:#6b6b67;background:#f3f3f0;border-radius:4px;padding:0 3px;margin-left:2px;cursor:help;white-space:nowrap}
+.notes .ntag.nwarn{color:#8a5a00;background:#fff3d6}
+.notes .ng{margin-top:14px;border-top:1px solid #efefec;padding-top:8px}.notes .ng summary{cursor:pointer;font-weight:600;font-size:12.5px}
+.notes .nlg{margin-top:12px;font-size:11px;color:#8a8a85}.notes .nlg a{color:#0b8553}
+.nopen{display:none}
+html.noff .notes{display:none}
+html.ncol .notes .nb2{display:none}html.ncol .notes .nh{border-bottom:0;border-radius:16px}html.ncol .notes .nxc{display:inline-block;transform:rotate(90deg)}
+/* phone frame: notes to the right when wide, below when narrow */
+@media(min-width:980px){html:not([data-device=desktop]) body{gap:40px}
+html:not([data-device=desktop]) .notes{width:360px;max-height:844px;overflow:auto}}
+@media(min-width:520px) and (max-width:979px){html:not([data-device=desktop]) body{flex-direction:column;justify-content:flex-start;padding:24px 0}
+html:not([data-device=desktop]) .dev{flex-shrink:0}html:not([data-device=desktop]) .notes{width:390px;margin-top:28px}}
+@media(max-width:519px){html:not([data-device=desktop]) .notes{border-radius:0;border-width:1px 0 0}}
+/* desktop frame: fixed side panel when wide, below when narrow */
+@media(min-width:980px){html[data-device=desktop]:not(.noff) .dev{width:calc(100vw - 380px)}
+html[data-device=desktop] .notes{position:fixed;right:0;top:0;bottom:0;width:380px;border-radius:0;border-width:0 0 0 1px;overflow:auto;z-index:100}
+html[data-device=desktop] .notes .nh{border-radius:0}}
+@media(max-width:979px){html[data-device=desktop] .notes{border-radius:0;border-width:1px 0 0}}
+.notes .scen{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;padding:10px 14px;border-bottom:1px solid #efefec;background:#fafaf8;position:sticky;top:45px;z-index:1}
+.notes .scen>.xs{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:#8a8a85;width:100%}
+.notes .sseg{display:inline-flex;border:1px solid #d9d9d4;border-radius:8px;overflow:hidden}.notes .sseg button{font:600 12px 'Inter',system-ui,sans-serif;padding:6px 10px;color:#4a4a47;background:#fff}
+.notes .sseg button+button{border-left:1px solid #d9d9d4}.notes .sseg button.on{background:#0f9d63;color:#fff}
+.notes .nroute{display:inline-block;margin-top:10px;font:700 12px 'Inter',system-ui,sans-serif;color:#fff;background:#0f9d63;border-radius:999px;padding:2px 10px}.notes .nroute[hidden]{display:none}
+[data-auth=in] .notes li.sc-out,[data-auth=out] .notes li.sc-in,[data-live=none] .notes li.sc-live,[data-live=live] .notes li.sc-none{opacity:.4}
+.dev:has(#home.on) .mock::before{content:"Home page (/) · ";color:#0b8553;font-weight:800}

@@ -1,0 +1,25 @@
+/* floating mockup menu (not part of the app design) */
+.pmenu{position:fixed;left:16px;bottom:16px;z-index:300;font:500 13px/1.35 'Inter',system-ui,sans-serif;letter-spacing:0;color:#232322;text-align:left}
+.pmb{display:flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 10px;border-radius:999px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border:1px solid #dcdcd7;box-shadow:0 2px 10px rgba(0,0,0,.12);color:#232322;cursor:pointer}
+.pmb:hover{background:#fff}.pmcur{font:500 11.5px ui-monospace,Menlo,monospace;color:#6b6b67;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pmp{position:absolute;left:0;bottom:44px;width:340px;max-height:min(640px,calc(100vh - 80px));overflow:auto;background:#fff;border:1px solid #dcdcd7;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.2);padding:0 0 10px}
+.pmp[hidden]{display:none}
+.pmh{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid #efefec;position:sticky;top:0;background:#fff;z-index:1}.pmsp{flex:1}
+.pml{color:#0b8553;font-weight:600;font-size:12.5px}.pmx{width:26px;height:26px;border-radius:6px;font-size:18px;line-height:1;color:#6b6b67}.pmx:hover{background:#f3f3f0}
+.pmr{padding:8px 12px 2px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}.pmr>label:first-child{width:100%;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#8a8a85}
+.pms{display:inline-flex;border:1px solid #d9d9d4;border-radius:8px;overflow:hidden}.pms button{font:600 12px 'Inter',system-ui,sans-serif;padding:6px 9px;color:#4a4a47;background:#fff}
+.pms button+button{border-left:1px solid #d9d9d4}.pms button.on{background:#0f9d63;color:#fff}
+.pmn{display:inline-flex;align-items:center;gap:5px;font-weight:600;font-size:12px;margin-left:auto;cursor:pointer}
+.pmos{display:flex;flex-wrap:wrap;gap:5px}.pmo{font:500 12px 'Inter',system-ui,sans-serif;padding:4px 9px;border-radius:999px;background:#f3f3f0;color:#232322}.pmo:hover{background:#e7f6ee}
+.pmq{width:100%;height:32px;border:1px solid #d9d9d4;border-radius:8px;padding:0 10px;font:500 13px 'Inter',system-ui,sans-serif;background:#fafaf8}
+.pmlist{width:100%}.pmg h5{margin:10px 0 3px;font-size:11px;font-weight:700;color:#8a8a85}
+.pmi{display:flex;flex-direction:column;align-items:flex-start;width:100%;padding:5px 8px;border-radius:8px;text-align:left;color:#232322}.pmi:hover{background:#f3f3f0}
+.pmi b{font-size:13px;font-weight:600}.pmi span{font-size:11.5px;color:#8a8a85}.pmi.on{background:#e7f6ee}.pmi.on b{color:#0b8553}
+.pmg:first-child .pmi b{color:#0b8553}
+/* phone frame on a wide window: corner is outside the frame. Desktop frame: right of the rail. Full-screen phone: above the tab bar. */
+html[data-device=desktop] .pmenu{left:108px}
+@media(max-width:519px){html:not([data-device=desktop]) .pmenu{left:8px;bottom:calc(var(--tab) + var(--sab) + 10px)}
+.pmb{height:32px;padding:0 9px}.pmcur{display:none}.pmp{width:calc(100vw - 16px);max-height:calc(100vh - 140px)}}
+@media(max-width:979px){html[data-device=desktop] .pmenu{left:8px;bottom:8px}}
+html.shot .pmenu{display:none}
+.pmlist{max-height:min(260px,calc(100vh - 460px));min-height:120px;overflow:auto;position:relative;border-top:1px solid #f0f0ec;margin-top:4px}

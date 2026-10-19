@@ -1,0 +1,65 @@
+# PostUp mockups
+
+> Static mockups of the PostUp app (v1034): 45 screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
+
+Mockup URL pattern: /mockups/?style=<fresh|cozy|night|bold>&device=<phone|desktop>&auth=<out|in>&live=<live|none>#<screen> (overlays: &ov=<sheet>)
+The home page (/) is #home, called Home, with two modes on one URL: Live and Building (?mode=live|building). #home-overlay-alt is an alternative, not chosen. #quiet is the old no-live home drawing; #quiet-feed / #quiet-feed-b are Nearby (/nearby). Project lists are headed "What people are building", sorted closest-first, showing the closest available even if none are local; never call them nearby unless they are (Martin, Oct 18).
+
+## Notes
+- [All screens in one file](notes/all.md): global rules, every screen, every source quote
+
+## Screens
+- [index](notes/index.md): Mockup index
+- [home](notes/home.md): Home page (/)
+- [home-overlay-alt](notes/home-overlay-alt.md): Home overlay · alternative, not chosen
+- [quiet](notes/quiet.md): Recent map · old no-live home (not /)
+- [quiet-feed](notes/quiet-feed.md): Nearby (/nearby) · photos (A)
+- [quiet-feed-b](notes/quiet-feed-b.md): Nearby (/nearby) · no photos (B)
+- [cafe](notes/cafe.md): Cafe
+- [post](notes/post.md): Post up
+- [post-signin](notes/post-signin.md): Sign-in sheet · post
+- [posted](notes/posted.md): You're posted up
+- [postup](notes/postup.md): Postup · anyone can join
+- [join-signin](notes/join-signin.md): Sign-in sheet · join
+- [joined](notes/joined.md): You're joining
+- [project](notes/project.md): Project
+- [projects](notes/projects.md): Projects
+- [project-new](notes/project-new.md): New project
+- [project-update](notes/project-update.md): Project update
+- [project-attach](notes/project-attach.md): Post up for a project
+- [attach-signin](notes/attach-signin.md): Sign-in sheet · attach
+- [where](notes/where.md): Where are you?
+- [where-search](notes/where-search.md): Cafe search
+- [post-edit](notes/post-edit.md): Edit postup
+- [live](notes/live.md): You're live
+- [postup-ask](notes/postup-ask.md): Postup · ask to join
+- [ask-signin](notes/ask-signin.md): Sign-in sheet · ask
+- [ask](notes/ask.md): Ask to join
+- [requested](notes/requested.md): Request sent
+- [postup-ended](notes/postup-ended.md): Postup ended
+- [postup-full](notes/postup-full.md): Postup full
+- [postup-cancelled](notes/postup-cancelled.md): Postup cancelled
+- [invite](notes/invite.md): Share link · live postup
+- [invite-ended](notes/invite-ended.md): Share link · ended
+- [invite-project](notes/invite-project.md): Share link · project
+- [empty-area](notes/empty-area.md): Empty area
+- [cafe-gfail](notes/cafe-gfail.md): Cafe · Google card failed
+- [loading](notes/loading.md): Loading
+- [offline](notes/offline.md): Offline
+- [chat](notes/chat.md): Group chat
+- [inbox](notes/inbox.md): Inbox · Chats
+- [activity](notes/activity.md): Inbox · Activity
+- [profile](notes/profile.md): Profile
+- [me](notes/me.md): My profile
+- [settings](notes/settings.md): Settings
+- [report](notes/report.md): Report
+- [reported](notes/reported.md): Reported
+- [ov-share](notes/ov-share.md): Sheet · Share
+- [ov-dirs](notes/ov-dirs.md): Sheet · Directions
+- [ov-leave](notes/ov-leave.md): Sheet · Leave
+- [ov-endlive](notes/ov-endlive.md): Sheet · End postup
+- [ov-more](notes/ov-more.md): Sheet · More
+- [ov-msg](notes/ov-msg.md): Sheet · Message options
+- [ov-block](notes/ov-block.md): Sheet · Block
+- [ov-delacct](notes/ov-delacct.md): Sheet · Delete account
+- [ov-signin](notes/ov-signin.md): Sheet · Sign in (follow, create, update)
