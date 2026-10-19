@@ -1,6 +1,7 @@
 <script lang="ts">
 	/** Mockup #offline. */
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 	let offline = $state(false);
 	onMount(() => {
 		const set = () => (offline = !navigator.onLine);
@@ -14,7 +15,8 @@
 	});
 </script>
 
-{#if offline}
+<!-- Nearby draws its own in-feed banner (mockup #offline). -->
+{#if offline && page.url.pathname !== '/nearby'}
 	<div class="pu-offline" role="status" data-testid="offline">You're offline. Showing what we last loaded.</div>
 {/if}
 

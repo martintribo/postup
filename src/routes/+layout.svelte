@@ -4,7 +4,8 @@
 	import '$lib/styles/themes/cozy.css';
 	import '$lib/styles/themes/night.css';
 	import '$lib/styles/themes/bold.css';
-	import { page } from '$app/state';
+	import { page, navigating } from '$app/state';
+	import NearbySkeleton from '$lib/components/feed/NearbySkeleton.svelte';
 	import { dev } from '$app/environment';
 	import { config } from '$lib/config';
 	import { resolveTheme } from '$lib/theme';
@@ -98,7 +99,7 @@
 {:else}
 	<div class="app" class:notabs={hideTabs} class:homepage={page.url.pathname === '/'}>
 		<AppNav user={page.data?.user} unread={page.data?.unreadInbox ?? 0} {hideTabs} />
-		<main class="app-main">{@render children()}</main>
+		<main class="app-main">{#if navigating.to?.url.pathname === '/nearby' && page.url.pathname !== '/nearby'}<NearbySkeleton />{:else}{@render children()}{/if}</main>
 	</div>
 {/if}
 <SignInSheet providers={page.data?.providers ?? []} />

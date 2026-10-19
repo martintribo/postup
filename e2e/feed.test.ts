@@ -17,9 +17,10 @@ test('home opens in Building when nobody is live, Live when someone is', async (
 	await expect(page.getByTestId('nearby-feed')).toHaveCount(0);
 	await expect(page.getByText(/quiet/i)).toHaveCount(0);
 
+	// Nearby with nobody live falls back to projects (mockup #quiet-feed, none live).
 	await page.goto('/nearby');
-	await expect(page.getByText(tag)).toBeVisible();
-	await expect(page.getByText(/postups? this week|What people are building/)).toBeVisible();
+	await expect(page.getByTestId('nearby-projects')).toBeVisible();
+	await expect(page.getByText('What people are building')).toBeVisible();
 	await expect(page.getByText(/quiet/i)).toHaveCount(0);
 
 	await sql`insert into post (name, activity, location, latitude, longitude, hours, created_at, start_time, ends_at, status)
@@ -27,6 +28,11 @@ test('home opens in Building when nobody is live, Live when someone is', async (
 	await page.goto('/');
 	await expect(page.getByTestId('live-now')).toBeVisible();
 	await expect(page.getByTestId('nearby-feed')).toHaveCount(0);
+	// Someone live: Nearby is the photo feed of this week's postups.
+	await page.goto('/nearby');
+	await expect(page.getByTestId('nearby-feed')).toBeVisible();
+	await expect(page.getByText(tag)).toBeVisible();
+	await expect(page.getByText(/postups? nearby this week/)).toBeVisible();
 	await sql`update post set status='ended' where activity='live now'`;
 
 	const api = await page.request.get('/api/feed?lat=33.976&lng=-118.417');

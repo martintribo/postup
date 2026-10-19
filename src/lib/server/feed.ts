@@ -2,11 +2,12 @@ import { config } from '$lib/config';
 import { blockedSet } from '$lib/server/safety';
 import { sql, and, eq, desc, gt, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
-import { post, place, project, projectStatus, user } from '$lib/server/db/schema';
+import { post, place, project, projectStatus, user, joinRequest } from '$lib/server/db/schema';
+import { firstImage, stripImages } from '$lib/server/projects-view';
 
 export type FeedItem =
-	| { kind: 'postup'; id: number; at: string; who: string; avatarUrl: string | null; activity: string; cafe: string; placeId: number | null; projectName: string | null; projectId: number | null; live: boolean }
-	| { kind: 'update'; id: number; at: string; projectId: number; projectName: string; title: string | null; body: string };
+	| { kind: 'postup'; id: number; at: string; who: string; username: string | null; avatarUrl: string | null; activity: string; cafe: string; placeId: number | null; projectName: string | null; projectId: number | null; live: boolean; miles: number | null; photo: string | null; joined: string[] }
+	| { kind: 'update'; id: number; at: string; projectId: number; projectName: string; title: string | null; body: string; who: string | null; username: string | null; avatarUrl: string | null; photo: string | null };
 
 const DAYS = 7;
 const RADIUS_MI = 25;
@@ -21,7 +22,10 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 			at: post.startTime,
 			name: post.name,
 			displayName: user.displayName,
+			username: user.username,
 			avatarUrl: user.avatarUrl,
+			miles: sql<number>`${dist}`,
+			projectDesc: project.description,
 			activity: post.activity,
 			location: post.location,
 			placeName: place.name,
@@ -44,9 +48,10 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 
 	const projectIds = [...new Set(posts.map((p) => p.projectId).filter((x): x is number => !!x))];
 	const updates = await db
-		.select({ id: projectStatus.id, at: projectStatus.occurredAt, projectId: project.id, projectName: project.name, title: projectStatus.title, body: projectStatus.body })
+		.select({ id: projectStatus.id, at: projectStatus.occurredAt, projectId: project.id, projectName: project.name, title: projectStatus.title, body: projectStatus.body, projectDesc: project.description, who: user.displayName, username: user.username, avatarUrl: user.avatarUrl })
 		.from(projectStatus)
 		.innerJoin(project, eq(projectStatus.projectId, project.id))
+		.leftJoin(user, eq(project.userId, user.id))
 		.where(
 			and(
 				eq(project.hidden, false),
@@ -58,6 +63,14 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 		.orderBy(desc(projectStatus.occurredAt))
 		.limit(limit);
 
+	// "N joined": approved joiners per postup (names for the avatar stack).
+	const postIds = posts.map((p) => p.id);
+	const joins = postIds.length
+		? await db.select({ postId: joinRequest.postId, name: sql<string>`coalesce(${user.displayName}, ${user.username})` }).from(joinRequest).innerJoin(user, eq(joinRequest.userId, user.id)).where(and(inArray(joinRequest.postId, postIds), eq(joinRequest.status, 'approved')))
+		: [];
+	const joinedBy = new Map<number, string[]>();
+	for (const j of joins) joinedBy.set(j.postId, [...(joinedBy.get(j.postId) ?? []), j.name]);
+
 	// D2: ask-to-join postups don't reveal the cafe before approval.
 	const hide = (p: { joinMode: string }) => config.askHidesCafe && p.joinMode === 'ask';
 	const blocked = await blockedSet(viewerId);
@@ -67,7 +80,12 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 			id: p.id,
 			at: p.at.toISOString(),
 			who: p.displayName || p.name,
+			username: p.username,
 			avatarUrl: p.avatarUrl,
+			miles: p.miles == null ? null : Number(p.miles),
+			// Feed photos come from users and projects only (never Google).
+			photo: p.projectHidden ? null : firstImage(p.projectDesc),
+			joined: joinedBy.get(p.id) ?? [],
 			activity: p.activity,
 			cafe: hide(p) ? `a cafe in ${p.neighborhood || 'the area'}` : p.placeName || p.location,
 			placeId: hide(p) ? null : p.placeId,
@@ -75,7 +93,7 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 			projectId: p.projectHidden ? null : p.projectId,
 			live: !!p.live
 		})),
-		...updates.map((u) => ({ kind: 'update' as const, id: u.id, at: u.at.toISOString(), projectId: u.projectId, projectName: u.projectName, title: u.title, body: u.body }))
+		...updates.map((u) => ({ kind: 'update' as const, id: u.id, at: u.at.toISOString(), projectId: u.projectId, projectName: u.projectName, title: u.title, body: stripImages(u.body) || u.body, who: u.who || u.username, username: u.username, avatarUrl: u.avatarUrl, photo: firstImage(u.body) ?? firstImage(u.projectDesc) }))
 	].sort((a, b) => b.at.localeCompare(a.at));
 
 	return { items: items.slice(0, limit), weekCount: posts.length };

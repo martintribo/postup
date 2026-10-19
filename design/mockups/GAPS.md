@@ -18,6 +18,8 @@ Already matching, leave them:
 
 ## Chunk 1 — Home is one URL with Live and Building
 
+**Done** (`2c5f31f`). Rechecked locally 2026-10-18 at phone and desktop, live and none.
+
 Screens: `#home`. Do not ship `#home-overlay-alt`. `#quiet` is not `/`.
 
 `/` currently picks a layout in code. Nobody live: a full projects page, no map, no switch. Someone live: map plus a Live now sheet, and Building is unreachable. The mockup keeps both modes on `/`. Default is Live when anyone is live, otherwise Building. A Live · Building control sits at the top (phone: in the header; desktop: top of the page or the right panel). Flipping it does not navigate.
@@ -38,6 +40,19 @@ Screens: `#home`. Do not ship `#home-overlay-alt`. `#quiet` is not `/`.
 Scenario notes: signed out and signed in are the same screen except the lock marks and the header avatar (signed in only). Desktop rail already shows a Sign in icon when signed out. That part is fine.
 
 ## Chunk 2 — Nearby feed
+
+**Done.** Checked locally (:15117 vs mockups :15118) at phone 390×844 and desktop 1440×900, Fresh, signed out and in, live and none. Side-by-sides: `postup-pm/fidelity/local_{quiet-feed,quiet-feed-b,empty-area,loading,offline}_*.png`.
+
+- `/nearby` uses mockup markup (`.scr-quiet-feed .fd`): welcome line, hero "Good things happen at cafes" with an avatar stack and "N postups nearby this week" (someone live) or "What people are building" (none live), Post up, cards, desktop sticky sidebar (Working somewhere today?, Cafes nearby, Open map), "You're all caught up · Map". Signed in: header avatar links to your profile.
+- Someone live: photo feed cards (`FeedCard`): photo from the project (never Google) or a tinted tile, name → profile, Now/day · distance, project tag, cafe link, N joined, Post up here (`/post?place=`). None live: closest-first project cards.
+- `#empty-area`: nobody live and no projects shows "Be the first here", the two closest cafes and Post up. No map (overrides F044/R1, R69).
+- `#loading`: skeleton (`NearbySkeleton`) while `/nearby` loads; Nearby tab stays lit.
+- `#offline`: in-feed banner "You're offline · showing what we had" + Retry over the loaded feed; the global banner stays off on `/nearby`.
+
+Still open in this chunk:
+- Postups have no photo of their own (no column), so feed photos come from project covers; postups without a project get the tinted tile.
+- Offline only covers a feed that already loaded. Opening `/nearby` for the first time while offline still fails (no service worker or cache).
+- The mockup's signed-out header avatar is not drawn; the app shows it only when signed in (R15, unsourced in the note).
 
 Screens: `#quiet-feed` (`/nearby`, photo cards), `#quiet-feed-b` (same screen, tinted tile when a card has no photo), `#empty-area`, `#loading`, `#offline`.
 

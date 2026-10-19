@@ -1,11 +1,12 @@
 <script lang="ts">
 	/** Phone bottom tab bar (mockup nav.tab.t5) + desktop left rail (mockup aside.rail). CSS shows one per breakpoint. */
-	import { page } from '$app/state';
+	import { page, navigating } from '$app/state';
 	import { resolve } from '$app/paths';
 	import Icon from './Icon.svelte';
 	import Av from './Av.svelte';
 	let { user = null, unread = 0, hideTabs = false }: { user?: { username: string; displayName?: string | null; avatarUrl?: string | null } | null; unread?: number; hideTabs?: boolean } = $props();
-	const path = $derived(page.url.pathname);
+	// Highlight the tab being opened while it loads (mockup #loading keeps Nearby lit).
+	const path = $derived(navigating.to?.url.pathname ?? page.url.pathname);
 	const at = (p: string) => (p === '/' ? path === '/' : path === p || path.startsWith(p + '/'));
 </script>
 
