@@ -3,7 +3,7 @@ import { db } from '$lib/server/db';
 import { block, report, post, message, project, user } from '$lib/server/db/schema';
 import { env } from '$env/dynamic/private';
 
-export const REPORT_REASONS = ['spam', 'harassment', 'inappropriate', 'fake', 'unsafe', 'other'] as const;
+export const REPORT_REASONS = ['spam', 'harassment', 'inappropriate', 'fake', 'unsafe', 'not_public', 'other'] as const;
 export const TARGETS = ['user', 'post', 'message', 'project'] as const;
 
 /** Everyone this user has blocked or been blocked by (blocks hide both ways). */

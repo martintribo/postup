@@ -88,7 +88,7 @@ Desktop: mockup Nearby is a full-page photo grid with a sticky sidebar (Post up,
 
 Still open in this chunk:
 - Signed out, the drawing shows "Update 🔒" next to Post up. The app shows "Follow 🔒" to anyone who is not the owner, since Update is owner-only. Confirm with Martin.
-- The header Share button gave way to the drawn "+"; sharing a project waits for the share sheet in chunk 5.
+- Project Share is back (chunk 5): a share button before the "+" opens `#ov-share` with the `/projects/:id?s=1` landing link.
 - Phone still shows the project's about line under the buttons (not drawn; desktop has it in the side card).
 - Attach chips have no way to pick a cafe outside the three closest (the drawing has none either).
 
@@ -130,7 +130,7 @@ Still open in this chunk:
 - Desktop map panels show the map and nearby cafes but not the other live pins drawn on the mockup map, and no area chip.
 - Cafe hero line has distance only; "Open till 7pm" needs hours, which only the Google widget may show.
 - `#post-edit` starts with no Until chip selected (keeps the current end time); the drawing shows 2h selected.
-- Share still uses the native share sheet / copy; the drawn `#ov-share` sheet is chunk 5. Report opens the old `ReportSheet` (chunk 5).
+- Share and Report moved to the drawn `#ov-share` sheet and the `/report` screen in chunk 5.
 - Invite copy uses the name where the drawing says "her" ("Join Maya?").
 - e2e: live, join, share, safety, cafes and chat updated and passing. `home.test.ts` "projects page hides hidden projects" and `auth.test.ts` "password login" fail on the previous commit too (not this chunk).
 
@@ -155,6 +155,24 @@ Ended / full / cancelled need the mockup headlines ("This postup ended", "This p
 Share landings `#invite`, `#invite-ended` (`/p/:id`) and `#invite-project` (`/projects/:id?s=1`) exist. Re-read the notes and match the short "what PostUp is" line and the ended copy before calling them done.
 
 ## Chunk 5 — Inbox, people, sheets
+
+**Done.** Checked locally (:15117 vs :15118) at phone 390×844 and desktop 1440×900, Fresh, signed out and in (mock sign-in as Maya the poster, Lena a joiner, Sam a follower), live and none. Side-by-sides: `postup-pm/fidelity/local_{inbox,activity,chat,profile,me,settings,report,reported,ov-share,ov-share-projshare,ov-dirs,ov-leave,ov-endlive,ov-more,ov-msg,ov-block,ov-delacct,ov-signin}*_*.png`.
+
+- Signed-out account pages no longer redirect: `/inbox`, `/activity`, `/postups/:id/chat`, `/me`, `/settings` keep their screen and open the sign-in sheet with the mockup copy ("Your inbox / Sign in to see your chats and activity.", "Join the chat", "Your profile", "Settings"). The signed-out chat shows no messages behind the sheet.
+- `#inbox` / `#activity`: one Chats | Activity tab strip (unread count on Activity), rows "Your postup" / "Maya's postup" with "Name: text" previews and times; ended chats dimmed ("Ended · Tue") and linked to the postup; ended chats with no messages are not listed. Activity rows: "Jordan joined your postup", "asked to join", "said yes to your request", "followed you" (new `followed` alert), marked read on open.
+- `#chat`: no tab bar; header "Maya's postup" with member avatars and "Bean Theory · till · N people"; "Only people in this postup can see this chat."; bubbles with a ⋯ per message → `#ov-msg` (Copy, Report message, Block sender); header ⋯ → View postup / View profile / Share.
+- `#profile` / `#me`: live card (ring with requests on your own, dot on others'), avatar, bio, "N postups · since Oct", Follow (sign-in sheet "Follow Maya / Sign in to follow along.") or Edit profile (sheet; name/bio moved here from Settings), Regular cafes, Projects ("Updated yesterday"), Past postups. ⋯ → Share / Report / Block. `/me` goes to your profile.
+- `#settings`: notification toggles (Join requests, Someone joins your postup, Messages, People you follow post up) saved per user (`user.notify_prefs`, new jsonb column; run `drizzle-kit push` on prod). Account: Blocked people (count, sheet with Unblock), Sign out, Delete account → `#ov-delacct`.
+- `#report` → `#reported`: full screen `/report?type=post|user|message|project`, reasons Spam or fake / Harassment / Inappropriate photo / Not at a public place (new `not_public`) / Something else, optional details, "Thanks for telling us", "Block Maya too", Done goes back. `ReportSheet` is removed.
+- Sheets: `ShareSheet` (link + Copy, Messages, WhatsApp, Email, More) on postups, cafes, profiles, chat and projects; `BlockSheet`; directions, leave and end sheets match the drawing.
+
+Still open in this chunk:
+- A switched-off toggle only stops push/email; the Activity row is still written. Message alerts and "people you follow post up" alerts are not sent yet, so those two toggles are stored but have nothing to gate.
+- Block copy says "Maya won't be told" where the drawing says "She won't be told" (no pronouns stored).
+- `#me` signed out shows a placeholder profile behind the sheet; the drawing shows sample data.
+- Untouched on purpose: ask mode hiding the cafe until approval (F070) and the project Update / Follow choice.
+- e2e: profile, safety, share, join and chat updated and passing when run alone. `feed.test.ts` and `join.test.ts` end every live postup, so parallel runs can race other tests. `home.test.ts` "projects page hides hidden projects" and `auth.test.ts` "password login" still fail as before.
+
 
 Screens: `#inbox`, `#activity`, `#chat`, `#profile`, `#me`, `#settings`, `#report`, `#reported`, `#ov-share`, `#ov-dirs`, `#ov-leave`, `#ov-endlive`, `#ov-more`, `#ov-msg`, `#ov-block`, `#ov-delacct`, `#ov-signin`.
 

@@ -10,6 +10,8 @@ export const user = pgTable('user', {
 	avatarUrl: text('avatar_url'),
 	email: text('email'),
 	bio: text('bio'),
+	/** Alert toggles from Settings (mockup #settings): { requests, joins, messages, follows }. Missing = default. */
+	notifyPrefs: jsonb('notify_prefs').$type<Partial<Record<'requests' | 'joins' | 'messages' | 'follows', boolean>>>(),
 	/** Set when the account is deleted; personal data is wiped at the same time. */
 	deletedAt: timestamp('deleted_at', { withTimezone: true, mode: 'date' }),
 	createdAt: timestamp('created_at', { withTimezone: true, mode: 'date' }).$defaultFn(() => new Date())

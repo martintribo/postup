@@ -10,13 +10,14 @@ test('profile, follow, settings and account deletion', async ({ page, browser })
 	await page.request.post('/?/create', { headers: { 'content-type': 'application/x-www-form-urlencoded', origin }, data: new URLSearchParams({ activity: `prof-${t}`, location: 'Bean Theory', latitude: '33.976', longitude: '-118.417', hours: '2' }).toString() });
 
 	await page.goto('/me');
-	await expect(page.getByTestId('profile')).toContainText(`prof-${t}`);
+	await expect(page).toHaveURL(/\/u\//);
+	await expect(page.getByTestId('profile')).toContainText('live at');
 	await page.getByTestId('edit-profile').click();
 	await page.locator('input[name=displayName]').fill('Maya P');
 	await page.locator('textarea[name=bio]').fill('Building N64 mods');
 	await page.getByRole('button', { name: 'Save' }).click();
-	await expect(page.getByTestId('saved')).toBeVisible();
-	await page.goto('/me');
+	await expect(page.getByText('Building N64 mods')).toBeVisible();
+	await page.reload();
 	await expect(page.getByText('Building N64 mods')).toBeVisible();
 	const profileUrl = page.url();
 
@@ -26,13 +27,26 @@ test('profile, follow, settings and account deletion', async ({ page, browser })
 	await f.goto(profileUrl);
 	await f.getByTestId('follow').click();
 	await expect(f.getByTestId('follow')).toHaveText('Following');
-	await expect(f.getByText('1 follower')).toBeVisible();
+	const [fl] = await sql`select count(*)::int n from follow where target_type='user' and target_id=(select user_id from oauth_account where provider_user_id=${'prof-' + t})`;
+	expect(fl.n).toBeGreaterThan(0);
+
+	// Signed out: Follow asks to sign in.
+	const octx = await browser.newContext();
+	const o = await octx.newPage();
+	await o.goto(profileUrl);
+	await o.getByTestId('follow').click();
+	await expect(o.getByText('Sign in to follow along.')).toBeVisible();
+	await octx.close();
+
+	// Notification toggle is saved.
+	await page.goto('/settings');
+	await page.getByText('People you follow post up').click();
+	await expect.poll(async () => (await sql`select notify_prefs from "user" u join oauth_account o on o.user_id=u.id where o.provider_user_id=${'prof-' + t}`)[0]?.notify_prefs?.follows).toBe(true);
 
 	// Delete: live postup cancelled, sign-in removed, profile 404.
 	await page.goto('/settings');
-	await page.getByRole('button', { name: 'Delete account…' }).click();
-	await page.locator('input[name=confirm]').fill('DELETE');
 	await page.getByRole('button', { name: 'Delete account' }).click();
+	await page.getByTestId('delete-form').getByRole('button', { name: 'Delete account' }).click();
 	await expect(page).toHaveURL(/deleted=1/);
 	const [acct] = await sql`select count(*)::int n from oauth_account where provider_user_id=${'prof-' + t}`;
 	expect(acct.n).toBe(0);

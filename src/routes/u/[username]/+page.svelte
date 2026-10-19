@@ -1,59 +1,112 @@
 <script lang="ts">
-	/** Mockups #profile / #me. */
+	/** Mockups #profile / #me: live card, avatar, bio, "N postups · since Sep", Follow or Edit profile,
+	 *  regular cafes, projects, past postups. ⋯ → Share / Report / Block. Gear → Settings (yours). */
 	import { invalidateAll } from '$app/navigation';
-	import ReportSheet from '$lib/components/ReportSheet.svelte';
+	import { enhance } from '$app/forms';
+	import TopBar from '$lib/components/ui/TopBar.svelte';
+	import Icon from '$lib/components/ui/Icon.svelte';
+	import Av from '$lib/components/ui/Av.svelte';
+	import Sheet from '$lib/components/sheets/Sheet.svelte';
+	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
+	import BlockSheet from '$lib/components/sheets/BlockSheet.svelte';
+	import { askSignIn } from '$lib/signin.svelte';
+	import { clock } from '$lib/time';
 	let { data } = $props();
 	const p = $derived(data.profile);
-	let reporting = $state(false);
-	async function toggleFollow() {
+	const first = $derived(p.name.split(' ')[0]);
+	let moreOpen = $state(false);
+	let shareOpen = $state(false);
+	let blockOpen = $state(false);
+	let editOpen = $state(false);
+	let busy = $state(false);
+	let now = $state(Date.now());
+	const since = $derived(p.since ? new Date(p.since).toLocaleDateString('en-US', { month: 'short', ...(new Date(p.since).getFullYear() !== new Date().getFullYear() ? { year: 'numeric' } : {}) }) : null);
+	const day = (iso: string) => {
+		const d = new Date(iso);
+		const days = Math.floor((now - d.getTime()) / 86400e3);
+		if (days < 1) return 'Today';
+		if (days < 2) return 'Yesterday';
+		if (days < 7) return d.toLocaleDateString('en-US', { weekday: 'short' });
+		return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+	};
+	const updated = (iso: string) => { const d = day(iso); return `Updated ${d === 'Today' || d === 'Yesterday' ? d.toLowerCase() : d}`; };
+	const ring = $derived.by(() => {
+		if (!p.live) return { p: 0, t: '' };
+		const total = new Date(p.live.endsAt).getTime() - new Date(p.live.startTime).getTime();
+		const left = Math.max(0, new Date(p.live.endsAt).getTime() - now);
+		const m = Math.round(left / 60000);
+		return { p: total > 0 ? left / total : 0, t: `${Math.floor(m / 60)}:${String(m % 60).padStart(2, '0')}` };
+	});
+	async function follow() {
+		if (!data.signedIn) { askSignIn({ title: `Follow ${first}`, sub: 'Sign in to follow along.', next: `/u/${p.username}` }); return; }
+		busy = true;
 		await fetch('/api/follows', { method: data.following ? 'DELETE' : 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ targetType: 'user', targetId: p.id }) });
 		await invalidateAll();
+		busy = false;
 	}
 </script>
 
-<main class="pu-page" data-testid="profile">
-	<a href="/" class="m">← Back</a>
-	<header>
-		<span class="av">{#if p.avatarUrl}<img src={p.avatarUrl} alt="" />{:else}{p.name[0]?.toUpperCase()}{/if}</span>
-		<div>
-			<h1>{p.name}</h1>
-			<p class="m">@{p.username} · {p.followers} follower{p.followers === 1 ? '' : 's'}</p>
+<div class="acctscr scr-profile" data-testid="profile">
+	<TopBar>
+		{#snippet right()}
+			{#if data.isMe}<a class="ib" href="/settings" aria-label="Settings" data-testid="settings-link"><Icon name="settings" size={20} /></a>
+			{:else}<button class="ib" onclick={() => (moreOpen = true)} aria-label="More" data-testid="more"><Icon name="more" size={20} /></button>{/if}
+		{/snippet}
+	</TopBar>
+	<div class="pad prof">
+		{#if p.live}
+			<a class="card livec sm2c" href="/postups/{p.live.id}" data-testid="profile-live">
+				{#if data.isMe}<div class="ring sm" style="--p:{ring.p.toFixed(2)}"><b>{ring.t}</b></div>{:else}<span class="dot"></span>{/if}
+				<div class="lm"><b>{data.isMe ? `You're live at ${p.live.cafe}` : `Live at ${p.live.cafe}`}</b><span class="mu sm">Till {clock(p.live.endsAt)}{#if data.isMe && data.requests} · {data.requests} {data.requests === 1 ? 'request' : 'requests'}{:else if p.live.project} · {p.live.project}{/if}</span></div>
+			</a>
+		{/if}
+		<div class="phd">
+			<Av name={p.name} src={p.avatarUrl} size={88} />
+			<h1>{first}</h1>
+			{#if p.bio}<p class="mu">{p.bio}</p>{/if}
+			<p class="mu sm">{p.postCount} {p.postCount === 1 ? 'postup' : 'postups'}{#if since} · since {since}{/if}</p>
+			{#if data.isMe}
+				<button class="btn sec" onclick={() => (editOpen = true)} data-testid="edit-profile"><Icon name="edit" size={16} /> Edit profile</button>
+			{:else}
+				<button class="btn" class:sec={data.following} disabled={busy} onclick={follow} data-testid="follow">{data.following ? 'Following' : 'Follow'} {#if !data.signedIn}<Icon name="lock" size={14} class="lk" />{/if}</button>
+			{/if}
 		</div>
-	</header>
-	{#if p.bio}<p>{p.bio}</p>{/if}
-	<div class="row">
-		{#if data.isMe}
-			<a class="btn" href="/settings" data-testid="edit-profile">Edit profile & settings</a>
-		{:else if data.signedIn}
-			<button class="btn primary" onclick={toggleFollow} data-testid="follow">{data.following ? 'Following' : 'Follow'}</button>
-			<button class="btn" onclick={() => (reporting = !reporting)}>Report</button>
+		{#if p.cafes.length}
+			<h3 class="sh">Regular cafes</h3>
+			<div class="chips">{#each p.cafes as c (c.id)}<a class="chip" href="/places/{c.id}">{c.name}</a>{/each}</div>
+		{/if}
+		{#if p.projects.length}
+			<h3 class="sh">Projects</h3>
+			<div class="grp">{#each p.projects as pr (pr.id)}<a class="lrow" href="/projects/{pr.id}"><span class="ci sm pj"><Icon name="folder" size={16} /></span><div class="lm"><b class="sm">{pr.name}</b><span class="l2">{updated(pr.updatedAt)}</span></div></a>{/each}</div>
+		{/if}
+		{#if p.posts.length}
+			<h3 class="sh">Past postups</h3>
+			<div class="grp">{#each p.posts.slice(0, 8) as po (po.id)}<a class="lrow" href={po.placeId ? `/places/${po.placeId}` : `/postups/${po.id}`}><span class="ci sm"><Icon name="coffee" size={16} /></span><div class="lm"><b class="sm">{po.activity}</b><span class="l2">{po.where} · {day(po.at)}</span></div></a>{/each}</div>
+		{:else if data.isMe}
+			<a class="btn" href="/post">Post up</a>
 		{/if}
 	</div>
-	{#if reporting}<ReportSheet targetType="user" targetId={p.id} blockUserId={p.id} blockName={p.name} onDone={() => (reporting = false)} />{/if}
+</div>
 
-	{#if p.projects.length}
-		<h2>Projects</h2>
-		<ul>{#each p.projects as pr (pr.id)}<li><a href="/projects/{pr.id}"><b>{pr.name}</b></a> <span class="m">{pr.short}</span></li>{/each}</ul>
+<Sheet bind:open={moreOpen} title={first} testid="more-sheet">
+	<button class="lrow wr" onclick={() => { moreOpen = false; shareOpen = true; }}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>
+	{#if data.signedIn}
+		<a class="lrow wr dg" href="/report?type=user&id={p.id}&uid={p.id}&back={encodeURIComponent(`/u/${p.username}`)}"><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></a>
+		<button class="lrow wr dg" onclick={() => { moreOpen = false; blockOpen = true; }}><span class="ixi"><Icon name="ban" size={18} /></span><span class="lm">Block {first}</span></button>
 	{/if}
-	<h2>Postups</h2>
-	{#if p.posts.length}
-		<ul>{#each p.posts as po (po.id)}<li><a href="/postups/{po.id}">{po.activity}</a> <span class="m">· {po.where} · {new Date(po.at).toLocaleDateString([], { month: 'short', day: 'numeric' })}</span></li>{/each}</ul>
-	{:else}
-		<p class="m">No postups yet.</p>
-	{/if}
-</main>
-
-<style>
-	.pu-page { max-width: 640px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; background: var(--pu-bg); color: var(--pu-text); font-family: var(--pu-font); }
-	header { display: flex; gap: 12px; align-items: center; margin-top: 10px; }
-	h1 { font-family: var(--pu-font-display); margin: 0; }
-	.av { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--pu-accent); color: var(--pu-accent-text); font-size: 26px; font-weight: 700; overflow: hidden; }
-	.av img { width: 100%; height: 100%; object-fit: cover; }
-	.m { color: var(--pu-muted); text-decoration: none; margin: 0; }
-	.row { display: flex; gap: 8px; margin: 10px 0; }
-	.btn { padding: 8px 14px; border-radius: 999px; border: var(--pu-border-width) solid var(--pu-border); background: var(--pu-surface); color: var(--pu-text); font-weight: 600; text-decoration: none; cursor: pointer; }
-	.primary { background: var(--pu-accent); color: var(--pu-accent-text); }
-	ul { list-style: none; padding: 0; display: grid; gap: 6px; }
-	li { padding: 8px 10px; background: var(--pu-surface); border: var(--pu-border-width) solid var(--pu-border); border-radius: var(--pu-radius); }
-	a { color: inherit; }
-</style>
+	<button class="tx" onclick={() => (moreOpen = false)}>Cancel</button>
+</Sheet>
+<ShareSheet bind:open={shareOpen} path="/u/{p.username}" text="{first} on PostUp" />
+<BlockSheet bind:open={blockOpen} userId={p.id} name={p.name} />
+{#if data.isMe}
+	<Sheet bind:open={editOpen} title="Edit profile" testid="edit-sheet">
+		<form method="POST" action="/settings?/save" class="form" use:enhance={() => async ({ result, update }) => { if (result.type === 'success') { editOpen = false; await invalidateAll(); } else await update(); }}>
+			<label for="ep-name">Name</label>
+			<input id="ep-name" class="in" name="displayName" value={p.name} maxlength="50" />
+			<label for="ep-bio">About you</label>
+			<textarea id="ep-bio" class="in" name="bio" rows="3" maxlength="300" placeholder="What you're building, when you're usually out">{p.bio ?? ''}</textarea>
+			<button class="btn">Save</button>
+		</form>
+		<button class="tx" onclick={() => (editOpen = false)}>Cancel</button>
+	</Sheet>
+{/if}

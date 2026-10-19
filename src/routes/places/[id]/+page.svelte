@@ -5,10 +5,11 @@
 	import Av from '$lib/components/ui/Av.svelte';
 	import GCard from '$lib/components/ui/GCard.svelte';
 	import MapPanel from '$lib/components/ui/MapPanel.svelte';
-	import { shareLink } from '$lib/share';
+	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
 	import { clock } from '$lib/time';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
+	let shareOpen = $state(false);
 	const p = $derived(data.place);
 	const dist = $derived(data.miles < 0.1 ? 'Here' : `${data.miles < 10 ? data.miles.toFixed(1) : Math.round(data.miles)} mi`);
 </script>
@@ -18,7 +19,7 @@
 		{#if data.photo}<img src={data.photo.src} alt="" />{/if}
 		<div class="hg"></div>
 		<TopBar clear href="/">
-			{#snippet right()}<button class="ib fl" onclick={() => shareLink(`/places/${p.id}`, `Work from ${p.name} on PostUp`)} aria-label="Share"><Icon name="share" size={20} /></button>{/snippet}
+			{#snippet right()}<button class="ib fl" onclick={() => (shareOpen = true)} data-testid="share" aria-label="Share"><Icon name="share" size={20} /></button>{/snippet}
 		</TopBar>
 		<div class="hi-t"><h1>{p.name}</h1><p><Icon name="pin" size={14} /> {dist}</p></div>
 		{#if data.photo?.who}<span class="fbadge tr"><Icon name="camera" size={12} /> {data.photo.who.split(' ')[0]}'s photo</span>{/if}
@@ -43,3 +44,4 @@
 	</div>
 	<div class="cta"><a class="btn" href="/post?place={p.id}"><Icon name="plus" size={18} /> Post up here</a></div>
 </MapPanel>
+<ShareSheet bind:open={shareOpen} path="/places/{p.id}" text="Work from {p.name} on PostUp" />

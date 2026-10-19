@@ -4,6 +4,8 @@
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
 	import { clock } from '$lib/time';
+	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
+	let shareOpen = $state(false);
 	let { data } = $props();
 	const p = $derived(data.project);
 	const gate = (to: string) => (data.signedIn ? to : `/login?next=${encodeURIComponent(to)}`);
@@ -35,7 +37,7 @@
 		{#if p.cover}<img src={p.cover} alt="" />{/if}
 		<div class="hg"></div>
 		<TopBar clear href="/projects">
-			{#snippet right()}<a class="ib fl" href={gate('/projects/new')} aria-label="New project"><Icon name="plus" size={20} /></a>{/snippet}
+			{#snippet right()}<button class="ib fl" onclick={() => (shareOpen = true)} aria-label="Share" data-testid="share"><Icon name="share" size={20} /></button><a class="ib fl" href={gate('/projects/new')} aria-label="New project"><Icon name="plus" size={20} /></a>{/snippet}
 		</TopBar>
 		<div class="hi-t">
 			<span class="tag lt">{KIND[p.type ?? ''] ?? 'Project'}</span>
@@ -112,3 +114,4 @@
 	</div>
 </div>
 {/if}
+<ShareSheet bind:open={shareOpen} path="/projects/{p.id}?s=1" text={p.owner ? `${p.owner.split(' ')[0]} is building ${p.name}` : `${p.name} on PostUp`} />

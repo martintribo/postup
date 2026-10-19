@@ -56,7 +56,7 @@ test('open join and ask-to-join with approval, alerts, cafe hidden until approve
 	await expect(sam.page.getByTestId('joined')).toBeVisible();
 	await expect(sam.page.getByTestId('join-box').getByText('Bean Theory')).toBeVisible();
 	await sam.page.goto(`${origin}/activity`);
-	await expect(sam.page.getByText(/You're in!/)).toBeVisible();
+	await expect(sam.page.getByText(/said yes to your request/)).toBeVisible();
 
 	// Capacity 1 now reached: a third person sees "full".
 	const kim = await as(browser, origin, `kim-${t}`, 'Kim');
@@ -72,7 +72,7 @@ test('open join and ask-to-join with approval, alerts, cafe hidden until approve
 
 	await page.goto(`/activity`);
 	await expect(page.getByText(/asked to join/)).toBeVisible();
-	await expect(page.getByText(/is joining you/)).toBeVisible();
+	await expect(page.getByText(/joined your postup/).first()).toBeVisible();
 	for (const x of [sam, kim]) await x.ctx.close();
 	await sql.end();
 });

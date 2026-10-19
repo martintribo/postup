@@ -10,11 +10,10 @@
 	import Av from '$lib/components/ui/Av.svelte';
 	import Seg from '$lib/components/ui/Seg.svelte';
 	import MapPanel from '$lib/components/ui/MapPanel.svelte';
-	import ReportSheet from '$lib/components/ReportSheet.svelte';
+	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
 	import PhotoPick from '$lib/components/ui/PhotoPick.svelte';
 	import { enhance } from '$app/forms';
 	import { askSignIn } from '$lib/signin.svelte';
-	import { shareLink } from '$lib/share';
 	import { clock } from '$lib/time';
 	let { data } = $props();
 	const p = $derived(data.postup);
@@ -23,7 +22,7 @@
 	const cafe = $derived(p.placeName || p.location);
 	const until = $derived(clock(p.endsAt));
 	let now = $state(Date.now());
-	let sheet = $state<'' | 'ask' | 'more' | 'dirs' | 'end' | 'leave' | 'block' | 'report' | 'share'>('');
+	let sheet = $state<'' | 'ask' | 'more' | 'dirs' | 'end' | 'leave' | 'block'>('');
 	let reason = $state('');
 	let err = $state('');
 	let busy = $state(false);
@@ -94,10 +93,9 @@
 		await fetch('/api/blocks', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ userId: p.userId }) });
 		location.href = '/';
 	}
-	async function share() {
-		const r = await shareLink(`/p/${p.id}`, `${who} is working at ${cafe} till ${until}`);
-		if (r === 'copied') { copied = true; setTimeout(() => (copied = false), 2000); }
-	}
+	let shareOpen = $state(false);
+	const share = () => { sheet = ''; shareOpen = true; };
+
 	async function copy() {
 		await navigator.clipboard?.writeText(shareUrl).catch(() => {});
 		copied = true;
@@ -280,14 +278,12 @@
 		{:else if sheet === 'more'}
 			<h2>{first}</h2>
 			{#if p.username}<a class="lrow wr" href="/u/{p.username}"><span class="ixi"><Icon name="users" size={18} /></span><span class="lm">View profile</span></a>{/if}
-			{#if data.shareEnabled}<button class="lrow wr" onclick={() => { sheet = ''; share(); }}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>{/if}
+			{#if data.shareEnabled}<button class="lrow wr" onclick={share}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>{/if}
 			{#if data.signedIn}
-				<button class="lrow wr dg" onclick={() => (sheet = 'report')}><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></button>
-				{#if p.userId}<button class="lrow wr dg" onclick={() => (sheet = 'block')}><span class="ixi"><Icon name="x" size={18} /></span><span class="lm">Block {first}</span></button>{/if}
+				<a class="lrow wr dg" href="/report?type=post&id={p.id}{p.userId ? `&uid=${p.userId}` : ''}&back={encodeURIComponent(`/postups/${p.id}`)}"><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></a>
+				{#if p.userId}<button class="lrow wr dg" onclick={() => (sheet = 'block')}><span class="ixi"><Icon name="ban" size={18} /></span><span class="lm">Block {first}</span></button>{/if}
 			{/if}
 			<button class="tx" onclick={() => (sheet = '')}>Cancel</button>
-		{:else if sheet === 'report'}
-			<ReportSheet targetType="post" targetId={p.id} blockUserId={p.userId} blockName={who} onDone={() => (sheet = '')} />
 		{:else if sheet === 'block'}
 			<h2>Block {first}?</h2>
 			<p class="mu">You won't see each other's postups or messages. {first} won't be told.</p>
@@ -312,4 +308,5 @@
 		{/if}
 	</div>
 {/if}
+<ShareSheet bind:open={shareOpen} path="/p/{p.id}" text="{who} is working at {cafe} till {until}" />
 {#if copied}<div class="toast" role="status">Link copied</div>{/if}

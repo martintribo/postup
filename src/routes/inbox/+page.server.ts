@@ -1,10 +1,10 @@
-import { error, redirect } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import { flag } from '$lib/flags';
 import { inbox } from '$lib/server/chat';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals, url }) => {
+/** Mockup #inbox. Signed out keeps the screen; the page opens the sign-in sheet over it. */
+export const load: PageServerLoad = async ({ locals }) => {
 	if (!flag('chat')) error(404);
-	if (!locals.user) redirect(302, `/login?next=${encodeURIComponent(url.pathname)}`);
-	return { title: 'Inbox', chats: await inbox(locals.user.id) };
+	return { title: 'Inbox', signedIn: !!locals.user, chats: locals.user ? await inbox(locals.user.id) : [] };
 };

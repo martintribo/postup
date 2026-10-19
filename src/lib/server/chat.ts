@@ -34,6 +34,12 @@ async function access(postId: number, userId: string) {
 	return { p, ...w };
 }
 
+/** Poster plus approved joiners, for the chat header (mockup #chat "3 people"). */
+async function members(p: { id: number; userId: string | null; displayName: string | null; name: string; avatarUrl: string | null }) {
+	const rows = await db.select({ id: user.id, name: sql<string>`coalesce(${user.displayName}, ${user.username})`, avatarUrl: user.avatarUrl }).from(joinRequest).innerJoin(user, eq(joinRequest.userId, user.id)).where(and(eq(joinRequest.postId, p.id), eq(joinRequest.status, 'approved')));
+	return [{ id: p.userId, name: p.displayName || p.name, avatarUrl: p.avatarUrl }, ...rows];
+}
+
 export async function listMessages(postId: number, userId: string, afterId = 0) {
 	const { p, canWrite, readableUntil } = await access(postId, userId);
 	const rows = await db
@@ -52,7 +58,7 @@ export async function listMessages(postId: number, userId: string, afterId = 0) 
 			.values({ postId, userId, lastReadId: last })
 			.onConflictDoUpdate({ target: [chatRead.postId, chatRead.userId], set: { lastReadId: sql`greatest(${chatRead.lastReadId}, ${last})` } });
 	}
-	return { messages: visible.map((m) => ({ ...m, createdAt: m.createdAt.toISOString() })), canWrite, readableUntil: readableUntil.toISOString(), postup: { id: p.id, activity: p.activity, state: p.state } };
+	return { messages: visible.map((m) => ({ ...m, createdAt: m.createdAt.toISOString() })), canWrite, readableUntil: readableUntil.toISOString(), postup: { id: p.id, activity: p.activity, state: p.state, userId: p.userId, who: p.displayName || p.name, username: p.username, cafe: p.placeName || p.location, endsAt: p.endsAt.toISOString() }, members: await members(p) };
 }
 
 export async function sendMessage(postId: number, userId: string, body: string) {
@@ -74,7 +80,9 @@ export async function inbox(userId: string) {
 	for (const id of ids) {
 		const p = await getPostup(id);
 		if (!p || !chatWindow(p.endsAt, p.state).canRead) continue;
-		const [last] = await db.select({ body: message.body, createdAt: message.createdAt, id: message.id }).from(message).where(and(eq(message.postId, id), isNull(message.deletedAt))).orderBy(desc(message.id)).limit(1);
+		const [last] = await db.select({ body: message.body, createdAt: message.createdAt, id: message.id, userId: message.userId, name: sql<string>`coalesce(${user.displayName}, ${user.username})` }).from(message).innerJoin(user, eq(message.userId, user.id)).where(and(eq(message.postId, id), isNull(message.deletedAt))).orderBy(desc(message.id)).limit(1);
+		// An ended postup nobody wrote in has no chat worth listing.
+		if (!last && p.state !== 'live') continue;
 		const [rd] = await db.select({ lastReadId: chatRead.lastReadId }).from(chatRead).where(and(eq(chatRead.postId, id), eq(chatRead.userId, userId)));
 		const [u] = await db
 			.select({ n: sql<number>`count(*)::int` })
@@ -83,8 +91,13 @@ export async function inbox(userId: string) {
 		out.push({
 			postId: id,
 			title: `${p.displayName || p.name} · ${p.activity}`,
+			// Mockup #inbox: "Maya's postup" / "Your postup", poster avatar, "Maya: Grabbing another coffee…".
+			mine: p.userId === userId,
+			who: p.displayName || p.name,
+			avatarUrl: p.avatarUrl,
+			endedAt: p.endsAt.toISOString(),
 			state: p.state,
-			last: last ? { body: last.body, at: last.createdAt.toISOString() } : null,
+			last: last ? { body: last.body, at: last.createdAt.toISOString(), name: last.userId === userId ? 'You' : last.name.split(' ')[0] } : null,
 			unread: u?.n ?? 0,
 			sort: (last?.createdAt ?? p.startTime).getTime()
 		});

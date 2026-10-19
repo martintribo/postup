@@ -19,8 +19,9 @@ test('report a postup, admin hides it; block hides the poster and stops joining'
 	await v.goto(`${origin}/auth/mock?id=victim-${t}&name=Victim`);
 	await v.goto(`${origin}/postups/${spam.id}`);
 	await v.getByTestId('more').click();
-	await v.getByRole('button', { name: 'Report' }).click();
-	await v.getByLabel('Spam').check();
+	await v.getByRole('link', { name: 'Report' }).click();
+	await expect(v.getByTestId('report-form')).toBeVisible();
+	await v.getByText('Spam or fake').click();
 	await v.getByRole('button', { name: 'Send report' }).click();
 	await expect(v.getByTestId('reported')).toBeVisible();
 

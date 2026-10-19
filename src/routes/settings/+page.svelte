@@ -1,54 +1,45 @@
 <script lang="ts">
-	/** Mockups #settings / #ov-delacct. */
+	/** Mockup #settings: Notifications toggles; Account: Blocked people, Sign out, Delete account (#ov-delacct). */
+	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
-	let { data, form } = $props();
-	let showDelete = $state(false);
+	import TopBar from '$lib/components/ui/TopBar.svelte';
+	import Sheet from '$lib/components/sheets/Sheet.svelte';
+	import { gate } from '$lib/gate';
+	let { data } = $props();
+	const TOGGLES: [keyof typeof data.prefs, string][] = [['requests', 'Join requests'], ['joins', 'Someone joins your postup'], ['messages', 'Messages'], ['follows', 'People you follow post up']];
+	let delOpen = $state(false);
+	let blockedOpen = $state(false);
+	let prefsForm = $state<HTMLFormElement>();
+	onMount(() => { if (!data.signedIn) gate('settings', '/settings'); });
 </script>
 
-<main class="pu-page" data-testid="settings">
-	<a href="/me" class="m">← Profile</a>
-	<h1>Settings</h1>
-	<form method="POST" action="?/save" use:enhance class="card">
-		<label>Name <input name="displayName" value={data.me.displayName} maxlength="50" /></label>
-		<label>Bio <textarea name="bio" maxlength="300">{data.me.bio}</textarea></label>
-		<button class="btn primary">Save</button>
-		{#if form?.saved}<span class="m" data-testid="saved">Saved</span>{/if}
-		{#if form?.message}<span class="err" role="alert">{form.message}</span>{/if}
-	</form>
-
-	<h2>Blocked</h2>
-	{#if data.blocked.length}
-		{#each data.blocked as b (b.id)}
-			<form method="POST" action="?/unblock" use:enhance class="row"><span>{b.name || b.username}</span><input type="hidden" name="userId" value={b.id} /><button class="btn">Unblock</button></form>
-		{/each}
-	{:else}<p class="m">People you block can't see your postups or ask to join them. Block anyone from the … menu on their postup or profile.</p>{/if}
-
-	<h2>Account</h2>
-	<form method="POST" action="?/signout"><button class="btn">Sign out</button></form>
-	{#if showDelete}
-		<form method="POST" action="?/delete" class="card danger" data-testid="delete-form">
-			<b>Delete your account?</b>
-			<p class="m">This ends any live postup, removes your sign-ins, chats and profile, and can't be undone.</p>
-			<label>Type DELETE to confirm <input name="confirm" autocomplete="off" /></label>
-			<button class="btn del">Delete account</button>
+<div class="acctscr scr-settings" data-testid="settings">
+	<TopBar title="Settings" href={data.signedIn ? '/me' : '/'} />
+	<div class="pad">
+		<h3 class="sh">Notifications</h3>
+		<form method="POST" action="?/prefs" bind:this={prefsForm} use:enhance={() => async ({ update }) => update({ reset: false })} class="grp" data-testid="prefs">
+			{#each TOGGLES as [k, label] (k)}
+				<label class="lrow tgr"><span class="lm sm">{label}</span><input type="checkbox" class="tg" name={k} checked={data.prefs[k]} disabled={!data.signedIn} onchange={() => prefsForm?.requestSubmit()} /></label>
+			{/each}
 		</form>
-	{:else}
-		<button class="btn link" onclick={() => (showDelete = true)}>Delete account…</button>
-	{/if}
-</main>
+		<h3 class="sh">Account</h3>
+		<div class="grp">
+			<button class="lrow wr" onclick={() => data.signedIn && (blockedOpen = true)} data-testid="blocked"><span class="lm sm">Blocked people</span><span class="mu sm">{data.blocked.length}</span></button>
+			{#if data.signedIn}
+				<form method="POST" action="?/signout"><button class="lrow wr"><span class="lm sm">Sign out</span></button></form>
+				<button class="lrow wr dg" onclick={() => (delOpen = true)}><span class="lm sm">Delete account</span></button>
+			{/if}
+		</div>
+	</div>
+</div>
 
-<style>
-	.pu-page { max-width: 640px; margin: 0 auto; padding: 20px 16px; min-height: 100vh; background: var(--pu-bg); color: var(--pu-text); font-family: var(--pu-font); display: grid; gap: 10px; align-content: start; }
-	h1 { font-family: var(--pu-font-display); margin: 0; }
-	h2 { margin: 10px 0 0; font-size: 16px; }
-	.card { display: grid; gap: 8px; padding: 12px; background: var(--pu-surface); border: var(--pu-border-width) solid var(--pu-border); border-radius: var(--pu-radius); }
-	.danger { border-color: #c62828; }
-	.row { display: flex; justify-content: space-between; align-items: center; }
-	input, textarea { width: 100%; }
-	.m { color: var(--pu-muted); text-decoration: none; margin: 0; }
-	.err { color: #c62828; }
-	.btn { padding: 8px 14px; border-radius: 10px; border: var(--pu-border-width) solid var(--pu-border); background: var(--pu-surface); color: var(--pu-text); font-weight: 600; cursor: pointer; justify-self: start; }
-	.primary { background: var(--pu-accent); color: var(--pu-accent-text); }
-	.del { background: #c62828; color: #fff; border-color: #c62828; }
-	.link { border: 0; background: none; color: #c62828; padding: 0; }
-</style>
+<Sheet bind:open={blockedOpen} title="Blocked people" sub={data.blocked.length ? "They can't see your postups or ask to join, and you won't see theirs." : 'Block anyone from the ⋯ menu on their postup or profile.'} testid="blocked-sheet">
+	{#each data.blocked as b (b.id)}
+		<form method="POST" action="?/unblock" use:enhance class="lrow wr"><span class="lm sm">{b.name || b.username}</span><input type="hidden" name="userId" value={b.id} /><button class="pill">Unblock</button></form>
+	{/each}
+	<button class="tx" onclick={() => (blockedOpen = false)}>Done</button>
+</Sheet>
+<Sheet bind:open={delOpen} title="Delete your account?" sub="Your profile, postups and projects will be removed. This can't be undone." testid="delete-sheet">
+	<form method="POST" action="?/delete" data-testid="delete-form"><input type="hidden" name="confirm" value="DELETE" /><button class="btn danger" style="width:100%">Delete account</button></form>
+	<button class="tx" onclick={() => (delOpen = false)}>Cancel</button>
+</Sheet>

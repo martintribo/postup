@@ -33,6 +33,9 @@ test('shared postup and project links render previews and lead to join', async (
 	expect(proj).toMatch(/og:title" content="Maya Share is building Star Fox/);
 	await f.goto(`${origin}/projects/${pr.id}?s=1`);
 	await expect(f.getByText('Live now · join them')).toBeVisible();
+	await f.goto(`${origin}/projects/${pr.id}`);
+	await f.getByTestId('share').click();
+	await expect(f.getByTestId('share-sheet')).toContainText(`/projects/${pr.id}?s=1`);
 
 	await sql`update post set status='ended' where id=${p.id}`;
 	await f.goto(`${origin}/p/${p.id}`);
