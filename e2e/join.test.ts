@@ -36,21 +36,25 @@ test('open join and ask-to-join with approval, alerts, cafe hidden until approve
 	await expect(sam.page.getByText('a cafe in Playa Vista')).toBeVisible();
 	await expect(sam.page.getByText('Bean Theory')).toHaveCount(0);
 	await sam.page.getByRole('button', { name: 'Ask to join' }).click();
-	await expect(sam.page.getByRole('alert')).toContainText(/why you want to join/);
+	await expect(sam.page.getByRole('button', { name: 'Send request' })).toBeDisabled();
 	await sam.page.locator('textarea[name=reason]').fill('Also building a mod, happy to pair');
-	await sam.page.getByRole('button', { name: 'Ask to join' }).click();
+	await sam.page.getByRole('button', { name: 'Send request' }).click();
 	await expect(sam.page.getByTestId('requested')).toBeVisible();
 
 	await page.goto('/');
-	await expect(page.getByTestId('unread')).toHaveText('2');
+	// Mockup nav shows a dot, not a count; the two alerts are checked in the DB.
+	await expect(page.getByTestId('unread').first()).toBeAttached();
+	const [{ n: alerts }] = await sql`select count(*)::int as n from notification n join oauth_account o on o.user_id=n.user_id where o.provider_user_id=${'owner-' + t} and n.read_at is null`;
+	expect(alerts).toBe(2);
 	await page.goto(`/postups/${askP.id}`);
 	await expect(page.getByTestId('requests')).toContainText('Also building a mod');
-	await page.getByRole('button', { name: 'Accept' }).click();
-	await expect(page.getByTestId('requests')).toContainText('is joining');
+	await page.getByRole('button', { name: 'Approve' }).click();
+	await expect(page.getByTestId('requests')).toHaveCount(0);
+	await expect(page.getByText('On the way')).toBeVisible();
 
 	await sam.page.reload();
 	await expect(sam.page.getByTestId('joined')).toBeVisible();
-	await expect(sam.page.getByText('Bean Theory').first()).toBeVisible();
+	await expect(sam.page.getByTestId('join-box').getByText('Bean Theory')).toBeVisible();
 	await sam.page.goto(`${origin}/activity`);
 	await expect(sam.page.getByText(/You're in!/)).toBeVisible();
 
@@ -61,8 +65,8 @@ test('open join and ask-to-join with approval, alerts, cafe hidden until approve
 
 	// Owner removes Sam; Sam's alert says so.
 	await page.reload();
-	await page.getByRole('button', { name: 'Remove' }).click();
-	await expect(page.getByTestId('requests')).toHaveCount(0);
+	await page.getByRole('button', { name: /^Remove / }).click();
+	await expect(page.getByText('On the way')).toHaveCount(0);
 	const [n] = await sql`select n.type from notification n join oauth_account o on o.user_id=n.user_id where o.provider_user_id=${'sam-' + t} order by n.id desc limit 1`;
 	expect(n.type).toBe('removed');
 

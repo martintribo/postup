@@ -44,6 +44,8 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
 		project: { id: p.id, name: p.name, type: p.type, short: p.short, about: stripImages(p.description) || p.short, cover: firstImage(p.description) ?? updates.map((u) => firstImage(u.body)).find(Boolean) ?? null, owner: p.owner, ownerUsername: p.ownerUsername, ownerAvatar: p.ownerAvatar },
 		isOwner: owner,
 		landing: !locals.user && url.searchParams.has('s'),
+		// Mockup #invite-project is a landing: no tab bar.
+		noTabs: !locals.user && url.searchParams.has('s'),
 		signedIn: !!locals.user,
 		following: locals.user ? await isFollowing(locals.user.id, 'project', String(id)) : false,
 		stats: { total: counts?.total ?? 0, week: counts?.week ?? 0, who: counts?.who ?? [], weekCafe: counts?.weekCafe ?? null },

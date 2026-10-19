@@ -5,6 +5,8 @@ import { post, project } from '$lib/server/db/schema';
 import { getUserLocation, reverseGeocode } from '$lib/server/location';
 import { computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
 import { config } from '$lib/config';
+import { saveImage } from '$lib/server/uploads';
+import { getPostup } from '$lib/server/postup-manage';
 import type { Actions, PageServerLoad } from './$types';
 
 /** Post-up form (mockups #post, #where, #post-signin, #project-attach). Signed-out visitors can fill it; the sign-in sheet opens on submit. */
@@ -26,7 +28,16 @@ export const load: PageServerLoad = async (event) => {
 		const [p] = await db.select({ id: project.id, name: project.name }).from(project).where(eq(project.id, pid));
 		attach = p ?? null;
 	}
-	return { title: 'Post up', places, mine, attach, location, signedIn: !!user, defaultJoin: config.defaultJoinMode, placeId: Number(event.url.searchParams.get('place')) || null };
+	// Mockup #post-edit: the same form, prefilled, for your own live postup.
+	const eid = Number(event.url.searchParams.get('edit'));
+	let edit: { id: number; activity: string; placeId: number | null; placeName: string | null; location: string; latitude: number | null; longitude: number | null; projectId: number | null; joinMode: string } | null = null;
+	if (eid) {
+		if (!user) redirect(303, `/postups/${eid}`);
+		const e = await getPostup(eid);
+		if (!e || e.userId !== user.id || e.state !== 'live') redirect(303, `/postups/${eid}`);
+		edit = { id: e.id, activity: e.activity, placeId: e.placeId, placeName: e.placeName, location: e.location, latitude: e.latitude, longitude: e.longitude, projectId: e.projectId, joinMode: e.joinMode };
+	}
+	return { title: edit ? 'Edit postup' : 'Post up', edit, places, mine, attach, location, signedIn: !!user, defaultJoin: config.defaultJoinMode, placeId: Number(event.url.searchParams.get('place')) || null };
 };
 
 export const actions: Actions = {
@@ -47,6 +58,12 @@ export const actions: Actions = {
 		if (!activity && !projectId) return fail(400, { message: 'Say what you are working on' });
 		if (!placeId && googlePlaceId) placeId = await upsertGooglePlace({ googlePlaceId, name, latitude, longitude }, user.id);
 
+		let photoUrl: string | null = null;
+		try {
+			photoUrl = await saveImage(f.get('photo'), 'postups');
+		} catch (e) {
+			return fail(400, { message: (e as Error).message });
+		}
 		const now = new Date();
 		let hours = Number(/^(\d)h$/.exec(until)?.[1] ?? 0);
 		let endsAt: Date;
@@ -67,7 +84,7 @@ export const actions: Actions = {
 			.insert(post)
 			.values({
 				userId: user.id, name: user.username, activity: activity || `Working on ${projName ?? 'a project'}`,
-				location: name, latitude, longitude, hours, placeId, projectId, joinMode,
+				location: name, latitude, longitude, hours, placeId, projectId, joinMode, photoUrl,
 				startTime: start, endsAt, status: earlier ? 'ended' : 'live',
 				neighborhood: geo.neighborhood, locality: geo.locality, district: geo.district, sessionId: event.locals.session?.id
 			})

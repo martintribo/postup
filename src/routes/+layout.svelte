@@ -45,7 +45,7 @@
 	const BARE = ['/login', '/admin', '/style', '/agent'];
 	const NO_TABS = [/^\/post$/, /^\/projects\/new$/, /^\/projects\/[^/]+\/(update|edit|attach)$/, /^\/settings/];
 	const bare = $derived(BARE.some((b) => page.url.pathname === b || page.url.pathname.startsWith(b + '/')));
-	const hideTabs = $derived(NO_TABS.some((r) => r.test(page.url.pathname)));
+	const hideTabs = $derived(NO_TABS.some((r) => r.test(page.url.pathname)) || !!page.data?.noTabs);
 	// Any link to /login opens the sign-in sheet over the current screen instead.
 	function interceptLogin(e: MouseEvent) {
 		if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;

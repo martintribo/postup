@@ -18,19 +18,23 @@ test('poster sees You are live, extends, edits, and ends; others cannot', async 
 	await expect(page.getByTestId('live-bar')).toBeVisible();
 	await page.getByTestId('live-bar').click();
 	await expect(page.getByTestId('you-are-live')).toBeVisible();
-	await expect(page.getByTestId('time-left')).toContainText(/1h 5\dm left|2h 0m left/);
+	await expect(page.getByTestId('ring-left')).toHaveText(/^(1:5\d|2:00)$/);
 
-	await page.getByRole('button', { name: '+1 hour' }).click();
-	await expect(page.getByTestId('time-left')).toContainText(/2h 5\dm left|3h 0m left/);
+	await page.getByRole('button', { name: '+30 min' }).click();
+	await expect(page.getByTestId('ring-left')).toHaveText(/^(2:2\d|2:30)$/);
 	const [p2] = await sql`select ends_at from post where id=${p.id}`;
-	expect(Math.round((p2.ends_at - p.ends_at) / 60000)).toBe(60);
+	expect(Math.round((p2.ends_at - p.ends_at) / 60000)).toBe(30);
 
-	await page.getByRole('button', { name: 'Edit' }).click();
+	// Edit is the post form (mockup #post-edit); Save returns to You're live.
+	await page.getByRole('link', { name: 'Edit' }).click();
+	await expect(page.getByTestId('post-form').getByText('Edit postup')).toBeVisible();
 	await page.locator('input[name=activity]').fill('Writing more tests');
-	await page.getByLabel('Ask to join').check();
+	await page.getByRole('radio', { name: 'Ask to join' }).click();
 	await page.getByRole('button', { name: 'Save' }).click();
-	await expect(page.getByText('Writing more tests')).toBeVisible();
-	await expect(page.getByText('Ask to join')).toBeVisible();
+	await expect(page.getByTestId('you-are-live')).toBeVisible();
+	await expect(page.getByRole('radio', { name: 'Ask to join' })).toHaveAttribute('aria-checked', 'true');
+	const [p4] = await sql`select activity, join_mode from post where id=${p.id}`;
+	expect(p4).toMatchObject({ activity: 'Writing more tests', join_mode: 'ask' });
 
 	// Someone else cannot manage it.
 	const other = await browser.newContext();
@@ -40,14 +44,14 @@ test('poster sees You are live, extends, edits, and ends; others cannot', async 
 	expect(forbidden.status()).toBe(403);
 	await other.close();
 
-	await page.getByRole('button', { name: 'End', exact: true }).click();
 	await page.getByRole('button', { name: 'End postup' }).click();
-	await expect(page.getByText('This postup has ended')).toBeVisible();
+	await page.getByTestId('confirm-end').click();
+	await expect(page.getByText('This postup ended')).toBeVisible();
 	const [p3] = await sql`select status from post where id=${p.id}`;
 	expect(p3.status).toBe('ended');
 
 	await sql`update post set status='cancelled' where id=${p.id}`;
 	await page.reload();
-	await expect(page.getByText('This postup was cancelled')).toBeVisible();
+	await expect(page.getByText(/cancelled this postup/)).toBeVisible();
 	await sql.end();
 });

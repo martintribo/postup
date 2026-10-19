@@ -110,6 +110,30 @@ Screens: `#projects`, `#project`, `#project-new`, `#project-update`, `#project-a
 
 ## Chunk 4 — Post, cafe, join, live
 
+**Done.** Checked locally (:15117 vs :15118) at phone 390×844 and desktop 1440×900, Fresh, signed out and in (mock sign-in as the poster, a joiner, a requester and a stranger), live and none. Side-by-sides: `postup-pm/fidelity/local_{post,where,post-signin,posted,post-edit,live,live-requests,cafe,cafe-gfail,postup,join-signin,joined,postup-ask,ask-signin,ask,requested,postup-ended,postup-full,postup-cancelled,invite,invite-signin,invite-ended,invite-project}*_*.png`.
+
+- Map screens (`#postup`, `#postup-ask`, `#ask`, `#live`, `#joined`, ended/full/cancelled, `#cafe`) use the new `MapPanel`: phone is the screen; desktop is the full map with the screen in a 440px right panel. Leaflet loads in the browser only.
+- `#post`: optional "Add a photo" (stored as `post.photo_url`, new nullable column; run `drizzle-kit push` on prod). The photo becomes the postup's feed photo and the cafe hero ("Maya's photo").
+- `#posted`: "You're posted up", cafe · till, project tag, share link with Copy, Invite friends, "Add a photo of your spot" (uploads straight away), Manage postup / Map / Cafe / Project.
+- `#live`: time-left ring, cafe and project links, +30 min, Edit, Who can join (saves on tap), Requests with the reason and Decline / Approve, Joined list ("On the way"), Group chat, End postup → `#ov-endlive` sheet.
+- `#post-edit`: `/post?edit=<id>` is the post form titled "Edit postup" with Save (cafe, working on, project, until, who can join, photo); Save goes back to `#live`.
+- `#postup`: person, Live · till, project card with goals, cafe row with distance and walk time, "Jon is joining · Anyone can join" with avatars, Join (🔒 signed out → "Join Maya / Sign in so Maya knows who's coming."; after sign-in the join goes through and shows `#joined`). No tab bar, like the drawing. ⋯ opens profile / Share / Report / Block.
+- `#postup-ask` → `#ask` sheet ("Tell Tess a little about you…", Send request) → `#requested` (See who else is nearby, View postup, Cancel request). Signed out: "Ask Tess / Sign in so Tess knows who's asking.", and the ask sheet opens after sign-in.
+- `#joined`: avatars, "You're joining Maya", cafe · till, Group chat, Directions (Apple / Google Maps sheet), "Maya's been told you're coming.", Back to map / Cafe / Project / Leave (confirm sheet).
+- `#postup-ended` / `#postup-full` / `#postup-cancelled`: dimmed person + cafe, mockup headlines and lines, See what's nearby, Follow Maya for next time (sheet when signed out).
+- `#cafe` / `#cafe-gfail`: reviews, wifi, noise and tags are gone. Hero photo (user photo, else project cover), distance, Here now with Live rows and Join / Ask pills (hidden when nobody is live), Google card via `GCard` (fails to "Details unavailable / Open in Maps / Retry" without a key), "N postups this week · <project> regular", Post up here.
+- `#invite`: "Maya is working at Bean Theory till 4pm. Join Maya?"; signed out, Join opens the sign-in sheet over the landing. `#invite-ended`: "Maya was at Bean Theory earlier today." Landings (including `#invite-project`) hide the tab bar.
+
+Still open in this chunk:
+- Ask mode hides the cafe until approval (D2, `PUBLIC_ASK_HIDE_CAFE=1`), so `#postup-ask` shows "a cafe in Westside" where the drawing shows the cafe. Martin never answered (F070).
+- `#where-search` needs a Google Maps browser key (not set locally); only the no-key list was checked.
+- Desktop map panels show the map and nearby cafes but not the other live pins drawn on the mockup map, and no area chip.
+- Cafe hero line has distance only; "Open till 7pm" needs hours, which only the Google widget may show.
+- `#post-edit` starts with no Until chip selected (keeps the current end time); the drawing shows 2h selected.
+- Share still uses the native share sheet / copy; the drawn `#ov-share` sheet is chunk 5. Report opens the old `ReportSheet` (chunk 5).
+- Invite copy uses the name where the drawing says "her" ("Join Maya?").
+- e2e: live, join, share, safety, cafes and chat updated and passing. `home.test.ts` "projects page hides hidden projects" and `auth.test.ts` "password login" fail on the previous commit too (not this chunk).
+
 Screens: `#post`, `#where`, `#where-search`, `#post-signin`, `#posted`, `#post-edit`, `#live`, `#cafe`, `#cafe-gfail`, `#postup`, `#join-signin`, `#joined`, `#postup-ask`, `#ask-signin`, `#ask`, `#requested`, `#postup-ended`, `#postup-full`, `#postup-cancelled`, `#invite`, `#invite-ended`, `#invite-project`.
 
 `#post`: add the optional "Add a photo" control. Working-on placeholder is already "Level editor for the mod". Desktop should be a centered dialog (tab bar already hidden).

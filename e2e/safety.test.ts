@@ -18,6 +18,7 @@ test('report a postup, admin hides it; block hides the poster and stops joining'
 	const v = await vctx.newPage();
 	await v.goto(`${origin}/auth/mock?id=victim-${t}&name=Victim`);
 	await v.goto(`${origin}/postups/${spam.id}`);
+	await v.getByTestId('more').click();
 	await v.getByRole('button', { name: 'Report' }).click();
 	await v.getByLabel('Spam').check();
 	await v.getByRole('button', { name: 'Send report' }).click();
@@ -39,7 +40,9 @@ test('report a postup, admin hides it; block hides the poster and stops joining'
 
 	// Block: victim blocks the poster -> poster's other postup disappears and can't be joined.
 	await v.goto(`${origin}/postups/${other.id}`);
+	await v.getByTestId('more').click();
 	await v.getByRole('button', { name: /^Block / }).click();
+	await v.getByRole('button', { name: 'Block', exact: true }).click();
 	await expect(v).toHaveURL(`${origin}/`);
 	expect((await v.request.get(`${origin}/postups/${other.id}`)).status()).toBe(404);
 	expect((await v.request.post(`${origin}/api/postups/${other.id}/join`, { data: {} })).status()).toBe(403);

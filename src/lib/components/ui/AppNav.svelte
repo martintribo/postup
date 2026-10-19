@@ -16,7 +16,7 @@
 		<a href={resolve('/nearby')} class:on={at('/nearby')}><Icon name="list" size={22} /><span>Nearby</span></a>
 		<a href={resolve('/post')} class="tp"><Icon name="plus" size={22} /><span>Post up</span></a>
 		<a href={resolve('/projects')} class:on={at('/projects')}><Icon name="folder" size={22} /><span>Projects</span></a>
-		<a href={resolve('/inbox')} class:on={at('/inbox')}>{#if unread}<i class="bdg"></i>{/if}<Icon name="chat" size={22} /><span>Inbox</span></a>
+		<a href={resolve('/inbox')} class:on={at('/inbox')}>{#if unread}<i class="bdg" data-testid="unread" title="{unread} unread"></i>{/if}<Icon name="chat" size={22} /><span>Inbox</span></a>
 	</nav>
 {/if}
 

@@ -104,6 +104,8 @@ export const post = pgTable('post', {
 	joinMode: joinMode('join_mode').notNull().default('open'),
 	capacity: integer('capacity'),
 	status: postStatus('status').notNull().default('live'),
+	/** Optional photo of your spot (mockup #post / #posted "Add a photo"), a /uploads URL. */
+	photoUrl: text('photo_url'),
 	note: text('note')
 }, (t) => [index('post_status_ends_at_idx').on(t.status, t.endsAt)]);
 

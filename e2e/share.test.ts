@@ -14,9 +14,8 @@ test('shared postup and project links render previews and lead to join', async (
 	const [p] = await sql`select id, project_id from post where activity=${'share-' + t}`;
 	if (!p.project_id) await sql`update post set project_id=${pr.id} where id=${p.id}`;
 
-	await page.goto(`/postups/${p.id}`);
-	await expect(page.getByTestId('share')).toHaveText('Invite friends');
-	await expect(page.getByTestId('directions')).toHaveAttribute('href', /google\.com\/maps\/dir/);
+	await page.goto(`/postups/${p.id}?posted=1`);
+	await expect(page.getByTestId('share')).toContainText('Invite friends');
 
 	// A logged-out friend opens the link: SSR'd preview tags + invite copy.
 	const ctx = await browser.newContext();
@@ -25,14 +24,15 @@ test('shared postup and project links render previews and lead to join', async (
 	expect(html).toMatch(/<meta property="og:title" content="Maya Share is working at Bean Theory/);
 	expect(html).toContain(`share-${t}`);
 	await f.goto(`${origin}/p/${p.id}`);
-	await expect(f.getByTestId('invite')).toContainText('Join in?');
+	await expect(f.getByTestId('invite')).toContainText('Join Maya?');
+	// Signed out: Join opens the sign-in sheet over the invite (mockup #invite → #join-signin).
 	await f.getByTestId('invite-join').click();
-	await expect(f).toHaveURL(new RegExp(`/postups/${p.id}$`));
+	await expect(f.getByTestId('signin-sheet')).toContainText("Sign in so Maya knows who's coming.");
 
 	const proj = await (await f.request.get(`${origin}/projects/${pr.id}`)).text();
 	expect(proj).toMatch(/og:title" content="Maya Share is building Star Fox/);
-	await f.goto(`${origin}/projects/${pr.id}`);
-	await expect(f.getByText(/Join Maya Share now/)).toBeVisible();
+	await f.goto(`${origin}/projects/${pr.id}?s=1`);
+	await expect(f.getByText('Live now · join them')).toBeVisible();
 
 	await sql`update post set status='ended' where id=${p.id}`;
 	await f.goto(`${origin}/p/${p.id}`);

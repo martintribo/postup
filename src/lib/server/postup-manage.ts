@@ -16,6 +16,7 @@ export async function getPostup(id: number) {
 			activity: post.activity,
 			goals: post.goals,
 			note: post.note,
+			photoUrl: post.photoUrl,
 			location: post.location,
 			neighborhood: post.neighborhood,
 			locality: post.locality,
@@ -44,10 +45,10 @@ export async function getPostup(id: number) {
 }
 
 export type ManageAction =
-	| { action: 'extend'; hours: number }
+	| { action: 'extend'; hours?: number; minutes?: number }
 	| { action: 'end' }
 	| { action: 'cancel' }
-	| { action: 'edit'; activity?: string; note?: string | null; joinMode?: 'open' | 'ask'; capacity?: number | null };
+	| { action: 'edit'; activity?: string; note?: string | null; joinMode?: 'open' | 'ask'; capacity?: number | null; projectId?: number | null; placeId?: number; untilHours?: number };
 
 export class ManageError extends Error {
 	constructor(public status: number, msg: string) {
@@ -65,9 +66,10 @@ export async function managePostup(id: number, userId: string, a: ManageAction) 
 	if (p.state !== 'live') throw new ManageError(409, `This postup has ${p.state === 'cancelled' ? 'been cancelled' : 'ended'}`);
 
 	if (a.action === 'extend') {
-		const h = Math.trunc(a.hours);
-		if (!(h >= 1 && h <= 4)) throw new ManageError(400, 'Extend by 1 to 4 hours');
-		const endsAt = new Date(p.endsAt.getTime() + h * 3600_000);
+		// Mockup #live: "+30 min". Hours (1–4) still work for the API.
+		const mins = a.minutes != null ? Math.trunc(a.minutes) : Math.trunc(a.hours ?? 0) * 60;
+		if (!(mins >= 15 && mins <= 240)) throw new ManageError(400, 'Extend by 15 minutes to 4 hours');
+		const endsAt = new Date(p.endsAt.getTime() + mins * 60_000);
 		if (endsAt.getTime() - p.startTime.getTime() > MAX_HOURS * 3600_000) throw new ManageError(400, `Postups can last at most ${MAX_HOURS} hours`);
 		await db.update(post).set({ endsAt }).where(eq(post.id, id));
 	} else if (a.action === 'end') {
@@ -89,6 +91,17 @@ export async function managePostup(id: number, userId: string, a: ManageAction) 
 		if (a.capacity !== undefined) {
 			if (a.capacity !== null && !(Number.isInteger(a.capacity) && a.capacity >= 1 && a.capacity <= 20)) throw new ManageError(400, 'Capacity is 1–20 or none');
 			set.capacity = a.capacity;
+		}
+		if (a.projectId !== undefined) set.projectId = a.projectId;
+		if (a.placeId !== undefined) {
+			const [pl] = await db.select().from(place).where(eq(place.id, Number(a.placeId)));
+			if (!pl) throw new ManageError(400, 'Unknown cafe');
+			Object.assign(set, { placeId: pl.id, location: pl.name, latitude: pl.latitude, longitude: pl.longitude });
+		}
+		if (a.untilHours !== undefined) {
+			const h = Math.trunc(a.untilHours);
+			if (!(h >= 1 && h <= 4)) throw new ManageError(400, 'Until is 1 to 4 hours from now');
+			set.endsAt = new Date(Date.now() + h * 3600_000);
 		}
 		if (Object.keys(set).length) await db.update(post).set(set).where(and(eq(post.id, id)));
 	} else {

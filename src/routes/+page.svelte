@@ -145,7 +145,7 @@
 			<span class="grab"></span>
 			{@render modeSwitch('dk')}
 			{#if data.myLive}
-				<a class="lrow you-live" href={resolve('/postups/[id]', { id: String(data.myLive.id) })}>
+				<a class="lrow you-live" data-testid="live-bar" href={resolve('/postups/[id]', { id: String(data.myLive.id) })}>
 					<span class="ci"><span class="dot"></span></span>
 					<div class="lm"><b>You're live</b><div class="l2">{data.myLive.activity}</div></div>
 					<Icon name="chev" size={18} class="mu" />

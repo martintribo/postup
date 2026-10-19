@@ -8,6 +8,8 @@ import { liveCondition } from '$lib/server/postups';
 import { db } from '$lib/server/db';
 import { place, placeReview, placeTag, post, user, project } from '$lib/server/db/schema';
 import { desc, eq, sql, and, inArray } from 'drizzle-orm';
+import { getUserLocation } from '$lib/server/location';
+import { firstImage } from '$lib/server/projects-view';
 
 const reviewSchema = z.object({
 	rating: z.number().int().min(1).max(5),
@@ -82,13 +84,23 @@ export const load: PageServerLoad = async (event) => {
 	const names = ids.length ? Object.fromEntries((await db.select({ id: user.id, n: sql<string>`coalesce(${user.displayName}, ${user.username})`, a: user.avatarUrl }).from(user).where(inArray(user.id, ids))).map((u) => [u.id, u])) : {};
 	const projIds = [...new Set(activePosts.map((p) => p.projectId).filter((x): x is number => !!x))];
 	const projNames = projIds.length ? Object.fromEntries((await db.select({ id: project.id, name: project.name }).from(project).where(inArray(project.id, projIds))).map((r) => [r.id, r.name])) : {};
-	const hereNow = activePosts.map((p) => ({ id: p.id, who: (p.userId && names[p.userId]?.n) || p.name, avatarUrl: (p.userId && names[p.userId]?.a) || null, project: p.projectId ? projNames[p.projectId] ?? null : null, projectId: p.projectId, endsAt: (p.endsAt ?? new Date(p.startTime.getTime() + p.hours * 3600e3)).toISOString(), ask: p.joinMode === 'ask' }));
+	const hereNow = activePosts.map((p) => ({ id: p.id, who: (p.userId && names[p.userId]?.n) || p.name, avatarUrl: (p.userId && names[p.userId]?.a) || null, project: p.projectId ? projNames[p.projectId] ?? null : null, cafe: placeData.name, projectId: p.projectId, endsAt: (p.endsAt ?? new Date(p.startTime.getTime() + p.hours * 3600e3)).toISOString(), ask: p.joinMode === 'ask' }));
 	const [wk] = (await db.execute(sql`select count(*)::int as n, (array_agg(coalesce(u.display_name, u.username, p.name) order by p.start_time desc))[1:3] as who,
 		(select pr.name from post p2 join project pr on pr.id = p2.project_id where p2.place_id = ${id} and p2.start_time > now() - interval '30 days' group by pr.name order by count(*) desc limit 1) as regular,
 		(select p2.project_id from post p2 where p2.place_id = ${id} and p2.project_id is not null and p2.start_time > now() - interval '30 days' group by p2.project_id order by count(*) desc limit 1) as "regularId"
 		from post p left join "user" u on u.id = p.user_id where p.place_id = ${id} and p.start_time > now() - interval '7 days' and p.join_mode <> 'ask'`)) as unknown as { n: number; who: string[] | null; regular: string | null; regularId: number | null }[];
+	// Hero: distance from you, and the latest user/project photo taken here (never Google's).
+	const { location } = await getUserLocation(event);
+	const R = Math.PI / 180;
+	const miles = 3959 * Math.acos(Math.min(1, Math.cos(location.latitude * R) * Math.cos(placeData.latitude * R) * Math.cos((placeData.longitude - location.longitude) * R) + Math.sin(location.latitude * R) * Math.sin(placeData.latitude * R)));
+	// A spot photo someone took here wins; else the cover of a project worked on here.
+	const [ph] = (await db.execute(sql`select p2.photo_url, pr.description, coalesce(u.display_name, u.username) as who from post p2 left join project pr on pr.id = p2.project_id and pr.hidden = false left join "user" u on u.id = p2.user_id
+		where p2.place_id = ${id} and (p2.photo_url is not null or pr.description like '%![%') order by (p2.photo_url is not null) desc, p2.start_time desc limit 1`)) as unknown as { photo_url: string | null; description: string | null; who: string | null }[];
+	const photo = ph ? { src: ph.photo_url ?? firstImage(ph.description ?? ''), who: ph.who } : null;
 	return {
 		title: placeData.name,
+		miles,
+		photo: photo?.src ? photo : null,
 		hereNow,
 		week: { n: wk?.n ?? 0, who: wk?.who ?? [], regular: wk?.regular ?? null, regularId: wk?.regularId ?? null },
 		place: placeData,

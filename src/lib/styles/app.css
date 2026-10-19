@@ -116,3 +116,33 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 .scr-quiet-feed .fm { overflow: hidden; }
 .scr-quiet-feed .fm img { position: absolute; inset: 0; }
 .pc .fa .pill { white-space: nowrap; flex: none; }
+
+/* Map screens (postup, live, joined, cafe): phone = the screen; desktop = map + 440px right panel. */
+.mapscr { display: flex; flex-direction: column; flex: 1; }
+.mpanel { display: flex; flex-direction: column; flex: 1; min-height: calc(100dvh - var(--tab) - var(--sab)); }
+.mpanel > .pad { flex: 1; }
+.mpanel .cta { margin-top: auto; }
+@media (min-width: 1024px) {
+	.mapscr-map { position: fixed; left: 92px; right: 0; top: 0; bottom: 0; z-index: 0; }
+	.mapscr-map > :first-child { position: absolute; inset: 0; }
+	.mpanel { position: fixed; right: 20px; top: 20px; bottom: 20px; width: 440px; min-height: 0; overflow: auto; z-index: 30; background: var(--n0); border-radius: var(--r-xl); box-shadow: var(--sh3), 0 0 0 1px rgba(0, 0, 0, 0.04); }
+	.mpanel .cta { position: sticky; bottom: 0; }
+	.mpanel .hero-img { border-radius: var(--r-xl) var(--r-xl) 0 0; }
+}
+.scrin { display: flex; flex-direction: column; flex: 1; }
+.scrin > .pad { flex: 1; }
+.scrin a.card:not(.lrow), .scrin a.lrow, .scrin a.who, .scrin .livec a:not(.tag) { color: inherit; text-decoration: none; display: block; }
+.scrin a.who { display: flex; }
+.scrin a.tag, .fullscr a.tag { text-decoration: none; }
+button.lnk { background: none; border: 0; cursor: pointer; font: inherit; padding: 0; }
+.app a.addph { text-decoration: none; color: inherit; }
+/* Confirmation pages (mockup #posted, #requested): full page, centred column on desktop. */
+.fullscr { display: flex; flex-direction: column; flex: 1; }
+@media (min-width: 1024px) { .fullscr .done { max-width: 480px; margin: 40px auto 0; width: 100%; } }
+.done form[data-testid='spot-photo'] { width: 100%; }
+.done form[data-testid='spot-photo'] .addph { width: 100%; }
+.spotph { width: 100%; height: 160px; object-fit: cover; border-radius: var(--r-lg); }
+.scrin a.lrow { display: flex; }
+.scrin .card .ch { display: flex; justify-content: space-between; align-items: center; }
+.scrin .card .ch .chv, .scrin .lrow .chv { color: var(--n400); }
+.scrin a.cl { color: inherit; }

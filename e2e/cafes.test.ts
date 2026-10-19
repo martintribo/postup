@@ -29,12 +29,13 @@ test('posting up at a Google place stores place, end time and owner', async ({ p
 	expect((p.ends_at.getTime() - p.start_time.getTime()) / 3600000).toBeCloseTo(3, 1);
 
 	await page.goto(`/places/${pl.id}`);
-	await expect(page.getByText('Star Fox 64 mod').first()).toBeVisible();
+	await expect(page.getByText('Here now')).toBeVisible();
+	await expect(page.getByText('1 live')).toBeVisible();
 
 	// Ended postups drop off the live lists.
 	await sql`update post set status='ended' where place_id=${pl.id}`;
 	await page.goto(`/places/${pl.id}`);
-	await expect(page.getByText('Star Fox 64 mod')).toHaveCount(0);
+	await expect(page.getByText('Here now')).toHaveCount(0);
 	await sql.end();
 });
 

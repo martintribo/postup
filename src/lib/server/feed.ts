@@ -26,6 +26,7 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 			avatarUrl: user.avatarUrl,
 			miles: sql<number>`${dist}`,
 			projectDesc: project.description,
+			photoUrl: post.photoUrl,
 			activity: post.activity,
 			location: post.location,
 			placeName: place.name,
@@ -84,7 +85,7 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 			avatarUrl: p.avatarUrl,
 			miles: p.miles == null ? null : Number(p.miles),
 			// Feed photos come from users and projects only (never Google).
-			photo: p.projectHidden ? null : firstImage(p.projectDesc),
+			photo: p.photoUrl ?? (p.projectHidden ? null : firstImage(p.projectDesc)),
 			joined: joinedBy.get(p.id) ?? [],
 			activity: p.activity,
 			cafe: hide(p) ? `a cafe in ${p.neighborhood || 'the area'}` : p.placeName || p.location,

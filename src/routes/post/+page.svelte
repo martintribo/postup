@@ -6,19 +6,23 @@
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Seg from '$lib/components/ui/Seg.svelte';
 	import GooglePlaceSearch from '$lib/components/GooglePlaceSearch.svelte';
+	import PhotoPick from '$lib/components/ui/PhotoPick.svelte';
+	import { goto } from '$app/navigation';
 	import { askSignIn } from '$lib/signin.svelte';
 	import { clock } from '$lib/time';
 	let { data, form } = $props();
 
 	type Spot = { placeId: number | null; name: string; latitude: number; longitude: number; googlePlaceId?: string; note: string };
 	const fromPlace = (p: (typeof data.places)[number]): Spot => ({ placeId: p.id, name: p.name, latitude: p.latitude, longitude: p.longitude, note: `${p.mi < 0.1 ? 'Here' : p.mi.toFixed(1) + ' mi'}${p.live ? ` · ${p.live} live` : ''}` });
-	const initial = data.places.find((p) => p.id === data.placeId) ?? data.places[0];
-	let spot = $state<Spot | null>(initial ? { ...fromPlace(initial), note: data.placeId ? fromPlace(initial).note : `Nearest · ${fromPlace(initial).note}` } : null);
-	let activity = $state('');
-	let projectId = $state<number | null>(data.attach?.id ?? data.mine[0]?.id ?? null);
+	const ed = data.edit;
+	const initial = data.places.find((p) => p.id === (ed?.placeId ?? data.placeId)) ?? data.places[0];
+	const editSpot: Spot | null = ed && ed.latitude != null && ed.longitude != null ? { placeId: ed.placeId, name: ed.placeName || ed.location, latitude: ed.latitude, longitude: ed.longitude, note: initial && initial.id === ed.placeId ? fromPlace(initial).note : '' } : null;
+	let spot = $state<Spot | null>(editSpot ?? (initial ? { ...fromPlace(initial), note: data.placeId ? fromPlace(initial).note : `Nearest · ${fromPlace(initial).note}` } : null));
+	let activity = $state(ed?.activity ?? '');
+	let projectId = $state<number | null>(ed ? ed.projectId : (data.attach?.id ?? data.mine[0]?.id ?? null));
 	const untilAt = (() => { const d = new Date(Date.now() + 3.5 * 3600e3); d.setMinutes(0, 0, 0); if (d.getTime() < Date.now() + 3.5 * 3600e3) d.setHours(d.getHours() + 1); return d; })();
-	let until = $state('2h');
-	let join = $state<string>(data.defaultJoin);
+	let until = $state(ed ? '' : '2h');
+	let join = $state<string>(ed?.joinMode ?? data.defaultJoin);
 	let when = $state('now');
 	let picking = $state(false);
 	let q = $state('');
@@ -33,20 +37,40 @@
 	});
 
 	onMount(() => {
+		if (ed) return;
 		try {
 			const d = JSON.parse(sessionStorage.getItem(KEY) || 'null');
 			if (d) ({ spot, activity, projectId, until, join, when } = { ...{ spot, activity, projectId, until, join, when }, ...d });
 		} catch { /* no draft */ }
 	});
 	function pick(s: Spot) { spot = s; picking = false; q = ''; }
+	async function saveEdit() {
+		if (!ed) return;
+		busy = true;
+		const untilHours = until === '' ? undefined : until === 'at' ? Math.min(4, Math.max(1, Math.round((untilAt.getTime() - Date.now()) / 3600e3))) : Number(until[0]);
+		const r = await fetch(`/api/postups/${ed.id}`, { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ action: 'edit', activity: activity.trim() || undefined, joinMode: join, projectId, placeId: spot?.placeId && spot.placeId !== ed.placeId ? spot.placeId : undefined, untilHours }) });
+		busy = false;
+		if (!r.ok) { editErr = (await r.json().catch(() => ({}))).error || 'Not saved'; return; }
+		// Optional new spot photo goes through the postup page's photo action.
+		const file = (document.querySelector('form[data-testid=post-form] input[name=photo]') as HTMLInputElement | null)?.files?.[0];
+		if (file) {
+			const fd = new FormData();
+			fd.set('photo', file);
+			await fetch(`/postups/${ed.id}?/photo`, { method: 'POST', body: fd, headers: { 'x-sveltekit-action': 'true' } });
+		}
+		goto(`/postups/${ed.id}`, { invalidateAll: true });
+	}
+	let editErr = $state('');
 	function save() { sessionStorage.setItem(KEY, JSON.stringify({ spot, activity, projectId, until, join, when })); }
 </script>
 
 <form
 	class="formscr scr-post"
 	method="POST"
+	enctype="multipart/form-data"
 	data-testid="post-form"
 	use:enhance={({ cancel }) => {
+		if (ed) { cancel(); saveEdit(); return; }
 		save();
 		if (!data.signedIn) {
 			cancel();
@@ -61,7 +85,7 @@
 		};
 	}}
 >
-	<TopBar title="Post up" />
+	<TopBar title={ed ? 'Edit postup' : 'Post up'} href={ed ? `/postups/${ed.id}` : null} />
 	<div class="pad form">
 		{#if data.attach}
 			<label>Project</label>
@@ -105,7 +129,8 @@
 		{:else}
 			<p class="mu xs">I was here earlier adds it to the cafe's recent activity.</p>
 		{/if}
-		{#if form?.message}<p class="err" role="alert">{form.message}</p>{/if}
+		{#if !data.attach}<PhotoPick name="photo" hint="optional" />{/if}
+		{#if form?.message || editErr}<p class="err" role="alert">{editErr || form?.message}</p>{/if}
 
 		<input type="hidden" name="projectId" value={projectId ?? ''} />
 		<input type="hidden" name="placeId" value={spot?.placeId ?? ''} />
@@ -114,7 +139,7 @@
 		<input type="hidden" name="longitude" value={spot?.longitude ?? ''} />
 		<input type="hidden" name="googlePlaceId" value={spot?.googlePlaceId ?? ''} />
 	</div>
-	<div class="cta"><button class="btn" disabled={busy || !spot} data-testid="post-submit">{busy ? 'Posting…' : 'Post up'} {#if !data.signedIn}<Icon name="lock" size={14} class="lk" />{/if}</button></div>
+	<div class="cta"><button class="btn" disabled={busy || !spot} data-testid="post-submit">{ed ? (busy ? 'Saving…' : 'Save') : busy ? 'Posting…' : 'Post up'} {#if !data.signedIn}<Icon name="lock" size={14} class="lk" />{/if}</button></div>
 </form>
 
 {#if picking}
