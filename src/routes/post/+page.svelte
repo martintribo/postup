@@ -26,6 +26,11 @@
 	const hasGoogle = !!env.PUBLIC_GOOGLE_MAPS_BROWSER_KEY;
 	const list = $derived(data.places.filter((p) => !q || p.name.toLowerCase().includes(q.toLowerCase())));
 	const KEY = 'pu.postdraft';
+	const attachCafes = $derived.by(() => {
+		const top = data.places.slice(0, 3);
+		const cur = data.places.find((p) => p.id === spot?.placeId);
+		return cur && !top.includes(cur) ? [cur, ...top.slice(0, 2)] : top;
+	});
 
 	onMount(() => {
 		try {
@@ -45,7 +50,7 @@
 		save();
 		if (!data.signedIn) {
 			cancel();
-			askSignIn({ title: 'Almost there', sub: 'Sign in and your postup goes live.', next: '/post' + (data.attach ? `?project=${data.attach.id}` : '') });
+			askSignIn({ title: 'Almost there', sub: data.attach ? 'Sign in to post up for this project.' : 'Sign in and your postup goes live.', next: '/post' + (data.attach ? `?project=${data.attach.id}` : '') });
 			return;
 		}
 		busy = true;
@@ -63,11 +68,18 @@
 			<div class="field"><span class="ci sm pj"><Icon name="folder" size={16} /></span><div class="lm"><b>{data.attach.name}</b></div></div>
 		{/if}
 		<label>Where</label>
+		{#if data.attach}
+			<!-- Mockup #project-attach: the three closest cafes as chips. -->
+			<div class="chips" data-testid="where-chips">
+				{#each attachCafes as p (p.id)}<button type="button" class="chip" class:on={spot?.placeId === p.id} onclick={() => (spot = fromPlace(p))}>{p.name}</button>{/each}
+			</div>
+		{:else}
 		<button type="button" class="field" onclick={() => (picking = true)} data-testid="where-field">
 			<span class="ci sm"><Icon name="coffee" size={16} /></span>
 			<div class="lm">{#if spot}<b>{spot.name}</b><span class="mu xs">{spot.note}</span>{:else}<b>Pick a cafe</b><span class="mu xs">Search or choose one nearby</span>{/if}</div>
 			<span class="lnk sm">{spot ? 'Change' : 'Choose'}</span>
 		</button>
+		{/if}
 
 		{#if !data.attach}
 			<label for="wo">Working on</label>

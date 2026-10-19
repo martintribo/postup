@@ -13,8 +13,8 @@
 		{#snippet right()}<a class="ib" href={newHref} aria-label="New project"><Icon name="plus" size={22} /></a>{/snippet}
 	</TopBar>
 	<div class="pad pjs">
-		<Welcome id="projects" icon="folder" cls="pwel" text="See what people nearby are building. Follow along or post up to work on yours." />
-		<div class="hero"><h1>Projects</h1><p class="mu">What people nearby are building</p></div>
+		<Welcome id="projects" icon="folder" cls="pwel" text="See what people are building. Follow along or post up to work on yours." />
+		<div class="hero"><h1>Projects</h1><p class="mu">What people are building</p></div>
 		<a class="btn newp" href={newHref}><Icon name="plus" size={18} /> New project {#if !data.signedIn}<Icon name="lock" size={14} class="lk" />{/if}</a>
 		<div class="chips pchips" role="tablist">
 			<a class="chip" class:on={data.filter === 'all'} href={chip('all')} role="tab" aria-selected={data.filter === 'all'}>Nearby</a>
@@ -30,10 +30,10 @@
 				{#if data.filter === 'following'}
 					<h2>Follow a project to keep up with it</h2>
 					<p class="mu">Open any project and tap Follow. Its updates and postups show up here.</p>
-					<a class="btn sec" href="/projects">See projects nearby</a>
+					<a class="btn sec" href="/projects">See what people are building</a>
 				{:else}
 					<h2>Building something? Share a project</h2>
-					<p class="mu">Add what you're working on so people nearby can follow along and join you.</p>
+					<p class="mu">Add what you're working on so people can follow along and join you.</p>
 					<a class="btn" href={newHref}><Icon name="plus" size={18} /> New project</a>
 				{/if}
 			</div>

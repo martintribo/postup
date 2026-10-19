@@ -79,6 +79,19 @@ Desktop: mockup Nearby is a full-page photo grid with a sticky sidebar (Post up,
 
 ## Chunk 3 — Projects
 
+**Done.** Checked locally (:15117 vs :15118) at phone 390×844 and desktop 1440×900, Fresh, signed out and in (mock sign-in as the owner), live and none. Side-by-sides: `postup-pm/fidelity/local_{projects,project,project-new,project-update,project-attach,attach-signin}*_*.png`.
+
+- `#projects`: welcome "See what people are building. Follow along or post up to work on yours.", subtitle "What people are building", cards sorted closest-first from your location, "N this week" pill never wraps.
+- `#project`: header "+" opens New project (sheet when signed out), live row cafe and update "Yesterday · at <cafe>" link to the cafe, update image links to the cafe. None live: no Live section.
+- `#project-new` / `#project-update`: signed out keeps the form; Create / Post update show the lock and open the sign-in sheet ("Sign in to create your project." / "Sign in to post your update."). Forms pin the CTA to the bottom on phone; desktop is a centred 520×min(760px,86vh) dialog with the CTA at its foot.
+- `#project-attach` / `#attach-signin`: Where is the three closest cafes as chips; signed-out Post up opens the sheet "Sign in to post up for this project."
+
+Still open in this chunk:
+- Signed out, the drawing shows "Update 🔒" next to Post up. The app shows "Follow 🔒" to anyone who is not the owner, since Update is owner-only. Confirm with Martin.
+- The header Share button gave way to the drawn "+"; sharing a project waits for the share sheet in chunk 5.
+- Phone still shows the project's about line under the buttons (not drawn; desktop has it in the side card).
+- Attach chips have no way to pick a cafe outside the three closest (the drawing has none either).
+
 Screens: `#projects`, `#project`, `#project-new`, `#project-update`, `#project-attach`, `#attach-signin`.
 
 `#projects` (`/projects`), both sizes:

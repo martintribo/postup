@@ -1,20 +1,13 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import TopBar from '$lib/components/ui/TopBar.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
-	import { shareLink } from '$lib/share';
 	import { clock } from '$lib/time';
 	let { data } = $props();
 	const p = $derived(data.project);
 	const gate = (to: string) => (data.signedIn ? to : `/login?next=${encodeURIComponent(to)}`);
 	const KIND: Record<string, string> = { software: 'Code', code: 'Code', game: 'Game', art: 'Art', hardware: 'Hardware', writing: 'Writing', other: 'Project' };
-	let shareMsg = $state('');
-	async function share() {
-		const r = await shareLink(`/projects/${p.id}?s=1`, data.title);
-		shareMsg = r === 'copied' ? 'Link copied' : '';
-		if (shareMsg) setTimeout(() => (shareMsg = ''), 2000);
-	}
 	async function toggleFollow() {
 		await fetch('/api/follows', { method: data.following ? 'DELETE' : 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ targetType: 'project', targetId: p.id }) });
 		await invalidateAll();
@@ -42,7 +35,7 @@
 		{#if p.cover}<img src={p.cover} alt="" />{/if}
 		<div class="hg"></div>
 		<TopBar clear href="/projects">
-			{#snippet right()}<button class="ib fl" onclick={share} aria-label="Share"><Icon name="share" size={20} /></button>{/snippet}
+			{#snippet right()}<a class="ib fl" href={gate('/projects/new')} aria-label="New project"><Icon name="plus" size={20} /></a>{/snippet}
 		</TopBar>
 		<div class="hi-t">
 			<span class="tag lt">{KIND[p.type ?? ''] ?? 'Project'}</span>
@@ -50,7 +43,6 @@
 			<p>{#if p.owner}by <a class="cl" href="/u/{p.ownerUsername}">{p.owner}</a> · {/if}{postups}</p>
 		</div>
 	</div>
-	{#if shareMsg}<p class="toast" role="status">{shareMsg}</p>{/if}
 
 	<div class="pad">
 		<div class="row2">
@@ -94,7 +86,7 @@
 			{#each data.live as l (l.id)}
 				<a class="lrow card" href="/postups/{l.id}">
 					<Av name={l.who} src={l.avatarUrl} size={40} />
-					<div class="lm"><b>{l.who}</b><div class="l2">{l.cafe} · till {clock(l.endsAt)}</div></div>
+					<div class="lm"><b>{l.who}</b><div class="l2">{#if l.placeId}<span class="cl" role="link" tabindex="-1" onclick={(e) => { e.preventDefault(); e.stopPropagation(); goto(`/places/${l.placeId}`); }} onkeydown={() => {}}>{l.cafe}</span>{:else}{l.cafe}{/if} · till {clock(l.endsAt)}</div></div>
 					<span class="ok sm"><span class="dot"></span> Live</span>
 				</a>
 			{/each}
@@ -106,9 +98,9 @@
 				{#each data.updates as u (u.id)}
 					<div class="ti">
 						<b>{u.title || u.body.split('\n')[0]}</b>
-						<span class="mu sm">{u.when}{#if u.placeName} · at {u.placeName}{/if}</span>
+						<span class="mu sm">{u.when}{#if u.placeName} · at {#if u.placeId}<a class="cl" href="/places/{u.placeId}">{u.placeName}</a>{:else}{u.placeName}{/if}{/if}</span>
 						{#if u.title && u.body}<p class="sm">{u.body}</p>{/if}
-						{#if u.image}<img src={u.image} alt="" loading="lazy" />{/if}
+						{#if u.image}{#if u.placeId}<a href="/places/{u.placeId}"><img src={u.image} alt="" loading="lazy" /></a>{:else}<img src={u.image} alt="" loading="lazy" />{/if}{/if}
 					</div>
 				{/each}
 			</div>

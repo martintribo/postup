@@ -43,12 +43,17 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 .photo-pick.has img { width: 100%; height: 100%; object-fit: cover; }
 .addph.photo-pick.has { height: 160px; }
 .form .err { color: var(--danger); font-weight: 600; font-size: var(--t-sm); }
+/* Form screens (mockup #project-new, #project-update, #project-attach, #post): CTA pinned to the bottom. */
+.formscr { display: flex; flex-direction: column; min-height: 100dvh; }
+.formscr > .pad { flex: 1; }
 /* Form screens on desktop: centred dialog over a dimmed backdrop (mockup desktop #post, #project-new). */
 @media (min-width: 1024px) {
-	.formscr { width: 520px; margin: 6vh auto; background: var(--n0); border-radius: var(--r-xl); box-shadow: var(--sh3); overflow: hidden; }
+	.formscr { width: 520px; height: min(760px, 86vh); min-height: 0; margin: calc((100vh - min(760px, 86vh)) / 2) auto 0; background: var(--n0); border-radius: var(--r-xl); box-shadow: var(--sh3); overflow: hidden; }
+	.formscr > .pad { overflow-y: auto; }
 	.app:has(.formscr) { background: var(--n100); }
 	.formscr .cta { position: static; }
 }
+.form label.cover { text-transform: none; letter-spacing: 0; font-size: var(--t); font-weight: 400; color: var(--n600); margin-top: 0; }
 
 .pthumb { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none; }
 .inv .invimg { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--r-lg); }
@@ -110,3 +115,4 @@ html:has(.app:not(.notabs)) { --pu-tabbar: calc(var(--tab) + var(--sab)); }
 /* Keep covers at the card's aspect ratio whatever the image's own size. */
 .scr-quiet-feed .fm { overflow: hidden; }
 .scr-quiet-feed .fm img { position: absolute; inset: 0; }
+.pc .fa .pill { white-space: nowrap; flex: none; }

@@ -12,10 +12,15 @@ async function own(id: number, userId: string | undefined) {
 	return p;
 }
 
-export const load: PageServerLoad = async ({ params, locals, url }) => {
-	if (!locals.user) redirect(302, `/login?next=${encodeURIComponent(url.pathname)}`);
+export const load: PageServerLoad = async ({ params, locals }) => {
+	// Signed out keeps the form up; Post update opens the sign-in sheet (mockup #project-update).
+	if (!locals.user) {
+		const [p] = await db.select({ id: project.id, name: project.name, userId: project.userId }).from(project).where(eq(project.id, Number(params.id)));
+		if (!p) error(404, 'Project not found');
+		return { title: `Update · ${p.name}`, project: p, signedIn: false };
+	}
 	const p = await own(Number(params.id), locals.user.id);
-	return { title: `Update · ${p.name}`, project: p };
+	return { title: `Update · ${p.name}`, project: p, signedIn: true };
 };
 
 export const actions: Actions = {

@@ -7,8 +7,8 @@ import type { Actions, PageServerLoad } from './$types';
 const KINDS = ['software', 'game', 'art', 'other'];
 
 export const load: PageServerLoad = async ({ locals, url }) => {
-	if (!locals.user) redirect(302, `/login?next=${encodeURIComponent(url.pathname + url.search)}`);
-	return { title: 'New project', back: url.searchParams.get('back') };
+	// Signed out keeps the form up; Create opens the sign-in sheet (mockup #project-new).
+	return { title: 'New project', back: url.searchParams.get('back'), signedIn: !!locals.user };
 };
 
 export const actions: Actions = {

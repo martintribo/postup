@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
 		.where(eq(project.id, id));
 	if (!p || p.hidden) error(404, 'Project not found');
 	const updates = await db
-		.select({ id: projectStatus.id, title: projectStatus.title, body: projectStatus.body, at: projectStatus.occurredAt, placeName: sql<string | null>`(select coalesce(pl.name, po.location) from post po left join place pl on pl.id = po.place_id where po.project_id = ${id} and po.start_time <= ${projectStatus.occurredAt} + interval '6 hours' and coalesce(po.ends_at, po.start_time + (po.hours || ' hours')::interval) >= ${projectStatus.occurredAt} - interval '1 hour' order by po.start_time desc limit 1)` })
+		.select({ id: projectStatus.id, title: projectStatus.title, body: projectStatus.body, at: projectStatus.occurredAt, placeId: sql<number | null>`(select po.place_id from post po where po.project_id = ${id} and po.start_time <= ${projectStatus.occurredAt} + interval '6 hours' and coalesce(po.ends_at, po.start_time + (po.hours || ' hours')::interval) >= ${projectStatus.occurredAt} - interval '1 hour' order by po.start_time desc limit 1)`, placeName: sql<string | null>`(select coalesce(pl.name, po.location) from post po left join place pl on pl.id = po.place_id where po.project_id = ${id} and po.start_time <= ${projectStatus.occurredAt} + interval '6 hours' and coalesce(po.ends_at, po.start_time + (po.hours || ' hours')::interval) >= ${projectStatus.occurredAt} - interval '1 hour' order by po.start_time desc limit 1)` })
 		.from(projectStatus)
 		.where(eq(projectStatus.projectId, id))
 		.orderBy(desc(projectStatus.occurredAt))
@@ -49,6 +49,6 @@ export const load: PageServerLoad = async ({ params, locals, url }) => {
 		stats: { total: counts?.total ?? 0, week: counts?.week ?? 0, who: counts?.who ?? [], weekCafe: counts?.weekCafe ?? null },
 		live: live.map((r) => ({ id: r.id, who: r.who, avatarUrl: r.avatarUrl, cafe: r.cafe, placeId: r.placeId, endsAt: end(r).toISOString() })),
 		liveId: live[0]?.id ?? null,
-		updates: updates.map((u) => ({ id: u.id, title: u.title, body: stripImages(u.body), image: firstImage(u.body), at: u.at.toISOString(), when: dayLabel(u.at.toISOString()), placeName: u.placeName }))
+		updates: updates.map((u) => ({ id: u.id, title: u.title, body: stripImages(u.body), image: firstImage(u.body), at: u.at.toISOString(), when: dayLabel(u.at.toISOString()), placeName: u.placeName, placeId: u.placeId }))
 	};
 };
