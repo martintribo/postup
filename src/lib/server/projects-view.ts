@@ -16,12 +16,24 @@ export type ProjectCard = {
 	cafe: string | null; week: number;
 };
 
-/** Projects grid (mockup #projects). filter: all | following | mine. */
-export async function listProjectCards(filter: 'all' | 'following' | 'mine', viewerId?: string | null): Promise<ProjectCard[]> {
+/** Projects grid (mockup #projects). filter: all | following | mine.
+ *  Pass `near` to sort closest-first (projects with no cafe sort last). */
+export async function listProjectCards(
+	filter: 'all' | 'following' | 'mine',
+	viewerId?: string | null,
+	near?: { lat: number; lng: number }
+): Promise<ProjectCard[]> {
 	const where =
 		filter === 'mine' && viewerId ? sql`and p.user_id = ${viewerId}`
 		: filter === 'following' && viewerId ? sql`and exists (select 1 from follow f where f.follower_id = ${viewerId} and f.target_type = 'project' and f.target_id = p.id::text)`
 		: filter === 'all' ? sql`` : sql`and false`;
+	const miles = near
+		? sql`, (select (3959 * acos(least(1::float8, cos(radians(${near.lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${near.lng})) + sin(radians(${near.lat})) * sin(radians(pl.latitude)))))
+			from post po join place pl on pl.id = po.place_id
+			where po.project_id = p.id and pl.latitude is not null
+			order by po.start_time desc limit 1) as miles`
+		: sql``;
+	const order = near ? sql`order by miles asc nulls last, touched desc` : sql`order by touched desc`;
 	const rows = (await db.execute(sql`
 		select p.id, p.name, p.type, p.short_description as short, p.description,
 			coalesce(u.display_name, u.username) as owner, u.avatar_url as "ownerAvatar",
@@ -30,10 +42,11 @@ export async function listProjectCards(filter: 'all' | 'following' | 'mine', vie
 			(select po.location from post po where po.project_id = p.id order by po.start_time desc limit 1) as "cafeText",
 			(select count(*)::int from post po where po.project_id = p.id and po.start_time > now() - interval '7 days') as week,
 			greatest(p.updated_at, coalesce(s.occurred_at, p.updated_at), coalesce(p.last_post_up_at, p.updated_at)) as touched
+			${miles}
 		from project p left join "user" u on u.id = p.user_id
 		left join lateral (select title, body, occurred_at from project_status where project_id = p.id order by occurred_at desc limit 1) s on true
 		where p.hidden = false and p.active = true ${where}
-		order by touched desc limit 60`)) as unknown as Record<string, any>[];
+		${order} limit 60`)) as unknown as Record<string, any>[];
 	return [...rows].map((r) => ({
 		id: r.id, name: r.name, type: r.type, short: r.short,
 		cover: firstImage(r.description) ?? firstImage(r.lastBody),

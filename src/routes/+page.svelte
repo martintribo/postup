@@ -1,18 +1,23 @@
 <script lang="ts">
-	/** Home (mockup #home / #quiet): map with a "Live now" panel. Phone: sheet under the map. Desktop: floating side panel. */
+	/** Home (mockup #home): one URL, Live (map) and Building (projects). The mode sticks for this visit. */
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
+	import { invalidateAll } from '$app/navigation';
 	import Map from '$lib/components/Map.svelte';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
 	import { enhance } from '$app/forms';
 	import Welcome from '$lib/components/ui/Welcome.svelte';
 	import ProjectCard from '$lib/components/ui/ProjectCard.svelte';
-	import TopBar from '$lib/components/ui/TopBar.svelte';
 
 	let { data } = $props();
 	let mounted = $state(false);
-	let setLocationForm: HTMLFormElement;
+	let setLocationForm: HTMLFormElement | undefined;
 	let lat = $state(''), lng = $state('');
+	function grabForm(node: HTMLFormElement) {
+		setLocationForm = node;
+	}
 
 	const projectName = $derived(Object.fromEntries((data.projects ?? []).map((p) => [p.id, p.name])) as Record<number, string>);
 	const live = $derived(
@@ -22,111 +27,163 @@
 			return { id: p.id, who, cafe: p.location, placeId: p.placeId, project: p.projectId ? projectName[p.projectId] : null, projectId: p.projectId, till: till(end) };
 		})
 	);
+	const newest = $derived(live[0]);
+	const area = $derived(data.location.city || data.areaName);
+
+	// Null until the user picks a mode or this visit locks the default. A later live postup must not flip the page.
+	let picked = $state<'live' | 'building' | null>(null);
+	const mode = $derived.by((): 'live' | 'building' => {
+		if (picked) return picked;
+		const q = page.url.searchParams.get('mode');
+		if (q === 'live' || q === 'building') return q;
+		return live.length ? 'live' : 'building';
+	});
+
 	function till(d: Date) {
 		return d.toLocaleTimeString([], { hour: 'numeric', minute: d.getMinutes() ? '2-digit' : undefined }).replace(' ', '').toLowerCase();
+	}
+	function firstName(name: string) {
+		return name.trim().split(/\s+/)[0] || name;
+	}
+	function setMode(next: 'live' | 'building') {
+		picked = next;
+		const url = new URL(page.url);
+		url.searchParams.set('mode', next);
+		history.replaceState(history.state, '', `${url.pathname}${url.search}`);
 	}
 	function locate() {
 		navigator.geolocation?.getCurrentPosition((pos) => {
 			lat = String(pos.coords.latitude);
 			lng = String(pos.coords.longitude);
-			queueMicrotask(() => setLocationForm.requestSubmit());
+			queueMicrotask(() => setLocationForm?.requestSubmit());
 		});
 	}
 	onMount(() => {
 		mounted = true;
+		if (picked === null) picked = mode;
 		if (data.locationSource !== 'precise' && navigator.geolocation) locate();
+		const id = setInterval(() => {
+			if (mode === 'building' && document.visibilityState === 'visible') invalidateAll();
+		}, 20000);
+		return () => clearInterval(id);
 	});
 </script>
 
-<form bind:this={setLocationForm} method="POST" action="?/setLocation" use:enhance hidden>
+{#snippet modeSwitch(which: string)}
+	<div class="hsw hsw-{which}" role="tablist" aria-label="Home mode">
+		<button type="button" role="tab" aria-selected={mode === 'live'} class:on={mode === 'live'} onclick={() => setMode('live')}>Live</button>
+		<button type="button" role="tab" aria-selected={mode === 'building'} class:on={mode === 'building'} onclick={() => setMode('building')}>Building</button>
+	</div>
+{/snippet}
+
+<form {@attach grabForm} method="POST" action="?/setLocation" use:enhance hidden>
 	<input type="hidden" name="latitude" value={lat} />
 	<input type="hidden" name="longitude" value={lng} />
 </form>
 
-{#if !live.length}
-	<!-- Martin: no live postups -> no map. Home focuses on projects (recent, any age) plus this week's cafes. -->
-	<div class="scr-projects home-projects" data-testid="home-projects">
-		<TopBar title="postup" back={false} />
-		<div class="pad pjs">
-			<Welcome id="home" text="See who's working from cafes nearby. Post up, or join someone." cls="pwel" />
-			<div class="hero"><h1>What people nearby are building</h1><p class="mu">Near {data.location.city || data.areaName} · projects from people who post up around here. When someone's working at a cafe, they show up here live.</p></div>
-			<a class="btn newp" href="/post"><Icon name="plus" size={18} /> Post up</a>
-			{#if data.week?.length}
-				<div class="chips pchips">{#each data.week as c (c.id)}<a class="chip" href="/places/{c.id}"><Icon name="coffee" size={14} /> {c.name} · {c.n} this week</a>{/each}</div>
+{#if mode === 'building'}
+	<div class="home-building" data-testid="home-building">
+		<header class="nb hnb">
+			<b class="brand2"><Icon name="coffee" size={16} /> postup</b>
+			{@render modeSwitch('bar')}
+			<span class="nr"></span>
+		</header>
+		<div class="pad hbld">
+			{#if newest}
+				<div class="hban" data-testid="live-banner">
+					<span class="dot"></span>
+					<span class="who"><Av name={newest.who.name} src={newest.who.avatarUrl} size={22} /> <b>{firstName(newest.who.name)}</b> just posted up nearby</span>
+					<button type="button" class="lnk sm" onclick={() => setMode('live')}>See map</button>
+				</div>
 			{/if}
+			<Welcome id="home" text="Post up at a cafe. See who's working nearby." />
+			<div class="hbh">
+				<h1>What people are building</h1>
+				<a class="lnk sm" href={resolve('/projects')}>See all projects</a>
+			</div>
 			{#if data.projectCards?.length}
-				<div class="pgrid">{#each data.projectCards as c (c.id)}<ProjectCard {c} />{/each}</div>
+				<div class="hpg">
+					{#each data.projectCards as c (c.id)}<ProjectCard {c} />{/each}
+				</div>
 			{:else}
-				<div class="estate pgrid-empty"><h2>Be the first here</h2><p class="mu">Post up at a cafe or share what you're building, and people nearby will see it.</p><a class="btn sec" href="/projects/new">Share a project</a></div>
+				<div class="estate"><h2>Be the first here</h2><p class="mu">Post up at a cafe or share what you're building, and people nearby will see it.</p></div>
 			{/if}
-			<a class="btn lg home-cta" href="/post"><Icon name="plus" size={18} /> Post up</a>
+			<a class="btn sec hall" href={resolve('/projects')}><Icon name="folder" size={18} /> See all projects</a>
+			<a class="btn lg hpost" href={resolve('/post')}><Icon name="plus" size={18} /> Post up</a>
+			{#if data.week?.length}
+				<div class="grp hwk">
+					<h3 class="sh">This week</h3>
+					{#each data.week as c (c.id)}
+						<a class="lrow" href={resolve('/places/[id]', { id: String(c.id) })}>
+							<span class="ci"><Icon name="coffee" size={20} /></span>
+							<div class="lm">
+								<b>{c.name}</b>
+								<div class="l2"><span class="stk">{#each c.who ?? [] as w, i (i)}<Av name={w} size={20} />{/each}</span> {c.n} {c.n === 1 ? 'postup' : 'postups'}</div>
+							</div>
+							<Icon name="chev" size={18} class="mu" />
+						</a>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</div>
 {:else}
-<div class="home" data-testid="home">
-	<div class="map hmap">
-		{#if mounted}
-			<Map latitude={data.location.latitude} longitude={data.location.longitude} city={data.location.city} country={data.location.country} posts={data.posts} chrome={false} />
-		{/if}
-		<div class="mtop">
-			<span class="brand"><Icon name="coffee" size={16} /> postup</span>
-			<button class="ib fl" onclick={locate} aria-label="Locate me"><Icon name="locate" size={20} /></button>
+	<div class="home" data-testid="home">
+		<div class="map hmap">
+			{#if mounted}
+				<Map latitude={data.location.latitude} longitude={data.location.longitude} city={data.location.city} country={data.location.country} posts={data.posts} chrome={false} />
+			{/if}
+			<div class="mtop">
+				<span class="brand hbr"><Icon name="coffee" size={16} /> postup</span>
+				{@render modeSwitch('ph')}
+				<span class="area-chip"><Icon name="pin" size={16} /> {area}</span>
+				<button class="ib fl" onclick={locate} aria-label="Locate me"><Icon name="locate" size={20} /></button>
+			</div>
 		</div>
-	</div>
 
-	<section class="sheet-p livep" data-testid="live-now">
-		<span class="grab"></span>
-		<Welcome id="home" text="Post up at a cafe. See who's working nearby." />
-		{#if data.myLive}
-			<a class="lrow you-live" href="/postups/{data.myLive.id}">
-				<span class="ci"><span class="dot"></span></span>
-				<div class="lm"><b>You're live</b><div class="l2">{data.myLive.activity}</div></div>
-				<Icon name="chev" size={18} class="mu" />
-			</a>
-		{/if}
-		{#if live.length}
-			<div class="sp-h"><h2>Live now</h2><span class="mu sm">{live.length} nearby</span></div>
-			{#each live as p (p.id)}
-				<a class="lrow" href="/postups/{p.id}">
-					<Av name={p.who.name} src={p.who.avatarUrl} size={44} />
-					<div class="lm">
-						<div class="l1"><b>{p.who.name}</b><span class="dot"></span><span class="ok">Live</span></div>
-						<div class="l2">{p.cafe} · till {p.till}</div>
-						{#if p.project}<span class="tag">{p.project}</span>{/if}
-					</div>
+		<section class="sheet-p livep" data-testid="live-now">
+			<span class="grab"></span>
+			{@render modeSwitch('dk')}
+			{#if data.myLive}
+				<a class="lrow you-live" href={resolve('/postups/[id]', { id: String(data.myLive.id) })}>
+					<span class="ci"><span class="dot"></span></span>
+					<div class="lm"><b>You're live</b><div class="l2">{data.myLive.activity}</div></div>
 					<Icon name="chev" size={18} class="mu" />
 				</a>
-			{/each}
-		{:else}
-			<div class="sp-h"><h2>Working somewhere good today?</h2></div>
-			<p class="mu sm">Post up and people nearby can come work with you.</p>
-			<a class="btn" href="/post"><Icon name="plus" size={18} /> Post up</a>
-		{/if}
-		{#if data.week?.length}
-			<div class="sp-h" style="margin-top:12px"><h3>This week</h3></div>
-			{#each data.week as c (c.id)}
-				<a class="lrow" href="/places/{c.id}">
-					<span class="ci"><Icon name="coffee" size={20} /></span>
-					<div class="lm">
-						<b>{c.name}</b>
-						<div class="l2"><span class="stk">{#each c.who ?? [] as w, i (i)}<Av name={w} size={20} />{/each}</span> {c.n} {c.n === 1 ? 'postup' : 'postups'}</div>
-					</div>
-					<Icon name="chev" size={18} class="mu" />
-				</a>
-			{/each}
-		{/if}
-		{#if data.projectCards?.length}
-			<div class="sp-h" style="margin-top:12px"><h3>{live.length || data.week?.length ? 'Projects nearby' : 'What people are building'}</h3><a class="lnk sm" href="/projects">See all</a></div>
-			{#if !live.length && !data.week?.length}<p class="mu sm">Recent projects from people who post up around here.</p>{/if}
-			{#each data.projectCards as c (c.id)}
-				<a class="lrow" href="/projects/{c.id}" data-testid="home-project">
-					{#if c.cover}<img class="pthumb" src={c.cover} alt="" />{:else}<span class="ci pj"><Icon name="folder" size={20} /></span>{/if}
-					<div class="lm"><b>{c.name}</b><div class="l2">{c.owner ?? ''}{c.owner && (c.lastUpdate || c.short) ? ' · ' : ''}{c.lastUpdate || c.short}</div></div>
-					<Icon name="chev" size={18} class="mu" />
-				</a>
-			{/each}
-		{/if}
-		{#if live.length}<a class="btn" href="/post"><Icon name="plus" size={18} /> Post up</a>{/if}
-	</section>
-</div>
+			{/if}
+			{#if live.length}
+				<div class="sp-h"><h2>Live now</h2><span class="mu sm">{live.length} nearby</span></div>
+				{#each live as p (p.id)}
+					<a class="lrow" href={resolve('/postups/[id]', { id: String(p.id) })}>
+						<Av name={p.who.name} src={p.who.avatarUrl} size={44} />
+						<div class="lm">
+							<div class="l1"><b>{p.who.name}</b><span class="dot"></span><span class="ok">Live</span></div>
+							<div class="l2">{p.cafe} · till {p.till}</div>
+							{#if p.project}<span class="tag">{p.project}</span>{/if}
+						</div>
+						<Icon name="chev" size={18} class="mu" />
+					</a>
+				{/each}
+			{:else}
+				<div class="hinv">
+					<h2>Working somewhere today?</h2>
+					<p class="mu sm">Post up and people nearby will see you on the map.</p>
+					<a class="btn" href={resolve('/post')}><Icon name="plus" size={18} /> Post up</a>
+				</div>
+			{/if}
+			{#if data.week?.length}
+				<div class="sp-h" style="margin-top:12px"><h3>This week</h3></div>
+				{#each data.week as c (c.id)}
+					<a class="lrow" href={resolve('/places/[id]', { id: String(c.id) })}>
+						<span class="ci"><Icon name="coffee" size={20} /></span>
+						<div class="lm">
+							<b>{c.name}</b>
+							<div class="l2"><span class="stk">{#each c.who ?? [] as w, i (i)}<Av name={w} size={20} />{/each}</span> {c.n} {c.n === 1 ? 'postup' : 'postups'}</div>
+						</div>
+						<Icon name="chev" size={18} class="mu" />
+					</a>
+				{/each}
+			{/if}
+		</section>
+	</div>
 {/if}
