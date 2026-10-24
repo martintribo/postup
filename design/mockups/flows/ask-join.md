@@ -1,0 +1,33 @@
+# Flow: Ask to join, then get approved (joiner side) (`ask-join`)
+Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Player: /mockups/flows/ask-join.html
+
+## Persona
+- Signed-in user; poster approves who joins.
+
+## Starting state
+- auth=in · live=live · device=phone · entry URL `/`
+
+## Goal
+- Send a reason, get a yes, meet up. [M1024]
+
+## Steps
+1. `#postup-ask` · auth=in live=live — "Tess approves who joins". [FS] [F055] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup-ask)
+2. `#ask` · auth=in live=live — Short reason. [F061] [F095] (/mockups/?style=fresh&device=phone&auth=in&live=live#ask)
+3. `#requested` · auth=in live=live — Request sent; can cancel. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live#requested)
+4. `#activity` · auth=in live=live — Activity: "Tess said yes". [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#activity)
+5. `#chat` · auth=in live=live — Now in the postup chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live#chat)
+
+## Branches and edge cases
+- Signed out: Ask to join → #ask-signin → #ask. [FS]
+- Declined or no answer before the postup ends: shown in Activity, no chat. [unsourced] [M1024]
+- Cafe name before approval: hidden or shown? [F070] [R23]
+
+## Success criteria
+- Joiner learns the outcome without refreshing. [F095] [M1024]
+
+## Needs Martin's decision
+- Show the cafe name before approval? (drawing shows it, code hides it) [F070] [R23]
+- What the joiner sees if never answered. [unsourced]
+
+Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

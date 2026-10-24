@@ -222,6 +222,7 @@ exec(open('gen/scenarios.py').read())
 exec(open('gen/home.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())
+exec(open('gen/flows.py').read())
 JS=open('gen/app.js').read()+open('gen/scen.js').read()
 body=''.join(f'<section class="scr{" full" if k in FULL else " dlg" if k in DLG else ""}" id="{k}" data-v="{k}">{v}</section>' for k,v in S.items())
 html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff">
