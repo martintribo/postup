@@ -68,7 +68,7 @@ SMHTML=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name
 .pg .ph{{width:66px;height:143px;margin:0 auto;border:3px solid #222;border-radius:12px;overflow:hidden;background:#fff;position:relative}}.pg img{{width:100%;display:block}}
 .pg .t{{font-size:11px;line-height:1.2;font-weight:600;text-align:center;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}}
 .pg .sh{{position:absolute;top:2px;right:4px;background:#232322;color:#fff;border-radius:999px;font-size:9.5px;padding:1px 6px;font-weight:600}}
-.pg.sel{{background:#fff;box-shadow:0 0 0 2px #10a364}}.pg.dim{{opacity:.35}}
+.pg.sel{{background:#fff;box-shadow:0 0 0 2px #10a364;z-index:3}}.pg{{transform-origin:50% 40%}}.pg.nb{{z-index:2;background:rgba(255,255,255,.85)}}.box{{transition:opacity .5s}}#w.foc .box{{opacity:.18}}
 svg{{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}}path.l{{fill:none;stroke:#8d8a82;stroke-width:1;opacity:.16}}
 path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8;opacity:.95;stroke-width:2}}path.l.off{{opacity:.06}}
 #pn{{position:fixed;top:48px;right:0;bottom:0;width:360px;background:#fff;border-left:1px solid #e4e2dc;overflow:auto;padding:16px;z-index:4;transform:translateX(100%);transition:transform .15s}}#pn.on{{transform:none}}
@@ -94,15 +94,14 @@ h+=sv+'</svg>';
 Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+'</div></div>'}});
 w.innerHTML=h;
 function ap(){{w.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')'}}
-function fit(){{var W=vp.clientWidth-(cur?360:0),H=vp.clientHeight;s=Math.min((W-40)/D.W,(H-40)/D.H,1.6);tx=(W-D.W*s)/2;ty=(H-D.H*s)/2;ap()}}
 function Z(f,cx,cy){{cx=cx==null?vp.clientWidth/2:cx;cy=cy==null?vp.clientHeight/2:cy;var ns=Math.max(.2,Math.min(4,s*f));tx=cx-(cx-tx)*ns/s;ty=cy-(cy-ty)*ns/s;s=ns;ap()}}
 vp.addEventListener('wheel',function(e){{e.preventDefault();var r=vp.getBoundingClientRect();Z(Math.exp(-e.deltaY*.0015),e.clientX-r.left,e.clientY-r.top)}},{{passive:false}});
 var dr=null,mv=0;vp.addEventListener('mousedown',function(e){{dr=[e.clientX-tx,e.clientY-ty];mv=0;vp.classList.add('drag')}});
 addEventListener('mousemove',function(e){{if(!dr)return;mv++;tx=e.clientX-dr[0];ty=e.clientY-dr[1];ap()}});addEventListener('mouseup',function(){{dr=null;vp.classList.remove('drag')}});
-w.addEventListener('click',function(e){{if(mv>3)return;var g=e.target.closest('.pg');sel(g?g.dataset.p:null)}});
+vp.addEventListener('click',function(e){{if(mv>3)return;var g=e.target.closest('.pg');sel(g?g.dataset.p:null)}});addEventListener('keydown',function(e){{if(e.key==='Escape')sel(null)}});
 function row(p,labs){{return '<a class="lk" onclick="sel(\\''+p+'\\')"><b>'+esc(D.pages[p].t)+'</b> <i>#'+p+(labs?' · '+esc(labs.join(' / ')):'')+'</i></a>'}}
-function sel(p){{var was=!!cur;cur=p;if(!!p!==was)setTimeout(fit,170);location.replace('#'+(p||''));document.getElementById('pn').classList.toggle('on',!!p);
- document.querySelectorAll('.pg').forEach(function(g){{g.classList.toggle('sel',g.dataset.p===p);g.classList.toggle('dim',!!p&&g.dataset.p!==p&&!D.links.some(function(l){{return(l[0]===p&&l[1]===g.dataset.p)||(l[1]===p&&l[0]===g.dataset.p)}}))}});
+function sel0(p){{cur=p;location.replace('#'+(p||''));document.getElementById('pn').classList.toggle('on',!!p);
+ document.querySelectorAll('.pg').forEach(function(g){{g.classList.toggle('sel',g.dataset.p===p);g.classList.toggle('nb',!!p&&g.dataset.p!==p&&D.links.some(function(l){{return(l[0]===p&&l[1]===g.dataset.p)||(l[1]===p&&l[0]===g.dataset.p)}}));g.classList.toggle('dim',!!p&&g.dataset.p!==p&&!D.links.some(function(l){{return(l[0]===p&&l[1]===g.dataset.p)||(l[1]===p&&l[0]===g.dataset.p)}}))}});
  document.querySelectorAll('path.l').forEach(function(l){{var o=p&&l.dataset.a===p,i=p&&l.dataset.b===p;l.classList.toggle('out',!!o);l.classList.toggle('in',!!i);l.classList.toggle('off',!!p&&!o&&!i)}});
  if(!p)return;var P=D.pages[p],o=D.links.filter(function(l){{return l[0]===p}}),n=D.links.filter(function(l){{return l[1]===p}});
  var x='<h2>'+esc(P.t)+'</h2><div class="lg">#'+p+' · '+esc(P.g)+'</div>';
@@ -113,7 +112,32 @@ function sel(p){{var was=!!cur;cur=p;if(!!p!==was)setTimeout(fit,170);location.r
  x+='<h4>Flows that use it ('+P.fl.length+')</h4>'+(P.fl.map(function(f){{return '<a class="lk" href="'+f[0]+'.html#'+f[2]+'"><b>'+esc(f[1])+'</b> <i>step '+(f[2]+1)+'</i></a>'}}).join('')||'<div class="lg">No flow passes through this page yet.</div>');
  x+='<h4>Not drawn</h4><div class="lg">Links left off the map: '+esc(DROP)+'. See the Site graph tables for every edge.</div>';
  document.getElementById('pc').innerHTML=x}}
-addEventListener('resize',fit);fit();var hp=location.hash.slice(1);if(hp&&D.pages[hp]){{sel(hp);fit()}}
+
+/* Focus layout (Martin, Oct 25 2026: connected pages move next to the one you click) [M1027]: the clicked page moves to the centre, pages it links to go right, pages linking to it go left,
+   pages linked both ways go above/below; the rest fade in place. Nodes, arrows and the view tween together (rAF, 500ms). */
+var NP={{}},OP={{}};Object.keys(D.pos).forEach(function(p){{NP[p]=D.pos[p].slice();OP[p]=[1,1]}});
+var EL={{}};document.querySelectorAll('.pg').forEach(function(g){{EL[g.dataset.p]=g}});var PL=[].slice.call(document.querySelectorAll('path.l'));
+function ctr(p){{var q=NP[p];return[q[0]+D.cw/2,q[1]+80]}}
+function draw(){{Object.keys(NP).forEach(function(p){{var g=EL[p],q=NP[p],o=OP[p];g.style.left=q[0]+'px';g.style.top=q[1]+'px';g.style.opacity=o[0];g.style.transform='scale('+o[1]+')'}});
+ PL.forEach(function(l){{var a=ctr(l.dataset.a),b=ctr(l.dataset.b),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=.18;l.setAttribute('d','M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1])}});ap()}}
+function target(p){{var T={{}},O={{}};Object.keys(D.pos).forEach(function(q){{T[q]=D.pos[q].slice();O[q]=[p?.15:1,p?.8:1]}});if(!p)return[T,O,null];
+ var out={{}},inn={{}};D.links.forEach(function(l){{if(l[0]===p)out[l[1]]=1;if(l[1]===p)inn[l[0]]=1}});
+ var both=Object.keys(out).filter(function(q){{return inn[q]}}),R=Object.keys(out).filter(function(q){{return!inn[q]}}),L=Object.keys(inn).filter(function(q){{return!out[q]}});
+ var cx=D.W/2-D.cw/2,cy=D.H/2-D.ch/2,PR=4,GXc=D.cw*1.2,GYc=D.ch*1.02,mr=Math.min(PR,Math.max(R.length,L.length,1));
+ function col(list,dir){{list.forEach(function(q,i){{var c=Math.floor(i/PR),n=Math.min(PR,list.length-c*PR),r=i%PR;T[q]=[cx+dir*(1.7+c)*GXc+dir*Math.abs(r-(n-1)/2)*-14,cy+(r-(n-1)/2)*GYc]}})}}
+ col(R,1);col(L,-1);var top=both.filter(function(_,i){{return i%2===0}}),bot=both.filter(function(_,i){{return i%2}});
+ [[top,-1],[bot,1]].forEach(function(z){{z[0].forEach(function(q,i){{T[q]=[cx+(i-(z[0].length-1)/2)*GXc,cy+z[1]*(mr/2+.6)*GYc]}})}});
+ T[p]=[cx,cy];var cl=[p].concat(R,L,both);cl.forEach(function(q){{O[q]=[1,1]}});
+ var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;cl.forEach(function(q){{x0=Math.min(x0,T[q][0]);y0=Math.min(y0,T[q][1]);x1=Math.max(x1,T[q][0]+D.cw);y1=Math.max(y1,T[q][1]+D.ch)}});return[T,O,[x0,y0,x1,y1]]}}
+function view(bb){{var W=vp.clientWidth-(cur?360:0),H=vp.clientHeight;if(!bb)bb=[0,0,D.W,D.H];var bw=bb[2]-bb[0],bh=bb[3]-bb[1],ns=Math.min((W-60)/bw,(H-60)/bh,cur?1.3:1.6);return[ns,(W-bw*ns)/2-bb[0]*ns,(H-bh*ns)/2-bb[1]*ns]}}
+var anim=0;function layout(p){{var tg=target(p),v=view(tg[2]),S0={{}},Q0={{}},s0=s,tx0=tx,ty0=ty,t0=performance.now(),id=++anim;
+ Object.keys(NP).forEach(function(q){{S0[q]=NP[q].slice();Q0[q]=OP[q].slice()}});document.getElementById('w').classList.toggle('foc',!!p);
+ (function step(now){{if(id!==anim)return;var u=Math.min(1,(now-t0)/500),e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
+  Object.keys(NP).forEach(function(q){{for(var j=0;j<2;j++){{NP[q][j]=S0[q][j]+(tg[0][q][j]-S0[q][j])*e;OP[q][j]=Q0[q][j]+(tg[1][q][j]-Q0[q][j])*e}}}});
+  s=s0+(v[0]-s0)*e;tx=tx0+(v[1]-tx0)*e;ty=ty0+(v[2]-ty0)*e;draw();if(u<1)requestAnimationFrame(step)}})(performance.now())}}
+function sel(p){{sel0(p);layout(p)}}
+function fit(){{var v=view(target(cur)[2]);s=v[0];tx=v[1];ty=v[2];ap()}}
+addEventListener('resize',fit);draw();fit();var hp=location.hash.slice(1);if(hp&&D.pages[hp])sel(hp)
 </script></body></html>'''
 open('flows/sitemap.html','w').write(SMHTML)
 print('sitemap',len(_pp),'pages',len(L),'links')
