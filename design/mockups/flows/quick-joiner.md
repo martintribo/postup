@@ -14,7 +14,7 @@ Player: /mockups/flows/quick-joiner.html
 ## Steps
 1. **home@in.live.live** · user: Knows a friend is live; wants to go now · action: arrives at / · edge: entry
    - Live now list. [M1018b] [M1024]
-   - next site states: **postup@in.live** (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), desktop-browse step 1 (if At a laptop; browsing)
 2. **postup@in.live** · user: Found them; joining · action: taps the row · edge: tap: M 2
    - Taps a row, then Join. [FS] [M1024]
@@ -23,7 +23,7 @@ Player: /mockups/flows/quick-joiner.html
 3. **joined@in.live** · user: Committed · action: taps Join · edge: tap: Join
    - Confirmation. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 4. **joined+dirs@in.live** · user: Needs the route · action: taps Directions · edge: sheet: Directions
    - Directions. [FS] [M1024]
    - next site states: joined@in.live (close)

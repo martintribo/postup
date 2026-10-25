@@ -22,9 +22,9 @@ Player: /mockups/flows/first-post.html
    - enterable flows: none
 3. **where@out.none** · user: Not at the nearest cafe · action: taps Change · edge: tap: Bean Theory Nearest · 0.4 mi Chang
    - Change → cafe picker by distance. [F062] [R17]
-   - next site states: back (Back), project-new@out.none (Project), post-signin@out.none (Post up)
+   - next site states: back (Back), project-new@out.none (Project), post-signin@out.none (Post up), **where-search@out.none** (Search cafes)
    - enterable flows: none
-4. **where-search@out.none** · user: Looking for the right cafe · action: searches · edge: gap
+4. **where-search@out.none** · user: Looking for the right cafe · action: searches · edge: tap: Search cafes
    - Searches a cafe. [FS]
    - next site states: back (Back), where@out.none (Bean Theory Nearest · 0.4 mi Chang), project-new@out.none (Project), **post-signin@out.none** (Post up)
    - enterable flows: none

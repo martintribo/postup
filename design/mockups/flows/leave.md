@@ -15,7 +15,7 @@ Player: /mockups/flows/leave.html
 1. **joined@in.live** · user: Plans changed · action: opens their joined postup · edge: entry
    - Leave link. [drawn]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), **joined+leave@in.live** (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going)
 2. **joined+leave@in.live** · user: Backing out politely · action: taps Leave · edge: sheet: Leave
    - Confirm; poster alerted. [FS] [drawn]
    - next site states: joined@in.live (close), **postup@in.live** (Leave)
@@ -26,7 +26,7 @@ Player: /mockups/flows/leave.html
    - enterable flows: cautious-joiner step 2 (if Interested in Maya, not sure yet), quick-joiner step 2 (if Found them; joining), desktop-browse step 2 (if Checking one postup)
 
 ## Connected flows [M1025]
-- `cautious-joiner`: branch out at step 1→8, step 3→2; merge in at step 1 (from its step 8), step 3 (from its step 2)
+- `cautious-joiner`: branch out at step 1→9, step 3→2; merge in at step 1 (from its step 9), step 3 (from its step 2)
 - `quick-joiner`: branch out at step 1→3, step 3→2; merge in at step 1 (from its step 3), step 3 (from its step 2)
 - `invite-live`: branch out at step 1→3; merge in at step 1 (from its step 3)
 - `desktop-browse`: branch out at step 3→2; merge in at step 3 (from its step 2)

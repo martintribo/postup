@@ -14,15 +14,15 @@ Player: /mockups/flows/postup-states.html
 ## Steps
 1. **postup-full@in.live** · user: Wanted to join; it's full · action: opens a full postup · edge: entry
    - Full. [F060] [R47]
-   - next site states: back (Back), postup-full+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
+   - next site states: back (Back), postup-full+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
    - enterable flows: none
 2. **postup-cancelled@in.live** · user: Host cancelled · action: later: postup cancelled · edge: event: postup fills / is cancelled / ends
    - Cancelled. [F060] [R47]
-   - next site states: back (Back), postup-cancelled+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
+   - next site states: back (Back), postup-cancelled+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
    - enterable flows: none
 3. **postup-ended@in.none** · user: Too late; it ended · action: later: postup ended · edge: 2 taps: Inbox, then T Tess's postup Ended · Tue Tue
    - Ended: see what's nearby, follow. [drawn]
-   - next site states: back (Back), postup-ended+more@in.none (More), profile@in.none (M Maya Bean Theory), quiet-feed@in.none (See what's nearby), home@in.none.building (Home), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox)
+   - next site states: back (Back), postup-ended+more@in.none (More), profile@in.none (M Maya Bean Theory), quiet-feed@in.none (See what's nearby), home@in.none.building (Go to Home), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox)
    - enterable flows: none
 
 ## Connected flows [M1025]

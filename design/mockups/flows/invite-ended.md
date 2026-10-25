@@ -13,26 +13,30 @@ Player: /mockups/flows/invite-ended.html
 
 ## Steps
 1. **invite-ended@out.none** · user: Arrived too late · action: opens an old share link · edge: entry
-   - "This postup ended" + what's around. [FS] [R39]
-   - next site states: quiet-feed@out.none (See what's nearby)
+   - "This postup ended" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39] [M1025]
+   - next site states: quiet-feed@out.none (See what's nearby), **invite-ended+signin@out.none** (Follow Maya for next time), home@out.none.building (Go to Home)
    - enterable flows: none
-2. **profile+signin@out.none** · user: Wants to catch the next one · action: taps Follow 🔒 · edge: gap
-   - Follow the poster → sign-in sheet. [FS] [M1024]
-   - next site states: profile@out.none (close), profile@in.none (signs in)
-   - enterable flows: curious-browser step 7 (if Wants to keep up with them)
-3. **home@in.none.building** · user: Signed in; looks around · action: signs in, continues to Home · edge: gap
-   - Continues to Home. [M1018b] [M1024]
+2. **invite-ended+signin@out.none** · user: Wants to catch the next one · action: taps Follow Maya for next time 🔒 · edge: sheet: Follow Maya for next time
+   - Follow → sign-in sheet. [FS] [M1025]
+   - next site states: invite-ended@out.none (close), **invite-ended@in.none** (signs in)
+   - enterable flows: none
+3. **invite-ended@in.none** · user: Following Maya now · action: signs in · edge: sign-in: signs in
+   - Back on the page, signed in; Follow shows Following. [M1018] [M1025]
+   - next site states: quiet-feed@in.none (See what's nearby), **home@in.none.building** (Go to Home)
+   - enterable flows: none
+4. **home@in.none.building** · user: Signed in; looks around · action: taps Go to Home · edge: tap: Go to Home
+   - Home in Building mode. [M1018b] [M1025]
    - next site states: home@in.none.live (Live), me@in.none (S), projects@in.none (See all projects), project@in.none (Star Fox 64 mod M Maya · Yesterday), post@in.none (Post up), cafe@in.none (Lantern Tea A D M 3 postups), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), cafe-gfail@in.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@in.none (area has no postups)
    - enterable flows: empty-area step 1 (if Nobody around here yet)
 
 ## Connected flows [M1025]
-- `curious-browser`: branch out at step 2→7; merge in at step 2 (from its step 7)
-- `empty-area`: branch out at step 3→1; merge in at —
+- `empty-area`: branch out at step 4→1; merge in at —
 
 ## Screens
-1. `#invite-ended` · auth=out live=none — "This postup ended" + what's around. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=none#invite-ended)
-2. `#profile` + sheet `signin` · auth=out live=none — Follow the poster → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin#profile)
-3. `#home` · auth=in live=none mode=building — Continues to Home. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
+1. `#invite-ended` · auth=out live=none — "This postup ended" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none#invite-ended)
+2. `#invite-ended` + sheet `signin` · auth=out live=none — Follow → sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin#invite-ended)
+3. `#invite-ended` · auth=in live=none — Back on the page, signed in; Follow shows Following. [M1018] [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=none#invite-ended)
+4. `#home` · auth=in live=none mode=building — Home in Building mode. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
 
 ## Branches and edge cases
 - Cancelled instead of ended: #postup-cancelled copy. [F060] [M1024]

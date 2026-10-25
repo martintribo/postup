@@ -14,7 +14,7 @@ Player: /mockups/flows/first-visit-live.html
 ## Steps
 1. **home@out.live.live** · user: Curious; sees people live right now · action: arrives at / · edge: entry
    - Home opens in Live mode with a one-line welcome. [M1018b] [M1024]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: curious-browser step 1 (if Curious what is on the site), stumbled step 1 (if No idea what PostUp is)
 2. **postup@out.live** · user: Tempted by one postup · action: taps a live row · edge: tap: M 2
    - Opens a postup; Join shows 🔒. [FS] [M1024]
@@ -27,10 +27,10 @@ Player: /mockups/flows/first-visit-live.html
 4. **joined@in.live** · user: Signed in; committed · action: signs in · edge: sign-in: signs in
    - Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 
 ## Connected flows [M1025]
-- `cautious-joiner`: branch out at step 4→8; merge in at step 4 (from its step 8)
+- `cautious-joiner`: branch out at step 4→9; merge in at step 4 (from its step 9)
 - `quick-joiner`: branch out at step 4→3; merge in at step 4 (from its step 3)
 - `invite-live`: branch out at step 4→3; merge in at step 3 (from its step 2)
 - `curious-browser`: branch out at step 2→2; merge in at —

@@ -26,7 +26,7 @@ Player: /mockups/flows/returning-post.html
    - enterable flows: host-approve step 2 (if Deciding on the request), hosting step 1 (if Live; wants more time)
 4. **home@in.live.live** · user: Checking Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
-   - next site states: postup@in.live (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: postup@in.live (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
 
 ## Connected flows [M1025]

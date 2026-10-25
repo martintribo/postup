@@ -16,22 +16,26 @@
   "back": false
  },
  "cautious-joiner-5": {
-  "label": "Back",
-  "back": true
+  "label": "Home",
+  "back": false
  },
  "cautious-joiner-6": {
+  "label": "T",
+  "back": false
+ },
+ "cautious-joiner-7": {
   "label": "Back",
   "back": true
  },
- "cautious-joiner-7": {
+ "cautious-joiner-8": {
   "label": "Join",
   "back": false
  },
- "cautious-joiner-8": {
+ "cautious-joiner-9": {
   "label": "Directions",
   "back": false
  },
- "cautious-joiner-9": null,
+ "cautious-joiner-10": null,
  "quick-joiner-1": {
   "label": "M",
   "back": false
@@ -114,7 +118,11 @@
  "invite-live-4": null,
  "invite-ended-1": null,
  "invite-ended-2": null,
- "invite-ended-3": null,
+ "invite-ended-3": {
+  "label": "Go to Home",
+  "back": false
+ },
+ "invite-ended-4": null,
  "invite-project-1": null,
  "invite-project-2": null,
  "invite-project-3": null,
@@ -154,8 +162,8 @@
   "back": false
  },
  "first-post-3": {
-  "label": "Back",
-  "back": true
+  "label": "tap",
+  "back": false
  },
  "first-post-4": {
   "label": "Post up",
@@ -249,7 +257,10 @@
   "label": "Block Maya too",
   "back": false
  },
- "safety-4": null,
+ "safety-4": {
+  "label": "Blocked people (Settings)",
+  "back": false
+ },
  "safety-5": null,
  "leave-1": {
   "label": "Leave",
@@ -290,7 +301,10 @@
   "label": "Delete account",
   "back": false
  },
- "delete-account-3": null,
+ "delete-account-3": {
+  "label": "Delete account",
+  "back": false
+ },
  "delete-account-4": null,
  "desktop-browse-1": {
   "label": "M",
@@ -306,8 +320,8 @@
  },
  "desktop-browse-4": null,
  "settings-notify-1": {
-  "label": "Back",
-  "back": true
+  "label": "Sign out",
+  "back": false
  },
  "settings-notify-2": null
 }

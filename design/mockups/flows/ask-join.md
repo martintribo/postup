@@ -15,7 +15,7 @@ Player: /mockups/flows/ask-join.html
 1. **postup-ask@in.live** · user: Interested, but the host screens people · action: opens an ask-to-join postup · edge: entry
    - "Tess approves who joins". [FS] [F055]
    - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **ask@in.live** (Ask to join), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
-   - enterable flows: cautious-joiner step 6 (if Comparing with another option)
+   - enterable flows: cautious-joiner step 7 (if Comparing with another option)
 2. **ask@in.live** · user: Explaining why they want to join · action: taps Ask to join · edge: tap: Ask to join
    - Short reason. [F061] [F095]
    - next site states: back (Back), ask+share@in.live (Share), ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **requested@in.live** (Send request), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
@@ -34,7 +34,7 @@ Player: /mockups/flows/ask-join.html
    - enterable flows: chat step 2 (if Coordinating)
 
 ## Connected flows [M1025]
-- `cautious-joiner`: branch out at step 1→6; merge in at step 1 (from its step 6)
+- `cautious-joiner`: branch out at step 1→7; merge in at step 1 (from its step 7)
 - `following`: branch out at step 4→3; merge in at step 4 (from its step 3)
 - `chat`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `host-approve`: branch out at step 4→1; merge in at —

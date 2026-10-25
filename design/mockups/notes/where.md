@@ -22,6 +22,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Open
 - Location-permission explainer / denied fallback: the ledger has it open, the final-screens list says not adopted. [R21] [FS]
 
+## Gap fixes
+- Gap fix (Oct 25): tapping the search box opens `#where-search`. [M1025]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

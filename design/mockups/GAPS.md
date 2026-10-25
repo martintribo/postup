@@ -199,3 +199,13 @@ Sheets to match in place, not as new routes: share (Copy, Messages, WhatsApp, Em
 5. Inbox and activity, chat, profile, settings, report, overlay sheets. Signed-out account pages keep their screen and open the sheet.
 
 After each chunk: commit and push `phase/final`, refresh Vite on `127.0.0.1:15017`, recheck the screens in that chunk at phone and desktop.
+
+## App follow-ups from the mockup gap fixes [M1025] (Oct 24, 2026)
+The mockups now cover these 7 edges. Status in the app (src/, read-only check):
+- Home Live now shows ask-to-join postups → postup-ask: **check**. `routes/+page.server.ts:94` filters `join_mode <> 'ask'` in one Home query; confirm ask-to-join postups appear in Live now with an "Ask to join" marker. [M1025]
+- `#postup-ended` Follow for next time (sign-in when signed out): **done** (`routes/postups/[id]/+page.svelte` follow() → askSignIn). [M1025]
+- `#invite-ended` (`/p/[id]`) Follow Maya for next time + Go to Home: **todo**. Only "See what's nearby" today. After sign-in, return to `/p/[id]` showing Following. [M1025]
+- Post-up where search box → where-search: **done** (GooglePlaceSearch in `routes/post/+page.svelte`). [M1025]
+- Block sheet → Settings › Blocked people link: **todo**. Blocked people exists in Settings but nothing links to it from the block sheet/#reported. [M1025]
+- Delete account → Home signed out: **done** (`redirect(302,'/?deleted=1')`). [M1025]
+- Sign out → Home signed out: **done** (`redirect(302,'/')`). [M1025]

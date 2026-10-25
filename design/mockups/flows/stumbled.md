@@ -14,7 +14,7 @@ Player: /mockups/flows/stumbled.html
 ## Steps
 1. **home@out.live.live** · user: No idea what PostUp is · action: arrives from search or a link · edge: entry
    - Home in Live mode: map + Live now. No explainer line is drawn in Live mode, only the brand. [drawn] [M1025]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: first-visit-live step 1 (if Curious; sees people live right now), curious-browser step 1 (if Curious what is on the site)
 2. **postup@out.live** · user: Trying to understand by example · action: taps the first live person · edge: tap: M 2
    - Taps the first live person to see what a postup is. [FS] [M1025]

@@ -43,6 +43,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - Area label ("Near Westside, Los Angeles") and the change-area picker. [R7⚠]
 - Launch area Playa Vista / Westside LA as fallback centre. [R8⚠]
 
+## Gap fixes
+- Gap fix (Oct 25): Live now includes an ask-to-join postup (Tess, marked "Ask to join") that opens `#postup-ask`; open-join rows unchanged. [M1025]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

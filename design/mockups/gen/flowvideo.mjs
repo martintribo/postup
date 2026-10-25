@@ -20,7 +20,7 @@ const srv = http.createServer((req, res) => { let p = decodeURIComponent(req.url
   res.writeHead(200, { 'content-type': ty }); fs.createReadStream(fp).pipe(res); }).listen(0);
 const base = `http://127.0.0.1:${srv.address().port}`;
 const tmp = fs.mkdtempSync('/tmp/flowvid-'); const shots = [];
-const CSS = `#fvcap{position:fixed;left:10px;right:10px;bottom:96px;z-index:9999;background:rgba(20,20,19,.88);color:#fff;border-radius:14px;padding:10px 14px;font:500 14px/1.35 Inter,system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+const CSS = `#fvcap{position:fixed;left:10px;right:10px;top:10px;z-index:9999;background:rgba(20,20,19,.88);color:#fff;border-radius:14px;padding:10px 14px;font:500 14px/1.35 Inter,system-ui,sans-serif;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 #fvcap b{display:block;font-size:12px;color:#7ee2b0;letter-spacing:.03em;margin-bottom:2px}
 #fvring{position:fixed;z-index:9998;border:3px solid #10a364;border-radius:14px;box-shadow:0 0 0 6px rgba(16,163,100,.25);pointer-events:none}
 #fvdot{position:fixed;z-index:9999;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(16,163,100,.45);border:2px solid #fff;pointer-events:none}

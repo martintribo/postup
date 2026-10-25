@@ -13,6 +13,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Scenarios
 - Same in all scenarios. [M1018]
 
+## Gap fixes
+- Gap fix (Oct 25): adds "Follow Maya for next time" (sign-in sheet when signed out; signing in returns here, Following) and "Go to Home". [M1025]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

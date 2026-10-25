@@ -26,11 +26,11 @@ Player: /mockups/flows/safety.html
    - enterable flows: none
 4. **reported+block@in.live** · user: Wants them gone · action: taps Block too · edge: sheet: Block Maya too
    - Block: neither sees the other; they aren't told. [FS] [F059]
-   - next site states: reported@in.live (close), home@in.live.live (Block)
+   - next site states: reported@in.live (close), home@in.live.live (Block), **settings@in.live** (Blocked people (Settings))
    - enterable flows: none
-5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: gap
+5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: tap: Blocked people (Settings)
    - Blocked people list to undo. [FS] [F065]
-   - next site states: back (Back), invite@out.live (Sign out), settings+delacct@in.live (Delete account)
+   - next site states: back (Back), home@out.live.live (Sign out), settings+delacct@in.live (Delete account)
    - enterable flows: delete-account step 2 (if Looking for the delete option), settings-notify step 1 (if Tuning alerts)
 
 ## Connected flows [M1025]

@@ -16,6 +16,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Behavior
 - See what's nearby; Follow the poster for next time. [drawn]
 
+## Gap fixes
+- Gap fix (Oct 25): "Follow Maya for next time" is a Follow button (sign-in sheet when signed out) plus a "Go to Home" link. [M1025]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

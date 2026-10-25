@@ -42,7 +42,7 @@ Player: /mockups/flows/cautious-joiner.html
 ### Steps
 1. **home@in.live.live** · user: Wants company today, but careful about who · action: arrives at / · edge: entry
    - Opens / in Live mode: map + Live now list. [M1018b] [M1024]
-   - next site states: **postup@in.live** (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
 2. **postup@in.live** · user: Interested in Maya, not sure yet · action: taps Maya's row · edge: tap: M 2
    - Taps Maya's row: who, project, cafe, who else is joining. Does not join yet. [FS] [M1024]
@@ -58,32 +58,36 @@ Player: /mockups/flows/cautious-joiner.html
    - enterable flows: host-approve step 3 (if Wants to check the asker first)
 5. **cafe@in.live** · user: Is the place itself OK? · action: taps the cafe · edge: tap: Bean Theory
    - Checks the cafe: hero photo, who's here now, Google card. [FS] [M1024]
-   - next site states: back (Back), cafe+share@in.live (Share), project@in.live (Star Fox 64 mod), postup@in.live (Join), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails)), cafe-gfail@in.none (postups end (Google card fails))
+   - next site states: back (Back), cafe+share@in.live (Share), project@in.live (Star Fox 64 mod), postup@in.live (Join), post@in.live (Post up here), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails)), cafe-gfail@in.none (postups end (Google card fails))
    - enterable flows: none
-6. **postup-ask@in.live** · user: Comparing with another option · action: comes back later to another postup (ask-to-join) · edge: gap
+6. **home@in.live.live** · user: Wants to compare with someone else · action: taps Home · edge: tap: Home
+   - Back on Home: Live now shows Tess, marked Ask to join. [M1025]
+   - next site states: postup@in.live (M 2), **postup-ask@in.live** (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+7. **postup-ask@in.live** · user: Comparing with another option · action: taps Tess (Ask to join) · edge: tap: T
    - Compares a second postup (Tess approves who joins), then Back. [FS] [M1024]
    - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
    - enterable flows: ask-join step 1 (if Interested, but the host screens people)
-7. **postup@in.live** · user: Decided: Maya it is · action: back to Maya's postup · edge: back
+8. **postup@in.live** · user: Decided: Maya it is · action: back to Maya's postup · edge: back
    - Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024]
    - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
    - enterable flows: quick-joiner step 2 (if Found them; joining), desktop-browse step 2 (if Checking one postup)
-8. **joined@in.live** · user: Committed; needs to get there · action: taps Join · edge: tap: Join
+9. **joined@in.live** · user: Committed; needs to get there · action: taps Join · edge: tap: Join
    - You're joining Maya; Maya is told. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
-9. **joined+dirs@in.live** · user: On the way · action: taps Directions · edge: sheet: Directions
+10. **joined+dirs@in.live** · user: On the way · action: taps Directions · edge: sheet: Directions
    - Directions sheet: Apple / Google Maps. [FS] [M1024]
    - next site states: joined@in.live (close)
    - enterable flows: quick-joiner step 4 (if Needs the route)
 
 ### Connected flows [M1025]
-- `quick-joiner`: branch out at step 2→2, step 9→4; merge in at step 7 (from its step 2)
-- `desktop-browse`: branch out at step 2→2, step 7→2; merge in at step 7 (from its step 2)
+- `quick-joiner`: branch out at step 2→2, step 6→1, step 10→4; merge in at step 8 (from its step 2)
+- `desktop-browse`: branch out at step 2→2, step 6→1, step 8→2; merge in at step 8 (from its step 2)
 - `host-approve`: branch out at step 4→3; merge in at step 4 (from its step 3)
-- `invite-live`: branch out at step 8→3; merge in at step 8 (from its step 3)
-- `ask-join`: branch out at step 6→1; merge in at —
-- `leave`: branch out at step 8→1; merge in at —
+- `invite-live`: branch out at step 9→3; merge in at step 9 (from its step 3)
+- `ask-join`: branch out at step 7→1; merge in at —
+- `leave`: branch out at step 9→1; merge in at —
 
 ### Screens
 1. `#home` · auth=in live=live mode=live — Opens / in Live mode: map + Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live#home)
@@ -91,10 +95,11 @@ Player: /mockups/flows/cautious-joiner.html
 3. `#project` · auth=in live=live — Opens Maya's project to see what she's working on, then Back. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#project)
 4. `#profile` · auth=in live=live — Opens Maya's profile: postup count, regular cafes, past postups. [FS] [F065] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#profile)
 5. `#cafe` · auth=in live=live — Checks the cafe: hero photo, who's here now, Google card. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#cafe)
-6. `#postup-ask` · auth=in live=live — Compares a second postup (Tess approves who joins), then Back. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup-ask)
-7. `#postup` · auth=in live=live — Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup)
-8. `#joined` · auth=in live=live — You're joining Maya; Maya is told. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#joined)
-9. `#joined` + sheet `dirs` · auth=in live=live — Directions sheet: Apple / Google Maps. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=dirs#joined)
+6. `#home` · auth=in live=live mode=live — Back on Home: Live now shows Tess, marked Ask to join. [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live#home)
+7. `#postup-ask` · auth=in live=live — Compares a second postup (Tess approves who joins), then Back. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup-ask)
+8. `#postup` · auth=in live=live — Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup)
+9. `#joined` · auth=in live=live — You're joining Maya; Maya is told. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#joined)
+10. `#joined` + sheet `dirs` · auth=in live=live — Directions sheet: Apple / Google Maps. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=dirs#joined)
 
 ### Branches and edge cases
 - Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]
@@ -123,7 +128,7 @@ Player: /mockups/flows/quick-joiner.html
 ### Steps
 1. **home@in.live.live** · user: Knows a friend is live; wants to go now · action: arrives at / · edge: entry
    - Live now list. [M1018b] [M1024]
-   - next site states: **postup@in.live** (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), desktop-browse step 1 (if At a laptop; browsing)
 2. **postup@in.live** · user: Found them; joining · action: taps the row · edge: tap: M 2
    - Taps a row, then Join. [FS] [M1024]
@@ -132,7 +137,7 @@ Player: /mockups/flows/quick-joiner.html
 3. **joined@in.live** · user: Committed · action: taps Join · edge: tap: Join
    - Confirmation. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 4. **joined+dirs@in.live** · user: Needs the route · action: taps Directions · edge: sheet: Directions
    - Directions. [FS] [M1024]
    - next site states: joined@in.live (close)
@@ -180,7 +185,7 @@ Player: /mockups/flows/first-visit-live.html
 ### Steps
 1. **home@out.live.live** · user: Curious; sees people live right now · action: arrives at / · edge: entry
    - Home opens in Live mode with a one-line welcome. [M1018b] [M1024]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: curious-browser step 1 (if Curious what is on the site), stumbled step 1 (if No idea what PostUp is)
 2. **postup@out.live** · user: Tempted by one postup · action: taps a live row · edge: tap: M 2
    - Opens a postup; Join shows 🔒. [FS] [M1024]
@@ -193,10 +198,10 @@ Player: /mockups/flows/first-visit-live.html
 4. **joined@in.live** · user: Signed in; committed · action: signs in · edge: sign-in: signs in
    - Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 
 ### Connected flows [M1025]
-- `cautious-joiner`: branch out at step 4→8; merge in at step 4 (from its step 8)
+- `cautious-joiner`: branch out at step 4→9; merge in at step 4 (from its step 9)
 - `quick-joiner`: branch out at step 4→3; merge in at step 4 (from its step 3)
 - `invite-live`: branch out at step 4→3; merge in at step 3 (from its step 2)
 - `curious-browser`: branch out at step 2→2; merge in at —
@@ -235,7 +240,7 @@ Player: /mockups/flows/curious-browser.html
 ### Steps
 1. **home@out.live.live** · user: Curious what is on the site · action: arrives at / · edge: entry
    - Live now list: who is working where. [M1018b] [M1025]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: first-visit-live step 1 (if Curious; sees people live right now), stumbled step 1 (if No idea what PostUp is)
 2. **postup@out.live** · user: Peeking at who is live · action: taps a live row · edge: tap: M 2
    - Peeks at a live postup, then Back. [FS] [M1025]
@@ -260,7 +265,7 @@ Player: /mockups/flows/curious-browser.html
 7. **profile+signin@out.live** · user: Wants to keep up with them · action: taps Follow 🔒 · edge: sheet: Follow
    - Taps Follow: soft sign-in sheet; Not now keeps browsing. [FS] [M1018] [M1025]
    - next site states: profile@out.live (close), **profile@in.live** (signs in)
-   - enterable flows: invite-ended step 2 (if Wants to catch the next one)
+   - enterable flows: none
 8. **profile@in.live** · user: Convinced enough to sign in · action: signs in · edge: sign-in: signs in
    - Signed in and following. [FS] [M1025]
    - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), cafe@in.live (Bean Theory), project@in.live (Star Fox 64 mod Updated yesterday), cafe-gfail@in.live (Bean Theory (Google card fails))
@@ -268,7 +273,6 @@ Player: /mockups/flows/curious-browser.html
 
 ### Connected flows [M1025]
 - `stumbled`: branch out at step 2→2, step 3→4; merge in at step 3 (from its step 4)
-- `invite-ended`: branch out at step 7→2; merge in at step 7 (from its step 2)
 - `cautious-joiner`: branch out at step 8→4; merge in at step 8 (from its step 4)
 - `host-approve`: branch out at step 8→3; merge in at step 8 (from its step 3)
 - `first-visit-live`: branch out at step 2→2; merge in at —
@@ -314,7 +318,7 @@ Player: /mockups/flows/stumbled.html
 ### Steps
 1. **home@out.live.live** · user: No idea what PostUp is · action: arrives from search or a link · edge: entry
    - Home in Live mode: map + Live now. No explainer line is drawn in Live mode, only the brand. [drawn] [M1025]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: first-visit-live step 1 (if Curious; sees people live right now), curious-browser step 1 (if Curious what is on the site)
 2. **postup@out.live** · user: Trying to understand by example · action: taps the first live person · edge: tap: M 2
    - Taps the first live person to see what a postup is. [FS] [M1025]
@@ -384,14 +388,14 @@ Player: /mockups/flows/invite-live.html
 3. **joined@in.live** · user: Signed in; going · action: signs in · edge: sign-in: signs in
    - Joined. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **chat@in.live** (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), quick-joiner step 3 (if Committed), leave step 1 (if Plans changed)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), leave step 1 (if Plans changed)
 4. **chat@in.live** · user: Coordinating · action: opens chat · edge: tap: Group chat
    - Postup chat. [F096] [M1024]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options)
    - enterable flows: chat step 2 (if Coordinating)
 
 ### Connected flows [M1025]
-- `cautious-joiner`: branch out at step 3→8; merge in at step 3 (from its step 8)
+- `cautious-joiner`: branch out at step 3→9; merge in at step 3 (from its step 9)
 - `quick-joiner`: branch out at step 3→3; merge in at step 3 (from its step 3)
 - `chat`: branch out at step 4→2; merge in at step 4 (from its step 2)
 - `leave`: branch out at step 3→1; merge in at —
@@ -427,26 +431,30 @@ Player: /mockups/flows/invite-ended.html
 
 ### Steps
 1. **invite-ended@out.none** · user: Arrived too late · action: opens an old share link · edge: entry
-   - "This postup ended" + what's around. [FS] [R39]
-   - next site states: quiet-feed@out.none (See what's nearby)
+   - "This postup ended" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39] [M1025]
+   - next site states: quiet-feed@out.none (See what's nearby), **invite-ended+signin@out.none** (Follow Maya for next time), home@out.none.building (Go to Home)
    - enterable flows: none
-2. **profile+signin@out.none** · user: Wants to catch the next one · action: taps Follow 🔒 · edge: gap
-   - Follow the poster → sign-in sheet. [FS] [M1024]
-   - next site states: profile@out.none (close), profile@in.none (signs in)
-   - enterable flows: curious-browser step 7 (if Wants to keep up with them)
-3. **home@in.none.building** · user: Signed in; looks around · action: signs in, continues to Home · edge: gap
-   - Continues to Home. [M1018b] [M1024]
+2. **invite-ended+signin@out.none** · user: Wants to catch the next one · action: taps Follow Maya for next time 🔒 · edge: sheet: Follow Maya for next time
+   - Follow → sign-in sheet. [FS] [M1025]
+   - next site states: invite-ended@out.none (close), **invite-ended@in.none** (signs in)
+   - enterable flows: none
+3. **invite-ended@in.none** · user: Following Maya now · action: signs in · edge: sign-in: signs in
+   - Back on the page, signed in; Follow shows Following. [M1018] [M1025]
+   - next site states: quiet-feed@in.none (See what's nearby), **home@in.none.building** (Go to Home)
+   - enterable flows: none
+4. **home@in.none.building** · user: Signed in; looks around · action: taps Go to Home · edge: tap: Go to Home
+   - Home in Building mode. [M1018b] [M1025]
    - next site states: home@in.none.live (Live), me@in.none (S), projects@in.none (See all projects), project@in.none (Star Fox 64 mod M Maya · Yesterday), post@in.none (Post up), cafe@in.none (Lantern Tea A D M 3 postups), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), cafe-gfail@in.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@in.none (area has no postups)
    - enterable flows: empty-area step 1 (if Nobody around here yet)
 
 ### Connected flows [M1025]
-- `curious-browser`: branch out at step 2→7; merge in at step 2 (from its step 7)
-- `empty-area`: branch out at step 3→1; merge in at —
+- `empty-area`: branch out at step 4→1; merge in at —
 
 ### Screens
-1. `#invite-ended` · auth=out live=none — "This postup ended" + what's around. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=none#invite-ended)
-2. `#profile` + sheet `signin` · auth=out live=none — Follow the poster → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin#profile)
-3. `#home` · auth=in live=none mode=building — Continues to Home. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
+1. `#invite-ended` · auth=out live=none — "This postup ended" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none#invite-ended)
+2. `#invite-ended` + sheet `signin` · auth=out live=none — Follow → sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin#invite-ended)
+3. `#invite-ended` · auth=in live=none — Back on the page, signed in; Follow shows Following. [M1018] [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=none#invite-ended)
+4. `#home` · auth=in live=none mode=building — Home in Building mode. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
 
 ### Branches and edge cases
 - Cancelled instead of ended: #postup-cancelled copy. [F060] [M1024]
@@ -516,7 +524,7 @@ Player: /mockups/flows/ask-join.html
 1. **postup-ask@in.live** · user: Interested, but the host screens people · action: opens an ask-to-join postup · edge: entry
    - "Tess approves who joins". [FS] [F055]
    - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **ask@in.live** (Ask to join), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
-   - enterable flows: cautious-joiner step 6 (if Comparing with another option)
+   - enterable flows: cautious-joiner step 7 (if Comparing with another option)
 2. **ask@in.live** · user: Explaining why they want to join · action: taps Ask to join · edge: tap: Ask to join
    - Short reason. [F061] [F095]
    - next site states: back (Back), ask+share@in.live (Share), ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **requested@in.live** (Send request), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
@@ -535,7 +543,7 @@ Player: /mockups/flows/ask-join.html
    - enterable flows: chat step 2 (if Coordinating)
 
 ### Connected flows [M1025]
-- `cautious-joiner`: branch out at step 1→6; merge in at step 1 (from its step 6)
+- `cautious-joiner`: branch out at step 1→7; merge in at step 1 (from its step 7)
 - `following`: branch out at step 4→3; merge in at step 4 (from its step 3)
 - `chat`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `host-approve`: branch out at step 4→1; merge in at —
@@ -639,9 +647,9 @@ Player: /mockups/flows/first-post.html
    - enterable flows: none
 3. **where@out.none** · user: Not at the nearest cafe · action: taps Change · edge: tap: Bean Theory Nearest · 0.4 mi Chang
    - Change → cafe picker by distance. [F062] [R17]
-   - next site states: back (Back), project-new@out.none (Project), post-signin@out.none (Post up)
+   - next site states: back (Back), project-new@out.none (Project), post-signin@out.none (Post up), **where-search@out.none** (Search cafes)
    - enterable flows: none
-4. **where-search@out.none** · user: Looking for the right cafe · action: searches · edge: gap
+4. **where-search@out.none** · user: Looking for the right cafe · action: searches · edge: tap: Search cafes
    - Searches a cafe. [FS]
    - next site states: back (Back), where@out.none (Bean Theory Nearest · 0.4 mi Chang), project-new@out.none (Project), **post-signin@out.none** (Post up)
    - enterable flows: none
@@ -710,7 +718,7 @@ Player: /mockups/flows/returning-post.html
    - enterable flows: host-approve step 2 (if Deciding on the request), hosting step 1 (if Live; wants more time)
 4. **home@in.live.live** · user: Checking Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
-   - next site states: postup@in.live (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: postup@in.live (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
 
 ### Connected flows [M1025]
@@ -989,11 +997,11 @@ Player: /mockups/flows/safety.html
    - enterable flows: none
 4. **reported+block@in.live** · user: Wants them gone · action: taps Block too · edge: sheet: Block Maya too
    - Block: neither sees the other; they aren't told. [FS] [F059]
-   - next site states: reported@in.live (close), home@in.live.live (Block)
+   - next site states: reported@in.live (close), home@in.live.live (Block), **settings@in.live** (Blocked people (Settings))
    - enterable flows: none
-5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: gap
+5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: tap: Blocked people (Settings)
    - Blocked people list to undo. [FS] [F065]
-   - next site states: back (Back), invite@out.live (Sign out), settings+delacct@in.live (Delete account)
+   - next site states: back (Back), home@out.live.live (Sign out), settings+delacct@in.live (Delete account)
    - enterable flows: delete-account step 2 (if Looking for the delete option), settings-notify step 1 (if Tuning alerts)
 
 ### Connected flows [M1025]
@@ -1035,7 +1043,7 @@ Player: /mockups/flows/leave.html
 1. **joined@in.live** · user: Plans changed · action: opens their joined postup · edge: entry
    - Leave link. [drawn]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), **joined+leave@in.live** (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 8 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going)
 2. **joined+leave@in.live** · user: Backing out politely · action: taps Leave · edge: sheet: Leave
    - Confirm; poster alerted. [FS] [drawn]
    - next site states: joined@in.live (close), **postup@in.live** (Leave)
@@ -1046,7 +1054,7 @@ Player: /mockups/flows/leave.html
    - enterable flows: cautious-joiner step 2 (if Interested in Maya, not sure yet), quick-joiner step 2 (if Found them; joining), desktop-browse step 2 (if Checking one postup)
 
 ### Connected flows [M1025]
-- `cautious-joiner`: branch out at step 1→8, step 3→2; merge in at step 1 (from its step 8), step 3 (from its step 2)
+- `cautious-joiner`: branch out at step 1→9, step 3→2; merge in at step 1 (from its step 9), step 3 (from its step 2)
 - `quick-joiner`: branch out at step 1→3, step 3→2; merge in at step 1 (from its step 3), step 3 (from its step 2)
 - `invite-live`: branch out at step 1→3; merge in at step 1 (from its step 3)
 - `desktop-browse`: branch out at step 3→2; merge in at step 3 (from its step 2)
@@ -1080,15 +1088,15 @@ Player: /mockups/flows/postup-states.html
 ### Steps
 1. **postup-full@in.live** · user: Wanted to join; it's full · action: opens a full postup · edge: entry
    - Full. [F060] [R47]
-   - next site states: back (Back), postup-full+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
+   - next site states: back (Back), postup-full+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
    - enterable flows: none
 2. **postup-cancelled@in.live** · user: Host cancelled · action: later: postup cancelled · edge: event: postup fills / is cancelled / ends
    - Cancelled. [F060] [R47]
-   - next site states: back (Back), postup-cancelled+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
+   - next site states: back (Back), postup-cancelled+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
    - enterable flows: none
 3. **postup-ended@in.none** · user: Too late; it ended · action: later: postup ended · edge: 2 taps: Inbox, then T Tess's postup Ended · Tue Tue
    - Ended: see what's nearby, follow. [drawn]
-   - next site states: back (Back), postup-ended+more@in.none (More), profile@in.none (M Maya Bean Theory), quiet-feed@in.none (See what's nearby), home@in.none.building (Home), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox)
+   - next site states: back (Back), postup-ended+more@in.none (More), profile@in.none (M Maya Bean Theory), quiet-feed@in.none (See what's nearby), home@in.none.building (Go to Home), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox)
    - enterable flows: none
 
 ### Connected flows [M1025]
@@ -1220,13 +1228,13 @@ Player: /mockups/flows/delete-account.html
    - enterable flows: none
 2. **settings@in.none** · user: Looking for the delete option · action: taps Settings · edge: tap: Settings
    - Account section. [FS] [F065]
-   - next site states: back (Back), invite@out.none (Sign out), **settings+delacct@in.none** (Delete account)
+   - next site states: back (Back), home@out.none.building (Sign out), **settings+delacct@in.none** (Delete account)
    - enterable flows: settings-notify step 1 (if Tuning alerts)
 3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: sheet: Delete account
    - Confirm; can't be undone. [FS] [drawn]
-   - next site states: settings@in.none (close), invite-ended@out.none (Delete account)
+   - next site states: settings@in.none (close), **home@out.none.building** (Delete account)
    - enterable flows: none
-4. **home@out.none.building** · user: Gone · action: confirms · edge: gap
+4. **home@out.none.building** · user: Gone · action: confirms · edge: tap: Delete account
    - Signed out at Home. [M1024]
    - next site states: home@out.none.live (Live), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), cafe@out.none (Lantern Tea A D M 3 postups), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@out.none (area has no postups)
    - enterable flows: first-post step 1 (if Came to post up right now)
@@ -1268,7 +1276,7 @@ Player: /mockups/flows/desktop-browse.html
 ### Steps
 1. **home@in.live.live** · user: At a laptop; browsing · action: arrives at / · edge: entry
    - Map with 440px panel. [FS]
-   - next site states: **postup@in.live** (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
    - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now)
 2. **postup@in.live** · user: Checking one postup · action: taps a live pin · edge: tap: M 2
    - Postup in the panel. [FS]
@@ -1316,9 +1324,9 @@ Player: /mockups/flows/settings-notify.html
 ### Steps
 1. **settings@in.none** · user: Tuning alerts · action: opens Settings · edge: entry
    - Toggles; Sign out. [FS] [F065]
-   - next site states: back (Back), invite@out.none (Sign out), settings+delacct@in.none (Delete account)
+   - next site states: back (Back), **home@out.none.building** (Sign out), settings+delacct@in.none (Delete account)
    - enterable flows: delete-account step 2 (if Looking for the delete option)
-2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: gap
+2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: tap: Sign out
    - Signed out. [M1024]
    - next site states: home@out.none.live (Live), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), cafe@out.none (Lantern Tea A D M 3 postups), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@out.none (area has no postups)
    - enterable flows: first-post step 1 (if Came to post up right now)

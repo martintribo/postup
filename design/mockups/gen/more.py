@@ -55,7 +55,7 @@ def where(q):
     else: lst='<p class="sh">Nearby</p>'+cafe_row('Bean Theory','0.4 mi',' · 2 live')+cafe_row('Lantern Tea','0.8 mi')+cafe_row('Grindhouse','1.1 mi')+cafe_row('Sunbeam Coffee','1.6 mi')
     val=' value="sun"' if q else ''
     return S['post']+f'''<div class="dim" onclick="bk()"></div><div class="bs tall"><span class="grab"></span><h2>Where are you?</h2>
-<label class="srch">{I("search",18)}<input class="in" placeholder="Search cafes"{val} oninput="if(this.value)go('where-search')"></label>{lst}</div>'''
+<label class="srch">{I("search",18)}<input class="in" placeholder="Search cafes"{val} onclick="go('where-search')" oninput="if(this.value)go('where-search')"></label>{lst}</div>'''
 S['where']=where(False); S['where-search']=where(True)
 S['post-edit']=S['post'].replace('<b>Post up</b>','<b>Edit postup</b>',1).replace('onclick="sheet(\'post-signin\')">Post up '+LOCK+'</button>','onclick="go(\'live\')">Save</button>')
 
@@ -91,7 +91,7 @@ S['requested']=f'''{top("",f'<a class="ib" href="#home" aria-label="Close">{I("x
 def pstate(id,title,sub):
     return f'''{top("Postup",f'<button class="ib" onclick="ov(\'more\')" aria-label="More">{I("more",20)}</button>')}<div class="pad">
 <div class="who lk2 dimmed" onclick="go('profile')">{av('MK',64)}<div><h1>Maya</h1><p class="mu">Bean Theory</p></div></div>
-<div class="estate"><span class="ci">{I("clock",22)}</span><h2>{title}</h2><p class="mu">{sub}</p><a class="btn" href="#quiet-feed">See what's nearby</a><a class="lnk sm" href="#profile">Follow Maya for next time</a></div></div>{nav("m")}'''
+<div class="estate"><span class="ci">{I("clock",22)}</span><h2>{title}</h2><p class="mu">{sub}</p><a class="btn" href="#quiet-feed">See what's nearby</a><button class="btn sec" onclick="follow(this,'Follow Maya')">Follow Maya for next time</button><a class="lnk sm" href="#home">Go to Home</a></div></div>{nav("m")}'''
 S['postup-ended']=pstate('postup-ended','This postup ended','Maya wrapped up at 4pm.')
 S['postup-full']=pstate('postup-full','This postup is full','Maya isn\'t taking more people right now.')
 S['postup-cancelled']=pstate('postup-cancelled','Maya cancelled this postup','Plans change. Others are working nearby.')
@@ -104,7 +104,7 @@ S['invite']=f'''<header class="nb"><span class="ib"></span><b class="brand2">{I(
 <p class="mu sm">PostUp shows who's working from cafes nearby, so you can join them or post up yourself.</p></div>'''
 S['invite-ended']=f'''<header class="nb"><span class="ib"></span><b class="brand2">{I("coffee",16)} postup</b><span class="nr"></span></header><div class="pad done inv">
 <div class="pair dimmed">{av('MK',72)}</div><h1>This postup ended</h1><p class="mu">Maya was at Bean Theory earlier today.</p>
-<a class="btn" href="#quiet-feed">See what's nearby</a>
+<a class="btn" href="#quiet-feed">See what's nearby</a><button class="btn sec" onclick="follow(this,'Follow Maya')">Follow Maya for next time</button><a class="lnk sm" href="#home">Go to Home</a>
 <p class="mu sm">PostUp shows who's working from cafes nearby, so you can join them or post up yourself.</p></div>'''
 
 # ---------- empty area ----------
@@ -162,7 +162,7 @@ def prof(k,me):
 S['profile']=prof('MK',False); S['me']=prof('ME',True)
 def tgl(t,on=True): return f'<label class="lrow tgr"><span class="lm sm">{t}</span><input type="checkbox" class="tg" {"checked" if on else ""}></label>'
 S['settings']=f'''{top("Settings")}<div class="pad"><h3 class="sh">Notifications</h3><div class="grp">{tgl("Join requests")}{tgl("Someone joins your postup")}{tgl("Messages")}{tgl("People you follow post up",False)}</div>
-<h3 class="sh">Account</h3><div class="grp"><div class="lrow"><span class="lm sm">Blocked people</span><span class="mu sm">1</span>{I("chev",18,"mu")}</div><button class="lrow wr" onclick="go('invite')"><span class="lm sm">Sign out</span></button><button class="lrow wr dg" onclick="ov('delacct')"><span class="lm sm">Delete account</span></button></div></div>'''
+<h3 class="sh">Account</h3><div class="grp"><div class="lrow"><span class="lm sm">Blocked people</span><span class="mu sm">1</span>{I("chev",18,"mu")}</div><button class="lrow wr" onclick="setScen('out',null);go('home')"><span class="lm sm">Sign out</span></button><button class="lrow wr dg" onclick="ov('delacct')"><span class="lm sm">Delete account</span></button></div></div>'''
 REASONS=['Spam or fake','Harassment','Inappropriate photo','Not at a public place','Something else']
 S['report']=f'''{top("Report")}<div class="pad form"><h2>What's wrong?</h2><div class="grp">'''+''.join(f'<label class="lrow tgr"><span class="lm sm">{r}</span><input type="radio" name="rr" class="rd" {"checked" if i==1 else ""}></label>' for i,r in enumerate(REASONS))+f'''</div>
 <label>Anything else? <span class="mu">optional</span></label><textarea class="in" rows="3" placeholder="Add details"></textarea></div><div class="cta"><button class="btn" onclick="go('reported')">Send report</button></div>'''
@@ -191,8 +191,8 @@ OVS+=ovs('leave','<h2>Leave Maya\'s postup?</h2><p class="mu">Maya will get an a
 OVS+=ovs('endlive','<h2>End your postup?</h2><p class="mu">Jon and anyone waiting will get an alert.</p><button class="btn danger" onclick="ovx();go(\'me\')">End now</button><button class="tx" onclick="ovx()">Keep going</button>')
 OVS+=ovs('more','<h2>Maya</h2>'+opt('View profile','users',"ovx();go('profile')")+opt('Share','share',"ov('share')")+opt('Report','flag',"ovx();go('report')",True)+opt('Block Maya','ban',"ov('block')",True)+'<button class="tx" onclick="ovx()">Cancel</button>')
 OVS+=ovs('msg','<h2>Message</h2>'+opt('Copy','copy',"ovx()")+opt('Report message','flag',"ovx();go('report')",True)+opt('Block sender','ban',"ov('block')",True)+'<button class="tx" onclick="ovx()">Cancel</button>')
-OVS+=ovs('block','<h2>Block Maya?</h2><p class="mu">You won\'t see each other\'s postups or messages. She won\'t be told.</p><button class="btn danger" onclick="ovx();go(\'home\')">Block</button><button class="tx" onclick="ovx()">Cancel</button>')
-OVS+=ovs('delacct','<h2>Delete your account?</h2><p class="mu">Your profile, postups and projects will be removed. This can\'t be undone.</p><button class="btn danger" onclick="ovx();go(\'invite-ended\')">Delete account</button><button class="tx" onclick="ovx()">Cancel</button>')
+OVS+=ovs('block','<h2>Block Maya?</h2><p class="mu">You won\'t see each other\'s postups or messages. She won\'t be told.</p><button class="btn danger" onclick="ovx();go(\'home\')">Block</button><a class="lnk sm" href="#settings" onclick="ovx()">Blocked people (Settings)</a><button class="tx" onclick="ovx()">Cancel</button>')
+OVS+=ovs('delacct','<h2>Delete your account?</h2><p class="mu">Your profile, postups and projects will be removed. This can\'t be undone.</p><button class="btn danger" onclick="ovx();setScen(\'out\',null);go(\'home\')">Delete account</button><button class="tx" onclick="ovx()">Cancel</button>')
 
 FULL=['index','quiet-feed','quiet-feed-b','projects','project','posted','inbox','activity','chat','profile','me','settings','report','reported','invite','invite-ended','loading','offline','requested']
 DLG=['post','post-signin','where','where-search','post-edit','project-new','project-update','project-attach','attach-signin']

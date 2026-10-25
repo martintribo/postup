@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 44 pages + 9 sheets, 296 site states (page [+ sheet] × auth out|in × live|none, Home × mode), 2806 edges derived from the mockup links plus site events. A flow is a path of steps, each = (site state, user state, action). Site-state id: page[+sheet]@auth.live[.mode].
+Site graph (Martin, Oct 25 2026 [M1025]): 44 pages + 9 sheets, 304 site states (page [+ sheet] × auth out|in × live|none, Home × mode), 2866 edges derived from the mockup links plus site events. A flow is a path of steps, each = (site state, user state, action). Site-state id: page[+sheet]@auth.live[.mode].
 
 Site events on every page: someone goes live / postups end (live ↔ none), alert arrives → Activity (signed in), comes back later → Home, network drops → Offline (Home, Nearby, Loading), postup fills / is cancelled / ends (postup pages).
 
@@ -18,10 +18,10 @@ States: `home@out.live.live`, `home@out.live.building`, `home@out.none.live`, `h
 - S → `me` [tap] — only in·live·building, in·none·building, out·live·building, out·none·building
 - Post up → `post` [tap]
 - M 2 → `postup` [tap] — only in·live·live, out·live·live
-- T → `postup` [tap] — only in·live·live, out·live·live
 - M Maya Live Bean Theory · till 4pm → `postup` [tap] — only in·live·live, out·live·live
 - J Jon Live Bean Theory · till 5pm → `postup` [tap] — only in·live·live, out·live·live
-- T Tess Live Grindhouse · till 3pm  → `postup` [tap] — only in·live·live, out·live·live
+- T → `postup-ask` [tap] — only in·live·live, out·live·live
+- T Tess Live · Ask to join Grindhou → `postup-ask` [tap] — only in·live·live, out·live·live
 - Star Fox 64 mod → `project` [tap] — only in·live·live, out·live·live
 - Pixel Garden → `project` [tap] — only in·live·live, out·live·live
 - Star Fox 64 mod M Maya · Yesterday → `project` [tap] — only in·live·building, in·none·building, out·live·building, out·none·building
@@ -246,6 +246,7 @@ States: `where@out.live`, `where@out.none`, `where@in.live`, `where@in.none`
 - Post up → `posted` [tap] — only in·live, in·none
 - Project → `project-new` [tap]
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
+- Search cafes → `where-search` [tap]
 - Back → `Back` [back]
 
 ### Cafe search (`where-search`)
@@ -254,6 +255,7 @@ States: `where-search@out.live`, `where-search@out.none`, `where-search@in.live`
 - Post up → `posted` [tap] — only in·live, in·none
 - Project → `project-new` [tap]
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
+- Search cafes → `where-search` [tap]
 - Back → `Back` [back]
 
 ## Postups & joining
@@ -269,7 +271,7 @@ States: `postup@out.live`, `postup@out.none`, `postup@in.live`, `postup@in.none`
 - Bean Theory 0.4 mi · 8 min walk (Google card fails) → `cafe-gfail` [cond]
 - More → `postup+more` [sheet]
 - Share → `postup+share` [sheet]
-- sheet `block` over this page: Block → `home`; close → `postup`; Cancel → `postup`
+- sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup`; Blocked people (Settings) → `postup`; Cancel → `postup`
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `postup`; Cancel → `postup`; Block Maya → `postup+block`; Share → `postup+share`
 - sheet `share` over this page: close → `postup`; Messages → `postup`; WhatsApp → `postup`; Email → `postup`; More → `postup`; Cancel → `postup`
 
@@ -366,45 +368,51 @@ States: `joined@out.live`, `joined@out.none`, `joined@in.live`, `joined@in.none`
 
 ### Postup full (`postup-full`)
 States: `postup-full@out.live`, `postup-full@out.none`, `postup-full@in.live`, `postup-full@in.none`
+- Go to Home → `home` [tap]
 - Home → `home` [tap]
 - Inbox → `inbox` [tap]
 - Post up → `post` [tap]
 - M Maya Bean Theory → `profile` [tap]
-- Follow Maya for next time → `profile` [tap]
 - Projects → `projects` [tap]
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - More → `postup-full+more` [sheet]
+- Follow Maya for next time → `postup-full+signin` [sheet] — only out·live, out·none
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `postup-full`; Cancel → `postup-full`
+- sheet `signin` over this page: close → `postup-full`; Not now → `postup-full`; signs in → `postup-full (signs in)`
 
 ### Postup cancelled (`postup-cancelled`)
 States: `postup-cancelled@out.live`, `postup-cancelled@out.none`, `postup-cancelled@in.live`, `postup-cancelled@in.none`
+- Go to Home → `home` [tap]
 - Home → `home` [tap]
 - Inbox → `inbox` [tap]
 - Post up → `post` [tap]
 - M Maya Bean Theory → `profile` [tap]
-- Follow Maya for next time → `profile` [tap]
 - Projects → `projects` [tap]
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - More → `postup-cancelled+more` [sheet]
+- Follow Maya for next time → `postup-cancelled+signin` [sheet] — only out·live, out·none
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `postup-cancelled`; Cancel → `postup-cancelled`
+- sheet `signin` over this page: close → `postup-cancelled`; Not now → `postup-cancelled`; signs in → `postup-cancelled (signs in)`
 
 ### Postup ended (`postup-ended`)
 States: `postup-ended@out.live`, `postup-ended@out.none`, `postup-ended@in.live`, `postup-ended@in.none`
+- Go to Home → `home` [tap]
 - Home → `home` [tap]
 - Inbox → `inbox` [tap]
 - Post up → `post` [tap]
 - M Maya Bean Theory → `profile` [tap]
-- Follow Maya for next time → `profile` [tap]
 - Projects → `projects` [tap]
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - More → `postup-ended+more` [sheet]
+- Follow Maya for next time → `postup-ended+signin` [sheet] — only out·live, out·none
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `postup-ended`; Cancel → `postup-ended`
+- sheet `signin` over this page: close → `postup-ended`; Not now → `postup-ended`; signs in → `postup-ended (signs in)`
 
 ## Posting & hosting
 
@@ -543,7 +551,10 @@ States: `invite@out.live`, `invite@out.none`, `invite@in.live`, `invite@in.none`
 
 ### Share link · ended (`invite-ended`)
 States: `invite-ended@out.live`, `invite-ended@out.none`, `invite-ended@in.live`, `invite-ended@in.none`
+- Go to Home → `home` [tap]
 - See what's nearby → `quiet-feed` [tap]
+- Follow Maya for next time → `invite-ended+signin` [sheet] — only out·live, out·none
+- sheet `signin` over this page: close → `invite-ended`; Not now → `invite-ended`; signs in → `invite-ended (signs in)`
 
 ### Share link · project (`invite-project`)
 States: `invite-project@out.live`, `invite-project@out.none`, `invite-project@in.live`, `invite-project@in.none`
@@ -635,12 +646,12 @@ States: `me@out.live`, `me@out.none`, `me@in.live`, `me@in.none`
 
 ### Settings (`settings`)
 States: `settings@out.live`, `settings@out.none`, `settings@in.live`, `settings@in.none`
-- Sign out → `invite` [tap] — only out·live, out·none
-- Sign out → `invite (signed out)` [tap] — only in·live, in·none
+- Sign out → `home` [tap] — only out·live, out·none
+- Sign out → `home (signed out)` [tap] — only in·live, in·none
 - Back → `Back` [back]
 - signs in → `settings (signs in)` [sign-in] — only out·live, out·none
 - Delete account → `settings+delacct` [sheet]
-- sheet `delacct` over this page: Delete account → `invite-ended`; Delete account → `invite-ended (signed out)`; close → `settings`; Cancel → `settings`
+- sheet `delacct` over this page: Delete account → `home`; Delete account → `home (signed out)`; close → `settings`; Cancel → `settings`
 
 ### Report (`report`)
 States: `report@out.live`, `report@out.none`, `report@in.live`, `report@in.none`
@@ -652,13 +663,7 @@ States: `reported@out.live`, `reported@out.none`, `reported@in.live`, `reported@
 - Close → `home` [tap]
 - Done → `home` [tap]
 - Block Maya too → `reported+block` [sheet]
-- sheet `block` over this page: Block → `home`; close → `reported`; Cancel → `reported`
+- sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `reported`; Blocked people (Settings) → `reported`; Cancel → `reported`
 
 ## Missing edges found by the flows (design gaps)
-- `cautious-joiner` step 6: `cafe@in.live` → `postup-ask@in.live` ("comes back later to another postup (ask-to-join)") [M1025]
-- `invite-ended` step 2: `invite-ended@out.none` → `profile+signin@out.none` ("taps Follow 🔒") [M1025]
-- `invite-ended` step 3: `profile+signin@out.none` → `home@in.none.building` ("signs in, continues to Home") [M1025]
-- `first-post` step 4: `where@out.none` → `where-search@out.none` ("searches") [M1025]
-- `safety` step 5: `reported+block@in.live` → `settings@in.live` ("opens Settings") [M1025]
-- `delete-account` step 4: `settings+delacct@in.none` → `home@out.none.building` ("confirms") [M1025]
-- `settings-notify` step 2: `settings@in.none` → `home@out.none.building` ("taps Sign out") [M1025]
+- none

@@ -20,6 +20,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Open
 - Email alerts. [TK§4]
 
+## Gap fixes
+- Gap fix (Oct 25): Sign out signs you out and lands on Home (was the share-link page); Delete account also lands on Home, signed out. [M1025]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

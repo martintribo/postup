@@ -97,10 +97,10 @@ S['index']=f'''{top("Mockups",back=False)}<div class="pad">
 <div class="grp">{ix("#quiet","Map","Map-first","map")}{ix("#quiet-feed","Feed A","With photos","image")}{ix("#quiet-feed-b","Feed B","No photos","list")}{ix("feed-rationale.md","Rationale","Why feed","spark")}</div></div>'''
 
 # ---------- home ----------
-pins=pin_live(30,34,'MK','2')+pin_live(70,62,'TS','')+pin_cafe(55,22)+pin_cafe(18,72)+pin_cafe(84,30)
+pins=pin_live(30,34,'MK','2')+pin_live(70,62,'TS','',dest='postup-ask')+pin_cafe(55,22)+pin_cafe(18,72)+pin_cafe(84,30)
 S['home']=f'''<div class="hm">{mapblock("380px",pins,f'<div class="mtop"><span class="brand">{I("coffee",16)} postup</span><button class="ib fl" onclick="go(\'quiet\')" aria-label="Locate">{I("locate",20)}</button></div>')}
 <section class="sheet-p"><span class="grab"></span><div class="sp-h"><h2>Live now</h2><span class="mu sm">3 nearby</span></div>
-{live_row('MK','Star Fox 64 mod','Bean Theory','4pm',70)}{live_row('JR','','Bean Theory','5pm',130)}{live_row('TS','Pixel Garden','Grindhouse','3pm',20)}
+{live_row('MK','Star Fox 64 mod','Bean Theory','4pm',70)}{live_row('JR','','Bean Theory','5pm',130)}{live_row('TS','Pixel Garden','Grindhouse','3pm',20).replace("go('postup')","go('postup-ask')",1).replace('<span class="ok">Live</span>','<span class="ok">Live</span><span class="mu xs" style="margin-left:6px">· Ask to join</span>',1)}
 <div class="sp-h" style="margin-top:12px"><h3>This week</h3></div>
 <div class="lrow" onclick="go('cafe')"><span class="ci">{I("coffee",20)}</span><div class="lm"><b>Lantern Tea</b><div class="l2">{stack(['AL','DN','MK'],20)} 3 postups</div></div>{I("chev",18,"mu")}</div></section></div>{nav("m")}'''
 

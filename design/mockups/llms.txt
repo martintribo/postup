@@ -93,7 +93,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [settings-notify](flows/settings-notify.md): Notification settings and sign out (nice, draft) · player: flows/settings-notify.html
 
 ## Site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 44 pages + 9 sheets, 296 site states (page [+ sheet] × auth out|in × live|none, Home × mode), 2806 edges derived from the mockup links plus site events. A flow is a path of steps, each = (site state, user state, action). Site-state id: page[+sheet]@auth.live[.mode].
+Site graph (Martin, Oct 25 2026 [M1025]): 44 pages + 9 sheets, 304 site states (page [+ sheet] × auth out|in × live|none, Home × mode), 2866 edges derived from the mockup links plus site events. A flow is a path of steps, each = (site state, user state, action). Site-state id: page[+sheet]@auth.live[.mode].
 - [Site graph: pages, site states, edges, design gaps](flows/sitegraph.md) · page: flows/site.html · data: flows/sitegraph.json
 
 ## Flow map

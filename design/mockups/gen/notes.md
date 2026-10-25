@@ -98,6 +98,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 ### Unsourced
 - Area label ("Near Westside, Los Angeles") and the change-area picker. [R7⚠]
 - Launch area Playa Vista / Westside LA as fallback centre. [R8⚠]
+### Gap fixes
+- Gap fix (Oct 25): Live now includes an ask-to-join postup (Tess, marked "Ask to join") that opens `#postup-ask`; open-join rows unchanged. [M1025]
 
 ## home-overlay-alt | Home overlay · alternative, not chosen
 ### Purpose
@@ -346,6 +348,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Desktop: centered dialog. [FS]
 ### Open
 - Location-permission explainer / denied fallback: the ledger has it open, the final-screens list says not adopted. [R21] [FS]
+### Gap fixes
+- Gap fix (Oct 25): tapping the search box opens `#where-search`. [M1025]
 
 ## where-search | Cafe search
 ### Purpose
@@ -420,6 +424,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Same in all scenarios. [M1018]
 ### Behavior
 - See what's nearby; Follow the poster for next time. [drawn]
+### Gap fixes
+- Gap fix (Oct 25): "Follow Maya for next time" is a Follow button (sign-in sheet when signed out) plus a "Go to Home" link. [M1025]
 
 ## postup-full | Postup full
 ### Purpose
@@ -452,7 +458,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Shared link to a postup that ended → what's nearby. [FS] [R39]
 ### Scenarios
 - Same in all scenarios. [M1018]
-
+### Gap fixes
+- Gap fix (Oct 25): adds "Follow Maya for next time" (sign-in sheet when signed out; signing in returns here, Following) and "Go to Home". [M1025]
 
 ## invite-project | Share link · project
 ### Purpose
@@ -565,6 +572,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Account deletion in the app (store guideline 5.1.1). [R43⚠]
 ### Open
 - Email alerts. [TK§4]
+### Gap fixes
+- Gap fix (Oct 25): Sign out signs you out and lands on Home (was the share-link page); Delete account also lands on Home, signed out. [M1025]
 
 ## report | Report
 ### Purpose
@@ -640,7 +649,8 @@ host: postup
 - Block: you won't see each other's postups or messages; they aren't told. [FS] [F059]
 ### Scenarios
 - Same in all scenarios. [M1018]
-
+### Gap fixes
+- Gap fix (Oct 25): the sheet links to Settings (Blocked people) to manage or undo blocks. [M1025]
 
 ## ov-delacct | Sheet · Delete account
 host: settings
@@ -648,7 +658,8 @@ host: settings
 - Confirm deleting profile, postups and projects; can't be undone. [FS] [drawn]
 ### Scenarios
 - Same in all scenarios. [M1018]
-
+### Gap fixes
+- Gap fix (Oct 25): Delete account signs you out and lands on Home. [M1025]
 
 ## ov-signin | Sheet · Sign in (follow, create, update)
 host: profile

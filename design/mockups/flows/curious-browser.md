@@ -14,7 +14,7 @@ Player: /mockups/flows/curious-browser.html
 ## Steps
 1. **home@out.live.live** · user: Curious what is on the site · action: arrives at / · edge: entry
    - Live now list: who is working where. [M1018b] [M1025]
-   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
    - enterable flows: first-visit-live step 1 (if Curious; sees people live right now), stumbled step 1 (if No idea what PostUp is)
 2. **postup@out.live** · user: Peeking at who is live · action: taps a live row · edge: tap: M 2
    - Peeks at a live postup, then Back. [FS] [M1025]
@@ -39,7 +39,7 @@ Player: /mockups/flows/curious-browser.html
 7. **profile+signin@out.live** · user: Wants to keep up with them · action: taps Follow 🔒 · edge: sheet: Follow
    - Taps Follow: soft sign-in sheet; Not now keeps browsing. [FS] [M1018] [M1025]
    - next site states: profile@out.live (close), **profile@in.live** (signs in)
-   - enterable flows: invite-ended step 2 (if Wants to catch the next one)
+   - enterable flows: none
 8. **profile@in.live** · user: Convinced enough to sign in · action: signs in · edge: sign-in: signs in
    - Signed in and following. [FS] [M1025]
    - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), cafe@in.live (Bean Theory), project@in.live (Star Fox 64 mod Updated yesterday), cafe-gfail@in.live (Bean Theory (Google card fails))
@@ -47,7 +47,6 @@ Player: /mockups/flows/curious-browser.html
 
 ## Connected flows [M1025]
 - `stumbled`: branch out at step 2→2, step 3→4; merge in at step 3 (from its step 4)
-- `invite-ended`: branch out at step 7→2; merge in at step 7 (from its step 2)
 - `cautious-joiner`: branch out at step 8→4; merge in at step 8 (from its step 4)
 - `host-approve`: branch out at step 8→3; merge in at step 8 (from its step 3)
 - `first-visit-live`: branch out at step 2→2; merge in at —
