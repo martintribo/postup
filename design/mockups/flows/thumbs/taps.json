@@ -1,0 +1,285 @@
+{
+ "cautious-joiner-1": {
+  "label": "M",
+  "back": false
+ },
+ "cautious-joiner-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "cautious-joiner-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "cautious-joiner-4": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "cautious-joiner-5": {
+  "label": "Back",
+  "back": true
+ },
+ "cautious-joiner-6": {
+  "label": "Back",
+  "back": true
+ },
+ "cautious-joiner-7": {
+  "label": "Join",
+  "back": false
+ },
+ "cautious-joiner-8": {
+  "label": "Directions",
+  "back": false
+ },
+ "cautious-joiner-9": null,
+ "quick-joiner-1": {
+  "label": "M",
+  "back": false
+ },
+ "quick-joiner-2": {
+  "label": "Join",
+  "back": false
+ },
+ "quick-joiner-3": {
+  "label": "Directions",
+  "back": false
+ },
+ "quick-joiner-4": null,
+ "quick-joiner-5": null,
+ "first-visit-live-1": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit-live-2": {
+  "label": "Join",
+  "back": false
+ },
+ "first-visit-live-3": {
+  "label": "Join",
+  "back": false
+ },
+ "first-visit-live-4": null,
+ "first-visit-none-1": {
+  "label": "Projects",
+  "back": false
+ },
+ "first-visit-none-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "first-visit-none-3": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit-none-4": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit-none-5": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit-none-6": null,
+ "invite-live-1": {
+  "label": "Join Maya",
+  "back": false
+ },
+ "invite-live-2": {
+  "label": "Join",
+  "back": false
+ },
+ "invite-live-3": {
+  "label": "Group chat",
+  "back": false
+ },
+ "invite-live-4": null,
+ "invite-ended-1": null,
+ "invite-ended-2": null,
+ "invite-ended-3": null,
+ "invite-project-1": null,
+ "invite-project-2": null,
+ "invite-project-3": null,
+ "ask-join-1": {
+  "label": "Back",
+  "back": true
+ },
+ "ask-join-2": {
+  "label": "Send request",
+  "back": false
+ },
+ "ask-join-3": null,
+ "ask-join-4": {
+  "label": "M",
+  "back": false
+ },
+ "ask-join-5": null,
+ "host-approve-1": {
+  "label": "D",
+  "back": false
+ },
+ "host-approve-2": {
+  "label": "D",
+  "back": false
+ },
+ "host-approve-3": {
+  "label": "Back",
+  "back": true
+ },
+ "host-approve-4": null,
+ "first-post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-post-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-post-3": {
+  "label": "Back",
+  "back": true
+ },
+ "first-post-4": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-post-5": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-post-6": {
+  "label": "Invite friends",
+  "back": false
+ },
+ "first-post-7": null,
+ "returning-post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "returning-post-2": {
+  "label": "Manage postup",
+  "back": false
+ },
+ "returning-post-3": {
+  "label": "Home",
+  "back": false
+ },
+ "returning-post-4": null,
+ "hosting-1": {
+  "label": "Edit",
+  "back": false
+ },
+ "hosting-2": {
+  "label": "Save",
+  "back": false
+ },
+ "hosting-3": {
+  "label": "End postup",
+  "back": false
+ },
+ "hosting-4": null,
+ "hosting-5": null,
+ "project-builder-1": {
+  "label": "New project",
+  "back": false
+ },
+ "project-builder-2": {
+  "label": "Create",
+  "back": false
+ },
+ "project-builder-3": {
+  "label": "Update",
+  "back": false
+ },
+ "project-builder-4": {
+  "label": "Back",
+  "back": true
+ },
+ "project-builder-5": {
+  "label": "Post up",
+  "back": false
+ },
+ "project-builder-6": null,
+ "following-1": {
+  "label": "Back",
+  "back": true
+ },
+ "following-2": null,
+ "following-3": null,
+ "following-4": null,
+ "chat-1": {
+  "label": "M",
+  "back": false
+ },
+ "chat-2": {
+  "label": "Message options",
+  "back": false
+ },
+ "chat-3": null,
+ "safety-1": {
+  "label": "Report",
+  "back": false
+ },
+ "safety-2": {
+  "label": "Send report",
+  "back": false
+ },
+ "safety-3": null,
+ "safety-4": null,
+ "safety-5": null,
+ "leave-1": {
+  "label": "Leave",
+  "back": false
+ },
+ "leave-2": null,
+ "leave-3": null,
+ "postup-states-1": {
+  "label": "Back",
+  "back": true
+ },
+ "postup-states-2": {
+  "label": "Back",
+  "back": true
+ },
+ "postup-states-3": null,
+ "empty-area-1": null,
+ "empty-area-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "empty-area-3": null,
+ "loading-offline-1": null,
+ "loading-offline-2": {
+  "label": "Retry",
+  "back": false
+ },
+ "loading-offline-3": null,
+ "loading-offline-4": null,
+ "delete-account-1": {
+  "label": "Settings",
+  "back": false
+ },
+ "delete-account-2": {
+  "label": "Delete account",
+  "back": false
+ },
+ "delete-account-3": null,
+ "delete-account-4": null,
+ "desktop-browse-1": {
+  "label": "M",
+  "back": false
+ },
+ "desktop-browse-2": {
+  "label": "Back",
+  "back": true
+ },
+ "desktop-browse-3": {
+  "label": "Post up",
+  "back": false
+ },
+ "desktop-browse-4": null,
+ "settings-notify-1": {
+  "label": "Back",
+  "back": true
+ },
+ "settings-notify-2": null
+}
