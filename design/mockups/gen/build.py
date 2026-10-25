@@ -223,7 +223,7 @@ exec(open('gen/home.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())
 exec(open('gen/flows.py').read())
-JS=open('gen/app.js').read()+open('gen/scen.js').read()
+JS=open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
 body=''.join(f'<section class="scr{" full" if k in FULL else " dlg" if k in DLG else ""}" id="{k}" data-v="{k}">{v}</section>' for k,v in S.items())
 html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff">
 <title>PostUp · mockups</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@500;700&family=Archivo+Black&display=swap" rel="stylesheet"><style>{CSS}{NOTES_CSS}{MENU_CSS}</style></head>

@@ -119,3 +119,9 @@
 [data-style=night] .cbar{background:#0b0c10;border-color:rgba(255,255,255,.06)}
 [data-style=cozy] .bub p{background:#efe1c6}
 [data-device=desktop] #projects>.pad{max-width:1220px}[data-device=desktop] #invite-project .pad{max-width:520px}
+/* [M1026] mockup index as a page outside the phone */
+#index.ixpage{display:none}
+html.ixon #index.ixpage{display:block;position:fixed;inset:0;z-index:400;overflow:auto;background:#f6f5f1;padding:24px 16px 80px}
+html.ixon #index.ixpage>*{max-width:720px;margin-left:auto;margin-right:auto}
+html.ixon .dev,html.ixon .notes{display:none!important}
+html.emb .mock,html.emb .pmenu,html.emb .notes{display:none!important}
