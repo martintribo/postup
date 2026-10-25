@@ -92,5 +92,5 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [settings-notify](flows/settings-notify.md): Notification settings and sign out (nice, draft) · player: flows/settings-notify.html
 
 ## Flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. Nodes are user states; solid arrows are events or conditions; dashed arrows lead to a flow badge (green = MVP must, grey = nice) that opens the flow player. All 23 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive, Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.
 - [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html
