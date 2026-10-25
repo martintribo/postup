@@ -12,10 +12,36 @@ Player: /mockups/flows/safety.html
 - Report and block quickly. [F059] [M1024]
 
 ## Steps
+1. **postup+more@in.live** · user: Uncomfortable with someone · action: taps More · edge: entry
+   - More: profile, share, report, block. [FS] [F059]
+   - next site states: postup@in.live (close), profile@in.live (View profile), postup+share@in.live (Share), **report@in.live** (Report), postup+block@in.live (Block Maya)
+   - enterable flows: none
+2. **report@in.live** · user: Wants to report · action: taps Report · edge: tap: Report
+   - Reason + details. [F059] [drawn]
+   - next site states: back (Back), **reported@in.live** (Send report)
+   - enterable flows: none
+3. **reported@in.live** · user: Reported; still uneasy · action: sends the report · edge: tap: Send report
+   - Thanks; offer to block. [FS]
+   - next site states: home@in.live.live (Close), **reported+block@in.live** (Block Maya too)
+   - enterable flows: none
+4. **reported+block@in.live** · user: Wants them gone · action: taps Block too · edge: sheet: Block Maya too
+   - Block: neither sees the other; they aren't told. [FS] [F059]
+   - next site states: reported@in.live (close), home@in.live.live (Block)
+   - enterable flows: none
+5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: gap
+   - Blocked people list to undo. [FS] [F065]
+   - next site states: back (Back), invite@out.live (Sign out), settings+delacct@in.live (Delete account)
+   - enterable flows: delete-account step 2 (if Looking for the delete option), settings-notify step 1 (if Tuning alerts)
+
+## Connected flows [M1025]
+- `delete-account`: branch out at step 5→2; merge in at step 5 (from its step 2)
+- `settings-notify`: branch out at step 5→1; merge in at —
+
+## Screens
 1. `#postup` + sheet `more` · auth=in live=live — More: profile, share, report, block. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=more#postup)
 2. `#report` · auth=in live=live — Reason + details. [F059] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live#report)
 3. `#reported` · auth=in live=live — Thanks; offer to block. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live#reported)
-4. `#postup` + sheet `block` · auth=in live=live — Block: neither sees the other; they aren't told. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=block#postup)
+4. `#reported` + sheet `block` · auth=in live=live — Block: neither sees the other; they aren't told. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=block#reported)
 5. `#settings` · auth=in live=live — Blocked people list to undo. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=live#settings)
 
 ## Branches and edge cases

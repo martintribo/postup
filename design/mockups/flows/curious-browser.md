@@ -12,6 +12,47 @@ Player: /mockups/flows/curious-browser.html
 - See live and past content, then follow someone, signing in only at Follow. [M1025]
 
 ## Steps
+1. **home@out.live.live** · user: Curious what is on the site · action: arrives at / · edge: entry
+   - Live now list: who is working where. [M1018b] [M1025]
+   - next site states: **postup@out.live** (M 2), cafe@out.live (tap), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live ( (Google card fails))
+   - enterable flows: first-visit-live step 1 (if Curious; sees people live right now), stumbled step 1 (if No idea what PostUp is)
+2. **postup@out.live** · user: Peeking at who is live · action: taps a live row · edge: tap: M 2
+   - Peeks at a live postup, then Back. [FS] [M1025]
+   - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), project@out.live (Star Fox 64 mod Adding a new Corne), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), join-signin@out.live (Join), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - enterable flows: first-visit-live step 2 (if Tempted by one postup), stumbled step 2 (if Trying to understand by example)
+3. **home@out.live.building** · user: Wants past content too · action: back, switches to Building · edge: back, then mode: Building
+   - Switches to Building for past content. [M1018b] [M1025]
+   - next site states: home@out.live.live (Live), me@out.live (S), **projects@out.live** (See all projects), project@out.live (Star Fox 64 mod M Maya · Yesterday), post@out.live (Post up), cafe@out.live (Lantern Tea A D M 3 postups), quiet-feed@out.live (Nearby), inbox@out.live (Inbox), cafe-gfail@out.live (Lantern Tea A D M 3 postups (Google card fails))
+   - enterable flows: stumbled step 4 (if Still unsure; looks around)
+4. **projects@out.live** · user: Browsing what people build · action: taps See all projects · edge: tap: See all projects
+   - See all projects, closest first. [M1018c] [FS]
+   - next site states: project-new@out.live (New project), **project@out.live** (Star Fox 64 mod M Maya · Yesterday), home@out.live.live (Home), quiet-feed@out.live (Nearby), post@out.live (Post up), inbox@out.live (Inbox)
+   - enterable flows: none
+5. **project@out.live** · user: Interested in one project · action: taps a project · edge: tap: Star Fox 64 mod M Maya · Yesterday
+   - Opens a project: updates and past postups. [FS] [M1025]
+   - next site states: back (Back), project-new@out.live (New), **profile@out.live** (Maya), project-update@out.live (Update), project-attach@out.live (Post up), cafe@out.live (Bean Theory), postup@out.live (M Maya Bean Theory · till 4pm Live), home@out.live.live (Home), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox@out.live (Inbox), cafe-gfail@out.live (Bean Theory (Google card fails))
+   - enterable flows: none
+6. **profile@out.live** · user: Who is behind it? · action: taps the owner · edge: tap: Maya
+   - Opens the maker's profile: past postups, regular cafes. [FS] [F065] [M1025]
+   - next site states: back (Back), profile+more@out.live (More), postup@out.live (Live at Bean Theory Till 4pm · Sta), **profile+signin@out.live** (Follow), cafe@out.live (Bean Theory), project@out.live (Star Fox 64 mod Updated yesterday), cafe-gfail@out.live (Bean Theory (Google card fails))
+   - enterable flows: none
+7. **profile+signin@out.live** · user: Wants to keep up with them · action: taps Follow 🔒 · edge: sheet: Follow
+   - Taps Follow: soft sign-in sheet; Not now keeps browsing. [FS] [M1018] [M1025]
+   - next site states: profile@out.live (close), **profile@in.live** (signs in)
+   - enterable flows: invite-ended step 2 (if Wants to catch the next one)
+8. **profile@in.live** · user: Convinced enough to sign in · action: signs in · edge: sign-in: signs in
+   - Signed in and following. [FS] [M1025]
+   - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), cafe@in.live (Bean Theory), project@in.live (Star Fox 64 mod Updated yesterday), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - enterable flows: cautious-joiner step 4 (if Checking Maya's track record), host-approve step 3 (if Wants to check the asker first)
+
+## Connected flows [M1025]
+- `stumbled`: branch out at step 2→2, step 3→4; merge in at step 3 (from its step 4)
+- `invite-ended`: branch out at step 7→2; merge in at step 7 (from its step 2)
+- `cautious-joiner`: branch out at step 8→4; merge in at step 8 (from its step 4)
+- `host-approve`: branch out at step 8→3; merge in at step 8 (from its step 3)
+- `first-visit-live`: branch out at step 2→2; merge in at —
+
+## Screens
 1. `#home` · auth=out live=live mode=live — Live now list: who is working where. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live#home)
 2. `#postup` · auth=out live=live — Peeks at a live postup, then Back. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
 3. `#home` · auth=out live=live mode=building — Switches to Building for past content. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building#home)

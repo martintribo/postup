@@ -8,7 +8,7 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..')
 const id = process.argv[2] || 'cautious-joiner';
 const OUT = process.argv[3] || `/workspace/postup-pm/videos/${id}.mp4`;
 const W = 390, H = 844, HOLD = 2.3, TAP = 0.7, FADE = 0.4, CARD = 3.2;
-const flows = JSON.parse(execFileSync('python3', ['-c', `import json;exec(open('${ROOT}/gen/flowdata.py').read());print(json.dumps(FLOWS))`]));
+const flows = JSON.parse(execFileSync('python3', ['-c', `import json;import os;os.chdir('${ROOT}');exec(open('gen/flowload.py').read());print(json.dumps(FLOWS))`]));
 const f = flows.find(x => x.id === id); if (!f) throw new Error('no flow ' + id);
 const clean = t => t.replace(/\s*\[[^\]]+\]/g, '').trim();
 const title = sc => { try { return fs.readFileSync(`${ROOT}/notes/${sc}.md`, 'utf8').split('\n')[0].replace(/^# /, ''); } catch { return '#' + sc; } };

@@ -195,7 +195,10 @@
   "label": "End postup",
   "back": false
  },
- "hosting-4": null,
+ "hosting-4": {
+  "label": "End now",
+  "back": false
+ },
  "hosting-5": null,
  "project-builder-1": {
   "label": "New project",
@@ -242,14 +245,20 @@
   "label": "Send report",
   "back": false
  },
- "safety-3": null,
+ "safety-3": {
+  "label": "Block Maya too",
+  "back": false
+ },
  "safety-4": null,
  "safety-5": null,
  "leave-1": {
   "label": "Leave",
   "back": false
  },
- "leave-2": null,
+ "leave-2": {
+  "label": "Leave",
+  "back": false
+ },
  "leave-3": null,
  "postup-states-1": {
   "label": "Back",

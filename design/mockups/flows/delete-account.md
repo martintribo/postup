@@ -12,6 +12,28 @@ Player: /mockups/flows/delete-account.html
 - Remove profile, postups and projects. [M1024]
 
 ## Steps
+1. **me@in.none** · user: Leaving PostUp · action: opens My profile · edge: entry
+   - My profile → Settings. [FS]
+   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), project-new@in.none (Tide Clock Updated Sun), cafe-gfail@in.none (Lantern Tea (Google card fails))
+   - enterable flows: none
+2. **settings@in.none** · user: Looking for the delete option · action: taps Settings · edge: tap: Settings
+   - Account section. [FS] [F065]
+   - next site states: back (Back), invite@out.none (Sign out), **settings+delacct@in.none** (Delete account)
+   - enterable flows: settings-notify step 1 (if Tuning alerts)
+3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: sheet: Delete account
+   - Confirm; can't be undone. [FS] [drawn]
+   - next site states: settings@in.none (close), invite-ended@out.none (Delete account)
+   - enterable flows: none
+4. **home@out.none.building** · user: Gone · action: confirms · edge: gap
+   - Signed out at Home. [M1024]
+   - next site states: home@out.none.live (Live), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), cafe@out.none (Lantern Tea A D M 3 postups), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@out.none (area has no postups)
+   - enterable flows: first-post step 1 (if Came to post up right now)
+
+## Connected flows [M1025]
+- `settings-notify`: branch out at step 2→1; merge in at —
+- `first-post`: branch out at step 4→1; merge in at —
+
+## Screens
 1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none#me)
 2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none#settings)
 3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct#settings)

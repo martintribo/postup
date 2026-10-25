@@ -6,7 +6,7 @@ const require = createRequire('/workspace/postup-pm/videos/tools/');
 const { chromium } = require('playwright-core');
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = `${ROOT}/flows/thumbs`; fs.mkdirSync(OUT, { recursive: true });
-const flows = JSON.parse(execFileSync('python3', ['-c', `import json;exec(open('${ROOT}/gen/flowdata.py').read());print(json.dumps(FLOWS))`]));
+const flows = JSON.parse(execFileSync('python3', ['-c', `import json;import os;os.chdir('${ROOT}');exec(open('gen/flowload.py').read());print(json.dumps(FLOWS))`]));
 const url = (f, st, i) => { const [sc, a, l, x] = st; const q = new URLSearchParams({ style: 'fresh', device: x.device || f.start.device, auth: a, live: l, notes: '0', fvs: i }); if (x.mode) q.set('mode', x.mode); if (x.ov) q.set('ov', x.ov); return `/index.html?${q}#${sc}`; };
 const srv = http.createServer((req, res) => { let p = decodeURIComponent(req.url.split('?')[0]); if (p.endsWith('/')) p += 'index.html'; const fp = path.join(ROOT, p);
   if (!fp.startsWith(ROOT) || !fs.existsSync(fp)) { res.writeHead(404); return res.end(); }

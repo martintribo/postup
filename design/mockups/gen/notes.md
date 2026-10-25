@@ -35,6 +35,7 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Mockup default: signed out + live nearby; the mockup opens on `#home`. [M1018]
 - Critical flows sit on top of scenarios: who arrives, in what situation, and the screens they step through. Each has a player at `flows/<id>.html` and notes at `flows/<id>.md` (in the menu under Flows). [M1024]
 - The flow map (`flows/map.html`, source in `flows/map.md`) shows how a first-time visitor (signed out, never registered) reaches each flow's starting state; every flow is reachable from that root. [M1025]
+- Mockup data model: a **site graph** of pages (screens + sheets) whose **site states** are page + auth + live (+ Home mode); edges are taps and site events derived from the mockup links (`gen/sitegraph.py`, `flows/site.html`). A **flow** is a path of steps, each = site state + user state (what they think) + action; every transition must be a site-graph edge or is reported as a design gap. The player's From here panel lists next site states and other flows enterable at that step. [M1025]
 ### Overrides
 - The nav tab for home is always labeled **Home**, never "Map" (drawn that way since Oct 18). [F046] [R53] [M1018b]
 - No live postups: home **opens in Building mode** (projects first). Live mode stays one tap away and shows the map with an invite to post up. [M1018b] [F044] [R1]

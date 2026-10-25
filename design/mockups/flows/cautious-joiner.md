@@ -12,6 +12,52 @@ Player: /mockups/flows/cautious-joiner.html
 - Join a live postup after comparing a few. [M1024]
 
 ## Steps
+1. **home@in.live.live** · user: Wants company today, but careful about who · action: arrives at / · edge: entry
+   - Opens / in Live mode: map + Live now list. [M1018b] [M1024]
+   - next site states: **postup@in.live** (M 2), cafe@in.live (tap), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live ( (Google card fails))
+   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+2. **postup@in.live** · user: Interested in Maya, not sure yet · action: taps Maya's row · edge: tap: M 2
+   - Taps Maya's row: who, project, cafe, who else is joining. Does not join yet. [FS] [M1024]
+   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), **project@in.live** (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - enterable flows: quick-joiner step 2 (if Found them; joining), desktop-browse step 2 (if Checking one postup)
+3. **project@in.live** · user: Wants proof Maya is legit: what is she building? · action: taps the project tag · edge: tap: Star Fox 64 mod Adding a new Corne
+   - Opens Maya's project to see what she's working on, then Back. [FS] [M1024]
+   - next site states: back (Back), project-new@in.live (New), **profile@in.live** (Maya), project-update@in.live (Update), project-attach@in.live (Post up), cafe@in.live (Bean Theory), postup@in.live (M Maya Bean Theory · till 4pm Live), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - enterable flows: none
+4. **profile@in.live** · user: Checking Maya's track record · action: taps Maya (owner) · edge: tap: Maya
+   - Opens Maya's profile: postup count, regular cafes, past postups. [FS] [F065] [M1024]
+   - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), **cafe@in.live** (Bean Theory), project@in.live (Star Fox 64 mod Updated yesterday), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - enterable flows: host-approve step 3 (if Wants to check the asker first)
+5. **cafe@in.live** · user: Is the place itself OK? · action: taps the cafe · edge: tap: Bean Theory
+   - Checks the cafe: hero photo, who's here now, Google card. [FS] [M1024]
+   - next site states: back (Back), cafe+share@in.live (Share), project@in.live (Star Fox 64 mod), postup@in.live (Join), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails)), cafe-gfail@in.none (postups end (Google card fails))
+   - enterable flows: none
+6. **postup-ask@in.live** · user: Comparing with another option · action: comes back later to another postup (ask-to-join) · edge: gap
+   - Compares a second postup (Tess approves who joins), then Back. [FS] [M1024]
+   - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
+   - enterable flows: ask-join step 1 (if Interested, but the host screens people)
+7. **postup@in.live** · user: Decided: Maya it is · action: back to Maya's postup · edge: back
+   - Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024]
+   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - enterable flows: quick-joiner step 2 (if Found them; joining), desktop-browse step 2 (if Checking one postup)
+8. **joined@in.live** · user: Committed; needs to get there · action: taps Join · edge: tap: Join
+   - You're joining Maya; Maya is told. [FS] [M1024]
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - enterable flows: quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+9. **joined+dirs@in.live** · user: On the way · action: taps Directions · edge: sheet: Directions
+   - Directions sheet: Apple / Google Maps. [FS] [M1024]
+   - next site states: joined@in.live (close)
+   - enterable flows: quick-joiner step 4 (if Needs the route)
+
+## Connected flows [M1025]
+- `quick-joiner`: branch out at step 2→2, step 9→4; merge in at step 7 (from its step 2)
+- `desktop-browse`: branch out at step 2→2, step 7→2; merge in at step 7 (from its step 2)
+- `host-approve`: branch out at step 4→3; merge in at step 4 (from its step 3)
+- `invite-live`: branch out at step 8→3; merge in at step 8 (from its step 3)
+- `ask-join`: branch out at step 6→1; merge in at —
+- `leave`: branch out at step 8→1; merge in at —
+
+## Screens
 1. `#home` · auth=in live=live mode=live — Opens / in Live mode: map + Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live#home)
 2. `#postup` · auth=in live=live — Taps Maya's row: who, project, cafe, who else is joining. Does not join yet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup)
 3. `#project` · auth=in live=live — Opens Maya's project to see what she's working on, then Back. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#project)

@@ -12,6 +12,27 @@ Player: /mockups/flows/loading-offline.html
 - Keep showing something useful. [M1024]
 
 ## Steps
+1. **loading@in.live** · user: Opened the feed on bad wifi · action: opens Nearby · edge: entry
+   - Skeleton. [FS] [F060]
+   - next site states: home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox)
+   - enterable flows: none
+2. **offline@in.live** · user: Connection dropped · action: later: network drops · edge: event: network drops
+   - Cached feed + offline banner + Retry. [FS]
+   - next site states: me@in.live (S), quiet@in.live (tap), **quiet-feed@in.live** (Retry), post@in.live (Post up), cafe@in.live (Maya's photo), project@in.live (Star Fox 64 mod), home@in.live.live (Home), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Maya's photo (Google card fails))
+   - enterable flows: none
+3. **quiet-feed@in.live** · user: Back online · action: taps Retry · edge: tap: Retry
+   - Retry succeeds. [FS]
+   - next site states: me@in.live (S), quiet@in.live (tap), post@in.live (Post up), cafe@in.live (Maya's photo), project@in.live (Star Fox 64 mod), home@in.live.live (Home), projects@in.live (Projects), inbox@in.live (Inbox), **cafe-gfail@in.live** (Maya's photo (Google card fails))
+   - enterable flows: none
+4. **cafe-gfail@in.live** · user: Checking a cafe; Google is down · action: taps a cafe · edge: cond: Maya's photo (Google card fails)
+   - Google card failed: rest of cafe still works. [F060]
+   - next site states: back (Back), cafe-gfail+share@in.live (Share), cafe@in.live (Bean Theory), project@in.live (Star Fox 64 mod), postup@in.live (Join), cafe-gfail+dirs@in.live (Open in Maps), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox)
+   - enterable flows: none
+
+## Connected flows [M1025]
+- none
+
+## Screens
 1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live#loading)
 2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live#offline)
 3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live#quiet-feed)
