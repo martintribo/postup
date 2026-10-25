@@ -33,6 +33,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - Signed out: account pages (Inbox, chat, profile, settings, manage) show a sign-in sheet over themselves; the Inbox dot is hidden. [unsourced]
 - Mockup default: signed out + live nearby; the mockup opens on `#home`. [M1018]
 - Critical flows sit on top of scenarios: who arrives, in what situation, and the screens they step through. Each has a player at `flows/<id>.html` and notes at `flows/<id>.md` (in the menu under Flows). [M1024]
+- The flow map (`flows/map.html`, source in `flows/map.md`) shows how a first-time visitor (signed out, never registered) reaches each flow's starting state; every flow is reachable from that root. [M1025]
 
 ### Overrides
 - The nav tab for home is always labeled **Home**, never "Map" (drawn that way since Oct 18). [F046] [R53] [M1018b]
@@ -94,6 +95,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1018b** — Martin, Oct 18 2026 (relayed by the PM): Home (/) has two modes on one URL, Live (map + Live now) and Building (projects preview, See all projects, Post up, This week); default by whether anyone is live; Live · Building switch; banner when someone goes live in Building; draw the overlay-on-map version as #home-overlay-alt, alternative, not chosen
 - **M1018c** — Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
+- **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

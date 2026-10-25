@@ -7,7 +7,7 @@ for l in open('gen/sources/facts.jsonl'):
     l=l.strip()
     if l: d=json.loads(l); FACTS[d['id']]=d
 REQ={m[1]:m[2] for m in re.finditer(r'^(\d+)\. \*\*(.+?)\*\*',open('gen/sources/requirements.md').read(),re.M)}
-SRCNAME={'FS':'final-screens.md (final screens answer, Oct 2026)','TK':'mockup-takeaways.md (mockup session takeaways)','R':'requirements.md (requirements ledger)','drawn':'the mockup drawing itself','unsourced':'no source; confirm with Martin','M1018':'Martin, Oct 18 2026 (relayed by the PM): every page gets a scenario toggle (signed out/in × live nearby/none) and renders that scenario; pages that do not differ say "same in all scenarios"; mark the home page (/) clearly','M1018b':'Martin, Oct 18 2026 (relayed by the PM): Home (/) has two modes on one URL, Live (map + Live now) and Building (projects preview, See all projects, Post up, This week); default by whether anyone is live; Live · Building switch; banner when someone goes live in Building; draw the overlay-on-map version as #home-overlay-alt, alternative, not chosen','M1024':'Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows','M1018c':'Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are'}
+SRCNAME={'FS':'final-screens.md (final screens answer, Oct 2026)','TK':'mockup-takeaways.md (mockup session takeaways)','R':'requirements.md (requirements ledger)','drawn':'the mockup drawing itself','unsourced':'no source; confirm with Martin','M1018':'Martin, Oct 18 2026 (relayed by the PM): every page gets a scenario toggle (signed out/in × live nearby/none) and renders that scenario; pages that do not differ say "same in all scenarios"; mark the home page (/) clearly','M1018b':'Martin, Oct 18 2026 (relayed by the PM): Home (/) has two modes on one URL, Live (map + Live now) and Building (projects preview, See all projects, Post up, This week); default by whether anyone is live; Live · Building switch; banner when someone goes live in Building; draw the overlay-on-map version as #home-overlay-alt, alternative, not chosen','M1025':'Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow','M1024':'Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows','M1018c':'Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are'}
 NOTES={}; ORDER=[]; cur=None; sec=None
 for raw in open('gen/notes.md').read().split('-->',1)[1].splitlines():
     line=raw.rstrip()
@@ -25,7 +25,7 @@ BASE=[k for k in S if '--' not in k]
 missing=[k for k in BASE if k not in NOTES]; extra=[k for k in ORDER if not k.startswith('ov-') and k not in S]
 ovids=re.findall(r'id="ov-([\w-]+)"',OVS); missing+=['ov-'+o for o in ovids if 'ov-'+o not in NOTES]
 if missing or extra: raise SystemExit(f'notes: missing {missing} extra {extra}')
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025)\]'
 def tags(t): return re.findall(TAG,t)
 for n in [G]+[NOTES[k] for k in ORDER]:
     for s,bs in n['secs']:
@@ -66,7 +66,7 @@ def cited(ns):
                 for t in tags(b):
                     t=t.rstrip('⚠')
                     if t not in ts: ts.append(t)
-    fs=sorted([t for t in ts if re.match(r'F\d',t)]); rs=sorted({t for t in ts if t.startswith('R')},key=lambda x:int(x[1:])); ot=[t for t in ['FS','M1018','M1018b','M1018c','M1024','drawn','unsourced'] if t in ts]+sorted(t for t in ts if t.startswith('TK'))
+    fs=sorted([t for t in ts if re.match(r'F\d',t)]); rs=sorted({t for t in ts if t.startswith('R')},key=lambda x:int(x[1:])); ot=[t for t in ['FS','M1018','M1018b','M1018c','M1024','M1025','drawn','unsourced'] if t in ts]+sorted(t for t in ts if t.startswith('TK'))
     out=[]
     for t in fs:
         d=FACTS[t]; out.append(f'- **{t}** — {d["gist"]} ({d.get("speaker") or "?"}, {d["session"]}{" "+d["address"] if d.get("address") else ""}): “{d["quote"].strip()[:400]}”')

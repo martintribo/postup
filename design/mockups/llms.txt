@@ -90,3 +90,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [delete-account](flows/delete-account.md): Delete account (MVP must, draft) · player: flows/delete-account.html
 - [desktop-browse](flows/desktop-browse.md): Desktop browse and post (nice, draft) · player: flows/desktop-browse.html
 - [settings-notify](flows/settings-notify.md): Notification settings and sign out (nice, draft) · player: flows/settings-notify.html
+
+## Flow map
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. Nodes are user states; solid arrows are events or conditions; dashed arrows lead to a flow badge (green = MVP must, grey = nice) that opens the flow player. All 23 flows are reachable from the root.
+- [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html

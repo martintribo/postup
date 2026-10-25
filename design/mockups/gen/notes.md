@@ -9,6 +9,7 @@ Every bullet ends with source tags:
   [drawn]  shown in the mockup itself     [unsourced] nothing backs it; confirm with Martin
   [M1018]  Martin, Oct 18 2026 (relayed): scenario toggle on every page, '/' clearly marked
   [M1018b] Martin, Oct 18 2026 (relayed): Home (/) has two modes, Live and Building, on one URL
+  [M1025]  Martin, Oct 25 2026 (relayed): flow map, state machine from a first-time visitor (gen/flowmap.py)
   [M1024]  Martin, Oct 24 2026 (relayed): track critical flows (gen/flowdata.py)
   [M1018c] Martin, Oct 18 2026 (relayed): heading "What people are building"; closest-first, never claim nearby unless they are
 Each screen has a "### Scenarios" section. Bullets starting "Signed out:", "Signed in:", "Live nearby:", "None live:" are highlighted for the current scenario.
@@ -33,6 +34,7 @@ New decisions go here, on the screen they affect. Not just in chat.
 - Signed out: account pages (Inbox, chat, profile, settings, manage) show a sign-in sheet over themselves; the Inbox dot is hidden. [unsourced]
 - Mockup default: signed out + live nearby; the mockup opens on `#home`. [M1018]
 - Critical flows sit on top of scenarios: who arrives, in what situation, and the screens they step through. Each has a player at `flows/<id>.html` and notes at `flows/<id>.md` (in the menu under Flows). [M1024]
+- The flow map (`flows/map.html`, source in `flows/map.md`) shows how a first-time visitor (signed out, never registered) reaches each flow's starting state; every flow is reachable from that root. [M1025]
 ### Overrides
 - The nav tab for home is always labeled **Home**, never "Map" (drawn that way since Oct 18). [F046] [R53] [M1018b]
 - No live postups: home **opens in Building mode** (projects first). Live mode stays one tap away and shows the map with an invite to post up. [M1018b] [F044] [R1]
