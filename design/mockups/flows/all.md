@@ -3,14 +3,15 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 
 - [cautious-joiner](cautious-joiner.md) · MVP must · Cautious joiner checks a few postups, then joins
 - [quick-joiner](quick-joiner.md) · MVP must · Quick joiner
-- [first-visit-live](first-visit-live.md) · MVP must · First-time visitor, someone is live
-- [first-visit-none](first-visit-none.md) · MVP must · First-time visitor, nobody live
+- [first-visit-live](first-visit-live.md) · MVP must · Curious visitor joins someone live
+- [curious-browser](curious-browser.md) · MVP must · Curious browser: live now, then past content
+- [stumbled](stumbled.md) · MVP must · Stumbled on it: what is this?
 - [invite-live](invite-live.md) · MVP must · Share link to a live postup
 - [invite-ended](invite-ended.md) · MVP must · Share link to an ended postup
 - [invite-project](invite-project.md) · MVP must · Share link to a project
 - [ask-join](ask-join.md) · MVP must · Ask to join, then get approved (joiner side)
 - [host-approve](host-approve.md) · MVP must · Host approves a request
-- [first-post](first-post.md) · MVP must · First post up (with sign-in)
+- [first-post](first-post.md) · MVP must · Came to post up: first post with sign-in
 - [returning-post](returning-post.md) · MVP must · Returning poster
 - [hosting](hosting.md) · MVP must · Hosting live: extend, edit, end
 - [project-builder](project-builder.md) · MVP must · Project builder: create, update, post up for it
@@ -88,7 +89,7 @@ Player: /mockups/flows/quick-joiner.html
 
 ---
 
-## Flow: First-time visitor, someone is live (`first-visit-live`)
+## Flow: Curious visitor joins someone live (`first-visit-live`)
 Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit-live.html
 
@@ -117,34 +118,76 @@ Player: /mockups/flows/first-visit-live.html
 
 ---
 
-## Flow: First-time visitor, nobody live (`first-visit-none`)
+## Flow: Curious browser: live now, then past content (`curious-browser`)
 Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
-Player: /mockups/flows/first-visit-none.html
+Player: /mockups/flows/curious-browser.html
 
 ### Persona
-- New visitor, signed out, early launch: nobody live nearby.
+- First-time visitor, signed out, who has heard of PostUp and wants to see what is on it: who is live and what people have made.
 
 ### Starting state
-- auth=out · live=none · device=phone · entry URL `/`
+- auth=out · live=live · device=phone · entry URL `/`
 
 ### Goal
-- See that people build things at cafes, and post up first. [M1024]
+- See live and past content, then follow someone, signing in only at Follow. [M1025]
 
 ### Steps
-1. `#home` · auth=out live=none mode=building — Home opens in Building: "What people are building", closest first. [M1018b] [M1018c] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)
-2. `#projects` · auth=out live=none — See all projects. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none#projects)
-3. `#project` · auth=out live=none — Opens a project; Follow / Post up show 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none#project)
-4. `#post` · auth=out live=none — Taps Post up. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none#post)
-5. `#post-signin` · auth=out live=none — Post up 🔒 → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none#post-signin)
-6. `#posted` · auth=in live=none — You're posted up; invite friends. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=none#posted)
+1. `#home` · auth=out live=live mode=live — Live now list: who is working where. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live#home)
+2. `#postup` · auth=out live=live — Peeks at a live postup, then Back. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
+3. `#home` · auth=out live=live mode=building — Switches to Building for past content. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building#home)
+4. `#projects` · auth=out live=live — See all projects, closest first. [M1018c] [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live#projects)
+5. `#project` · auth=out live=live — Opens a project: updates and past postups. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#project)
+6. `#profile` · auth=out live=live — Opens the maker's profile: past postups, regular cafes. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#profile)
+7. `#profile` + sheet `signin` · auth=out live=live — Taps Follow: soft sign-in sheet; Not now keeps browsing. [FS] [M1018] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin#profile)
+8. `#profile` · auth=in live=live — Signed in and following. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=in&live=live#profile)
 
 ### Branches and edge cases
-- Flips to Live mode: empty map with an invite to post up, never "quiet" copy. [M1018b] [F035] [M1024]
-- Someone goes live meanwhile: banner, no switch under them. [M1018b]
+- Nobody live: Home opens in Building, so the flow starts at the projects (merged from the old first-visit-none flow). [M1018b] [M1025]
+- Taps Post up instead: see Came to post up. [M1025]
+- Not now on the sheet: stays signed out, nothing lost. [drawn] [M1025]
+- Never empty or "quiet" copy when nothing is live. [F035] [R4]
 
 ### Success criteria
-- Never an empty screen. [F035] [R4]
-- Projects shown even if none are local. [M1018c]
+- Sees live and past content without signing in. [FS] [M1025]
+- Sign-in asked only at an action (Follow). [FS] [TK§1]
+
+### Needs Martin's decision
+- Should signed-out browsers ever get a soft sign-in nudge before an action? Today it is only at actions. [M1025]
+
+---
+
+## Flow: Stumbled on it: what is this? (`stumbled`)
+Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Player: /mockups/flows/stumbled.html
+
+### Persona
+- First-time visitor with no idea what PostUp is; arrived from search, a social post or a word-of-mouth link.
+
+### Starting state
+- auth=out · live=live · device=phone · entry URL `/`
+
+### Goal
+- Understand PostUp within the first screen and reach something real before any sign-in. [M1025]
+
+### Steps
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. No explainer line is drawn in Live mode, only the brand. [drawn] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live#home)
+2. `#postup` · auth=out live=live — Taps the first live person to see what a postup is. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
+3. `#cafe` · auth=out live=live — Taps the cafe: who is here now, Post up here. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#cafe)
+4. `#home` · auth=out live=live mode=building — Back on Home, flips to Building: the welcome line "Post up at a cafe. See who's working nearby." and "What people are building". [drawn] [M1018c] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building#home)
+5. `#project` · auth=out live=live — Opens a project and gets the idea; Follow and Post up (🔒) are the next steps. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#project)
+
+### Branches and edge cases
+- Nobody live: Home opens in Building, where the welcome line shows first. [M1018b] [drawn] [M1025]
+- Dismisses the welcome (×): it should stay dismissed. [drawn] [unsourced]
+- Leaves after the first screen: the value has to be clear without scrolling. [M1025]
+
+### Success criteria
+- Knows what PostUp is from the first screen in either mode. [M1025]
+- Reaches a live postup or a project in one tap, no sign-in. [FS] [M1025]
+
+### Needs Martin's decision
+- Home in Live mode has no one-line explainer (only Building has the welcome). Add it to Live mode too, or a fuller "How it works"? [M1025]
+- Welcome copy and when it stops showing (dismissed, signed in, after N visits). [unsourced]
 
 ---
 
@@ -290,12 +333,12 @@ Player: /mockups/flows/host-approve.html
 
 ---
 
-## Flow: First post up (with sign-in) (`first-post`)
+## Flow: Came to post up: first post with sign-in (`first-post`)
 Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-post.html
 
 ### Persona
-- Signed-out visitor at a cafe who wants people to know.
+- First-time visitor already at a cafe who came to go live right now (signed out).
 
 ### Starting state
 - auth=out · live=none · device=phone · entry URL `/`

@@ -69,14 +69,15 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [All flows in one file](flows/all.md)
 - [cautious-joiner](flows/cautious-joiner.md): Cautious joiner checks a few postups, then joins (MVP must) · player: flows/cautious-joiner.html
 - [quick-joiner](flows/quick-joiner.md): Quick joiner (MVP must, draft) · player: flows/quick-joiner.html
-- [first-visit-live](flows/first-visit-live.md): First-time visitor, someone is live (MVP must, draft) · player: flows/first-visit-live.html
-- [first-visit-none](flows/first-visit-none.md): First-time visitor, nobody live (MVP must, draft) · player: flows/first-visit-none.html
+- [first-visit-live](flows/first-visit-live.md): Curious visitor joins someone live (MVP must, draft) · player: flows/first-visit-live.html
+- [curious-browser](flows/curious-browser.md): Curious browser: live now, then past content (MVP must, draft) · player: flows/curious-browser.html
+- [stumbled](flows/stumbled.md): Stumbled on it: what is this? (MVP must, draft) · player: flows/stumbled.html
 - [invite-live](flows/invite-live.md): Share link to a live postup (MVP must, draft) · player: flows/invite-live.html
 - [invite-ended](flows/invite-ended.md): Share link to an ended postup (MVP must, draft) · player: flows/invite-ended.html
 - [invite-project](flows/invite-project.md): Share link to a project (MVP must, draft) · player: flows/invite-project.html
 - [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (MVP must, draft) · player: flows/ask-join.html
 - [host-approve](flows/host-approve.md): Host approves a request (MVP must, draft) · player: flows/host-approve.html
-- [first-post](flows/first-post.md): First post up (with sign-in) (MVP must, draft) · player: flows/first-post.html
+- [first-post](flows/first-post.md): Came to post up: first post with sign-in (MVP must, draft) · player: flows/first-post.html
 - [returning-post](flows/returning-post.md): Returning poster (MVP must, draft) · player: flows/returning-post.html
 - [hosting](flows/hosting.md): Hosting live: extend, edit, end (MVP must, draft) · player: flows/hosting.html
 - [project-builder](flows/project-builder.md): Project builder: create, update, post up for it (MVP must, draft) · player: flows/project-builder.html
@@ -92,5 +93,5 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [settings-notify](flows/settings-notify.md): Notification settings and sign out (nice, draft) · player: flows/settings-notify.html
 
 ## Flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive, Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 24 flows are reachable from the root.
 - [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html

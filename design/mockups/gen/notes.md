@@ -90,6 +90,8 @@ New decisions go here, on the screen they affect. Not just in chat.
 ### States
 - New area → `#empty-area`. [FS]
 ### Decisions
+- Stumblers (no idea what PostUp is): the only explainer is the Building-mode welcome line; Live mode has none. **Decision for Martin:** add a one-line explainer to Live mode too, or a fuller "How it works"? See flow `stumbled`. [M1025]
+- First-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link (flow map, Arrive box). [M1025]
 - Replaces "Post up shows only when someone's live": Building mode has a big Post up. [M1018b] [FS]
 - Overlay-on-map version drawn for comparison: `#home-overlay-alt`, not chosen. [M1018b]
 ### Unsourced

@@ -1,19 +1,22 @@
 # Flow map (Martin, Oct 25 2026 [M1025]): a state machine from "first-time visitor" to every flow's start.
 # exec'd by flows.py (needs FLOWS, H, json, os, esc, HEAD). Writes flows/map.html and flows/map.md.
 STATES=[('V0','First-time visitor<br>signed out · never registered','root'),
+ ('IST','Stumbled on it<br>no idea what PostUp is','intent'),('ICU','Curious about content<br>live now or past','intent'),('IPO','Came to post up<br>wants to go live now','intent'),('ILK','Opened a share link<br>arrives with context','intent'),
+ ('SPO','Signed out<br>on the Post up form','out'),
  ('SL','Signed out<br>someone live nearby','out'),('SN','Signed out<br>nobody live','out'),
  ('SLK','Signed out<br>on a live postup link','out'),('SEN','Signed out<br>on an ended postup link','out'),('SPJ','Signed out<br>on a project link','out'),
  ('OFF','Slow network or offline','any'),
  ('JN','Signed in<br>joined a postup','in'),('PEND','Signed in<br>ask pending','in'),('HOST','Signed in<br>hosting (live)','in'),
  ('RET','Returning user<br>signed in','in'),('RL','Signed in<br>someone live nearby','in'),('RN','Signed in<br>nobody live','in')]
-EDGES=[('V0','SL','arrives at / · someone live'),('V0','SN','arrives at / · nobody live'),('V0','SLK','opens share link · live'),
- ('V0','SEN','opens share link · ended'),('V0','SPJ','opens share link · project'),('V0','OFF','network drops'),
- ('SL','JN','taps Join · signs in / registers'),('SL','SN','postups end'),('SN','HOST','posts up · signs in / registers'),
+EDGES=[('V0','IST','no idea'),('V0','ICU','curious'),('V0','IPO','wants to post'),('V0','ILK','has a link'),('V0','OFF','network drops'),
+ ('IST','SL','someone live'),('IST','SN','nobody live'),('ICU','SL','someone live'),('ICU','SN','nobody live'),('IPO','SPO','taps Post up'),
+ ('ILK','SLK','live'),('ILK','SEN','ended'),('ILK','SPJ','project'),('SN','SPO','taps Post up'),('SPO','HOST','Post up · signs in'),
+ ('SL','JN','taps Join · signs in / registers'),('SL','SN','postups end'),
  ('SLK','JN','taps Join · signs in'),('SEN','RN','follows poster · signs in'),('SPJ','RN','follows project · signs in'),
  ('JN','RET','postup ends or leaves'),('HOST','RET','ends postup'),('RET','RL','comes back · someone live'),('RET','RN','comes back · nobody live'),
  ('RL','JN','joins'),('RL','PEND','asks to join'),('PEND','JN','gets approved'),('PEND','RL','declined or cancels'),
  ('RL','HOST','posts up'),('RN','HOST','posts up'),('OFF','RET','back online')]
-BADGES=[('SL','first-visit-live',''),('SN','first-visit-none',''),('SN','first-post',''),('SLK','invite-live',''),('SEN','invite-ended',''),
+BADGES=[('IST','stumbled',''),('ICU','curious-browser',''),('ICU','first-visit-live','someone live, joins'),('IPO','first-post',''),('SLK','invite-live',''),('SEN','invite-ended',''),
  ('SPJ','invite-project',''),('OFF','loading-offline',''),('RL','cautious-joiner',''),('RL','quick-joiner',''),('RL','ask-join',''),
  ('RL','returning-post',''),('RL','desktop-browse','on a laptop'),('RL','postup-states','postup fills or ends'),('RL','safety','someone feels off'),
  ('HOST','host-approve','gets a request'),('HOST','hosting',''),('JN','leave','plans change'),('JN','chat',''),
@@ -46,14 +49,14 @@ M+=['  classDef root fill:#0f7a4f,color:#fff,stroke:#0b5c3b,stroke-width:3px',' 
     '  classDef in fill:#e6f4ec,color:#0b4a30,stroke:#10a364,stroke-width:2px','  classDef any fill:#fff3d6,color:#5c3d00,stroke:#c48a00,stroke-width:2px',
     '  classDef must fill:#10a364,color:#fff,stroke:#0b5c3b','  classDef nice fill:#eceae4,color:#33332f,stroke:#8a8984']
 MSRC='\n'.join(M)
-MAPHEAD='Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive, Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.'
+MAPHEAD='Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All '+str(len(FLOWS))+' flows are reachable from the root.'
 # ---- grouped, hand-placed layout (Martin, Oct 25: "box the nodes into high level boxes" [M1025]) ----
-GROUPS=[('arrive','1 · Arrive',['V0','OFF']),('out','2 · Signed out, browsing',['SLK','SL','SN','SEN','SPJ']),
- ('in','3 · Signed in',['RL','RET','RN']),('doing','4 · Doing something',['PEND','JN','HOST'])]
+GROUPS=[('arrive','1 · Arrive (by intent)',['V0','IST','ICU','IPO','ILK','OFF']),('out','2 · Signed out, browsing',['SL','SN','SPO','SLK','SEN','SPJ']),
+ ('in','3 · Signed in',['RL','RN','RET']),('doing','4 · Doing something',['PEND','JN','HOST'])]
 assert sorted(x for _,_,xs in GROUPS for x in xs)==sorted(i for i,_,_ in STATES)
-SHORT={('V0','SL'):'/ · someone live',('V0','SN'):'/ · nobody live',('V0','SLK'):'link · live',('V0','SEN'):'link · ended',('V0','SPJ'):'link · project',
- ('V0','OFF'):'network drops',('SL','JN'):'Join · signs in',('SL','SN'):'postups end',('SN','HOST'):'Post up · signs in',('SLK','JN'):'Join · signs in',
- ('SEN','RN'):'Follow · signs in',('SPJ','RN'):'Follow · signs in',('JN','RET'):'ends · leaves',('HOST','RET'):'ends',('RET','RL'):'someone live',
+SHORT={('V0','IST'):'',('V0','ICU'):'',('V0','IPO'):'',('V0','ILK'):'',('V0','OFF'):'',('IST','SL'):'someone live',('IST','SN'):'nobody live',('ICU','SL'):'someone live',('ICU','SN'):'nobody live',
+ ('IPO','SPO'):'taps Post up',('ILK','SLK'):'live',('ILK','SEN'):'ended',('ILK','SPJ'):'project',('SN','SPO'):'Post up',('SPO','HOST'):'Post up · signs in',('SL','JN'):'Join · signs in',('SL','SN'):'postups end',('SLK','JN'):'Join · signs in',
+ ('SEN','RN'):'Follow · signs in',('SPJ','RN'):'Follow · signs in',('JN','RET'):'ends · leaves',('HOST','RET'):'ends',('RET','RL'):'',
  ('RET','RN'):'nobody live',('RL','JN'):'joins',('RL','PEND'):'asks',('PEND','JN'):'approved',('PEND','RL'):'declined',('RL','HOST'):'posts up',
  ('RN','HOST'):'posts up',('OFF','RET'):'back online'}
 assert set(SHORT)=={(a,b) for a,b,_ in EDGES}
@@ -68,11 +71,11 @@ EJ=json.dumps([[a,b,SHORT[(a,b)]] for a,b,_ in EDGES]); GJ=json.dumps({i:k for k
 open('flows/map.html','w').write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flow map · PostUp mockups</title>
 <style>{PCSS} body{{background:#efede7}} .mb{{position:sticky;top:0;left:0;z-index:5;background:rgba(244,243,239,.96);border-bottom:1px solid #e4e2dc;padding:10px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}}
 .lg{{font-size:12px;color:#55544f;margin:8px 20px 0;max-width:1300px}}.lg i{{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin:0 4px 0 10px;border:1px solid #8a8984}}
-.wrap{{overflow-x:auto}}.map{{position:relative;display:grid;grid-template-columns:200px 1fr 1fr 1fr;gap:0 118px;min-width:1340px;max-width:1500px;margin:0 auto;padding:64px 24px 96px;box-sizing:border-box;align-items:start}}
+.wrap{{overflow-x:auto}}.map{{position:relative;display:grid;grid-template-columns:230px 1fr 1fr 1fr;gap:0 118px;min-width:1340px;max-width:1500px;margin:0 auto;padding:64px 24px 96px;box-sizing:border-box;align-items:start}}
 .gp{{border-radius:18px;padding:12px 12px 14px;display:flex;flex-direction:column;gap:30px;position:relative;z-index:1;min-height:100%;box-sizing:border-box}}.gp h2{{font-size:13px;letter-spacing:.05em;text-transform:uppercase;margin:0 0 -18px;color:#33332f}}
 .g-arrive{{background:#dfeee6;justify-content:center}}.g-out{{background:#e6e4de}}.g-in{{background:#dcefe4}}.g-doing{{background:#fbecd0}}
 .st{{background:#fff;border:2px solid #8a8984;border-radius:12px;padding:8px 10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}}.st.in{{border-color:#10a364}}.st.any{{border-color:#c48a00;background:#fff8e6}}
-.st.root{{background:#0f7a4f;border-color:#0b5c3b;color:#fff;border-radius:50px;text-align:center;padding:16px 10px}}.sn{{font-weight:600;font-size:13.5px;line-height:1.3}}
+.st.intent{{border-color:#0f7a4f;border-style:dashed;background:#f3fbf6}}.st.root{{background:#0f7a4f;border-color:#0b5c3b;color:#fff;border-radius:50px;text-align:center;padding:16px 10px}}.sn{{font-weight:600;font-size:13.5px;line-height:1.3}}
 .bds{{display:flex;flex-direction:column;gap:4px;margin-top:7px}}.bd{{display:block;font:600 12px/1.3 Inter,sans-serif;padding:5px 9px;border-radius:99px;text-decoration:none;color:#fff;background:#10a364}}.bd.nice{{background:#e2dfd7;color:#33332f}}.bd:hover{{filter:brightness(1.08);box-shadow:0 2px 6px rgba(0,0,0,.2)}}
 .bd small{{display:block;font-weight:500;font-size:10.5px;opacity:.85}}svg.ar{{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}}
 svg.ar path{{fill:none;stroke:#55544f;stroke-width:1.6}}svg.ar path.bk{{stroke:#b0562b;stroke-dasharray:5 4}}svg.ar text{{font:600 11px Inter,sans-serif;fill:#33332f}}svg.ar text.bk{{fill:#b0562b}}svg.ar rect{{fill:#fff;opacity:.95}}{MVPCSS}.bdw{{position:relative}}.bdw label.mvpc{{position:absolute;right:4px;top:50%;transform:translateY(-50%);padding:1px 6px 1px 4px;font-size:10.5px;z-index:2}}.bdw .bd{{padding-right:62px}}</style></head><body>
@@ -92,8 +95,9 @@ function py(i,side,k){{var r=R(i),l=ports[i+side],n=l.length,j=l.indexOf(k);var 
 function L(x,y,t,c){{lab.push([x,y,t,c||""])}}
 var lane={{top:0,bot:0}},gl={{}};
 E.forEach(function(e){{var a=R(e[0]),b=R(e[1]),k=e.k;
- if(e.t==="v"){{var dn=O[e[1]]>O[e[0]],x=a.l+28+(dn?0:40),y1=dn?a.b:a.t,y2=dn?b.t:b.b;if(!dn)x=a.r-28;out.push(['<path d="M'+x+' '+y1+'V'+y2+'" marker-end="url(#ah)"/>']);L(x+6,(y1+y2)/2+4,e[2],"st")}}
- else if(e.t==="f"){{var y1=py(e[0],"R",k),y2=py(e[1],"L",k),x1=a.r,x2=b.l,c=(x2-x1)*.5;out.push('<path d="M'+x1+' '+y1+'C'+(x1+c)+' '+y1+' '+(x2-c)+' '+y2+' '+x2+' '+y2+'" marker-end="url(#ah)"/>');L((x1+x2)/2,(y1+y2)/2,e[2])}}
+ if(e.t==="v"){{var dn=O[e[1]]>O[e[0]],adj=Math.abs(O[e[1]]-O[e[0]])==1;if(adj){{var x=dn?a.l+28:a.r-28,y1=dn?a.b:a.t,y2=dn?b.t:b.b;out.push('<path d="M'+x+' '+y1+'V'+y2+'" marker-end="url(#ah)"/>');if(e[2])L(x+6,(y1+y2)/2+4,e[2],"st")}}
+  else{{var g=gp[G[e[0]]],xm=g.l+5,ya=a.t+12+(dn?(a.b-a.t-24):0),yb=b.cy;out.push('<path d="M'+(a.l)+' '+ya+'H'+xm+'V'+yb+'H'+b.l+'" marker-end="url(#ah)"/>');if(e[2])L(xm+4,yb-6,e[2],"st")}}}}
+ else if(e.t==="f"){{var y1=py(e[0],"R",k),y2=py(e[1],"L",k),x1=a.r,x2=b.l,c=(x2-x1)*.5;out.push('<path d="M'+x1+' '+y1+'C'+(x1+c)+' '+y1+' '+(x2-c)+' '+y2+' '+x2+' '+y2+'" marker-end="url(#ah)"/>');if(e[2])L((x1+x2)/2,(y1+y2)/2,e[2])}}
  else if(e.t==="s"){{var y1=py(e[0],"R",k),y2=py(e[1],"L",k),x1=a.r,x2=b.l,ga=gp[G[e[0]]].r,gb=gp[G[e[1]]-1].r,useTop=y1<(top+bot)/2;
   var off=(gl[ga]=(gl[ga]||0)+1),off2=(gl["b"+gb]=(gl["b"+gb]||0)+1),xa=ga+14*off,xb=gb+118-14*off2,yl=useTop?top-14-14*(lane.top++):bot+16+14*(lane.bot++);
   out.push('<path d="M'+x1+' '+y1+'H'+xa+'V'+yl+'H'+xb+'V'+y2+'H'+x2+'" marker-end="url(#ah)"/>');L((xa+xb)/2,yl+(useTop?-4:12),e[2])}}

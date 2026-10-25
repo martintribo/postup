@@ -59,27 +59,46 @@
   "back": false
  },
  "first-visit-live-4": null,
- "first-visit-none-1": {
+ "curious-browser-1": {
+  "label": "M",
+  "back": false
+ },
+ "curious-browser-2": {
+  "label": "Back",
+  "back": true
+ },
+ "curious-browser-3": {
   "label": "Projects",
   "back": false
  },
- "first-visit-none-2": {
+ "curious-browser-4": {
   "label": "Star Fox 64 mod",
   "back": false
  },
- "first-visit-none-3": {
-  "label": "Post up",
+ "curious-browser-5": {
+  "label": "Maya",
   "back": false
  },
- "first-visit-none-4": {
-  "label": "Post up",
+ "curious-browser-6": null,
+ "curious-browser-7": null,
+ "curious-browser-8": null,
+ "stumbled-1": {
+  "label": "M",
   "back": false
  },
- "first-visit-none-5": {
-  "label": "Post up",
+ "stumbled-2": {
+  "label": "Bean Theory",
   "back": false
  },
- "first-visit-none-6": null,
+ "stumbled-3": {
+  "label": "Home",
+  "back": false
+ },
+ "stumbled-4": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "stumbled-5": null,
  "invite-live-1": {
   "label": "Join Maya",
   "back": false

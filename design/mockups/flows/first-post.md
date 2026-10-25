@@ -1,9 +1,9 @@
-# Flow: First post up (with sign-in) (`first-post`)
+# Flow: Came to post up: first post with sign-in (`first-post`)
 Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-post.html
 
 ## Persona
-- Signed-out visitor at a cafe who wants people to know.
+- First-time visitor already at a cafe who came to go live right now (signed out).
 
 ## Starting state
 - auth=out · live=none · device=phone · entry URL `/`

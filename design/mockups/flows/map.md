@@ -1,34 +1,39 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive, Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 24 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
 ## Groups
-- **1 · Arrive**: First-time visitor · signed out · never registered, Slow network or offline [M1025]
-- **2 · Signed out, browsing**: Signed out · on a live postup link, Signed out · someone live nearby, Signed out · nobody live, Signed out · on an ended postup link, Signed out · on a project link [M1025]
-- **3 · Signed in**: Signed in · someone live nearby, Returning user · signed in, Signed in · nobody live [M1025]
+- **1 · Arrive (by intent)**: First-time visitor · signed out · never registered, Stumbled on it · no idea what PostUp is, Curious about content · live now or past, Came to post up · wants to go live now, Opened a share link · arrives with context, Slow network or offline [M1025]
+- **2 · Signed out, browsing**: Signed out · someone live nearby, Signed out · nobody live, Signed out · on the Post up form, Signed out · on a live postup link, Signed out · on an ended postup link, Signed out · on a project link [M1025]
+- **3 · Signed in**: Signed in · someone live nearby, Signed in · nobody live, Returning user · signed in [M1025]
 - **4 · Doing something**: Signed in · ask pending, Signed in · joined a postup, Signed in · hosting (live) [M1025]
 
 ```mermaid
 flowchart LR
-  subgraph arrive["1 · Arrive"]
+  subgraph arrive["1 · Arrive (by intent)"]
     direction TB
     V0(("First-time visitor<br>signed out · never registered"))
+    IST("Stumbled on it<br>no idea what PostUp is")
+    ICU("Curious about content<br>live now or past")
+    IPO("Came to post up<br>wants to go live now")
+    ILK("Opened a share link<br>arrives with context")
     OFF("Slow network or offline")
   end
   subgraph out["2 · Signed out, browsing"]
     direction TB
-    SLK("Signed out<br>on a live postup link")
     SL("Signed out<br>someone live nearby")
     SN("Signed out<br>nobody live")
+    SPO("Signed out<br>on the Post up form")
+    SLK("Signed out<br>on a live postup link")
     SEN("Signed out<br>on an ended postup link")
     SPJ("Signed out<br>on a project link")
   end
   subgraph in["3 · Signed in"]
     direction TB
     RL("Signed in<br>someone live nearby")
-    RET("Returning user<br>signed in")
     RN("Signed in<br>nobody live")
+    RET("Returning user<br>signed in")
   end
   subgraph doing["4 · Doing something"]
     direction TB
@@ -36,21 +41,29 @@ flowchart LR
     JN("Signed in<br>joined a postup")
     HOST("Signed in<br>hosting (live)")
   end
-  V0 -->|"/ · someone live"| SL
-  V0 -->|"/ · nobody live"| SN
-  V0 -->|"link · live"| SLK
-  V0 -->|"link · ended"| SEN
-  V0 -->|"link · project"| SPJ
-  V0 -->|"network drops"| OFF
+  V0 -->|""| IST
+  V0 -->|""| ICU
+  V0 -->|""| IPO
+  V0 -->|""| ILK
+  V0 -->|""| OFF
+  IST -->|"someone live"| SL
+  IST -->|"nobody live"| SN
+  ICU -->|"someone live"| SL
+  ICU -->|"nobody live"| SN
+  IPO -->|"taps Post up"| SPO
+  ILK -->|"live"| SLK
+  ILK -->|"ended"| SEN
+  ILK -->|"project"| SPJ
+  SN -->|"Post up"| SPO
+  SPO -->|"Post up · signs in"| HOST
   SL -->|"Join · signs in"| JN
   SL -->|"postups end"| SN
-  SN -->|"Post up · signs in"| HOST
   SLK -->|"Join · signs in"| JN
   SEN -->|"Follow · signs in"| RN
   SPJ -->|"Follow · signs in"| RN
   JN -->|"ends · leaves"| RET
   HOST -->|"ends"| RET
-  RET -->|"someone live"| RL
+  RET -->|""| RL
   RET -->|"nobody live"| RN
   RL -->|"joins"| JN
   RL -->|"asks"| PEND
@@ -59,11 +72,13 @@ flowchart LR
   RL -->|"posts up"| HOST
   RN -->|"posts up"| HOST
   OFF -->|"back online"| RET
-  SL -.-> F_first_visit_live(["▶ First-time visitor, someone is live"])
+  IST -.-> F_stumbled(["▶ Stumbled on it: what is this?"])
+  click F_stumbled href "stumbled.html"
+  ICU -.-> F_curious_browser(["▶ Curious browser: live now, then past content"])
+  click F_curious_browser href "curious-browser.html"
+  ICU -.-> F_first_visit_live(["▶ Curious visitor joins someone live"])
   click F_first_visit_live href "first-visit-live.html"
-  SN -.-> F_first_visit_none(["▶ First-time visitor, nobody live"])
-  click F_first_visit_none href "first-visit-none.html"
-  SN -.-> F_first_post(["▶ First post up (with sign-in)"])
+  IPO -.-> F_first_post(["▶ Came to post up: first post with sign-in"])
   click F_first_post href "first-post.html"
   SLK -.-> F_invite_live(["▶ Share link to a live postup"])
   click F_invite_live href "invite-live.html"
@@ -108,9 +123,10 @@ flowchart LR
 ```
 
 ## Where each flow starts
-- `first-visit-live` (MVP must): from state "Signed out · someone live nearby" [M1025]
-- `first-visit-none` (MVP must): from state "Signed out · nobody live" [M1025]
-- `first-post` (MVP must): from state "Signed out · nobody live" [M1025]
+- `stumbled` (MVP must): from state "Stumbled on it · no idea what PostUp is" [M1025]
+- `curious-browser` (MVP must): from state "Curious about content · live now or past" [M1025]
+- `first-visit-live` (MVP must): from state "Curious about content · live now or past" when someone live, joins [M1025]
+- `first-post` (MVP must): from state "Came to post up · wants to go live now" [M1025]
 - `invite-live` (MVP must): from state "Signed out · on a live postup link" [M1025]
 - `invite-ended` (MVP must): from state "Signed out · on an ended postup link" [M1025]
 - `invite-project` (MVP must): from state "Signed out · on a project link" [M1025]
