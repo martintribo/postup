@@ -1,0 +1,43 @@
+# Flow: Host approves a request. Model [M1030]; migrated from gen/flowdata.py.
+id = "host-approve"
+name = "Host approves a request"
+role = "host"
+mvp = true
+status = "draft"
+persona = "Signed-in poster with an ask-to-join postup."
+goal = "Approve or decline with the joiner's reason in view. [M1024]"
+intent = "Hosting; someone wants in"
+start = { screen = "activity", auth = "in", live = "live", device = "phone", url = "/live" }
+edge_cases = [
+  "Decline: joiner is told politely. [F095] [unsourced]",
+  "Block from the request via More. [F059] [M1024]",
+]
+success = [
+  "Approve in one tap from #live. [FS] [M1024]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "later: alert arrives"
+expect = "activity@in.live"
+thought = "Hosting; someone wants in"
+shows = "Alert: \"Ari asked to join\". [FS]"
+
+[[steps]]
+link = "activity:d-dev-asked-to-join-your-pos"  # opens the request
+expect = "live@in.live"
+thought = "Deciding on the request"
+shows = "Requests with reason: Approve / Decline. [FS] [F061]"
+
+[[steps]]
+link = "live:d-dev-2-min-ago-profile"  # taps the asker
+expect = "profile@in.live"
+thought = "Wants to check the asker first"
+shows = "Optionally checks the asker's profile first. [FS] [M1024]"
+
+[[steps]]
+gap = "opens the chat"  # no single link/event from profile@in.live to chat@in.live
+expect = "chat@in.live"
+thought = "Approved; welcoming them"
+shows = "Approved people are in the chat. [F061] [F096]"

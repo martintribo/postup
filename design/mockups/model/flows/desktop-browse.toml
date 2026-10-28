@@ -1,0 +1,45 @@
+# Flow: Desktop browse and post. Model [M1030]; migrated from gen/flowdata.py.
+id = "desktop-browse"
+name = "Desktop browse and post"
+role = "joiner"
+mvp = false
+status = "draft"
+persona = "Signed-in user at a laptop."
+goal = "Same flows with map + right panel. [FS] [M1024]"
+intent = "At a laptop; browsing"
+start = { screen = "home", auth = "in", live = "live", tab = "live", device = "desktop", url = "/" }
+edge_cases = [
+]
+success = [
+  "Rail and tab bar have the same items. [F064] [R12]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@in.live.live"
+thought = "At a laptop; browsing"
+shows = "Map with 440px panel. [FS]"
+device = "desktop"
+
+[[steps]]
+link = "home:m-2-postup"  # taps a live pin
+expect = "postup@in.live"
+thought = "Checking one postup"
+shows = "Postup in the panel. [FS]"
+device = "desktop"
+
+[[steps]]
+gap = "taps Post up"  # no single link/event from postup@in.live to post@in.live
+expect = "post@in.live"
+thought = "Wants to post too"
+shows = "Post up as a centered dialog. [FS]"
+device = "desktop"
+
+[[steps]]
+link = "post:post-up-posted"  # taps Post up
+expect = "posted@in.live"
+thought = "Posted; now live for others"
+shows = "Posted. [FS]"
+device = "desktop"

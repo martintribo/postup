@@ -1,0 +1,89 @@
+# Global rules + mockup-index notes (not product screens). [M1030]
+[[notes]]
+section = "Home page (/)"
+lines = [
+  "**`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]",
+  "Default mode: Live when anyone's live nearby, otherwise Building. A small Live · Building switch at the top lets people flip. [M1018b]",
+  "Someone goes live while you're in Building: show a banner (\"Maya just posted up nearby · See map\"); never switch under you. [M1018b]",
+  "`#home-overlay-alt` (projects card over a dimmed map) is an **alternative, not chosen**. [M1018b]",
+  "Building heading: **\"What people are building\"**, not \"…nearby…\". [M1018c]",
+  "`#quiet` (recent map) is the old no-live home drawing. Not `/`. [FS] [F044]",
+  "`#quiet-feed` and `#quiet-feed-b` are the Nearby tab (`/nearby`), photo and no-photo variants. Not `/`. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Every page has a scenario toggle: signed out / in × live nearby / none. The page renders that scenario's version; pages that don't differ say \"Same in all scenarios\". [M1018]",
+  "Mockup controls (scenario, style, device, screens, sheets, notes) live in one floating menu, bottom-left; changes apply in place. [M1018]",
+  "Signed in: 🔒 marks disappear and actions skip the sign-in sheet. [TK§1] [FS]",
+  "Signed out: sign-in sheets open at the action; signing in from a sheet switches the toggle to Signed in. [FS] [M1018]",
+  "None live: live pins disappear from maps. [M1018]",
+  "Signed out: account pages (Inbox, chat, profile, settings, manage) show a sign-in sheet over themselves; the Inbox dot is hidden. [unsourced]",
+  "Mockup default: signed out + live nearby; the mockup opens on `#home`. [M1018]",
+  "Critical flows sit on top of scenarios: who arrives, in what situation, and the screens they step through. Each has a player at `flows/<id>.html` and notes at `flows/<id>.md` (in the menu under Flows). [M1024]",
+  "The flow map (`flows/map.html`, source in `flows/map.md`) shows how a first-time visitor (signed out, never registered) reaches each flow's starting state; every flow is reachable from that root. [M1025]",
+  "Mockup data model: a **site graph** of pages (screens + sheets) whose **site states** are page + auth + live (+ Home mode); edges are taps and site events derived from the mockup links (`gen/sitegraph.py`, `flows/site.html`). A **flow** is a path of steps, each = site state + user state (what they think) + action; every transition must be a site-graph edge or is reported as a design gap. The player's From here panel lists next site states and other flows enterable at that step. [M1025]",
+]
+
+[[notes]]
+section = "Overrides"
+lines = [
+  "The nav tab for home is always labeled **Home**, never \"Map\" (drawn that way since Oct 18). [F046] [R53] [M1018b]",
+  "No live postups: home **opens in Building mode** (projects first). Live mode stays one tap away and shows the map with an invite to post up. [M1018b] [F044] [R1]",
+  "Nothing from this week: home and Nearby fall back to **projects in general** (any age). [F043] [R3]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "Project lists (Home Building, Nearby fallback, Projects) are sorted **closest-first** and show the closest projects available even if none are local (early launch has few nearby). Never say \"nearby\" about projects unless they are. Heading: \"What people are building\". [M1018c]",
+  "Never empty or \"quiet\" copy (\"No posts yet\", \"Nothing yet\", \"quiet\"). Use positive invites. [F035] [R4] [TK§2]",
+  "Short labels, 1–3 words; warm copy; little on screen at a time; drill down with Back. [F013] [TK§1]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Sign-in only at the moment of action (post, join, follow, new project), as a sheet over the current screen. Apple + Google. [FS] [TK§1] [R9⚠]",
+  "Google Places data only inside Google UI-Kit widgets. Never in the feed. Store only `place_id`. [F032] [R36] [TK§2]",
+  "Map only on map, cafe and postup screens. Nearby and Projects never show it. [F051] [F052] [F053] [R69]",
+  "Phone tab bar and desktop rail carry the same items. [F064] [F066] [R12]",
+  "Everything that looks tappable goes somewhere. [F026] [TK§1]",
+  "Photos come from users and projects. No photo: tinted tile, never a grey box. [F086] [R38]",
+  "Desktop: map screens keep the map with a 440px right panel; everything else is a full page; create/edit flows are centered dialogs. [FS]",
+  "Four styles, Fresh default; switcher is dev-only. Final pick (Fresh vs Bold) is open. [F036] [F076] [FS]",
+  "Report and block, yes. No safety tips: \"this site is for adults\". [F059]",
+]
+
+[[notes]]
+section = "Not adopted"
+lines = [
+  "Safety tips, an \"I'm here\" hint, location-permission screens, followers-only visibility. [FS]",
+  "\"Where I'm sitting\" note/photo: todo, not mocked. [F056]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Final style, join default, cafe name before approval, launch area, chat retention, Capacitor vs Cordova. [FS] [TK§4]",
+]
+
+# ---- mockup index (site chrome) ----
+[[index_notes]]
+section = "Purpose"
+lines = [
+  "Mockup switcher (screens, style, device). Not a product screen. [FS]",
+]
+
+[[index_notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. The 2×2 scenario matrix lives here. [M1018]",
+]
+
+[[index_notes]]
+section = "Decisions"
+lines = [
+  "No \"Mockups\" link in the real nav. [R14⚠]",
+]

@@ -1,0 +1,50 @@
+# Screen: Projects. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "projects"
+title = "Projects"
+kind = "page"
+group = "Projects"
+links = [
+  { id = "new-project-project-new", label = "New project", action = "replace", to = "project-new" },
+  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project" },
+  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project" },
+  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project" },
+  { id = "lantern-lights-a-ari-sun-wir", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "What people are building. Built first so new users don't land on an empty map. [F024] [FS] [M1018c]",
+  "Sorted closest first; shows the closest projects available even if none are local. Never claim \"nearby\" unless they are. [M1018c]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios (🔒 hidden when signed in). [M1018] [TK§1]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Grid with Nearby / Following / Mine filters that work; \"+\" for a new project. [FS] [R32]",
+  "First visit: one dismissable line (\"See what people are building…\"). [F067] [R6] [M1018c]",
+  "No map. Grid on desktop, list on phone. Root tab: no Back. [F052] [TK§1] [R13]",
+]
+
+[[notes]]
+section = "States"
+lines = [
+  "Each filter has a friendly empty state. [R32]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "Drawn empty heading \"No projects yet\" reads like the banned empty copy; check against the no-empty-copy rule. [F035] [R4]",
+]

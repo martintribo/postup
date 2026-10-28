@@ -1,0 +1,44 @@
+# Screen: Group chat. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "chat"
+title = "Group chat"
+kind = "page"
+group = "Inbox & people"
+variants = ["chat--out"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "msg", "share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "m-j-s-bean-theory-till-4pm-3", label = "M J S Bean Theory · till 4pm · 3 p", action = "replace", to = "postup" },
+  { id = "message-options-msg", label = "Message options", action = "open", to = "msg", slot = "sheet" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-chat", label = "Continue with Apple", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-chat", label = "Continue with Google", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "One group chat per postup: the poster and joined/approved people. Needed at launch. [F061] [F096] [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "\"Only people in this postup can see this chat.\" [FS]",
+  "Per-message ⋯: copy, report, block. [F096] [FS]",
+  "Header → `#postup`. Desktop: full page. [drawn] [FS]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Retention: code uses 24h; that's our default. [R31] [FS]",
+]

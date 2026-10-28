@@ -1,0 +1,49 @@
+# Screen: Inbox · Activity. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "activity"
+title = "Inbox · Activity"
+kind = "page"
+group = "Inbox & people"
+variants = ["activity--out"]  # old HTML variants, by condition
+links = [
+  { id = "chats-inbox", label = "Chats", action = "replace", to = "inbox" },
+  { id = "activity-2-activity", label = "Activity 2", action = "replace", to = "activity" },
+  { id = "d-dev-asked-to-join-your-pos", label = "D Dev asked to join your postup 2", action = "replace", to = "live" },
+  { id = "j-jon-joined-your-postup-14-", label = "J Jon joined your postup 14 min ag", action = "replace", to = "live" },
+  { id = "m-maya-hey-here-till-4-come-", label = "M Maya: Hey! Here till 4 — come sa", action = "replace", to = "chat" },
+  { id = "t-tess-said-yes-to-your-requ", label = "T Tess said yes to your request Ye", action = "replace", to = "postup-ask" },
+  { id = "a-ari-followed-you-mon-profi", label = "A Ari followed you Mon", action = "replace", to = "profile" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "back", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-activity", label = "Continue with Apple", action = "replace", to = "activity", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-activit", label = "Continue with Google", action = "replace", to = "activity", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Requests, joins, \"said yes\", messages, follows. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Each row opens the related screen (request → `#live`, message → `#chat`, follow → `#profile`). [drawn]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Email alerts. [TK§4]",
+]

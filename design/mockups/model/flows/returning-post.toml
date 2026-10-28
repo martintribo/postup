@@ -1,0 +1,43 @@
+# Flow: Returning poster. Model [M1030]; migrated from gen/flowdata.py.
+id = "returning-post"
+name = "Returning poster"
+role = "host"
+mvp = true
+status = "draft"
+persona = "Signed-in regular."
+goal = "Post up with defaults, then see you're live. [M1024]"
+intent = "Regular; working at a cafe today"
+start = { screen = "post", auth = "in", live = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Already live: Post up opens #live instead of a second postup. [unsourced] [M1024]",
+]
+success = [
+  "Home → live in 2 taps. [M1024]",
+]
+decide = [
+  "Can someone have two postups at once? [unsourced]",
+]
+
+[[steps]]
+arrive = "taps Post up"
+expect = "post@in.live"
+thought = "Regular; working at a cafe today"
+shows = "Last project and nearest cafe preselected; no 🔒. [FS] [M1024]"
+
+[[steps]]
+link = "post:post-up-posted"  # taps Post up
+expect = "posted@in.live"
+thought = "Posted; now live for others"
+shows = "Posted. [FS]"
+
+[[steps]]
+link = "posted:manage-postup-live"  # opens their live postup
+expect = "live@in.live"
+thought = "Managing their postup"
+shows = "You're live: time left, requests, chat. [FS] [F057]"
+
+[[steps]]
+link = "live:home-home"  # goes Home
+expect = "home@in.live.live"
+thought = "Checks they show up on Home"
+shows = "Your live state shows on home. [R22]"

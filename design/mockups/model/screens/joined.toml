@@ -1,0 +1,47 @@
+# Screen: You're joining. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "joined"
+title = "You're joining"
+kind = "page"
+group = "Postups & joining"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["dirs", "leave"] } ]
+links = [
+  { id = "close-home", label = "Close", action = "replace", to = "home" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "group-chat-chat", label = "Group chat", action = "replace", to = "chat" },
+  { id = "directions-dirs", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
+  { id = "back-to-map-home", label = "Back to map", action = "replace", to = "home" },
+  { id = "cafe-cafe", label = "Cafe", action = "replace", to = "cafe" },
+  { id = "project-project", label = "Project", action = "replace", to = "project" },
+  { id = "leave-leave", label = "Leave", action = "open", to = "leave", slot = "sheet" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Confirmation after joining. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios; reached only after signing in. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Group chat → `#chat`. Directions → Apple / Google Maps sheet. Cafe, Project links. Leave → confirm sheet. [FS]",
+  "The poster has been told you're coming. [F055]",
+  "The flow must not just stop after joining. [F110]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Directions open Apple/Google Maps (ledger item). [R25⚠]",
+]

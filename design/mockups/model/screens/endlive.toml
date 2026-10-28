@@ -1,0 +1,22 @@
+# Sheet: Sheet · End postup. Model [M1030]; migrated (old id ov-endlive, notes host live).
+id = "endlive"
+title = "Sheet · End postup"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "end-now-me", label = "End now", action = "replace", to = "me" },
+  { id = "keep-going", label = "Keep going", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Confirm ending; joiners and anyone waiting get an alert. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

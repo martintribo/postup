@@ -1,0 +1,47 @@
+# Screen: Offline. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "offline"
+title = "Offline"
+kind = "page"
+group = "Home & discover"
+links = [
+  { id = "s-me", label = "S", action = "replace", to = "me" },
+  { id = "replace-quiet", label = "", action = "replace", to = "quiet" },
+  { id = "retry-quiet-feed", label = "Retry", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "maya-s-photo-cafe", label = "Maya's photo", action = "replace", to = "cafe" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post" },
+  { id = "tess-s-photo-cafe", label = "Tess's photo", action = "replace", to = "cafe" },
+  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe" },
+  { id = "jon-s-photo-cafe", label = "Jon's photo", action = "replace", to = "cafe" },
+  { id = "maya-s-photo-project", label = "Maya's photo", action = "replace", to = "project" },
+  { id = "bean-theory-m-j-a-3-this-wee", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
+  { id = "grindhouse-t-1-this-week-caf", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
+  { id = "lantern-tea-a-d-2-this-week-", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
+  { id = "venice-blvd-oakwood-park-mar", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
+  { id = "map-quiet", label = "Map", action = "replace", to = "quiet" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Last loaded Nearby feed with an offline banner and Retry. Not a blank screen. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "The ledger asks for a full offline screen, not just a banner; the final mockup is the cached feed + banner. [R46⚠] [FS]",
+]

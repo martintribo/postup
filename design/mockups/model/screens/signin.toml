@@ -1,0 +1,23 @@
+# Sheet: Sheet · Sign in (follow, create, update). Model [M1030]; migrated (old id ov-signin, notes host profile).
+id = "signin"
+title = "Sheet · Sign in (follow, create, update)"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "close", sets = "auth=in" },
+  { id = "continue-with-google", label = "Continue with Google", action = "close", sets = "auth=in" },
+  { id = "not-now", label = "Not now", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Sign-in sheet for Follow, Create project and Post update when signed out. Signing in switches the toggle to Signed in and continues. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out only; signed in never shows it. [FS]",
+]

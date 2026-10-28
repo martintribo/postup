@@ -1,0 +1,25 @@
+# Sheet: Sheet · More. Model [M1030]; migrated (old id ov-more, notes host postup).
+id = "more"
+title = "Sheet · More"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "view-profile-profile", label = "View profile", action = "replace", to = "profile" },
+  { id = "share-share", label = "Share", action = "swap", to = "share", slot = "sheet" },
+  { id = "report-report", label = "Report", action = "replace", to = "report" },
+  { id = "block-maya-block", label = "Block Maya", action = "swap", to = "block", slot = "sheet" },
+  { id = "cancel", label = "Cancel", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "View profile, Share, Report, Block. [FS] [F059]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

@@ -1,0 +1,56 @@
+# Screen: Post up. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "post"
+title = "Post up"
+kind = "page"
+group = "Posting & hosting"
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
+  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Post that you're working at a cafe. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Post up 🔒 → sign-in sheet (`#post-signin`). [FS] [R9⚠]",
+  "Signed in: Post up goes straight to `#posted`. [FS]",
+  "Live / none: same. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Cafe preselected (nearest) with Change → `#where`. Not a map picker. [FS] [F058] [F062] [R17]",
+  "Working on (text), project chip / + Project, Until (1h / 2h / 3h / time). [FS] [R17]",
+  "Who can join: \"Anyone can join\" / \"Ask to join\", set per postup by the poster. Poster gets an alert when someone joins. [F055] [F095]",
+  "Optional photo; never slows posting down. [F033] [R20]",
+  "Signed out: Post up opens the sign-in sheet over this screen; URL stays `/post`. [R9⚠]",
+  "Desktop: centered dialog. No tab bar on phone. [FS]",
+]
+
+[[notes]]
+section = "Decisions"
+lines = [
+  "Default \"Anyone can join\" is our default, not Martin's. [R18]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Sign-in required to post; anonymous posting off (D3). [R16⚠]",
+  "Signed-out draft survives sign-in. [R11⚠]",
+]
+
+[[notes]]
+section = "Not adopted"
+lines = [
+  "\"Where I'm sitting\" note/photo: todo. [F056]",
+]

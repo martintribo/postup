@@ -1,0 +1,36 @@
+# Flow: Leave a postup you joined. Model [M1030]; migrated from gen/flowdata.py.
+id = "leave"
+name = "Leave a postup you joined"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-in joiner whose plans changed."
+goal = "Back out politely. [M1024]"
+intent = "Plans changed"
+start = { screen = "joined", auth = "in", live = "live", device = "phone", url = "/p/…" }
+edge_cases = [
+  "The poster ended or cancelled first: #postup-cancelled. [F060]",
+]
+success = [
+  "Poster knows. [FS]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "opens their joined postup"
+expect = "joined@in.live"
+thought = "Plans changed"
+shows = "Leave link. [drawn]"
+
+[[steps]]
+link = "joined:leave-leave"  # taps Leave
+expect = "joined+leave@in.live"
+thought = "Backing out politely"
+shows = "Confirm; poster alerted. [FS] [drawn]"
+
+[[steps]]
+link = "leave:leave-postup"  # confirms Leave
+expect = "postup@in.live"
+thought = "Out; back on the postup page"
+shows = "Back home. [M1024]"

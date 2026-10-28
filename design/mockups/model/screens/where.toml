@@ -1,0 +1,53 @@
+# Screen: Where are you?. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "where"
+title = "Where are you?"
+kind = "page"
+group = "Cafes & picking a place"
+variants = ["where--none"]  # old HTML variants, by condition
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
+  { id = "back-2", label = "", action = "back" },
+  { id = "search-cafes-where-search", label = "Search cafes", action = "replace", to = "where-search" },
+  { id = "bean-theory-0-4-mi-2-live", label = "Bean Theory 0.4 mi · 2 live", action = "back", when = "live=live" },
+  { id = "lantern-tea-0-8-mi", label = "Lantern Tea 0.8 mi", action = "back" },
+  { id = "grindhouse-1-1-mi", label = "Grindhouse 1.1 mi", action = "back" },
+  { id = "sunbeam-coffee-1-6-mi", label = "Sunbeam Coffee 1.6 mi", action = "back" },
+  { id = "bean-theory-0-4-mi", label = "Bean Theory 0.4 mi", action = "back", when = "live=none" },
+  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Cafe picker for posting: nearby cafes by distance plus search. [F062] [F097] [R17]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: no \"· 2 live\" on the cafe rows. [M1018]",
+  "Signed out / in: same. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Not a map: a map only helps with curated cafes, which we don't have yet. [F058]",
+  "Picking a cafe returns to the form with it set. [drawn]",
+  "Desktop: centered dialog. [FS]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Location-permission explainer / denied fallback: the ledger has it open, the final-screens list says not adopted. [R21] [FS]",
+]
+
+[[notes]]
+section = "Gap fixes"
+lines = [
+  "Gap fix (Oct 25): tapping the search box opens `#where-search`. [M1025]",
+]

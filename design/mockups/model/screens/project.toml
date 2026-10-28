@@ -1,0 +1,62 @@
+# Screen: Project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "project"
+title = "Project"
+kind = "page"
+group = "Projects"
+variants = ["project--none"]  # old HTML variants, by condition
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "new-project-new", label = "New", action = "replace", to = "project-new" },
+  { id = "maya-profile", label = "Maya", action = "replace", to = "profile" },
+  { id = "update-project-update", label = "Update", action = "replace", to = "project-update" },
+  { id = "post-up-project-attach", label = "Post up", action = "replace", to = "project-attach" },
+  { id = "post-up-for-this-project-att", label = "Post up for this", action = "replace", to = "project-attach" },
+  { id = "post-update-project-update", label = "Post update", action = "replace", to = "project-update" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "m-maya-bean-theory-till-4pm-", label = "M Maya Bean Theory · till 4pm Live", action = "replace", to = "postup", when = "live=live" },
+  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "One project: cover, owner, updates, live postups. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: no Live section. [M1018]",
+  "Signed in: 🔒 gone; Update / Post up go straight through. [TK§1] [FS]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Post update, Post up (for this project), Follow; all need sign-in. [FS]",
+  "Updates timeline with images; the owner posts updates. [R35] [F052]",
+  "No map. Desktop: full page. [F052] [FS]",
+]
+
+[[notes]]
+section = "Links"
+lines = [
+  "Owner → `#profile`. Live row → `#postup`. Cafe → `#cafe`. [drawn] [R40]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Test or hidden projects never show. [R34⚠]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Image storage for projects (Vercel Blob?). [TK§4]",
+]

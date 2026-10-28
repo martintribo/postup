@@ -1,0 +1,47 @@
+# Screen: Empty area. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "empty-area"
+title = "Empty area"
+kind = "page"
+group = "Home & discover"
+links = [
+  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
+  { id = "s-me", label = "S", action = "replace", to = "me" },
+  { id = "stories-cafe-0-3-mi-post", label = "Stories Cafe 0.3 mi", action = "replace", to = "post" },
+  { id = "lot-1-coffee-0-6-mi-post", label = "Lot 1 Coffee 0.6 mi", action = "replace", to = "post" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "An area with no postups yet: \"Be the first here\". [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios (the area has no postups by definition). [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "No fake activity. [TK§2]",
+]
+
+[[notes]]
+section = "Overrides"
+lines = [
+  "No postups means no map on home; the drawing shows one. Focus on projects. [F044] [R1]",
+  "Nothing this week → projects in general. [F043]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "A fallback list of good cafes for empty areas. [TK§4]",
+]

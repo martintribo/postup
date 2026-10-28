@@ -1,0 +1,24 @@
+# Screen: Loading. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "loading"
+title = "Loading"
+kind = "page"
+group = "Home & discover"
+links = [
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Skeleton while the feed loads. [FS] [F060] [TK§1]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

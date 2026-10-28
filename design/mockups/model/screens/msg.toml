@@ -1,0 +1,24 @@
+# Sheet: Sheet · Message options. Model [M1030]; migrated (old id ov-msg, notes host chat).
+id = "msg"
+title = "Sheet · Message options"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "copy", label = "Copy", action = "close" },
+  { id = "report-message-report", label = "Report message", action = "replace", to = "report" },
+  { id = "block-sender-block", label = "Block sender", action = "swap", to = "block", slot = "sheet" },
+  { id = "cancel", label = "Cancel", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Copy, Report message, Block sender. [F096] [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

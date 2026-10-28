@@ -1,0 +1,98 @@
+# Screen: Home page (/). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "home"
+title = "Home page (/)"
+kind = "page"
+group = "Home & discover"
+entry = true
+variants = ["home--map-none", "home--bld", "home--bld-live"]  # old HTML variants, by condition
+states = { tab = ["live", "building"] }
+links = [
+  { id = "m-2-postup", label = "M 2", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "t-postup-ask", label = "T", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "replace-cafe", label = "", action = "replace", to = "cafe", when = "tab=live" },
+  { id = "live-home", label = "Live", action = "swap", to = "home", sets = "tab=live" },
+  { id = "building-home", label = "Building", action = "swap", to = "home", sets = "tab=building" },
+  { id = "locate-quiet", label = "Locate", action = "replace", to = "quiet", when = "tab=live" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live,tab=live" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live,tab=live" },
+  { id = "m-maya-live-bean-theory-till", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "j-jon-live-bean-theory-till-", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live,tab=live" },
+  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,tab=live" },
+  { id = "t-tess-live-ask-to-join-grin", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "lantern-tea-a-d-m-3-postups-", label = "Lantern Tea A D M 3 postups", action = "replace", to = "cafe" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "s-me", label = "S", action = "replace", to = "me", when = "tab=building" },
+  { id = "see-map-home", label = "See map", action = "swap", to = "home", sets = "tab=live", when = "live=live,tab=building" },
+  { id = "see-all-projects-projects", label = "See all projects", action = "replace", to = "projects", when = "tab=building" },
+  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "tab=building" },
+  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "tab=building" },
+  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "tab=building" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "**The home page: what loads at postup.now/.** Two modes on one URL: Live and Building. [M1018b]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Live nearby: opens in Live mode: map + Live now. [M1018b] [R2] [F029]",
+  "None live: opens in Building mode. Live mode shows the map with cafe pins and an invite to post up. [M1018b] [F044]",
+  "Live nearby, while in Building: banner \"Maya just posted up nearby · See map\". [M1018b]",
+  "Nothing this week: drop This week; projects in general. [F043] [R3]",
+  "Signed out / in: same, except 🔒 and the header avatar (signed in only). [TK§1] [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Live · Building switch at the top (phone: over the map or in the header; desktop: top of the panel or header). [M1018b]",
+  "Live mode: live pins are avatar markers with a pulse ring and count badge; cafe pins are coffee icons. Panel: Live now, This week cafes. [FS]",
+  "Live mode with nobody live: \"Working somewhere today?\" + Post up. No empty or \"quiet\" copy. [M1018b] [F035]",
+  "Building mode: first-visit welcome line, \"What people are building\" (3 project cards, closest first) + See all projects → `#projects`, big Post up, This week cafes. A preview; it doesn't copy the Projects page. [M1018b]",
+  "Desktop: Live mode is the map with the right panel; Building mode is a full page. [FS] [M1018b]",
+  "Building projects: closest first; show the closest available even if none are local. Heading says \"What people are building\", never \"nearby\" unless they are. [M1018c]",
+  "Your own live postup shows here (manage entry). [R22] [F057]",
+  "Tiles: Stadia Maps, free plan, hard cap; prefer the map failing over surprise charges; worldwide. [F003] [F004] [F006] [F007]",
+]
+
+[[notes]]
+section = "Links"
+lines = [
+  "Live marker / row → `#postup`. Cafe → `#cafe`. Project card → `#project`. See all projects → `#projects`. Post up → `#post`. [FS] [M1018b]",
+]
+
+[[notes]]
+section = "States"
+lines = [
+  "New area → `#empty-area`. [FS]",
+]
+
+[[notes]]
+section = "Decisions"
+lines = [
+  "Stumblers (no idea what PostUp is): the only explainer is the Building-mode welcome line; Live mode has none. **Decision for Martin:** add a one-line explainer to Live mode too, or a fuller \"How it works\"? See flow `stumbled`. [M1025]",
+  "First-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link (flow map, Arrive box). [M1025]",
+  "Replaces \"Post up shows only when someone's live\": Building mode has a big Post up. [M1018b] [FS]",
+  "Overlay-on-map version drawn for comparison: `#home-overlay-alt`, not chosen. [M1018b]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Area label (\"Near Westside, Los Angeles\") and the change-area picker. [R7⚠]",
+  "Launch area Playa Vista / Westside LA as fallback centre. [R8⚠]",
+]
+
+[[notes]]
+section = "Gap fixes"
+lines = [
+  "Gap fix (Oct 25): Live now includes an ask-to-join postup (Tess, marked \"Ask to join\") that opens `#postup-ask`; open-join rows unchanged. [M1025]",
+]

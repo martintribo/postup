@@ -1,0 +1,29 @@
+# Sheet: Sheet · Directions. Model [M1030]; migrated (old id ov-dirs, notes host joined).
+id = "dirs"
+title = "Sheet · Directions"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "open-in-apple-maps", label = "Open in Apple Maps", action = "close" },
+  { id = "open-in-google-maps", label = "Open in Google Maps", action = "close" },
+  { id = "cancel", label = "Cancel", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Open in Apple Maps / Google Maps. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Ledger item for directions. [R25⚠]",
+]

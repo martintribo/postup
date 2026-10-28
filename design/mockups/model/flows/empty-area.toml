@@ -1,0 +1,37 @@
+# Flow: Empty area: be the first. Model [M1030]; migrated from gen/flowdata.py.
+id = "empty-area"
+name = "Empty area: be the first"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-in user in a city with no postups yet."
+goal = "Seed the area. [M1024]"
+intent = "Nobody around here yet"
+start = { screen = "home", auth = "in", live = "none", tab = "building", device = "phone", url = "/" }
+edge_cases = [
+]
+success = [
+  "Positive copy, never \"quiet\". [F035] [R4]",
+]
+decide = [
+  "A fallback list of good cafes for empty areas? [TK§4]",
+  "Launch area. [FS] [TK§4]",
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@in.none.building"
+thought = "Nobody around here yet"
+shows = "Closest projects even if far. [M1018c]"
+
+[[steps]]
+event = "empty-area"  # opens the empty area
+expect = "empty-area@in.none"
+thought = "Sees the area is empty"
+shows = "\"Be the first here\". [FS]"
+
+[[steps]]
+link = "empty-area:stories-cafe-0-3-mi-post"  # taps Post up
+expect = "post@in.none"
+thought = "Will be the first"
+shows = "Post up. [FS]"

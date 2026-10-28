@@ -1,0 +1,57 @@
+# Screen: Nearby (/nearby) · no photos (B). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "quiet-feed-b"
+title = "Nearby (/nearby) · no photos (B)"
+kind = "page"
+group = "Home & discover"
+alternative = true  # design alternative, not linked from the site
+variants = ["quiet-feed-b--none"]  # old HTML variants, by condition
+links = [
+  { id = "s-me", label = "S", action = "replace", to = "me" },
+  { id = "replace-quiet", label = "", action = "replace", to = "quiet" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "replace-cafe", label = "", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post", when = "live=live" },
+  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project", when = "live=live" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live" },
+  { id = "bean-theory-m-j-a-3-this-wee", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
+  { id = "grindhouse-t-1-this-week-caf", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
+  { id = "lantern-tea-a-d-2-this-week-", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
+  { id = "venice-blvd-oakwood-park-mar", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
+  { id = "map-quiet", label = "Map", action = "replace", to = "quiet" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none" },
+  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none" },
+  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none" },
+  { id = "lantern-lights-a-ari-sun-wir", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Comparison variant of Nearby with colored bands instead of photos. [FS] [F030]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: falls back to projects, same as `#quiet-feed`. [M1018] [F043]",
+  "Signed out / in: same. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Same content and links as `#quiet-feed`. [FS]",
+  "A card with no photo uses a tinted tile, never a grey box. [R38]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Which variant ships. Photo cards are listed as missing from the build, which implies A. [FS] [unsourced]",
+]

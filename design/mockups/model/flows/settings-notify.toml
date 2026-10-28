@@ -1,0 +1,30 @@
+# Flow: Notification settings and sign out. Model [M1030]; migrated from gen/flowdata.py.
+id = "settings-notify"
+name = "Notification settings and sign out"
+role = "account"
+mvp = false
+status = "draft"
+persona = "Signed-in user."
+goal = "Tune alerts, sign out. [M1024]"
+intent = "Tuning alerts"
+start = { screen = "settings", auth = "in", live = "none", device = "phone", url = "/settings" }
+edge_cases = [
+]
+success = [
+  "Toggles actually change alerts. [M1024]",
+]
+decide = [
+  "Email alerts at launch? [TK§4]",
+]
+
+[[steps]]
+arrive = "opens Settings"
+expect = "settings@in.none"
+thought = "Tuning alerts"
+shows = "Toggles; Sign out. [FS] [F065]"
+
+[[steps]]
+link = "settings:sign-out-home"  # taps Sign out
+expect = "home@out.none.building"
+thought = "Done for now"
+shows = "Signed out. [M1024]"

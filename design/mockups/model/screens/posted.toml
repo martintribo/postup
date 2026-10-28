@@ -1,0 +1,47 @@
+# Screen: You're posted up. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "posted"
+title = "You're posted up"
+kind = "page"
+group = "Posting & hosting"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["share"] } ]
+links = [
+  { id = "close-home", label = "Close", action = "replace", to = "home" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "invite-friends-share", label = "Invite friends", action = "open", to = "share", slot = "sheet" },
+  { id = "manage-postup-live", label = "Manage postup", action = "replace", to = "live" },
+  { id = "map-home", label = "Map", action = "replace", to = "home" },
+  { id = "cafe-cafe", label = "Cafe", action = "replace", to = "cafe" },
+  { id = "project-project", label = "Project", action = "replace", to = "project" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Confirmation that your postup is live. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios; reached only after signing in. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Share link with Copy; Invite friends → share sheet. [FS]",
+  "\"Add a photo of your spot\": optional, asked here after posting. [F033] [R20]",
+  "Manage postup → `#live`. Map → home. Close → home. [FS]",
+  "The flow must not just stop after posting. [F110]",
+]
+
+[[notes]]
+section = "Overrides"
+lines = [
+  "Home is called Home; the \"Map\" link label wasn't decided. [F046] [unsourced]",
+]

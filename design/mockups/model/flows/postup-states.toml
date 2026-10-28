@@ -1,0 +1,35 @@
+# Flow: Postup ends, fills or is cancelled while you look. Model [M1030]; migrated from gen/flowdata.py.
+id = "postup-states"
+name = "Postup ends, fills or is cancelled while you look"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Anyone viewing a postup."
+goal = "Clear state and a next step. [F060] [M1024]"
+intent = "Wanted to join; it's full"
+start = { screen = "postup-full", auth = "in", live = "live", device = "phone", url = "/p/…" }
+edge_cases = [
+]
+success = [
+  "Never a blank page. [F060]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "opens a full postup"
+expect = "postup-full@in.live"
+thought = "Wanted to join; it's full"
+shows = "Full. [F060] [R47]"
+
+[[steps]]
+event = "postup-cancelled"  # later: postup cancelled
+expect = "postup-cancelled@in.live"
+thought = "Host cancelled"
+shows = "Cancelled. [F060] [R47]"
+
+[[steps]]
+gap = "later: postup ended"  # no single link/event from postup-cancelled@in.live to postup-ended@in.none
+expect = "postup-ended@in.none"
+thought = "Too late; it ended"
+shows = "Ended: see what's nearby, follow. [drawn]"

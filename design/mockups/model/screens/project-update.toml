@@ -1,0 +1,30 @@
+# Screen: Project update. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "project-update"
+title = "Project update"
+kind = "page"
+group = "Projects"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "post-update-signin", label = "Post update", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "post-update-project", label = "Post update", action = "replace", to = "project", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Owner posts an update: title, notes, image. [FS] [R35]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Post update → sign-in sheet. [unsourced]",
+  "Signed in: Post update → `#project`. [R35]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Desktop: centered dialog. [FS]",
+]

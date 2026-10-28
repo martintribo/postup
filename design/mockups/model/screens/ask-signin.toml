@@ -1,0 +1,33 @@
+# Screen: Sign-in sheet · ask. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "ask-signin"
+title = "Sign-in sheet · ask"
+kind = "page"
+group = "Postups & joining"
+variants = ["ask-signin--in"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "t-tess-live-till-3pm-profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
+  { id = "pixel-garden-drawing-crop-sp", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },
+  { id = "grindhouse-1-1-mi-22-min-wal", label = "Grindhouse 1.1 mi · 22 min walk", action = "replace", to = "cafe" },
+  { id = "ask-to-join-ask-signin", label = "Ask to join", action = "replace", to = "ask-signin", when = "auth=out" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-ask", label = "Continue with Apple", action = "replace", to = "ask", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-ask", label = "Continue with Google", action = "replace", to = "ask", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "ask-to-join-ask", label = "Ask to join", action = "replace", to = "ask", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Sign-in sheet before asking to join. Success → `#ask`. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed in: no sheet; shows `#postup-ask`. [FS] [M1018]",
+]

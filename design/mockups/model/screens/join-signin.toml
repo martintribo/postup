@@ -1,0 +1,40 @@
+# Screen: Sign-in sheet · join. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "join-signin"
+title = "Sign-in sheet · join"
+kind = "page"
+group = "Postups & joining"
+variants = ["join-signin--in"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "m-maya-live-till-4pm-profile", label = "M Maya Live · till 4pm", action = "replace", to = "profile" },
+  { id = "star-fox-64-mod-adding-a-new", label = "Star Fox 64 mod Adding a new Corne", action = "replace", to = "project" },
+  { id = "bean-theory-0-4-mi-8-min-wal", label = "Bean Theory 0.4 mi · 8 min walk", action = "replace", to = "cafe" },
+  { id = "join-join-signin", label = "Join", action = "replace", to = "join-signin", when = "auth=out" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-joined", label = "Continue with Apple", action = "replace", to = "joined", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-joined", label = "Continue with Google", action = "replace", to = "joined", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "join-joined", label = "Join", action = "replace", to = "joined", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Sign-in sheet over the postup when you tap Join (also used by Follow on `#invite-project`). [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: the sheet. [FS]",
+  "Signed in: no sheet; shows `#postup`. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Success → `#joined`. [FS]",
+]

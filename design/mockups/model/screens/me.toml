@@ -1,0 +1,41 @@
+# Screen: My profile. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "me"
+title = "My profile"
+kind = "page"
+group = "Inbox & people"
+variants = ["me--out"]  # old HTML variants, by condition
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "settings-settings", label = "Settings", action = "replace", to = "settings" },
+  { id = "1-42-you-re-live-at-bean-the", label = "1:42 You're live at Bean Theory Ti", action = "replace", to = "live" },
+  { id = "edit-profile-me", label = "Edit profile", action = "replace", to = "me" },
+  { id = "lantern-tea-cafe", label = "Lantern Tea", action = "replace", to = "cafe" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe" },
+  { id = "tide-clock-updated-sun-proje", label = "Tide Clock Updated Sun", action = "replace", to = "project-new" },
+  { id = "ship-models-imported-bean-th", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
+  { id = "level-editor-lantern-tea-oct", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-me", label = "Continue with Apple", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-me", label = "Continue with Google", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Your own profile. [FS] [F065]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Live card → `#live`, Edit profile, gear → `#settings`. [FS]",
+  "Desktop rail avatar opens this. [FS]",
+]

@@ -1,0 +1,71 @@
+# Flow: Curious browser: live now, then past content. Model [M1030]; migrated from gen/flowdata.py.
+id = "curious-browser"
+name = "Curious browser: live now, then past content"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "First-time visitor, signed out, who has heard of PostUp and wants to see what is on it: who is live and what people have made."
+goal = "See live and past content, then follow someone, signing in only at Follow. [M1025]"
+intent = "Curious what is on the site"
+start = { screen = "home", auth = "out", live = "live", tab = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Nobody live: Home opens in Building, so the flow starts at the projects (merged from the old first-visit-none flow). [M1018b] [M1025]",
+  "Taps Post up instead: see Came to post up. [M1025]",
+  "Not now on the sheet: stays signed out, nothing lost. [drawn] [M1025]",
+  "Never empty or \"quiet\" copy when nothing is live. [F035] [R4]",
+]
+success = [
+  "Sees live and past content without signing in. [FS] [M1025]",
+  "Sign-in asked only at an action (Follow). [FS] [TK§1]",
+]
+decide = [
+  "Should signed-out browsers ever get a soft sign-in nudge before an action? Today it is only at actions. [M1025]",
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@out.live.live"
+thought = "Curious what is on the site"
+shows = "Live now list: who is working where. [M1018b] [M1025]"
+
+[[steps]]
+link = "home:m-2-postup"  # taps a live row
+expect = "postup@out.live"
+thought = "Peeking at who is live"
+shows = "Peeks at a live postup, then Back. [FS] [M1025]"
+
+[[steps]]
+gap = "back, switches to Building"  # no single link/event from postup@out.live to home@out.live.building
+expect = "home@out.live.building"
+thought = "Wants past content too"
+shows = "Switches to Building for past content. [M1018b] [M1025]"
+
+[[steps]]
+link = "home:projects-projects"  # taps See all projects
+expect = "projects@out.live"
+thought = "Browsing what people build"
+shows = "See all projects, closest first. [M1018c] [FS]"
+
+[[steps]]
+link = "projects:star-fox-64-mod-m-maya-yeste"  # taps a project
+expect = "project@out.live"
+thought = "Interested in one project"
+shows = "Opens a project: updates and past postups. [FS] [M1025]"
+
+[[steps]]
+link = "project:maya-profile"  # taps the owner
+expect = "profile@out.live"
+thought = "Who is behind it?"
+shows = "Opens the maker's profile: past postups, regular cafes. [FS] [F065] [M1025]"
+
+[[steps]]
+link = "profile:follow-signin"  # taps Follow 🔒
+expect = "profile+signin@out.live"
+thought = "Wants to keep up with them"
+shows = "Taps Follow: soft sign-in sheet; Not now keeps browsing. [FS] [M1018] [M1025]"
+
+[[steps]]
+link = "signin:continue-with-apple"  # signs in
+expect = "profile@in.live"
+thought = "Convinced enough to sign in"
+shows = "Signed in and following. [FS] [M1025]"

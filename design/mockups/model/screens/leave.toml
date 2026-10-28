@@ -1,0 +1,22 @@
+# Sheet: Sheet · Leave. Model [M1030]; migrated (old id ov-leave, notes host joined).
+id = "leave"
+title = "Sheet · Leave"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "leave-postup", label = "Leave", action = "replace", to = "postup" },
+  { id = "stay", label = "Stay", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Confirm leaving; the poster gets an alert. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

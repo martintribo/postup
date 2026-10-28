@@ -1,0 +1,16 @@
+# Site events (not taps) and data conditions, from gen/sitegraph.py. [M1030]
+# on = screens it can happen on ("*" = any page, no sheet open). action/to/sets as for links.
+events = [
+  { id = "postups-end", label = "postups end", on = ["*"], when = "live=live", action = "swap", sets = "live=none" },
+  { id = "someone-goes-live", label = "someone goes live", on = ["*"], when = "live=none", action = "swap", sets = "live=live" },
+  { id = "alert-arrives", label = "alert arrives", on = ["*"], when = "auth=in", action = "replace", to = "activity" },
+  { id = "comes-back-later", label = "comes back later", on = ["*"], action = "replace", to = "home" },
+  { id = "postup-fills", label = "postup fills", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-full" },
+  { id = "postup-cancelled", label = "postup is cancelled", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-cancelled" },
+  { id = "postup-ends", label = "postup ends", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-ended", sets = "live=none" },
+  { id = "network-drops", label = "network drops", on = ["quiet-feed", "loading", "home"], action = "replace", to = "offline" },
+]
+conditions = [
+  { id = "google-card-fails", label = "Google card fails", replaces = "cafe", with = "cafe-gfail" },
+  { id = "empty-area", label = "area has no postups", on = ["home"], when = "live=none", action = "replace", to = "empty-area" },
+]

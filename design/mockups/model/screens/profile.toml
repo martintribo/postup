@@ -1,0 +1,40 @@
+# Screen: Profile. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "profile"
+title = "Profile"
+kind = "page"
+group = "Inbox & people"
+variants = ["profile--none"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "live-at-bean-theory-till-4pm", label = "Live at Bean Theory Till 4pm · Sta", action = "replace", to = "postup", when = "live=live" },
+  { id = "follow-signin", label = "Follow", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe" },
+  { id = "star-fox-64-mod-updated-yest", label = "Star Fox 64 mod Updated yesterday", action = "replace", to = "project" },
+  { id = "ship-models-imported-bean-th", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
+  { id = "level-editor-lantern-tea-oct", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
+  { id = "follow-profile", label = "Follow", action = "swap", to = "profile", sets = "following=toggle", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Someone's public profile. [FS] [F065]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: no live card. [M1018]",
+  "Signed out: Follow → sign-in sheet. [FS]",
+  "Signed in: Follow toggles. [FS]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Live card, avatar, bio, \"N postups · since Sep\", Follow, regular cafes, projects, past postups. [FS] [R76]",
+  "⋯ → report / block. [FS] [F059]",
+]

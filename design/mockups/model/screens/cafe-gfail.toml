@@ -1,0 +1,42 @@
+# Screen: Cafe · Google card failed. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "cafe-gfail"
+title = "Cafe · Google card failed"
+kind = "page"
+group = "Cafes & picking a place"
+variants = ["cafe-gfail--none"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["dirs", "share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "join-postup", label = "Join", action = "replace", to = "postup", when = "live=live" },
+  { id = "m-maya-live-bean-theory-till", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "j-jon-live-bean-theory-till-", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "open-in-maps-dirs", label = "Open in Maps", action = "open", to = "dirs", slot = "sheet" },
+  { id = "retry-cafe", label = "Retry", action = "replace", to = "cafe" },
+  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Place card failed to load. [F060]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: no Here now section, same as `#cafe`. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "\"Details unavailable\", Open in Maps, Retry. [FS] [R37]",
+]

@@ -1,0 +1,56 @@
+# Flow: Project builder: create, update, post up for it. Model [M1030]; migrated from gen/flowdata.py.
+id = "project-builder"
+name = "Project builder: create, update, post up for it"
+role = "host"
+mvp = true
+status = "draft"
+persona = "Signed-in maker."
+goal = "Have a project page that collects updates and postups. [M1024]"
+intent = "Wants a home for their project"
+start = { screen = "projects", auth = "in", live = "none", device = "phone", url = "/projects" }
+edge_cases = [
+  "Signed out: Create / Post update open the sign-in sheet, form kept. [FS] [M1018]",
+  "Signed out attach: #attach-signin. [FS]",
+]
+success = [
+  "Updates and postups show on the project timeline. [FS] [M1024]",
+]
+decide = [
+  "Image storage for projects (Vercel Blob?). [TK§4]",
+]
+
+[[steps]]
+arrive = "opens Projects"
+expect = "projects@in.none"
+thought = "Wants a home for their project"
+shows = "Projects, \"+\". [FS]"
+
+[[steps]]
+link = "projects:new-project-project-new"  # taps New project
+expect = "project-new@in.none"
+thought = "Starts a new project page"
+shows = "Cover, name, kind, one line. [FS] [drawn]"
+
+[[steps]]
+link = "project-new:create-project"  # taps Create
+expect = "project@in.none"
+thought = "Project exists"
+shows = "New project page. [FS]"
+
+[[steps]]
+link = "project:update-project-update"  # taps Update
+expect = "project-update@in.none"
+thought = "Sharing progress"
+shows = "Post an update with image. [FS] [R35]"
+
+[[steps]]
+gap = "taps Post up for this"  # no single link/event from project-update@in.none to project-attach@in.none
+expect = "project-attach@in.none"
+thought = "Working on it at a cafe"
+shows = "Post up for this project, now or earlier today. [FS]"
+
+[[steps]]
+link = "project-attach:post-up-posted"  # taps Post up
+expect = "posted@in.none"
+thought = "Live for the project"
+shows = "Posted, tied to the project. [FS]"

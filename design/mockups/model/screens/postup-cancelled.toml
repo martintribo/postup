@@ -1,0 +1,32 @@
+# Screen: Postup cancelled. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "postup-cancelled"
+title = "Postup cancelled"
+kind = "page"
+group = "Postups & joining"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "m-maya-bean-theory-profile", label = "M Maya Bean Theory", action = "replace", to = "profile" },
+  { id = "see-what-s-nearby-quiet-feed", label = "See what's nearby", action = "replace", to = "quiet-feed" },
+  { id = "follow-maya-for-next-time-si", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "go-to-home-home", label = "Go to Home", action = "replace", to = "home" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "follow-maya-for-next-time-po", label = "Follow Maya for next time", action = "swap", to = "postup-cancelled", sets = "following=toggle", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "State: the poster cancelled. [F060] [R47]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]

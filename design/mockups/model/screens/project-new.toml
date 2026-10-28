@@ -1,0 +1,30 @@
+# Screen: New project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "project-new"
+title = "New project"
+kind = "page"
+group = "Projects"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "create-signin", label = "Create", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "create-project", label = "Create", action = "replace", to = "project", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Create a project: cover, name, kind, one line. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Create → sign-in sheet. [FS]",
+  "Signed in: Create → `#project`. [FS]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Needs sign-in (sheet at Create). Desktop: centered dialog. [FS]",
+]

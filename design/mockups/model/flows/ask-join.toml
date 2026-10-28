@@ -1,0 +1,52 @@
+# Flow: Ask to join, then get approved (joiner side). Model [M1030]; migrated from gen/flowdata.py.
+id = "ask-join"
+name = "Ask to join, then get approved (joiner side)"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-in user; poster approves who joins."
+goal = "Send a reason, get a yes, meet up. [M1024]"
+intent = "Interested, but the host screens people"
+start = { screen = "postup-ask", auth = "in", live = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Signed out: Ask to join → #ask-signin → #ask. [FS]",
+  "Declined or no answer before the postup ends: shown in Activity, no chat. [unsourced] [M1024]",
+  "Cafe name before approval: hidden or shown? [F070] [R23]",
+]
+success = [
+  "Joiner learns the outcome without refreshing. [F095] [M1024]",
+]
+decide = [
+  "Show the cafe name before approval? (drawing shows it, code hides it) [F070] [R23]",
+  "What the joiner sees if never answered. [unsourced]",
+]
+
+[[steps]]
+arrive = "opens an ask-to-join postup"
+expect = "postup-ask@in.live"
+thought = "Interested, but the host screens people"
+shows = "\"Tess approves who joins\". [FS] [F055]"
+
+[[steps]]
+link = "postup-ask:ask-to-join-ask"  # taps Ask to join
+expect = "ask@in.live"
+thought = "Explaining why they want to join"
+shows = "Short reason. [F061] [F095]"
+
+[[steps]]
+link = "ask:send-request-requested"  # sends the request
+expect = "requested@in.live"
+thought = "Waiting for an answer"
+shows = "Request sent; can cancel. [FS] [drawn]"
+
+[[steps]]
+event = "alert-arrives"  # later: alert arrives
+expect = "activity@in.live"
+thought = "Gets the yes"
+shows = "Activity: \"Tess said yes\". [FS] [M1024]"
+
+[[steps]]
+link = "activity:m-maya-hey-here-till-4-come-"  # opens the chat
+expect = "chat@in.live"
+thought = "Now part of the group"
+shows = "Now in the postup chat. [F061] [F096]"

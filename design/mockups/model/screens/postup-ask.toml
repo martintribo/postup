@@ -1,0 +1,42 @@
+# Screen: Postup · ask to join. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "postup-ask"
+title = "Postup · ask to join"
+kind = "page"
+group = "Postups & joining"
+slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "t-tess-live-till-3pm-profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
+  { id = "pixel-garden-drawing-crop-sp", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },
+  { id = "grindhouse-1-1-mi-22-min-wal", label = "Grindhouse 1.1 mi · 22 min walk", action = "replace", to = "cafe" },
+  { id = "ask-to-join-ask-signin", label = "Ask to join", action = "replace", to = "ask-signin", when = "auth=out" },
+  { id = "ask-to-join-ask", label = "Ask to join", action = "replace", to = "ask", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "A postup where the poster approves who joins. [FS] [F055]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Ask to join 🔒 → `#ask-signin`. [FS]",
+  "Signed in: Ask to join → `#ask`. [FS]",
+  "Live / none: no effect. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "\"Tess approves who joins\" → Ask to join → sign-in → `#ask` → `#requested`. [FS]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Show the cafe name before approval? Martin never answered. Code hides it (D2); the mockup shows it. [F070] [R23]",
+]

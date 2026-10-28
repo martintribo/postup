@@ -1,0 +1,57 @@
+# Screen: Cafe. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "cafe"
+title = "Cafe"
+kind = "page"
+group = "Cafes & picking a place"
+variants = ["cafe--none"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["share"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "join-postup", label = "Join", action = "replace", to = "postup", when = "live=live" },
+  { id = "m-maya-live-bean-theory-till", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "j-jon-live-bean-theory-till-", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "One cafe: who's here now and the place details. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "None live: no Here now section; this week's count stays. [M1018]",
+  "Signed out / in: same, except 🔒. [TK§1]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Google UI-Kit place card for photos, rating, hours. Only Google content on the page, only inside the widget; store only `place_id`. [FS] [R36] [F032]",
+  "Google API cost is a concern; keep Google calls to the widget. [F085]",
+  "Hero photo is a user photo (\"Maya's photo\"). [drawn] [F086]",
+  "\"Here now\" people with Join; \"Post up here\"; the project that was here. [FS]",
+  "Desktop: map + right panel. [FS] [F053]",
+]
+
+[[notes]]
+section = "Links"
+lines = [
+  "Join → `#postup`. \"Post up here\" → `#post` with the cafe preset. Share → share sheet. [FS] [R41⚠]",
+]
+
+[[notes]]
+section = "States"
+lines = [
+  "Place card fails → `#cafe-gfail`. [F060] [R37]",
+]

@@ -1,0 +1,28 @@
+# Sheet: Sheet · Delete account. Model [M1030]; migrated (old id ov-delacct, notes host settings).
+id = "delacct"
+title = "Sheet · Delete account"
+kind = "sheet"
+group = "Sheets"
+links = [
+  { id = "close", label = "", action = "close" },
+  { id = "delete-account-home", label = "Delete account", action = "replace", to = "home", sets = "auth=out" },
+  { id = "cancel", label = "Cancel", action = "close" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Confirm deleting profile, postups and projects; can't be undone. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Gap fixes"
+lines = [
+  "Gap fix (Oct 25): Delete account signs you out and lands on Home. [M1025]",
+]

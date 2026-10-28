@@ -1,0 +1,37 @@
+# Screen: Post up for a project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "project-attach"
+title = "Post up for a project"
+kind = "page"
+group = "Projects"
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "post-up-attach-signin", label = "Post up", action = "replace", to = "attach-signin", when = "auth=out" },
+  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Post up tied to a project, now or \"I was here earlier\". [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Post up 🔒 → `#attach-signin`. [FS]",
+  "Signed in: Post up → `#posted`. [FS]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "\"I was here earlier\" adds it to the cafe's recent activity. [drawn]",
+  "Needs sign-in → `#attach-signin`. [FS]",
+  "Desktop: centered dialog. [FS]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "\"I was here earlier\", not \"Earlier today\". [TK§2] [R19⚠]",
+]

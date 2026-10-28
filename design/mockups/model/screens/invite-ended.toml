@@ -1,0 +1,31 @@
+# Screen: Share link · ended. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "invite-ended"
+title = "Share link · ended"
+kind = "page"
+group = "Share-link landings"
+entry = true
+slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+links = [
+  { id = "see-what-s-nearby-quiet-feed", label = "See what's nearby", action = "replace", to = "quiet-feed" },
+  { id = "follow-maya-for-next-time-si", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "go-to-home-home", label = "Go to Home", action = "replace", to = "home" },
+  { id = "follow-maya-for-next-time-in", label = "Follow Maya for next time", action = "swap", to = "invite-ended", sets = "following=toggle", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Shared link to a postup that ended → what's nearby. [FS] [R39]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Gap fixes"
+lines = [
+  "Gap fix (Oct 25): adds \"Follow Maya for next time\" (sign-in sheet when signed out; signing in returns here, Following) and \"Go to Home\". [M1025]",
+]

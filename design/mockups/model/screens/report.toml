@@ -1,0 +1,33 @@
+# Screen: Report. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "report"
+title = "Report"
+kind = "page"
+group = "Account & safety"
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "send-report-reported", label = "Send report", action = "replace", to = "reported" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Report a person, postup or message: reason + optional details. [F059] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Admin reports page for Martin only. [R30⚠]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "No user ban system yet. [TK§4]",
+]

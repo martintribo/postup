@@ -1,0 +1,47 @@
+# Screen: Settings. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "settings"
+title = "Settings"
+kind = "page"
+group = "Account & safety"
+variants = ["settings--out"]  # old HTML variants, by condition
+slots = [ { name = "sheet", kind = "sheet", accepts = ["delacct"] } ]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "sign-out-home", label = "Sign out", action = "replace", to = "home", sets = "auth=out" },
+  { id = "delete-account-delacct", label = "Delete account", action = "open", to = "delacct", slot = "sheet" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-settings", label = "Continue with Apple", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-setting", label = "Continue with Google", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Notification toggles; Account: Blocked people, Sign out, Delete account. [FS] [F065]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Account deletion in the app (store guideline 5.1.1). [R43⚠]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Email alerts. [TK§4]",
+]
+
+[[notes]]
+section = "Gap fixes"
+lines = [
+  "Gap fix (Oct 25): Sign out signs you out and lands on Home (was the share-link page); Delete account also lands on Home, signed out. [M1025]",
+]

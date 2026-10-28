@@ -1,0 +1,81 @@
+# Flow: Cautious joiner checks a few postups, then joins. Model [M1030]; migrated from gen/flowdata.py.
+id = "cautious-joiner"
+name = "Cautious joiner checks a few postups, then joins"
+role = "joiner"
+mvp = true
+status = "martin"
+persona = "Registered user, signed in, wants company but checks people out first."
+goal = "Join a live postup after comparing a few. [M1024]"
+intent = "Wants company today, but careful about who"
+start = { screen = "home", auth = "in", live = "live", tab = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]",
+  "The postup ends while they're reading: Join is replaced by the ended state (#postup-ended). [F060] [M1024]",
+  "Desktop: details open in the right panel and the map stays. [FS] [M1024]",
+]
+success = [
+  "Can reach postup, project, profile and cafe details from one postup and come back without losing place. [M1024]",
+  "Join is one tap once decided. [TK§1] [M1024]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@in.live.live"
+thought = "Wants company today, but careful about who"
+shows = "Opens / in Live mode: map + Live now list. [M1018b] [M1024]"
+
+[[steps]]
+link = "home:m-2-postup"  # taps Maya's row
+expect = "postup@in.live"
+thought = "Interested in Maya, not sure yet"
+shows = "Taps Maya's row: who, project, cafe, who else is joining. Does not join yet. [FS] [M1024]"
+
+[[steps]]
+link = "postup:star-fox-64-mod-adding-a-new"  # taps the project tag
+expect = "project@in.live"
+thought = "Wants proof Maya is legit: what is she building?"
+shows = "Opens Maya's project to see what she's working on, then Back. [FS] [M1024]"
+
+[[steps]]
+link = "project:maya-profile"  # taps Maya (owner)
+expect = "profile@in.live"
+thought = "Checking Maya's track record"
+shows = "Opens Maya's profile: postup count, regular cafes, past postups. [FS] [F065] [M1024]"
+
+[[steps]]
+link = "profile:bean-theory-cafe"  # taps the cafe
+expect = "cafe@in.live"
+thought = "Is the place itself OK?"
+shows = "Checks the cafe: hero photo, who's here now, Google card. [FS] [M1024]"
+
+[[steps]]
+link = "cafe:home-home"  # taps Home
+expect = "home@in.live.live"
+thought = "Wants to compare with someone else"
+shows = "Back on Home: Live now shows Tess, marked Ask to join. [M1025]"
+
+[[steps]]
+link = "home:t-postup-ask"  # taps Tess (Ask to join)
+expect = "postup-ask@in.live"
+thought = "Comparing with another option"
+shows = "Compares a second postup (Tess approves who joins), then Back. [FS] [M1024]"
+
+[[steps]]
+gap = "back to Maya's postup"  # no single link/event from postup-ask@in.live to postup@in.live
+expect = "postup@in.live"
+thought = "Decided: Maya it is"
+shows = "Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024]"
+
+[[steps]]
+link = "postup:join-joined"  # taps Join
+expect = "joined@in.live"
+thought = "Committed; needs to get there"
+shows = "You're joining Maya; Maya is told. [FS] [M1024]"
+
+[[steps]]
+link = "joined:directions-dirs"  # taps Directions
+expect = "joined+dirs@in.live"
+thought = "On the way"
+shows = "Directions sheet: Apple / Google Maps. [FS] [M1024]"

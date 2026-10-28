@@ -1,0 +1,43 @@
+# Flow: Follow a person or project. Model [M1030]; migrated from gen/flowdata.py.
+id = "following"
+name = "Follow a person or project"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-in user who liked someone's work."
+goal = "Hear when they post up next. [M1024]"
+intent = "Likes someone's work"
+start = { screen = "profile", auth = "in", live = "none", device = "phone", url = "/u/maya" }
+edge_cases = [
+  "Signed out: Follow → sign-in sheet. [FS]",
+]
+success = [
+  "Follow alerts arrive. [M1024]",
+]
+decide = [
+  "Alert for \"people you follow post up\" is saved but not sent yet in the build. [unsourced]",
+]
+
+[[steps]]
+arrive = "opens a profile"
+expect = "profile@in.none"
+thought = "Likes someone's work"
+shows = "Follow → Following. [FS]"
+
+[[steps]]
+gap = "opens Projects"  # no single link/event from profile@in.none to projects@in.none
+expect = "projects@in.none"
+thought = "Wants to see who they follow"
+shows = "Projects → Following filter. [FS] [R32]"
+
+[[steps]]
+gap = "later: alert arrives"  # no single link/event from projects@in.none to activity@in.live
+expect = "activity@in.live"
+thought = "Hears that someone posted up"
+shows = "Later: \"Maya posted up\" alert. [FS] [M1024]"
+
+[[steps]]
+gap = "taps the alert"  # no single link/event from activity@in.live to postup@in.live
+expect = "postup@in.live"
+thought = "Wants to go"
+shows = "Opens and joins. [FS]"

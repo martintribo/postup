@@ -1,0 +1,62 @@
+# Flow: Came to post up: first post with sign-in. Model [M1030]; migrated from gen/flowdata.py.
+id = "first-post"
+name = "Came to post up: first post with sign-in"
+role = "host"
+mvp = true
+status = "draft"
+persona = "First-time visitor already at a cafe who came to go live right now (signed out)."
+goal = "Go live in about ten seconds. [M1024]"
+intent = "Came to post up right now"
+start = { screen = "home", auth = "out", live = "none", tab = "building", device = "phone", url = "/" }
+edge_cases = [
+  "Location denied: picker falls back to search. [R21] [unsourced]",
+  "Cafe search fails without a Maps key → error state. [unsourced]",
+]
+success = [
+  "The form is not lost through sign-in. [M1018] [M1024]",
+]
+decide = [
+  "Location-permission explainer: in or out? (ledger open, final list says not adopted) [R21] [FS]",
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@out.none.building"
+thought = "Came to post up right now"
+shows = "Taps Post up. [M1018b]"
+
+[[steps]]
+link = "home:post-up-post"  # taps Post up
+expect = "post@out.none"
+thought = "Filling in the post"
+shows = "Nearest cafe prefilled. [FS] [F062]"
+
+[[steps]]
+link = "post:bean-theory-nearest-0-4-mi-c"  # taps Change
+expect = "where@out.none"
+thought = "Not at the nearest cafe"
+shows = "Change → cafe picker by distance. [F062] [R17]"
+
+[[steps]]
+link = "where:search-cafes-where-search"  # searches
+expect = "where-search@out.none"
+thought = "Looking for the right cafe"
+shows = "Searches a cafe. [FS]"
+
+[[steps]]
+link = "where-search:post-up-post-signin"  # taps Post up 🔒
+expect = "post-signin@out.none"
+thought = "Ready; asked to sign in"
+shows = "Post up 🔒 → sign-in. [FS] [TK§1]"
+
+[[steps]]
+link = "post-signin:continue-with-apple-posted"  # signs in
+expect = "posted@in.none"
+thought = "Live; wants company"
+shows = "Posted; link to copy. [FS]"
+
+[[steps]]
+link = "posted:invite-friends-share"  # taps Invite friends
+expect = "posted+share@in.none"
+thought = "Wants friends to come too"
+shows = "Invite friends: share sheet. [drawn] [M1024]"

@@ -1,0 +1,38 @@
+# Screen: Share link · project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "invite-project"
+title = "Share link · project"
+kind = "page"
+group = "Share-link landings"
+entry = true
+slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+links = [
+  { id = "see-updates-project", label = "See updates", action = "replace", to = "project" },
+  { id = "follow-signin", label = "Follow", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "next-postup-weekdays-at-bean", label = "Next postup: weekdays at Bean Theo", action = "replace", to = "profile" },
+  { id = "follow-invite-project", label = "Follow", action = "swap", to = "invite-project", sets = "following=toggle", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Logged-out landing for a shared project link. [F067] [R39]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Follow 🔒 → sign-in sheet. [FS]",
+  "Signed in: Follow toggles to Following. [FS]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "\"Maya is building Star Fox 64 mod\" — see updates, follow, or join her next postup. [FS]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Follow needs sign-in. [FS]",
+]

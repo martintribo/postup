@@ -1,0 +1,38 @@
+# Screen: Home overlay · alternative, not chosen. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "home-overlay-alt"
+title = "Home overlay · alternative, not chosen"
+kind = "page"
+group = "Home & discover"
+alternative = true  # design alternative, not linked from the site
+links = [
+  { id = "3-this-week-cafe", label = "3 this week", action = "replace", to = "cafe" },
+  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
+  { id = "star-fox-64-mod-maya-corneri", label = "Star Fox 64 mod Maya · Corneria II", action = "replace", to = "project" },
+  { id = "pixel-garden-tess-new-crop-s", label = "Pixel Garden Tess · New crop sprit", action = "replace", to = "project" },
+  { id = "bus-stop-zine-jon-page-12-in", label = "Bus Stop Zine Jon · Page 12 inked", action = "replace", to = "project" },
+  { id = "see-all-projects-projects", label = "See all projects", action = "replace", to = "projects" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Comparison only: a projects card floating over a dimmed map. **Alternative, not chosen**; Home uses the Live · Building switch instead. [M1018b]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Card: 3 projects, See all projects, Post up, Show map (hides the card). [M1018b] [drawn]",
+  "Heading \"What people are building\". [M1018c]",
+]

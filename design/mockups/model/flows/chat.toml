@@ -1,0 +1,38 @@
+# Flow: Postup chat. Model [M1030]; migrated from gen/flowdata.py.
+id = "chat"
+name = "Postup chat"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-in poster or joiner."
+goal = "Coordinate in the group chat. [M1024]"
+intent = "Wants to check messages"
+start = { screen = "inbox", auth = "in", live = "live", device = "phone", url = "/inbox" }
+edge_cases = [
+  "Signed out: sign-in sheet over Inbox. [unsourced]",
+  "Chat closes 24h after the postup. [R31] [FS]",
+]
+success = [
+  "Only poster + joined/approved can read. [F061]",
+]
+decide = [
+  "Chat retention (24h default). [R31] [FS]",
+]
+
+[[steps]]
+arrive = "opens Inbox"
+expect = "inbox@in.live"
+thought = "Wants to check messages"
+shows = "Inbox · Chats. [FS] [F096]"
+
+[[steps]]
+link = "inbox:m-maya-s-postup-maya-grabbin"  # opens a chat
+expect = "chat@in.live"
+thought = "Wants to sort out details in chat"
+shows = "One chat per postup. [F061] [F096]"
+
+[[steps]]
+link = "chat:message-options-msg"  # long-presses a message
+expect = "chat+msg@in.live"
+thought = "Something off about a message"
+shows = "Long-press: copy, report, block sender. [F096] [FS]"

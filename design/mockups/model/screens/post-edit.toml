@@ -1,0 +1,35 @@
+# Screen: Edit postup. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "post-edit"
+title = "Edit postup"
+kind = "page"
+group = "Posting & hosting"
+variants = ["post-edit--out"]  # old HTML variants, by condition
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
+  { id = "save-live", label = "Save", action = "replace", to = "live" },
+  { id = "back-2", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-post-edi", label = "Continue with Apple", action = "replace", to = "post-edit", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-post-ed", label = "Continue with Google", action = "replace", to = "post-edit", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Change your live postup; Save → `#live`. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Decisions"
+lines = [
+  "Managing your own postup is important. [F057]",
+]

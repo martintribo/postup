@@ -1,0 +1,90 @@
+# Screen: Nearby (/nearby) · photos (A). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "quiet-feed"
+title = "Nearby (/nearby) · photos (A)"
+kind = "page"
+group = "Home & discover"
+variants = ["quiet-feed--none"]  # old HTML variants, by condition
+links = [
+  { id = "s-me", label = "S", action = "replace", to = "me" },
+  { id = "replace-quiet", label = "", action = "replace", to = "quiet" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "maya-s-photo-cafe", label = "Maya's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live" },
+  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post", when = "live=live" },
+  { id = "tess-s-photo-cafe", label = "Tess's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project", when = "live=live" },
+  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live" },
+  { id = "jon-s-photo-cafe", label = "Jon's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "maya-s-photo-project", label = "Maya's photo", action = "replace", to = "project", when = "live=live" },
+  { id = "bean-theory-m-j-a-3-this-wee", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
+  { id = "grindhouse-t-1-this-week-caf", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
+  { id = "lantern-tea-a-d-2-this-week-", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
+  { id = "venice-blvd-oakwood-park-mar", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
+  { id = "map-quiet", label = "Map", action = "replace", to = "quiet" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none" },
+  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none" },
+  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none" },
+  { id = "lantern-lights-a-ari-sun-wir", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "The Nearby tab (`/nearby`): photo-led feed of this week's postups and project updates. [FS] [F029]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Live nearby: postup feed, as drawn. [FS]",
+  "None live: falls back to projects; project cards replace postup cards. Hero line \"What people are building\"; closest first, even if none are local; never call them nearby unless they are. [M1018] [F043] [M1018c]",
+  "Signed out / in: same. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Hero \"Good things happen at cafes\" + \"N postups nearby this week\". [FS]",
+  "Cards: avatar, name, when / how far, working on, project tag, cafe, \"Post up here\", \"N joined\"; project-update cards. [FS]",
+  "First visit: one dismissable welcome line on top. [F063] [F098] [R5]",
+  "Photos: user and project photos only. Google photos never. [F032] [F031] [R38]",
+  "Root tab: no Back. [R13]",
+  "Desktop: full-page grid with a sticky sidebar. No map behind it. [F051] [FS]",
+]
+
+[[notes]]
+section = "Links"
+lines = [
+  "Name → `#profile`. Cafe → `#cafe`. Project → `#project`. \"Post up here\" → `#post` with the cafe preset. [FS] [R40]",
+]
+
+[[notes]]
+section = "States"
+lines = [
+  "Nothing this week → projects in general. [F043] [R3]",
+  "Loading → `#loading`. Offline → `#offline`. [FS]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "Called \"Nearby\", never \"Quiet right now\". [F035] [FS]",
+]
+
+[[notes]]
+section = "Unsourced"
+lines = [
+  "Header avatar → `#me` on phone (still open in the build). [R15⚠]",
+  "\"Near …\" location label. [R7⚠]",
+]
+
+[[notes]]
+section = "Open"
+lines = [
+  "Build still lacks the photo cards. [FS]",
+]

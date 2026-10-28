@@ -1,0 +1,41 @@
+# Screen: Inbox · Chats. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "inbox"
+title = "Inbox · Chats"
+kind = "page"
+group = "Inbox & people"
+variants = ["inbox--out"]  # old HTML variants, by condition
+links = [
+  { id = "chats-inbox", label = "Chats", action = "replace", to = "inbox" },
+  { id = "activity-2-activity", label = "Activity 2", action = "replace", to = "activity" },
+  { id = "m-maya-s-postup-maya-grabbin", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat" },
+  { id = "s-your-postup-jon-on-the-way", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat" },
+  { id = "t-tess-s-postup-ended-tue-tu", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended" },
+  { id = "home-home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
+  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "back", label = "", action = "back", when = "auth=out" },
+  { id = "continue-with-apple-inbox", label = "Continue with Apple", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google-inbox", label = "Continue with Google", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
+  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Inbox tab: your postup chats. [FS] [F096]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: sign-in sheet over it; no unread dot. [unsourced]",
+  "Signed in: as drawn. [drawn]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]",
+]

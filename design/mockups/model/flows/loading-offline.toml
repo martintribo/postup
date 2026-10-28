@@ -1,0 +1,44 @@
+# Flow: Slow network and offline. Model [M1030]; migrated from gen/flowdata.py.
+id = "loading-offline"
+name = "Slow network and offline"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Anyone on bad wifi."
+goal = "Keep showing something useful. [M1024]"
+intent = "Opened the feed on bad wifi"
+start = { screen = "loading", auth = "in", live = "live", device = "phone", url = "/nearby" }
+edge_cases = [
+  "First visit while offline: nothing cached (fails in the build today). [unsourced]",
+]
+success = [
+  "No blank screens. [FS]",
+]
+decide = [
+  "Full offline screen vs banner only. [R46⚠] [FS]",
+]
+
+[[steps]]
+arrive = "opens Nearby"
+expect = "loading@in.live"
+thought = "Opened the feed on bad wifi"
+shows = "Skeleton. [FS] [F060]"
+
+[[steps]]
+event = "network-drops"  # later: network drops
+expect = "offline@in.live"
+thought = "Connection dropped"
+shows = "Cached feed + offline banner + Retry. [FS]"
+
+[[steps]]
+link = "offline:retry-quiet-feed"  # taps Retry
+expect = "quiet-feed@in.live"
+thought = "Back online"
+shows = "Retry succeeds. [FS]"
+
+[[steps]]
+link = "quiet-feed:maya-s-photo-cafe"  # taps a cafe
+condition = "google-card-fails"
+expect = "cafe-gfail@in.live"
+thought = "Checking a cafe; Google is down"
+shows = "Google card failed: rest of cafe still works. [F060]"

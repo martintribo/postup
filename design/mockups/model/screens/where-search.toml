@@ -1,0 +1,34 @@
+# Screen: Cafe search. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "where-search"
+title = "Cafe search"
+kind = "page"
+group = "Cafes & picking a place"
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
+  { id = "back-2", label = "", action = "back" },
+  { id = "search-cafes-where-search", label = "Search cafes", action = "replace", to = "where-search" },
+  { id = "sunbeam-coffee-1-6-mi-abbot-", label = "Sunbeam Coffee 1.6 mi · Abbot Kinn", action = "back" },
+  { id = "sunset-roasters-2-3-mi-mar-v", label = "Sunset Roasters 2.3 mi · Mar Vista", action = "back" },
+  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Search results in the picker. [FS]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "Google Places Autocomplete in our UI is fine; show \"powered by Google\" attribution. [F097] [FS]",
+]

@@ -1,0 +1,38 @@
+# Screen: Share link · live postup. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+id = "invite"
+title = "Share link · live postup"
+kind = "page"
+group = "Share-link landings"
+entry = true
+links = [
+  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "join-maya-join-signin", label = "Join Maya", action = "replace", to = "join-signin", when = "auth=out" },
+  { id = "bean-theory-0-4-mi-cafe", label = "Bean Theory · 0.4 mi", action = "replace", to = "cafe" },
+  { id = "join-maya-joined", label = "Join Maya", action = "replace", to = "joined", when = "auth=in" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Logged-out landing for a shared postup link. [FS] [R39] [F066]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed out: Join 🔒 → sign-in sheet. [FS]",
+  "Signed in: Join → `#joined`. [FS]",
+  "Live / none: no effect; the shared postup is live. [M1018]",
+]
+
+[[notes]]
+section = "Copy"
+lines = [
+  "\"Maya is working at Bean Theory till 4. Join her?\" plus one line on what PostUp is. [FS] [R39]",
+]
+
+[[notes]]
+section = "Links"
+lines = [
+  "Join → sign-in → `#joined`. Cafe → `#cafe`. [drawn]",
+]

@@ -1,0 +1,42 @@
+# Flow: Share link to an ended postup. Model [M1030]; migrated from gen/flowdata.py.
+id = "invite-ended"
+name = "Share link to an ended postup"
+role = "joiner"
+mvp = true
+status = "draft"
+persona = "Signed-out visitor opening an old link."
+goal = "Not hit a dead end: see what's around and follow the poster. [M1024]"
+intent = "Arrived too late"
+start = { screen = "invite-ended", auth = "out", live = "none", device = "phone", url = "/p/7xk2 (ended)" }
+edge_cases = [
+  "Cancelled instead of ended: #postup-cancelled copy. [F060] [M1024]",
+]
+success = [
+  "No 404, a next step is always offered. [F060] [M1024]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "opens an old share link"
+expect = "invite-ended@out.none"
+thought = "Arrived too late"
+shows = "\"This postup ended\" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39] [M1025]"
+
+[[steps]]
+link = "invite-ended:follow-maya-for-next-time-si"  # taps Follow Maya for next time 🔒
+expect = "invite-ended+signin@out.none"
+thought = "Wants to catch the next one"
+shows = "Follow → sign-in sheet. [FS] [M1025]"
+
+[[steps]]
+link = "signin:continue-with-apple"  # signs in
+expect = "invite-ended@in.none"
+thought = "Following Maya now"
+shows = "Back on the page, signed in; Follow shows Following. [M1018] [M1025]"
+
+[[steps]]
+link = "invite-ended:go-to-home-home"  # taps Go to Home
+expect = "home@in.none.building"
+thought = "Signed in; looks around"
+shows = "Home in Building mode. [M1018b] [M1025]"
