@@ -64,8 +64,16 @@ open('flows/all.md','w').write(FALL)
 with open('notes/all.md','a') as fh: fh.write('\n---\n\n# Critical flows\n'+HEAD+'\n\n'+'\n---\n\n'.join(flow_md(f,'##') for f in FLOWS))
 with open('llms.txt','a') as fh: fh.write('\n## Critical flows\n'+HEAD+'\n- [All flows in one file](flows/all.md)\n'+''.join(f"- [{f['id']}](flows/{f['id']}.md): {f['name']} ({f['pri']}{', draft' if f['status']=='draft' else ''}) · player: flows/{f['id']}.html\n" for f in FLOWS))
 # player pages
+BRCSS='''.tree{list-style:none;padding:0;margin:6px 0}.tree>li.st{padding:6px 6px 4px;margin:0 0 4px;border-radius:12px;cursor:pointer;font-weight:400;background:none}.tree>li.st:hover{background:#f1f0eb}.tree>li.on{background:#e6f4ec}
+.sr{display:flex;gap:10px;align-items:flex-start}.sn{flex:none;width:24px;height:24px;border-radius:50%;background:#10a364;color:#fff;font:700 12px/24px Inter,sans-serif;text-align:center;margin-top:2px}.sth{flex:none;width:38px;height:82px;object-fit:cover;object-position:top;border-radius:7px;border:2px solid #222;background:#fff}
+.stx{display:flex;flex-direction:column;gap:2px;min-width:0}.stx b{font-size:13.5px}.su{font-size:12.5px;color:#0f7a4f;font-style:italic}.sa{font-size:11.5px;color:#6b6b67}
+.bd{margin:2px 0 0 11px}.bd summary{font:600 11px Inter,sans-serif;color:#6b6b67;cursor:pointer;padding:2px 0 2px 22px;list-style:none}.bd summary::-webkit-details-marker{display:none}.bd summary:before{content:'▸ ';}.bd[open] summary:before{content:'▾ '}
+.bl{margin-left:11px;border-left:2px solid #cfd8d2;padding:2px 0 2px 0}.br{position:relative;display:flex;gap:8px;align-items:center;margin:3px 0 3px 0;padding:3px 6px 3px 22px;text-decoration:none;color:#232322;border-radius:8px;font-size:12px}.br:before{content:'';position:absolute;left:0;top:50%;width:16px;border-top:2px solid #cfd8d2}.br:hover{background:#fff}
+.br img{flex:none;width:22px;height:46px;object-fit:cover;object-position:top;border-radius:4px;border:1.5px solid #444;background:#fff}.bt{display:flex;flex-direction:column;min-width:0}.bt em{color:#5b3fd6;font-style:italic}.bm{color:#6b6b67;font-size:11px}.bm b{color:#232322}
+.br.lp em{color:#8a5a00}.br.ex em{color:#6b6b67}.bx{flex:none;width:22px;text-align:center;color:#6b6b67}.br.sm{padding-top:1px;padding-bottom:1px}.br.sm:before{border-top-style:dotted}
+.nv .tgl{margin-left:auto;font-size:12px;padding:6px 10px}.cfs{display:flex;flex-wrap:wrap;gap:5px}.cfc{font-size:12px;padding:3px 9px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;text-decoration:none;color:#232322}.cfc i{font-style:normal;color:#6b6b67;font-size:11px}'''
 PCSS='''*{box-sizing:border-box}body{margin:0;font:14px/1.4 Inter,system-ui,sans-serif;color:#232322;background:#f4f3ef}a{color:#0f7a4f}
-.fp{display:grid;grid-template-columns:340px 1fr 330px;height:100vh}.fh{overflow:auto;padding:14px;background:#fbfaf7;border-left:1px solid #e4e2dc;font-size:13px}.fh h3{margin-top:12px}.fh .think{background:#eef6f1;border-left:3px solid #10a364;border-radius:8px;padding:8px 10px;font-size:13.5px}.fh .how{font-size:11.5px;color:#6b6b67;margin-top:4px}.nxc{display:flex;flex-wrap:wrap;gap:4px}.nxc a,.nxc span{font:600 10.5px ui-monospace,monospace;padding:3px 6px;border-radius:6px;background:#f1efe9;color:#55544f;text-decoration:none;border:1px solid #e4e2dc}.nxc .tk{background:#10a364;color:#fff;border-color:#10a364}.nxc i{font:500 10px Inter,sans-serif;color:inherit;opacity:.75;margin-left:3px}.enc{display:block;background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:8px 10px;margin:6px 0;text-decoration:none;color:#232322}.enc:hover{border-color:#10a364}.enc b{display:block;font-size:12.5px}.enc span{font-size:11.5px;color:#6b6b67}.enc em{font-style:normal;color:#0f7a4f;font-weight:600}.cf li{margin:3px 0;font-size:12.5px}.side{overflow:auto;padding:16px;background:#fff;border-right:1px solid #e4e2dc}
+.fp{display:grid;grid-template-columns:460px 1fr;height:100vh}.side{overflow:auto;padding:14px 16px}.fh{overflow:auto;padding:14px;background:#fbfaf7;border-left:1px solid #e4e2dc;font-size:13px}.fh h3{margin-top:12px}.fh .think{background:#eef6f1;border-left:3px solid #10a364;border-radius:8px;padding:8px 10px;font-size:13.5px}.fh .how{font-size:11.5px;color:#6b6b67;margin-top:4px}.nxc{display:flex;flex-wrap:wrap;gap:4px}.nxc a,.nxc span{font:600 10.5px ui-monospace,monospace;padding:3px 6px;border-radius:6px;background:#f1efe9;color:#55544f;text-decoration:none;border:1px solid #e4e2dc}.nxc .tk{background:#10a364;color:#fff;border-color:#10a364}.nxc i{font:500 10px Inter,sans-serif;color:inherit;opacity:.75;margin-left:3px}.enc{display:block;background:#fff;border:1px solid #e4e2dc;border-radius:10px;padding:8px 10px;margin:6px 0;text-decoration:none;color:#232322}.enc:hover{border-color:#10a364}.enc b{display:block;font-size:12.5px}.enc span{font-size:11.5px;color:#6b6b67}.enc em{font-style:normal;color:#0f7a4f;font-weight:600}.cf li{margin:3px 0;font-size:12.5px}.side{overflow:auto;padding:16px;background:#fff;border-right:1px solid #e4e2dc}
 .side h1{font-size:18px;margin:6px 0}.meta{font-size:12px;color:#6b6b67}.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;background:#e6f4ec;color:#0f7a4f;margin-right:4px}.pill.dr{background:#fff3d6;color:#8a5a00}.pill.nc{background:#eceae4;color:#55544f}
 .nv{display:flex;gap:8px;align-items:center;margin:12px 0}.nv button{font:600 14px Inter,sans-serif;padding:9px 16px;border-radius:10px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}.nv button.pr{background:#10a364;border-color:#10a364;color:#fff}.nv button:disabled{opacity:.4}
 .cur{background:#f7f6f2;border-radius:10px;padding:10px;margin:8px 0}.cur code{font-size:12px}
@@ -75,34 +83,65 @@ h3{font-size:13px;margin:14px 0 4px;text-transform:uppercase;letter-spacing:.04e
 iframe.phone{width:430px;height:min(900px,calc(100vh - 24px))}iframe.desktop{width:100%;height:calc(100vh - 24px)}
 @media(max-width:820px){.fh{order:1;border:0}.fp{display:flex;flex-direction:column;height:auto}.side{display:contents}.top{order:0;padding:12px 14px 4px}.stage{order:1}.side>*:not(.top){order:2;padding:0 14px}.stage{padding:0 0 12px}iframe.phone,iframe.desktop{width:100%;height:72vh;border-radius:12px}}'''
 def esc(t): return re.sub(r'(\[[^\]]+\])',r'<span class="tg">\1</span>',H.escape(t,quote=False))
+FBR_WEAK=set()
+def _ptitle(sc): return NOTES[sc]['title'] if sc in NOTES else sc
+def _site_page(site): return site.split('@')[0].split('+')[0]
+def branches_for(f,i):
+    """Branch rows under step i (0-based): other flows that leave this site state differently, loops inside this flow, exits. [M1028]"""
+    xs=f['sx']; nx=xs[i+1]['site'] if i+1<len(xs) else None; rows=[]
+    for e in SG_ENTER[(f['id'],i)]:
+        if e['same']: continue
+        g=FBY[e['f']]; j=e['j']; gx=g['sx']
+        why=gx[j+1]['user'] if j+1<len(gx) else e['user']
+        if len(why)<12 or why==e['user']: FBR_WEAK.add((f['id'],i+1,g['id'],why))
+        rows.append(dict(k='flow',why=why,act=gx[j+1]['act'] if j+1<len(gx) else '',f=g['id'],n=g['name'],j=j+2,sc=_site_page(gx[j+1]['site']) if j+1<len(gx) else _site_page(e['next'] or ''),th=f"thumbs/{g['id']}-{j+2}.webp"))
+    if nx:
+        for k in range(i+1):
+            if xs[k]['site']==nx and k!=i+1:
+                rows.append(dict(k='loop',why=xs[i+1]['user'],act=xs[i+1]['act'],j=k+1,sc=_site_page(nx),th=f"thumbs/{f['id']}-{k+1}.webp")); break
+    else:
+        rows.append(dict(k='end',why='Done here',act='closes the tab or stays on this page',sc=_site_page(xs[i]['site'])))
+    same=[dict(f=e['f'],n=FBY[e['f']]['name'],j=e['j']+1) for e in SG_ENTER[(f['id'],i)] if e['same']]
+    more=len([n for n in SG_NEXT[(f['id'],i)] if not n[3]])
+    return rows,same,more
 def player(f):
-    def _st(k,s): return {'u':surl(f,s),'sc':s[0],'ov':s[3].get('ov',''),'p':f"auth={s[1]} · live={s[2]}"+(f" · mode={s[3]['mode']}" if 'mode' in s[3] else '')+(f" · sheet={s[3]['ov']}" if 'ov' in s[3] else ''),'t':esc(s[4]),'us':H.escape(f['sx'][k]['user']),'ac':H.escape(f['sx'][k]['act']),'hw':H.escape(SG_HOW[(f['id'],k)]),'site':f['sx'][k]['site'],'nx':[dict(n,u=(sgurl(n['t']) if n['t']!='back' else '')) for n in nextlist(f['id'],k)],'en':enterlist(f['id'],k)}
+    def _st(k,s): return {'u':surl(f,s),'sc':s[0],'ov':s[3].get('ov',''),'p':f"auth={s[1]} · live={s[2]}"+(f" · mode={s[3]['mode']}" if 'mode' in s[3] else '')+(f" · sheet={s[3]['ov']}" if 'ov' in s[3] else ''),'t':esc(s[4])}
     st=[_st(k,s) for k,s in enumerate(f['steps'])]
-    s=f['start']; dev=s['device']
-    li=''.join(f'<li data-i="{i}">#{x["sc"]}{" + "+x["ov"] if x["ov"] else ""} <span class="meta">{x["p"]}</span></li>' for i,x in enumerate(st))
-    rows=conn_rows(f['id'])
-    CONN='<h3>Connected flows</h3>'+('<ul class="cf">'+''.join(f'<li><a href="{h}.html">{H.escape(FBY[h]["name"])}</a>: '+'; '.join(x for x in [('branch out at '+', '.join(f'<a href="{h}.html#{b}">step {a}→{b}</a>' for a,b in v['out'])) if v['out'] else '',('merge in at '+', '.join(f'step {a} (from its {b})' for a,b in v['inn'])) if v['inn'] else ''] if x)+'</li>' for h,v in rows)+'</ul>' if rows else '<p class="meta">No other flow shares a site state with this one.</p>')+'<p class="meta">Branch out = another flow continues differently from the same site state; merge in = another flow arrives here from somewhere else. [M1025]</p>'
+    s=f['start']; dev=s['device']; fid=f['id']; li=''; nbr=0
+    for i,x in enumerate(st):
+        d=f['sx'][i]; rows,same,more=branches_for(f,i); nbr+=len([r for r in rows if r['k']!='end'])
+        br=''
+        for r in rows:
+            if r['k']=='flow':
+                br+=f'<a class="br" href="{r["f"]}.html#{r["j"]}" title="Open {H.escape(r["n"])} at step {r["j"]}"><img loading="lazy" src="{r["th"]}" alt=""><span class="bt"><em>“{H.escape(r["why"])}”</em><span class="bm">{H.escape(r["act"])} → #{r["sc"]} · <b>{H.escape(r["n"])}</b>, step {r["j"]}</span></span></a>'
+            elif r['k']=='loop':
+                br+=f'<a class="br lp" href="#{r["j"]}" data-go="{r["j"]-1}"><img loading="lazy" src="{r["th"]}" alt=""><span class="bt"><em>↺ “{H.escape(r["why"])}”</em><span class="bm">{H.escape(r["act"])} → back to step {r["j"]} (#{r["sc"]}) in this flow</span></span></a>'
+            else:
+                br+=f'<span class="br ex"><span class="bx">⏏</span><span class="bt"><em>End of flow</em><span class="bm">Leaves the site or stays on #{r["sc"]}</span></span></span>'
+        if same: br+='<span class="br sm"><span class="bm">Same next step in: '+', '.join(f'<a href="{q["f"]}.html#{q["j"]}">{H.escape(q["n"])}</a>' for q in same)+'</span></span>'
+        if more: br+=f'<a class="br sm" href="sitemap.html#{_site_page(d["site"])}"><span class="bm">+{more} other links from this page (site map)</span></a>'
+        nb=len([r for r in rows if r['k']!='end'])
+        li+=(f'<li data-i="{i}" class="st"><div class="sr"><span class="sn">{i+1}</span><img loading="lazy" class="sth" src="thumbs/{fid}-{i+1}.webp" alt=""><span class="stx"><b>{H.escape(_ptitle(x["sc"]))}{" + "+x["ov"] if x["ov"] else ""}</b><span class="su">“{H.escape(d["user"])}”</span><span class="sa">{H.escape(d["act"])}</span></span></div>'
+             +(f'<details class="bd" open><summary>{nb} branch{"es" if nb!=1 else ""}</summary><div class="bl">{br}</div></details>' if nb else (f'<div class="bl">{br}</div>' if br else ''))+'</li>')
+    rows=conn_rows(fid)
+    CONN=('<h3>Connected flows</h3><div class="cfs">'+''.join(f'<a class="cfc" href="{h}.html">{H.escape(FBY[h]["name"])} <i>{len(v["out"])}↗ {len(v["inn"])}↘</i></a>' for h,v in rows)+'</div><p class="meta">↗ branches out of this flow · ↘ arrives into it from elsewhere.</p>') if rows else ''
     sec=lambda h,k:(f'<h3>{h}</h3><ul>'+''.join(f'<li>{esc(b)}</li>' for b in f[k])+'</ul>') if f[k] else ''
-    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flow · {H.escape(f['name'])} · PostUp mockups</title><style>{PCSS}{MVPCSS}</style></head><body>
-<div class="fp"><div class="side"><div class="top"><a href="index.html">← All flows</a> · <a href="../index.html#index">Mockups</a>
-<h1>{H.escape(f['name'])}</h1><span class="pill{'' if f['pri']=='MVP must' else ' nc'}">{f['pri']}</span><span class="pill{' dr' if f['status']=='draft' else ''}">{'Draft' if f['status']=='draft' else "Martin's example"}</span> <span class="tg">[M1024]</span> {mvpc(f["id"])}<div class="meta" style="margin-top:6px">{MVPBAR0}</div>
-<div class="nv"><button id="bk" onclick="step(i-1)">Back</button><button id="nx" class="pr" onclick="step(i+1)">Next</button><span class="meta" id="pos"></span></div>
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flow · {H.escape(f['name'])} · PostUp mockups</title><style>{PCSS}{BRCSS}{MVPCSS}</style></head><body>
+<div class="fp"><div class="side"><div class="top"><a href="index.html">← All flows</a> · <a href="../index.html#index">Mockups</a> · <a href="sitemap.html">Site map</a>
+<h1>{H.escape(f['name'])}</h1><span class="pill{'' if f['pri']=='MVP must' else ' nc'}">{f['pri']}</span><span class="pill{' dr' if f['status']=='draft' else ''}">{'Draft' if f['status']=='draft' else "Martin's example"}</span> <span class="tg">[M1024]</span> {mvpc(fid)}<div class="meta" style="margin-top:6px">{MVPBAR0}</div>
+<div class="nv"><button id="bk" onclick="step(i-1)">Back</button><button id="nx" class="pr" onclick="step(i+1)">Next</button><span class="meta" id="pos"></span><button class="tgl" onclick="tg()" id="tb">Collapse branches</button></div>
 <div class="cur"><b id="ct"></b><div class="meta"><code id="cp"></code> · <a id="cu" target="_blank">open with notes</a></div></div></div>
 <p class="meta"><b>Persona:</b> {H.escape(f['persona'])}<br><b>Start:</b> auth={s['auth']} · live={s['live']} · {dev} · entry <code>{H.escape(s['url'])}</code><br><b>Goal:</b> {esc(f['goal'])}</p>
-<h3>Steps</h3><ol id="sl">{li}</ol>{sec('Branches and edge cases','branches')}{sec('Success','success')}{sec("Needs Martin's decision",'decide')}
-{CONN}<p class="meta"><a href="{f['id']}.md">{f['id']}.md</a> · <a href="site.html">Site graph</a></p></div>
-<div class="stage"><iframe id="fr" class="{dev}" title="Mockup step"></iframe></div>
-<aside class="fh"><h3 style="margin-top:0">From here</h3><div class="think"><span class="meta">They're thinking</span><br><b id="fhu"></b></div><div class="how" id="fhh"></div>
-<h3>Possible next site states</h3><div class="nxc" id="fhn"></div><h3>Other flows you could enter here</h3><div id="fhe"></div></aside></div>
-<script>var S={json.dumps(st)},i=0,fr=document.getElementById("fr"),y=0;fr.addEventListener("load",function(){{scrollTo(0,y);setTimeout(function(){{scrollTo(0,y)}},300)}});
+<h3>Steps and branches <span class="tg">[M1028]</span></h3><ol id="sl" class="tree">{li}</ol>{CONN}{sec('Edge cases','branches')}{sec('Success','success')}{sec("Needs Martin's decision",'decide')}
+<p class="meta"><a href="{fid}.md">{fid}.md</a> · <a href="site.html">Site graph</a></p></div>
+<div class="stage"><iframe id="fr" class="{dev}" title="Mockup step"></iframe></div></div>
+<script>var S={json.dumps(st)},i=0,fr=document.getElementById("fr"),y=0,op=1;fr.addEventListener("load",function(){{scrollTo(0,y);setTimeout(function(){{scrollTo(0,y)}},300)}});
 function step(n){{if(n<0||n>=S.length)return;i=n;y=scrollY;var x=S[i];fr.className=x.u.indexOf("device=desktop")>0?"desktop":"phone";fr.src=x.u.replace("#","&notes=0&fs="+i+"#");
 document.getElementById("ct").innerHTML=(i+1)+". "+x.t;document.getElementById("cp").textContent="#"+x.sc+" · "+x.p;document.getElementById("cu").href=x.u;
-document.getElementById("fhu").textContent=x.us.replace(/&amp;/g,"&").replace(/&#x27;/g,"'");document.getElementById("fhh").innerHTML="Site state <code>"+x.site+"</code> · got here by: "+x.ac+" <span class=meta>("+x.hw+")</span>";
-document.getElementById("fhn").innerHTML=x.nx.map(function(n){{var t=n.t==="back"?"Back":n.t;return (n.u?'<a target="_blank" href="'+n.u+'"':'<span')+' class="'+(n.tk?"tk":"")+'" title="'+n.l.replace(/"/g,"")+'">'+(n.tk?"✓ ":"")+t+'<i>'+n.l.slice(0,22)+'</i>'+(n.u?'</a>':'</span>')}}).join("")||'<span class=meta>end of flow</span>';
-document.getElementById("fhe").innerHTML=x.en.length?x.en.map(function(e){{return '<a class="enc" href="'+e.f+'.html#'+e.j+'"><b>'+e.n+' · step '+e.j+'</b><span>if they\u2019re thinking <em>“'+e.w+'”</em>'+(e.same?' (same next step)':'')+'</span></a>'}}).join(""):'<p class="meta">None: no other flow passes through this site state.</p>';
 document.getElementById("pos").textContent="Step "+(i+1)+" of "+S.length;document.getElementById("bk").disabled=i==0;document.getElementById("nx").disabled=i==S.length-1;
-document.querySelectorAll("#sl li").forEach(function(l){{l.classList.toggle("on",+l.dataset.i===i)}});history.replaceState(null,"","#"+(i+1))}}
-document.getElementById("sl").addEventListener("click",function(e){{var l=e.target.closest("li");if(l)step(+l.dataset.i)}});
+document.querySelectorAll("#sl>li").forEach(function(l){{var on=+l.dataset.i===i;l.classList.toggle("on",on);var d=l.querySelector("details");if(d&&on)d.open=true}});history.replaceState(null,"","#"+(i+1))}}
+function tg(){{op=!op;document.querySelectorAll("#sl details").forEach(function(d){{d.open=op||d.parentNode.classList.contains("on")}});document.getElementById("tb").textContent=op?"Collapse branches":"Expand branches"}}
+document.getElementById("sl").addEventListener("click",function(e){{var g=e.target.closest("[data-go]");if(g){{e.preventDefault();step(+g.dataset.go);return}}if(e.target.closest("a,summary"))return;var l=e.target.closest("#sl>li");if(l)step(+l.dataset.i)}});
 addEventListener("keydown",function(e){{if(e.key==="ArrowRight")step(i+1);if(e.key==="ArrowLeft")step(i-1)}});
 step(Math.max(0,Math.min(S.length-1,(parseInt(location.hash.slice(1))||1)-1)));</script>{MVPJS}</body></html>'''
 for f in FLOWS: open(f'flows/{f["id"]}.html','w').write(player(f))
