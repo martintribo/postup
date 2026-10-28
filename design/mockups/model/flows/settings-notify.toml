@@ -2,7 +2,7 @@
 id = "settings-notify"
 name = "Notification settings and sign out"
 role = "account"
-mvp = false
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 24  # position in the flow list
 status = "draft"
 persona = "Signed-in user."

@@ -55,7 +55,7 @@ for k,s in SST.items():
 for k,s in SST.items():
     if s['ov'] and (s['ov'] not in _pick or _rk(k)-5<_rk(_pick[s['ov']])-(5 if '+' in _pick[s['ov']] else 0)): _pick[s['ov']]=k
 DATA=dict(pos=POS,box=BOX,W=WW,H=WH,cw=CW,ch=CH,
-  pages={p:dict(t=_title(p),s=re.split(r' — ',_title(p))[0].replace(' (/)',''),g=g[0],sh=sorted(SHEETS.get(p,())),fl=FUSE.get(p,[]),th=_pick[p],
+  pages={p:dict(ph=ph1(p),t=_title(p),s=re.split(r' — ',_title(p))[0].replace(' (/)',''),g=g[0],sh=sorted(SHEETS.get(p,())),fl=FUSE.get(p,[]),th=_pick[p],
     st=[[k,('signed in' if SST[k]['auth']=='in' else 'signed out')+' · '+('live' if SST[k]['live']=='live' else 'no one live')+(' · '+SST[k]['mode'] if SST[k]['mode'] else '')+(' · sheet '+SST[k]['ov'] if SST[k]['ov'] else ''),surl_s(k)] for k in sorted((k for k in SST if (SST[k]['ov']==p if p in OVHOST else SST[k]['page']==p)),key=lambda k:(bool(SST[k]['ov']),SST[k]['auth']!='in',SST[k]['live']!='live',k))]) for g in SM_GROUPS+[SM_SHEETS] for p in g[3]},
   links=[[a,b,[x[:38]+('…' if len(x)>38 else '') for x in sorted(v)[:3]]] for (a,b),v in sorted(L.items())])
 _drop=', '.join(f'{v} {k}' for k,v in DROP.items() if v)
@@ -80,22 +80,22 @@ path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8
 .lk{{display:block;padding:4px 0;color:#232322;text-decoration:none;cursor:pointer;border-bottom:1px solid #f0efea}}.lk i{{font-style:normal;color:#77756f;font-size:11.5px}}.lk:hover b{{color:#0b7a4b}}
 .x{{position:absolute;top:10px;right:12px;border:0;background:none;font-size:20px;cursor:pointer}}.lg{{font-size:11.5px;color:#77756f}}.sw{{display:inline-block;width:18px;height:3px;vertical-align:middle;margin:0 4px 0 8px}}
 .emb .bar a,.emb .bar .mu{{display:none}}
-</style></head><body>
+'''+PHCSS+f'''</style></head><body>
 <div class="bar"><a href="index.html">← All flows</a><a href="site.html">Site graph (tables)</a><a href="states.html">States by screen</a><a href="explore.html">Map + states</a><b>Site map</b><span class="mu">{len(_pp)} pages · {len(L)} page-to-page links (from {_nedge} edges over {_nstate} states) · sheets as badges · click a page</span><span class="sp"></span>
 <span class="lg"><span class="sw" style="background:#10a364"></span>goes to<span class="sw" style="background:#3a6fd8"></span>comes from</span>
-<div class="zb"><button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
+<div class="zb">{PHBTN}<button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
 <div id="vp"><div id="w"></div></div>
 <div id="pn"><button class="x" onclick="sel(null)" aria-label="Close">×</button><div id="pc"></div></div>
-<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};
+'''+PHJS+f'''<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};
 var w=document.getElementById('w'),vp=document.getElementById('vp'),s=1,tx=0,ty=0,cur=null;w.style.width=D.W+'px';w.style.height=D.H+'px';
 function esc(t){{return String(t).replace(/[&<>"]/g,function(c){{return{{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]}})}}
 var h='';D.box.forEach(function(b){{h+='<div class="box" style="left:'+b.x+'px;top:'+b.y+'px;width:'+b.w+'px;height:'+b.h+'px;background:'+b.c+'"><h3>'+esc(b.n)+'</h3></div>'}});
 var sv='<svg width="'+D.W+'" height="'+D.H+'"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" fill="#8d8a82"/></marker></defs>';
 function c(p){{var q=D.pos[p];return[q[0]+D.cw/2,q[1]+80]}}
 D.links.forEach(function(l,i){{var a=c(l[0]),b=c(l[1]),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=.18;
- sv+='<path class="l" data-a="'+l[0]+'" data-b="'+l[1]+'" marker-end="url(#ah)" d="M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1]+'"/>'}});
+ sv+='<path class="l" data-ph="'+(D.pages[l[0]].ph&&D.pages[l[1]].ph?1:0)+'" data-a="'+l[0]+'" data-b="'+l[1]+'" marker-end="url(#ah)" d="M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1]+'"/>'}});
 h+=sv+'</svg>';
-Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+'</div></div>'}});
+Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-ph="'+P.ph+'" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+(P.ph?'<span class="p1b">P1</span>':'')+'</div></div>'}});
 w.innerHTML=h;
 function ap(){{w.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')'}}
 function Z(f,cx,cy){{cx=cx==null?vp.clientWidth/2:cx;cy=cy==null?vp.clientHeight/2:cy;var ns=Math.max(.2,Math.min(4,s*f));tx=cx-(cx-tx)*ns/s;ty=cy-(cy-ty)*ns/s;s=ns;ap()}}

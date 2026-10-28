@@ -48,6 +48,15 @@ The model in `model/` is the single source for the mockup's screens, links, note
   Each step also has `act` (what the user does), `expect` (the site state it must reach), `thought` and `shows`. Steps that take two taps are written as two steps.
 - **Sign-in**: one `signin` sheet. The old `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` URLs still work: they redirect to the page with the sheet open.
 
+## Phases (MVP pruning) [M1031-draft]
+
+- `phase` is an optional positive integer on a flow, a screen, or a site state. Untagged means unclassified: it is kept, not deleted.
+- Site-state overrides go in a `[state_phases]` table in `global.toml` or in a screen file, keyed by state id, e.g. `"postup+signin@out.live" = 2`.
+- Derived phase: a screen or state that a phase-N flow passes through is phase N, unless it is tagged. The lowest phase wins.
+- The validator fails if a phase-1 flow uses a screen or state that is explicitly tagged with a later phase.
+- Flows also have `user = "newcomer"` (signed out, never used) or `"registered"` (signed in), which must match the start state's `auth`. The old `mvp` flag is gone: phase 1 replaces `mvp = true`. The MVP checkboxes in the flow pages now start from phase 1.
+- The views (flows index and grid, site map, site graph, states, Map + states) have a "Phase: all / 1 only" toggle, and mark phase-1 items with a P1 badge.
+
 ## Edit, then build
 
 Edit the `.toml` files and, if a link changes, the HTML in `gen/*.py` as well. Then run `python3 gen/build.py`. `INDEX.md` is generated and lists every screen and flow on one line each. Every note line needs a source tag such as [FS], [F###], [M1031-draft] or [drawn].

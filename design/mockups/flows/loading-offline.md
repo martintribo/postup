@@ -1,5 +1,5 @@
 # Flow: Slow network and offline (`loading-offline`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/loading-offline.html
 
 ## Persona

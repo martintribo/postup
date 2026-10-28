@@ -1,5 +1,5 @@
 # Flow: Postup chat (`chat`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/chat.html
 
 ## Persona
@@ -15,7 +15,7 @@ Player: /mockups/flows/chat.html
 1. **inbox@in.live** · user: Wants to check messages · action: opens Inbox · edge: entry
    - Inbox · Chats. [FS] [F096]
    - next site states: activity@in.live (Activity 2), **chat@in.live** (M Maya's postup Maya: Grabbing ano), postup-ended@in.live (T Tess's postup Ended · Tue Tue), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S)
-   - enterable flows: none
+   - enterable flows: catch-up step 2 (if Checks messages first)
 2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: M Maya's postup Maya: Grabbing ano
    - One chat per postup. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
@@ -26,7 +26,7 @@ Player: /mockups/flows/chat.html
    - enterable flows: none
 
 ## Connected flows [M1025]
-- none
+- `catch-up`: branch out at step 1→2; merge in at step 1 (from its step 2)
 
 ## Screens
 1. `#inbox` · auth=in live=live — Inbox · Chats. [FS] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live#inbox)

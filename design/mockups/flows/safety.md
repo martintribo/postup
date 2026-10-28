@@ -1,5 +1,5 @@
 # Flow: Report and block (`safety`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/safety.html
 
 ## Persona

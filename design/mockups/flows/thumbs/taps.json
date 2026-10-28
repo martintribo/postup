@@ -127,13 +127,6 @@
   "back": false
  },
  "invite-ended-4": null,
- "invite-project-1": null,
- "invite-project-2": null,
- "invite-project-3": {
-  "label": "See updates",
-  "back": false
- },
- "invite-project-4": null,
  "ask-join-1": {
   "label": "Ask to join",
   "back": false
@@ -214,6 +207,87 @@
   "back": false
  },
  "hosting-5": null,
+ "chat-1": {
+  "label": "M",
+  "back": false
+ },
+ "chat-2": {
+  "label": "Message options",
+  "back": false
+ },
+ "chat-3": null,
+ "safety-1": {
+  "label": "Report",
+  "back": false
+ },
+ "safety-2": {
+  "label": "Send report",
+  "back": false
+ },
+ "safety-3": {
+  "label": "Block Maya too",
+  "back": false
+ },
+ "safety-4": {
+  "label": "Blocked people (Settings)",
+  "back": false
+ },
+ "safety-5": null,
+ "leave-1": {
+  "label": "Leave",
+  "back": false
+ },
+ "leave-2": {
+  "label": "Leave",
+  "back": false
+ },
+ "leave-3": null,
+ "empty-area-1": null,
+ "empty-area-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "empty-area-3": null,
+ "catch-up-1": {
+  "label": "Inbox",
+  "back": false
+ },
+ "catch-up-2": {
+  "label": "Activity",
+  "back": false
+ },
+ "catch-up-3": {
+  "label": "T",
+  "back": false
+ },
+ "catch-up-4": {
+  "label": "Back",
+  "back": true
+ },
+ "catch-up-5": {
+  "label": "Chats",
+  "back": false
+ },
+ "catch-up-6": {
+  "label": "T",
+  "back": false
+ },
+ "catch-up-7": {
+  "label": "Inbox",
+  "back": false
+ },
+ "catch-up-8": {
+  "label": "M",
+  "back": false
+ },
+ "catch-up-9": null,
+ "invite-project-1": null,
+ "invite-project-2": null,
+ "invite-project-3": {
+  "label": "See updates",
+  "back": false
+ },
+ "invite-project-4": null,
  "project-builder-1": {
   "label": "New project",
   "back": false
@@ -253,41 +327,6 @@
   "back": false
  },
  "following-5": null,
- "chat-1": {
-  "label": "M",
-  "back": false
- },
- "chat-2": {
-  "label": "Message options",
-  "back": false
- },
- "chat-3": null,
- "safety-1": {
-  "label": "Report",
-  "back": false
- },
- "safety-2": {
-  "label": "Send report",
-  "back": false
- },
- "safety-3": {
-  "label": "Block Maya too",
-  "back": false
- },
- "safety-4": {
-  "label": "Blocked people (Settings)",
-  "back": false
- },
- "safety-5": null,
- "leave-1": {
-  "label": "Leave",
-  "back": false
- },
- "leave-2": {
-  "label": "Leave",
-  "back": false
- },
- "leave-3": null,
  "postup-states-1": {
   "label": "Back",
   "back": true
@@ -301,12 +340,6 @@
   "back": true
  },
  "postup-states-4": null,
- "empty-area-1": null,
- "empty-area-2": {
-  "label": "Post up",
-  "back": false
- },
- "empty-area-3": null,
  "loading-offline-1": null,
  "loading-offline-2": {
   "label": "Retry",

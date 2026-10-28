@@ -2,7 +2,8 @@
 id = "safety"
 name = "Report and block"
 role = "account"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 17  # position in the flow list
 status = "draft"
 persona = "Signed-in user uncomfortable with someone."

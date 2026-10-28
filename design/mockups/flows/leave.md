@@ -1,5 +1,5 @@
 # Flow: Leave a postup you joined (`leave`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/leave.html
 
 ## Persona

@@ -1,5 +1,5 @@
 # Flow: Curious browser: live now, then past content (`curious-browser`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/curious-browser.html
 
 ## Persona

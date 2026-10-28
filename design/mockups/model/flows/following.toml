@@ -2,7 +2,7 @@
 id = "following"
 name = "Follow a person or project"
 role = "joiner"
-mvp = true
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 15  # position in the flow list
 status = "draft"
 persona = "Signed-in user who liked someone's work."

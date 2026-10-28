@@ -2,7 +2,8 @@
 id = "invite-live"
 name = "Share link to a live postup"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 order = 6  # position in the flow list
 status = "draft"
 persona = "Friend of a poster, signed out, opened postup.now/p/… from a message."

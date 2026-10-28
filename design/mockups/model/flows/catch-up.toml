@@ -1,0 +1,87 @@
+# Flow: Catch up. Draft phase-1 flow [M1031-draft]; uses only links that exist in the model.
+id = "catch-up"
+name = "Catch up on what happened"
+role = "joiner"
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
+order = 25  # position in the flow list
+status = "draft"
+persona = "Registered user coming back after a while away."
+goal = "See what happened since last time: replies, approvals, ended postups. [M1031-draft]"
+intent = "What did I miss?"
+start = { screen = "home", auth = "in", live = "live", tab = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Nothing happened while away: Activity and Chats need a positive empty state, never \"quiet\". [F035] [M1031-draft]",
+]
+success = [
+  "From Home, the user reaches replies, an approval and an ended postup through the Inbox. [M1031-draft]",
+]
+decide = [
+  "No \"since you were away\" summary exists; catching up means opening Inbox, then each item. [M1031-draft]",
+  "No unread or new markers per item beyond the Activity count badge; there is no way to tell what is new since last visit. [M1031-draft]",
+  "An approval (\"Tess said yes\") opens Tess's postup as Ask to join, not a joined/approved state. [M1031-draft]",
+  "Ended postups appear only in Chats (\"Tess's postup · Ended\"), not as an Activity alert. [M1031-draft]",
+  "Replies show as one Activity row per message linking to the group chat; there is no reply thread view. [M1031-draft]",
+]
+
+[[steps]]
+arrive = "comes back and opens /"
+expect = "home@in.live.live"
+thought = "What did I miss?"
+shows = "Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "tabbar:inbox"
+act = "taps Inbox"
+expect = "inbox@in.live"
+thought = "Checks messages first"
+shows = "Chats: group chats, newest first, including an ended postup. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "inbox:activity-2"
+act = "taps Activity"
+expect = "activity@in.live"
+thought = "What else happened?"
+shows = "Activity: joins, requests, approvals, follows, messages. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "activity:postup-ask"
+act = "taps \"Tess said yes to your request\""
+expect = "postup-ask@in.live"
+thought = "My request was approved"
+shows = "Tess's postup. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "postup-ask:back"
+act = "taps Back"
+expect = "activity@in.live"
+thought = "Back to the list"
+shows = "Activity again. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "activity:chats"
+act = "taps Chats"
+expect = "inbox@in.live"
+thought = "Any replies?"
+shows = "Chats list. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "inbox:postup-ended"
+act = "taps Tess's ended postup"
+expect = "postup-ended@in.live"
+thought = "That one's over"
+shows = "Ended postup: see what's nearby, follow. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "postup-ended:back"
+act = "taps Back"
+expect = "inbox@in.live"
+thought = "Back to chats"
+shows = "Chats list. [drawn] [M1031-draft]"
+
+[[steps]]
+link = "inbox:chat"
+act = "opens Maya's postup chat"
+expect = "chat@in.live"
+thought = "Reads the replies"
+shows = "Group chat with the latest replies. [drawn] [M1031-draft]"

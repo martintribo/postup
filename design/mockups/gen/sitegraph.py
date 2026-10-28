@@ -6,6 +6,8 @@
 import sys as _sys
 _sys.path.insert(0,'gen'); import model as M, htmllinks as HL
 SC,_MFL,MEV,_MGL=M.load()
+PH_F,PH_S,PH_ST=M.phases(SC,_MFL,_MGL)  # phase per flow / screen / site state (derived) [M1031-draft]
+def ph1(x,kind='s'): return 1 if (PH_S if kind=='s' else PH_ST).get(x)==1 else 0
 PAGES=[k for k in S if '--' not in k and k!='index']
 OVCH={m[1]:m[2] for m in re.finditer(r'<div class="ov" id="ov-([\w-]+)">(.*?)</div></div>(?=<div class="ov"|$)',OVS,re.S)}
 assert set(OVCH)==set(OVHOST), (set(OVCH)^set(OVHOST))
@@ -183,7 +185,7 @@ def sg_write():
     md+='\n## Missing edges found by the flows (design gaps)\n'+(''.join(f'- `{fi}` step {n}: `{a}` → `{b}` ("{act}") [M1025]\n' for fi,n,a,b,act in SG_GAPS) or '- none\n')
     open('flows/sitegraph.md','w').write(md)
     # site.html
-    def chip(k): s=SST[k]; return f'<a class="sc" href="{surl_s(k)}" target="_blank">{stname(k)}</a>'
+    def chip(k): s=SST[k]; return f'<a class="sc" data-ph="{ph1(k,"st")}" href="{surl_s(k)}" target="_blank">{stname(k)}</a>'
     cards=''
     for gname,ps in PGROUPS:
         cards+=f'<section class="pg"><h2>{H.escape(gname)}</h2><div class="pgs">'
@@ -192,7 +194,7 @@ def sg_write():
             ed=''.join(f'<li class="k-{kind}"><span class="el">{H.escape(lab or "(tap)")}</span> → <b>{H.escape(tp)}</b>{"<span class=cnd>"+H.escape(c)+"</span>" if c else ""}</li>' for lab,tp,kind,c in pedges(p))
             sh=''.join(f'<li class="k-sheet">sheet <b>{o}</b>: '+H.escape('; '.join(f'{lab or "(tap)"} → {tp}' for lab,tp,kind,c in pedges(p,o)))+'</li>' for o in sorted({s['ov'] for s in SST.values() if s['page']==p and s['ov']}))
             used=sorted({f['id'] for f in FLOWS for d in f['sx'] if SST[d['site']]['page']==p})
-            cards+=f'<article class="pc" id="p-{p}"><h3>{H.escape(ptitle(p))} <code>{p}</code> <a class="sc" href="states.html#screen={p}">all states</a></h3><div class="sts">{sts}</div><ul>{ed}{sh}</ul>'+(f'<p class="fl">In flows: '+' '.join(f'<a href="{x}.html">{x}</a>' for x in used)+'</p>' if used else '')+'</article>'
+            cards+=f'<article class="pc" data-ph="{ph1(p)}" id="p-{p}"><h3>{H.escape(ptitle(p))}{p1b(ph1(p))} <code>{p}</code> <a class="sc" href="states.html#screen={p}">all states</a></h3><div class="sts">{sts}</div><ul>{ed}{sh}</ul>'+(f'<p class="fl">In flows: '+' '.join(f'<a href="{x}.html">{x}</a>' for x in used)+'</p>' if used else '')+'</article>'
         cards+='</div></section>'
     gaps=''.join(f'<li><a href="{fi}.html#{n}">{fi} step {n}</a>: <code>{H.escape(a)}</code> → <code>{H.escape(b)}</code> <span class="meta">({H.escape(act)})</span></li>' for fi,n,a,b,act in SG_GAPS) or '<li>none</li>'
     SITECSS=""".sgw{max-width:1500px;margin:0 auto;padding:10px 20px 40px}.pg h2{font-size:16px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em;color:#33332f}.pgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
@@ -200,8 +202,8 @@ def sg_write():
     .sts{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}.sc{font:600 10.5px ui-monospace,monospace;padding:2px 6px;border-radius:6px;background:#eef6f1;color:#0f7a4f;text-decoration:none}
     .pc ul{list-style:none;padding:0;margin:0;font-size:12.5px}.pc li{padding:2px 0;border-top:1px dashed #eceae4}.el{color:#55544f}.cnd{margin-left:6px;font-size:10.5px;color:#8a5a00;background:#fff3d6;border-radius:5px;padding:0 5px}
     .k-sign-in b{color:#0f7a4f}.k-back{color:#8a8984}.k-sheet{color:#4a3d8f}.fl{font-size:11.5px;color:#6b6b67;margin:6px 0 0}.fl a{margin-right:4px}.gp2{background:#fff8e6;border:1px solid #f1d9a6;border-radius:12px;padding:10px 14px;margin-top:10px}"""
-    open('flows/site.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site graph · PostUp mockups</title><style>{PCSS}{SITECSS}</style></head><body>
-    <div class="sgw"><p><a href="../index.html#index">← Mockups</a> · <a href="sitemap.html">Site map (visual)</a> · <a href="states.html">States by screen</a> · <a href="map.html">Flow map</a> · <a href="grid.html">All flows grid</a> · <a href="index.html">Flow list</a> · <a href="sitegraph.md">sitegraph.md</a></p>
+    open('flows/site.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site graph · PostUp mockups</title><style>{PCSS}{SITECSS}{PHCSS}</style></head><body>
+    <div class="sgw"><p><a href="../index.html#index">← Mockups</a> · <a href="sitemap.html">Site map (visual)</a> · <a href="states.html">States by screen</a> · {PHBTN} · <a href="map.html">Flow map</a> · <a href="grid.html">All flows grid</a> · <a href="index.html">Flow list</a> · <a href="sitegraph.md">sitegraph.md</a></p>
     <h1>Site graph</h1><p class="meta">{esc(SGHEAD)}<br>{H.escape(EVN)}<br>Chips are site states (auth·live[·mode]); each opens that state in the mockup. Arrows list taps; an amber note says the edge exists only in those states.</p>
-    <div class="gp2"><b>Missing edges found by the flows (design gaps)</b><ul>{gaps}</ul></div>{cards}</div></body></html>''')
+    <div class="gp2"><b>Missing edges found by the flows (design gaps)</b><ul>{gaps}</ul></div>{cards}</div>{PHJS}</body></html>''')
     with open('llms.txt','a') as fh: fh.write(f'\n## Site graph\n{SGHEAD}\n- [Site graph: pages, site states, edges, design gaps](flows/sitegraph.md) · page: flows/site.html · data: flows/sitegraph.json\n')

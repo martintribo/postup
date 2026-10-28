@@ -2,7 +2,7 @@
 id = "project-builder"
 name = "Project builder: create, update, post up for it"
 role = "host"
-mvp = true
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 14  # position in the flow list
 status = "draft"
 persona = "Signed-in maker."

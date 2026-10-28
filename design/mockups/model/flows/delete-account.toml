@@ -2,7 +2,7 @@
 id = "delete-account"
 name = "Delete account"
 role = "account"
-mvp = true
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 22  # position in the flow list
 status = "draft"
 persona = "Signed-in user leaving."

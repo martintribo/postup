@@ -2,7 +2,8 @@
 id = "empty-area"
 name = "Empty area: be the first"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 20  # position in the flow list
 status = "draft"
 persona = "Signed-in user in a city with no postups yet."
@@ -10,6 +11,7 @@ goal = "Seed the area. [M1024]"
 intent = "Nobody around here yet"
 start = { screen = "home", auth = "in", live = "none", tab = "building", device = "phone", url = "/" }
 edge_cases = [
+  "A newcomer (signed-out) version of this flow is wanted. [M1031-draft]",
 ]
 success = [
   "Positive copy, never \"quiet\". [F035] [R4]",

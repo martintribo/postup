@@ -2,7 +2,8 @@
 id = "curious-browser"
 name = "Curious browser: live now, then past content"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 order = 4  # position in the flow list
 status = "draft"
 persona = "First-time visitor, signed out, who has heard of PostUp and wants to see what is on it: who is live and what people have made."

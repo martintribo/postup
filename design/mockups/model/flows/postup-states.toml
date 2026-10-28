@@ -2,7 +2,7 @@
 id = "postup-states"
 name = "Postup ends, fills or is cancelled while you look"
 role = "joiner"
-mvp = true
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 19  # position in the flow list
 status = "draft"
 persona = "Anyone viewing a postup."

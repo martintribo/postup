@@ -2,7 +2,8 @@
 id = "cautious-joiner"
 name = "Cautious joiner checks a few postups, then joins"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 1  # position in the flow list
 status = "martin"
 persona = "Registered user, signed in, wants company but checks people out first."

@@ -67,30 +67,31 @@ The home page (/) is #home, called Home, with two modes on one URL: Live and Bui
 ## Critical flows
 Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certain situation and goes through a scenario step by step. Each step names the screen and the scenario params (auth, live, Home mode, sheet). Flows marked Draft were inferred from the screen notes; confirm with Martin.
 - [All flows in one file](flows/all.md)
-- [cautious-joiner](flows/cautious-joiner.md): Cautious joiner checks a few postups, then joins (MVP must) · player: flows/cautious-joiner.html
-- [quick-joiner](flows/quick-joiner.md): Quick joiner (MVP must, draft) · player: flows/quick-joiner.html
-- [first-visit-live](flows/first-visit-live.md): Curious visitor joins someone live (MVP must, draft) · player: flows/first-visit-live.html
-- [curious-browser](flows/curious-browser.md): Curious browser: live now, then past content (MVP must, draft) · player: flows/curious-browser.html
-- [stumbled](flows/stumbled.md): Stumbled on it: what is this? (MVP must, draft) · player: flows/stumbled.html
-- [invite-live](flows/invite-live.md): Share link to a live postup (MVP must, draft) · player: flows/invite-live.html
-- [invite-ended](flows/invite-ended.md): Share link to an ended postup (MVP must, draft) · player: flows/invite-ended.html
-- [invite-project](flows/invite-project.md): Share link to a project (MVP must, draft) · player: flows/invite-project.html
-- [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (MVP must, draft) · player: flows/ask-join.html
-- [host-approve](flows/host-approve.md): Host approves a request (MVP must, draft) · player: flows/host-approve.html
-- [first-post](flows/first-post.md): Came to post up: first post with sign-in (MVP must, draft) · player: flows/first-post.html
-- [returning-post](flows/returning-post.md): Returning poster (MVP must, draft) · player: flows/returning-post.html
-- [hosting](flows/hosting.md): Hosting live: extend, edit, end (MVP must, draft) · player: flows/hosting.html
-- [project-builder](flows/project-builder.md): Project builder: create, update, post up for it (MVP must, draft) · player: flows/project-builder.html
-- [following](flows/following.md): Follow a person or project (MVP must, draft) · player: flows/following.html
-- [chat](flows/chat.md): Postup chat (MVP must, draft) · player: flows/chat.html
-- [safety](flows/safety.md): Report and block (MVP must, draft) · player: flows/safety.html
-- [leave](flows/leave.md): Leave a postup you joined (MVP must, draft) · player: flows/leave.html
-- [postup-states](flows/postup-states.md): Postup ends, fills or is cancelled while you look (MVP must, draft) · player: flows/postup-states.html
-- [empty-area](flows/empty-area.md): Empty area: be the first (MVP must, draft) · player: flows/empty-area.html
-- [loading-offline](flows/loading-offline.md): Slow network and offline (MVP must, draft) · player: flows/loading-offline.html
-- [delete-account](flows/delete-account.md): Delete account (MVP must, draft) · player: flows/delete-account.html
-- [desktop-browse](flows/desktop-browse.md): Desktop browse and post (nice, draft) · player: flows/desktop-browse.html
-- [settings-notify](flows/settings-notify.md): Notification settings and sign out (nice, draft) · player: flows/settings-notify.html
+- [cautious-joiner](flows/cautious-joiner.md): Cautious joiner checks a few postups, then joins (Phase 1) · player: flows/cautious-joiner.html
+- [quick-joiner](flows/quick-joiner.md): Quick joiner (Phase 1, draft) · player: flows/quick-joiner.html
+- [first-visit-live](flows/first-visit-live.md): Curious visitor joins someone live (Phase 1, draft) · player: flows/first-visit-live.html
+- [curious-browser](flows/curious-browser.md): Curious browser: live now, then past content (Phase 1, draft) · player: flows/curious-browser.html
+- [stumbled](flows/stumbled.md): Stumbled on it: what is this? (Phase 1, draft) · player: flows/stumbled.html
+- [invite-live](flows/invite-live.md): Share link to a live postup (Phase 1, draft) · player: flows/invite-live.html
+- [invite-ended](flows/invite-ended.md): Share link to an ended postup (Phase 1, draft) · player: flows/invite-ended.html
+- [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (Phase 1, draft) · player: flows/ask-join.html
+- [host-approve](flows/host-approve.md): Host approves a request (Phase 1, draft) · player: flows/host-approve.html
+- [first-post](flows/first-post.md): Came to post up: first post with sign-in (Phase 1, draft) · player: flows/first-post.html
+- [returning-post](flows/returning-post.md): Returning poster (Phase 1, draft) · player: flows/returning-post.html
+- [hosting](flows/hosting.md): Hosting live: extend, edit, end (Phase 1, draft) · player: flows/hosting.html
+- [chat](flows/chat.md): Postup chat (Phase 1, draft) · player: flows/chat.html
+- [safety](flows/safety.md): Report and block (Phase 1, draft) · player: flows/safety.html
+- [leave](flows/leave.md): Leave a postup you joined (Phase 1, draft) · player: flows/leave.html
+- [empty-area](flows/empty-area.md): Empty area: be the first (Phase 1, draft) · player: flows/empty-area.html
+- [catch-up](flows/catch-up.md): Catch up on what happened (Phase 1, draft) · player: flows/catch-up.html
+- [invite-project](flows/invite-project.md): Share link to a project (Unphased, draft) · player: flows/invite-project.html
+- [project-builder](flows/project-builder.md): Project builder: create, update, post up for it (Unphased, draft) · player: flows/project-builder.html
+- [following](flows/following.md): Follow a person or project (Unphased, draft) · player: flows/following.html
+- [postup-states](flows/postup-states.md): Postup ends, fills or is cancelled while you look (Unphased, draft) · player: flows/postup-states.html
+- [loading-offline](flows/loading-offline.md): Slow network and offline (Unphased, draft) · player: flows/loading-offline.html
+- [delete-account](flows/delete-account.md): Delete account (Unphased, draft) · player: flows/delete-account.html
+- [desktop-browse](flows/desktop-browse.md): Desktop browse and post (Unphased, draft) · player: flows/desktop-browse.html
+- [settings-notify](flows/settings-notify.md): Notification settings and sign out (Unphased, draft) · player: flows/settings-notify.html
 
 ## Site graph
 Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3650 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
@@ -99,5 +100,5 @@ Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (
 - [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states
 
 ## Flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 24 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 25 flows are reachable from the root.
 - [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html

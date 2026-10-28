@@ -1,5 +1,5 @@
 # Flow: Notification settings and sign out (`settings-notify`)
-Priority: **nice** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/settings-notify.html
 
 ## Persona

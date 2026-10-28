@@ -1,5 +1,5 @@
 # Flow: Share link to a live postup (`invite-live`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/invite-live.html
 
 ## Persona

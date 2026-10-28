@@ -1,5 +1,5 @@
 # Flow: Quick joiner (`quick-joiner`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/quick-joiner.html
 
 ## Persona
@@ -15,7 +15,7 @@ Player: /mockups/flows/quick-joiner.html
 1. **home@in.live.live** · user: Knows a friend is live; wants to go now · action: arrives at / · edge: entry
    - Live now list. [M1018b] [M1024]
    - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
 2. **postup@in.live** · user: Found them; joining · action: taps the row · edge: tap: M 2
    - Taps a row, then Join. [FS] [M1024]
    - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
@@ -42,6 +42,7 @@ Player: /mockups/flows/quick-joiner.html
 - `invite-live`: branch out at step 3→3; merge in at step 3 (from its step 3), step 5 (from its step 3)
 - `leave`: branch out at step 3→1, step 5→1; merge in at —
 - `chat`: branch out at step 6→2; merge in at step 6 (from its step 2)
+- `catch-up`: branch out at step 1→1; merge in at —
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ## Screens

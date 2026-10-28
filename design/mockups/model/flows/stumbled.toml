@@ -2,7 +2,8 @@
 id = "stumbled"
 name = "Stumbled on it: what is this?"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 order = 5  # position in the flow list
 status = "draft"
 persona = "First-time visitor with no idea what PostUp is; arrived from search, a social post or a word-of-mouth link."

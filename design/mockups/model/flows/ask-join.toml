@@ -2,7 +2,8 @@
 id = "ask-join"
 name = "Ask to join, then get approved (joiner side)"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 9  # position in the flow list
 status = "draft"
 persona = "Signed-in user; poster approves who joins."

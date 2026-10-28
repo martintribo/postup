@@ -2,7 +2,8 @@
 id = "leave"
 name = "Leave a postup you joined"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 18  # position in the flow list
 status = "draft"
 persona = "Signed-in joiner whose plans changed."

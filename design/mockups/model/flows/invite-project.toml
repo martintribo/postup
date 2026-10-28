@@ -2,7 +2,7 @@
 id = "invite-project"
 name = "Share link to a project"
 role = "joiner"
-mvp = true
+user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 order = 8  # position in the flow list
 status = "draft"
 persona = "Signed-out visitor opening postup.now/project/… ."

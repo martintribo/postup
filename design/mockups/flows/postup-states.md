@@ -1,5 +1,5 @@
 # Flow: Postup ends, fills or is cancelled while you look (`postup-states`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/postup-states.html
 
 ## Persona
@@ -27,10 +27,10 @@ Player: /mockups/flows/postup-states.html
 4. **postup-ended@in.live** · user: Too late; it ended · action: later: postup ended · edge: event: postup ends
    - Ended: see what's nearby, follow. [drawn] Ending is this postup's status; others may still be live nearby. [M1031-draft]
    - next site states: back (Back), postup-ended+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
-   - enterable flows: none
+   - enterable flows: catch-up step 7 (if That one's over)
 
 ## Connected flows [M1025]
-- none
+- `catch-up`: branch out at step 4→7; merge in at step 4 (from its step 7)
 
 ## Screens
 1. `#postup-full` · auth=in live=live — Full. [F060] [R47] (/mockups/?style=fresh&device=phone&auth=in&live=live#postup-full)

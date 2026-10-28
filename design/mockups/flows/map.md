@@ -1,5 +1,5 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 24 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 25 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
@@ -120,30 +120,33 @@ flowchart LR
   click F_delete_account href "delete-account.html"
   RET -.-> F_settings_notify(["▶ Notification settings and sign out"])
   click F_settings_notify href "settings-notify.html"
+  RET -.-> F_catch_up(["▶ Catch up on what happened"])
+  click F_catch_up href "catch-up.html"
 ```
 
 ## Where each flow starts
-- `stumbled` (MVP must): from state "Stumbled on it · no idea what PostUp is" [M1025]
-- `curious-browser` (MVP must): from state "Curious about content · live now or past" [M1025]
-- `first-visit-live` (MVP must): from state "Curious about content · live now or past" when someone live, joins [M1025]
-- `first-post` (MVP must): from state "Came to post up · wants to go live now" [M1025]
-- `invite-live` (MVP must): from state "Signed out · on a live postup link" [M1025]
-- `invite-ended` (MVP must): from state "Signed out · on an ended postup link" [M1025]
-- `invite-project` (MVP must): from state "Signed out · on a project link" [M1025]
-- `loading-offline` (MVP must): from state "Slow network or offline" [M1025]
-- `cautious-joiner` (MVP must): from state "Signed in · someone live nearby" [M1025]
-- `quick-joiner` (MVP must): from state "Signed in · someone live nearby" [M1025]
-- `ask-join` (MVP must): from state "Signed in · someone live nearby" [M1025]
-- `returning-post` (MVP must): from state "Signed in · someone live nearby" [M1025]
-- `desktop-browse` (nice): from state "Signed in · someone live nearby" when on a laptop [M1025]
-- `postup-states` (MVP must): from state "Signed in · someone live nearby" when postup fills or ends [M1025]
-- `safety` (MVP must): from state "Signed in · someone live nearby" when someone feels off [M1025]
-- `host-approve` (MVP must): from state "Signed in · hosting (live)" when gets a request [M1025]
-- `hosting` (MVP must): from state "Signed in · hosting (live)" [M1025]
-- `leave` (MVP must): from state "Signed in · joined a postup" when plans change [M1025]
-- `chat` (MVP must): from state "Signed in · joined a postup" [M1025]
-- `project-builder` (MVP must): from state "Signed in · nobody live" [M1025]
-- `following` (MVP must): from state "Signed in · nobody live" [M1025]
-- `empty-area` (MVP must): from state "Signed in · nobody live" when area has no postups [M1025]
-- `delete-account` (MVP must): from state "Returning user · signed in" [M1025]
-- `settings-notify` (nice): from state "Returning user · signed in" [M1025]
+- `stumbled` (Phase 1): from state "Stumbled on it · no idea what PostUp is" [M1025]
+- `curious-browser` (Phase 1): from state "Curious about content · live now or past" [M1025]
+- `first-visit-live` (Phase 1): from state "Curious about content · live now or past" when someone live, joins [M1025]
+- `first-post` (Phase 1): from state "Came to post up · wants to go live now" [M1025]
+- `invite-live` (Phase 1): from state "Signed out · on a live postup link" [M1025]
+- `invite-ended` (Phase 1): from state "Signed out · on an ended postup link" [M1025]
+- `invite-project` (Unphased): from state "Signed out · on a project link" [M1025]
+- `loading-offline` (Unphased): from state "Slow network or offline" [M1025]
+- `cautious-joiner` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `quick-joiner` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `ask-join` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `returning-post` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `desktop-browse` (Unphased): from state "Signed in · someone live nearby" when on a laptop [M1025]
+- `postup-states` (Unphased): from state "Signed in · someone live nearby" when postup fills or ends [M1025]
+- `safety` (Phase 1): from state "Signed in · someone live nearby" when someone feels off [M1025]
+- `host-approve` (Phase 1): from state "Signed in · hosting (live)" when gets a request [M1025]
+- `hosting` (Phase 1): from state "Signed in · hosting (live)" [M1025]
+- `leave` (Phase 1): from state "Signed in · joined a postup" when plans change [M1025]
+- `chat` (Phase 1): from state "Signed in · joined a postup" [M1025]
+- `project-builder` (Unphased): from state "Signed in · nobody live" [M1025]
+- `following` (Unphased): from state "Signed in · nobody live" [M1025]
+- `empty-area` (Phase 1): from state "Signed in · nobody live" when area has no postups [M1025]
+- `delete-account` (Unphased): from state "Returning user · signed in" [M1025]
+- `settings-notify` (Unphased): from state "Returning user · signed in" [M1025]
+- `catch-up` (Phase 1): from state "Returning user · signed in" when comes back later [M1025]

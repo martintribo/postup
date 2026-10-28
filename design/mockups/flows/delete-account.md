@@ -1,5 +1,5 @@
 # Flow: Delete account (`delete-account`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/delete-account.html
 
 ## Persona

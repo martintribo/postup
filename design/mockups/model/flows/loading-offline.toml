@@ -2,7 +2,7 @@
 id = "loading-offline"
 name = "Slow network and offline"
 role = "joiner"
-mvp = true
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 21  # position in the flow list
 status = "draft"
 persona = "Anyone on bad wifi."

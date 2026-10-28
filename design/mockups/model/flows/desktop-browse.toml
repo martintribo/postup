@@ -2,7 +2,7 @@
 id = "desktop-browse"
 name = "Desktop browse and post"
 role = "joiner"
-mvp = false
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 23  # position in the flow list
 status = "draft"
 persona = "Signed-in user at a laptop."

@@ -1,5 +1,5 @@
 # Flow: Empty area: be the first (`empty-area`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/empty-area.html
 
 ## Persona
@@ -33,6 +33,9 @@ Player: /mockups/flows/empty-area.html
 1. `#home` · auth=in live=none mode=building — Closest projects even if far. [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
 2. `#empty-area` · auth=in live=none — "Be the first here". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none#empty-area)
 3. `#post` · auth=in live=none — Post up. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none#post)
+
+## Branches and edge cases
+- A newcomer (signed-out) version of this flow is wanted. [M1031-draft]
 
 ## Success criteria
 - Positive copy, never "quiet". [F035] [R4]

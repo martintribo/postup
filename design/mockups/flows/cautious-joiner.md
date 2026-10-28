@@ -1,5 +1,5 @@
 # Flow: Cautious joiner checks a few postups, then joins (`cautious-joiner`)
-Priority: **MVP must** · Status: Martin's example (Oct 24) [M1024]
+Priority: **Phase 1** · Status: Martin's example (Oct 24) [M1024]
 Player: /mockups/flows/cautious-joiner.html
 
 ## Persona
@@ -15,7 +15,7 @@ Player: /mockups/flows/cautious-joiner.html
 1. **home@in.live.live** · user: Wants company today, but careful about who · action: arrives at / · edge: entry
    - Opens / in Live mode: map + Live now list. [M1018b] [M1024]
    - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
 2. **postup@in.live** · user: Interested in Maya, not sure yet · action: taps Maya's row · edge: tap: M 2
    - Taps Maya's row: who, project, cafe, who else is joining. Does not join yet. [FS] [M1024]
    - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), **project@in.live** (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
@@ -35,15 +35,15 @@ Player: /mockups/flows/cautious-joiner.html
 6. **home@in.live.live** · user: Wants to compare with someone else · action: taps Home · edge: tap: Home
    - Back on Home: Live now shows Tess, marked Ask to join. [M1025]
    - next site states: postup@in.live (M 2), **postup-ask@in.live** (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
 7. **postup-ask@in.live** · user: Comparing with another option · action: taps Tess (Ask to join) · edge: tap: T
    - Compares a second postup (Tess approves who joins), then Back. [FS] [M1024]
    - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), **home@in.live.live** (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
-   - enterable flows: ask-join step 1 (if Interested, but the host screens people)
+   - enterable flows: ask-join step 1 (if Interested, but the host screens people), catch-up step 4 (if My request was approved)
 8. **home@in.live.live** · user: Done comparing; back to the list · action: taps Back · edge: back
    - Back from Tess's postup lands on Home, not on Maya's postup (split from one "back to Maya's postup" step). [M1031-draft]
    - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: quick-joiner step 1 (if Knows a friend is live; wants to go now), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
 9. **postup@in.live** · user: Decided: Maya it is · action: taps Maya's row again · edge: tap: M 2
    - Returns to Maya's postup and taps Join (no sign-in sheet; already signed in). [TK§1] [M1024]
    - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
@@ -58,6 +58,7 @@ Player: /mockups/flows/cautious-joiner.html
    - enterable flows: quick-joiner step 4 (if Needs the route)
 
 ## Connected flows [M1025]
+- `catch-up`: branch out at step 1→1, step 6→1, step 7→4, step 8→1; merge in at step 7 (from its step 4)
 - `quick-joiner`: branch out at step 2→2, step 6→1, step 11→4; merge in at —
 - `desktop-browse`: branch out at step 2→2, step 6→1, step 9→2; merge in at —
 - `host-approve`: branch out at step 4→3; merge in at step 4 (from its step 3)

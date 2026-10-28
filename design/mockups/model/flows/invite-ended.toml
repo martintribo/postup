@@ -2,7 +2,8 @@
 id = "invite-ended"
 name = "Share link to an ended postup"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 order = 7  # position in the flow list
 status = "draft"
 persona = "Signed-out visitor opening an old link."

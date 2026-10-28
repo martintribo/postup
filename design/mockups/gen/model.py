@@ -96,3 +96,41 @@ def lineof(path,needle,nth=0):
             n+=1
             if n==nth: return i
     return 1
+USERS={'newcomer','registered'}
+def flow_states(sc,f):
+    """Replay a flow; return the list of (state-key, screens on it) per step (assumes it validates)."""
+    s0=f['start']; cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
+    if cur['root']=='home' and not cur['tab']: cur['tab']=dmode(cur['live'])
+    out=[]; hist=[cur]
+    for i,st in enumerate(f['steps']):
+        if i and 'link' in st:
+            own,ls=find_link(sc,dict(cur,device=st.get('device') or s0.get('device','phone')),st['link']); n=None
+            for l in ls or []:
+                if st.get('condition')=='google-card-fails' and l.get('to')=='cafe': l=dict(l,to='cafe-gfail')
+                n=resolve(sc,cur,l,own)
+                if n: break
+            if n=='back': hist.pop(); cur=dict(hist[-1])
+            elif n: cur=n; hist.append(n)
+        elif i and st.get('expect'):
+            cur=parse_key(st['expect']); hist.append(cur)
+        out.append((key(cur),[cur['root']]+[c for _,c in cur['kids']]))
+    return out
+def parse_key(k):
+    m=re.fullmatch(r'([\w-]+)(?:\+([\w-]+))?@(in|out)\.(live|none)(?:\.(live|building))?',k)
+    p,o,a,l,t=m.groups(); return dict(root=p,kids=[('sheet',o)] if o else [],auth=a,live=l,tab=(t or dmode(l)) if p=='home' else None)
+def phases(sc,fl,gl):
+    """Phase classification [M1031-draft]. Explicit: flow 'phase', screen 'phase', state overrides (global.toml [state_phases],
+    screen [state_phases]). Derived: a screen/state on a phased flow gets the lowest such flow phase unless tagged. Untagged = None."""
+    FP={k:f.get('phase') for k,f in fl.items()}
+    SO=dict(gl.get('state_phases',{}))
+    for s in sc.values(): SO.update(s.get('state_phases',{}))
+    SP={k:s.get('phase') for k,s in sc.items()}; STP={}; SRC={}
+    for fid,f in fl.items():
+        ph=FP[fid]
+        if not ph: continue
+        for k,scs in flow_states(sc,f):
+            STP[k]=min(STP.get(k) or ph,ph)
+            for s in scs:
+                if sc[s].get('phase') is None: SP[s]=min(SP.get(s) or ph,ph)
+    STP.update(SO)
+    return FP,SP,STP

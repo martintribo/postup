@@ -1,5 +1,5 @@
 # Flow: Came to post up: first post with sign-in (`first-post`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-post.html
 
 ## Persona

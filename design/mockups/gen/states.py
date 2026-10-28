@@ -16,7 +16,7 @@ def _short_state(k):
     s=SST[k]; return _stitle(s['page'])+(f' + {_stitle(s["ov"])}' if s['ov'] else '')+' · '+', '.join(_words(k))
 STV={}
 for k,s in SST.items():
-    STV[k]=dict(p=s['page'],ov=s['ov'] or '',w=_words(k),slot=_slot(k),var=_variant(k),u=surl_s(k)+'',out=[],inn=[],fl=[])
+    STV[k]=dict(ph=ph1(k,'st'),p=s['page'],ov=s['ov'] or '',w=_words(k),slot=_slot(k),var=_variant(k),u=surl_s(k)+'',out=[],inn=[],fl=[])
 for k,es in EDGES.items():
     for t,lab,kind in es:
         STV[k]['out'].append([lab or kind,t or '',kind])
@@ -26,7 +26,7 @@ for f in FLOWS:
 _scr={}
 for g,ps in PGROUPS: _scr.setdefault(g,[]).extend(ps)
 _scr['Sheets (open in a page slot)']=sorted(OVHOST)
-SCREENS=[[g,[[p,_stitle(p),sum(1 for s in SST.values() if s['page']==p or s['ov']==p)] for p in ps]] for g,ps in _scr.items()]
+SCREENS=[[g,[[p,_stitle(p),ph1(p),sum(1 for s in SST.values() if s['page']==p or s['ov']==p)] for p in ps]] for g,ps in _scr.items()]
 LBL={k:_short_state(k) for k in SST}
 STATES_N=len(SST)
 STCSS='''.cap{display:none}.grid.big{gap:12px;justify-content:start}.grid.big .card{flex-direction:column;padding:4px;gap:3px}.grid.big .inf{display:none}.grid.big .cap{display:block;font-size:11px;color:#55544f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 2px}.grid.big .th{border-radius:12px}
@@ -48,7 +48,7 @@ function sethash(){var h=new URLSearchParams(location.hash.slice(1));h.set("d",D
 function q(){var h=new URLSearchParams(location.hash.slice(1));return{s:h.get("screen")||"home",st:h.get("st")}}
 function e(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function lnk(k,t){var s=D.st[k];return '<a href="#screen='+(s.ov||s.p)+'&st='+encodeURIComponent(k)+'" title="'+e(D.lbl[k])+'">'+e(t||D.lbl[k])+'</a>'}
-function pick(){var c=q().s,h="";D.screens.forEach(function(g){h+="<h4>"+e(g[0])+"</h4>";g[1].forEach(function(p){h+='<a href="#screen='+p[0]+'" class="'+(p[0]===c?"on":"")+'">'+e(p[1])+"<i>"+p[2]+"</i></a>"})});document.getElementById("pick").innerHTML=h}
+function pick(){var c=q().s,h="";D.screens.forEach(function(g){h+="<h4>"+e(g[0])+"</h4>";g[1].forEach(function(p){h+='<a data-ph="'+p[2]+'" href="#screen='+p[0]+'" class="'+(p[0]===c?"on":"")+'">'+e(p[1])+(p[2]?'<span class="p1b">P1</span>':"")+"<i>"+p[3]+"</i></a>"})});document.getElementById("pick").innerHTML=h}
 function render(){var Q=q(),c=Q.s,ks=Object.keys(D.st).filter(function(k){var s=D.st[k];return s.p===c||s.ov===c});
  var W=dev==="phone"?390:1280,H=dev==="phone"?844:800,sc=dev==="phone"?.3:.16;
  var G=document.getElementById("grid");G.classList.toggle("big",!DET);
@@ -61,7 +61,7 @@ function render(){var Q=q(),c=Q.s,ks=Object.keys(D.st).filter(function(k){var s=
   var out=s.out.map(function(o){return"<li>"+e(o[0])+' <span class="kd">→</span> '+(o[1]?lnk(o[1]):"previous screen")+' <span class="kd">'+o[2]+"</span></li>"}).join("")||"<li class=kd>none</li>";
   var inn=s.inn.map(function(o){return"<li>"+lnk(o[0],D.lbl[o[0]])+' <span class="kd">·</span> '+e(o[1])+"</li>"}).join("")||"<li class=kd>none (entry only)</li>";
   var fl=s.fl.map(function(f){return'<a href="'+f[0]+'.html#'+f[1]+'" title="'+e(f[2])+'">'+e(f[0])+" "+f[1]+"</a>"}).join("");
-  return'<div class="card'+(Q.st===k?" hl":"")+'" id="c-'+k.replace(/[^\\w-]/g,"_")+'"><div class="th" style="width:'+tw+"px;height:"+thh+'px"><iframe loading="lazy" src="'+u+'" style="width:'+W+"px;height:"+H+"px;transform:scale("+sc+')" tabindex="-1"></iframe><a href="'+u.replace("notes=0&","")+'" target="_blank" title="Open this state in the mockup"></a></div><div class="cap" title="'+e(D.lbl[k])+'">'+e(s.w.join(", ")+(s.slot?" · "+s.slot:"")+(s.var?" · "+s.var:""))+'</div><div class="inf"><b class="k">'+e(k)+'</b><div class="ch">'+ch+"</div><h5>Out ("+s.out.length+")</h5><ul>"+out+"</ul><h5>In ("+s.inn.length+")</h5><ul>"+inn+"</ul>"+(fl?'<h5>Flows</h5><div class="fl">'+fl+"</div>":"")+"</div></div>"}).join("");
+  return'<div data-ph="'+s.ph+'" class="card'+(Q.st===k?" hl":"")+'" id="c-'+k.replace(/[^\\w-]/g,"_")+'"><div class="th" style="width:'+tw+"px;height:"+thh+'px"><iframe loading="lazy" src="'+u+'" style="width:'+W+"px;height:"+H+"px;transform:scale("+sc+')" tabindex="-1"></iframe><a href="'+u.replace("notes=0&","")+'" target="_blank" title="Open this state in the mockup"></a></div><div class="cap" title="'+e(D.lbl[k])+'">'+e(s.w.join(", ")+(s.slot?" · "+s.slot:"")+(s.var?" · "+s.var:""))+'</div><div class="inf"><b class="k">'+e(k)+(s.ph?' <span class="p1b">P1</span>':"")+'</b><div class="ch">'+ch+"</div><h5>Out ("+s.out.length+")</h5><ul>"+out+"</ul><h5>In ("+s.inn.length+")</h5><ul>"+inn+"</ul>"+(fl?'<h5>Flows</h5><div class="fl">'+fl+"</div>":"")+"</div></div>"}).join("");
  if(!Q.st){document.querySelector(".main").scrollTop=0;scrollTo(0,0)}
  if(Q.st){var el=document.getElementById("c-"+Q.st.replace(/[^\\w-]/g,"_"));if(el)el.scrollIntoView({block:"center"})}}
 var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add("emb");
@@ -75,10 +75,10 @@ addEventListener("resize",function(){if(!DET)render()});ui();
 addEventListener("hashchange",go);go();'''
 _title={p:_stitle(p) for p in list(PAGES)+list(OVHOST)}
 _data=json.dumps(dict(st=STV,screens=SCREENS,lbl=LBL,title=_title),ensure_ascii=False).replace('</','<\\/')
-open('flows/states.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site states by screen · PostUp mockups</title><style>{PCSS}{STCSS}</style></head><body>
-<div class="stw"><nav class="pick" id="pick"></nav><div class="main"><div class="top"><a href="../index.html#index">← Mockups</a><a href="sitemap.html">Site map</a><a href="site.html">Site graph</a><a href="index.html">Flows</a><span class="tg"><button data-d="phone" class="on">Phone</button><button data-d="desktop">Desktop</button></span><span class="tg"><button id="det">Details: on</button><button data-z="S">S</button><button data-z="M">M</button><button data-z="L">L</button></span></div>
+open('flows/states.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site states by screen · PostUp mockups</title><style>{PCSS}{STCSS}{PHCSS}</style></head><body>
+<div class="stw"><nav class="pick" id="pick"></nav><div class="main"><div class="top"><a href="../index.html#index">← Mockups</a><a href="sitemap.html">Site map</a><a href="site.html">Site graph</a><a href="index.html">Flows</a><span class="tg"><button data-d="phone" class="on">Phone</button><button data-d="desktop">Desktop</button></span><span class="tg"><button id="det">Details: on</button><button data-z="S">S</button><button data-z="M">M</button><button data-z="L">L</button></span>{PHBTN}</div>
 <div class="top" id="hd" style="margin-top:6px"></div><div class="grid" id="grid"></div></div></div>
-<script type="application/json" id="stdata">{_data}</script><script>{STJS}</script></body></html>''')
+<script type="application/json" id="stdata">{_data}</script>{PHJS}<script>{STJS}</script></body></html>''')
 with open('llms.txt','a') as fh: fh.write('- [Site states by screen](flows/states.html): every state each screen appears in (conditions, open slots, links in/out, flow steps), from model/\n')
 print('states view',len(PAGES)+len(OVHOST),'screens',STATES_N,'states')
 
@@ -97,7 +97,7 @@ addEventListener("hashchange",function(){var H=hp();push(H.s,H.k);L.contentWindo
 var g=document.querySelector(".gut");g.onmousedown=function(e){e.preventDefault();L.style.pointerEvents=R.style.pointerEvents="none";
  function mv(e){L.style.width=Math.max(15,Math.min(80,e.clientX/innerWidth*100))+"%"}function up(){removeEventListener("mousemove",mv);removeEventListener("mouseup",up);L.style.pointerEvents=R.style.pointerEvents=""}
  addEventListener("mousemove",mv);addEventListener("mouseup",up)};"""
-open('flows/explore.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site map + states · PostUp mockups</title><style>{EXCSS}</style></head><body>
-<div class="xb"><a href="../index.html#index">← Mockups</a><b>Site map + states</b><span class="mu">Click a screen on the map; its {STATES_N} site states total, per screen on the right. Drag the divider to resize.</span><span style="flex:1"></span><a href="sitemap.html">Site map</a><a href="states.html">States list</a><a href="site.html">Site graph</a></div>
-<div class="sp2"><iframe id="L" title="Site map"></iframe><div class="gut" title="Drag to resize"></div><iframe id="R" title="States of the selected screen"></iframe></div><script>{EXJS}</script></body></html>''')
+open('flows/explore.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site map + states · PostUp mockups</title><style>{EXCSS}{PHCSS}</style></head><body>
+<div class="xb"><a href="../index.html#index">← Mockups</a><b>Site map + states</b><span class="mu">Click a screen on the map; its {STATES_N} site states total, per screen on the right. Drag the divider to resize.</span><span style="flex:1"></span>{PHBTN}<a href="sitemap.html">Site map</a><a href="states.html">States list</a><a href="site.html">Site graph</a></div>
+<div class="sp2"><iframe id="L" title="Site map"></iframe><div class="gut" title="Drag to resize"></div><iframe id="R" title="States of the selected screen"></iframe></div>{PHJS}<script>{EXJS}</script></body></html>''')
 with open('llms.txt','a') as fh: fh.write('- [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states\n')

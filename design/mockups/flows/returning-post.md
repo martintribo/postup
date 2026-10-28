@@ -1,5 +1,5 @@
 # Flow: Returning poster (`returning-post`)
-Priority: **MVP must** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/returning-post.html
 
 ## Persona
@@ -27,7 +27,7 @@ Player: /mockups/flows/returning-post.html
 4. **home@in.live.live** · user: Checks they show up on Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
    - next site states: postup@in.live (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
 
 ## Connected flows [M1025]
 - `first-post`: branch out at step 2→6; merge in at step 2 (from its step 6)
@@ -36,6 +36,7 @@ Player: /mockups/flows/returning-post.html
 - `hosting`: branch out at step 3→1; merge in at —
 - `cautious-joiner`: branch out at step 4→1; merge in at —
 - `quick-joiner`: branch out at step 4→1; merge in at —
+- `catch-up`: branch out at step 4→1; merge in at —
 
 ## Screens
 1. `#post` · auth=in live=live — Last project and nearest cafe preselected; no 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#post)

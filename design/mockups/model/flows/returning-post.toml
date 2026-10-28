@@ -2,7 +2,8 @@
 id = "returning-post"
 name = "Returning poster"
 role = "host"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 12  # position in the flow list
 status = "draft"
 persona = "Signed-in regular."

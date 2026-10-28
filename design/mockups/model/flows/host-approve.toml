@@ -2,7 +2,8 @@
 id = "host-approve"
 name = "Host approves a request"
 role = "host"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 10  # position in the flow list
 status = "draft"
 persona = "Signed-in poster with an ask-to-join postup."

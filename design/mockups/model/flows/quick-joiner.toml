@@ -2,7 +2,8 @@
 id = "quick-joiner"
 name = "Quick joiner"
 role = "joiner"
-mvp = true
+phase = 1  # MVP phase [M1031-draft]
+user = "registered"  # newcomer = signed out, never used; registered = signed in
 order = 2  # position in the flow list
 status = "draft"
 persona = "Registered user who already knows someone nearby is live."
