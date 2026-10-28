@@ -15,7 +15,7 @@ Player: /mockups/flows/first-post.html
 1. **home@out.none.building** · user: Came to post up right now · action: arrives at / · edge: entry
    - Taps Post up. [M1018b]
    - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), **post@out.none** (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
-   - enterable flows: none
+   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now)
 2. **post@out.none** · user: Filling in the post · action: taps Post up · edge: tap: Post up
    - Nearest cafe prefilled. [FS] [F062]
    - next site states: back (Back), **where@out.none** (Bean Theory Nearest · 0.4 mi Chang), project-new@out.none (Project), post+signin@out.none (Post up), home@out.none.building (home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), me@out.none (S)
@@ -43,6 +43,7 @@ Player: /mockups/flows/first-post.html
 
 ## Connected flows [M1025]
 - `returning-post`: branch out at step 6→2; merge in at step 6 (from its step 2)
+- `empty-area-newcomer`: branch out at step 1→1; merge in at —
 
 ## Screens
 1. `#home` · auth=out live=none mode=building — Taps Post up. [M1018b] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)

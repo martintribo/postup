@@ -16,6 +16,13 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Gap fixes
 - Gap fix (Oct 25): adds "Follow Maya for next time" (sign-in sheet when signed out; signing in returns here, Following) and "Go to Home". [M1025]
 
+## Was the flow "Share link to an ended postup"
+- Now a single screen state, not a flow: an invite link whose postup has ended lands here (see the Share link to a live postup flow's edge cases). [M1032]
+- Signed-out visitor opening an old link should not hit a dead end: see what's nearby and follow the poster. [M1024]
+- "This postup ended" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39]
+- Follow → sign-in sheet; back on the page signed in, Follow shows Following; Go to Home opens Home in Building mode. [FS] [M1018] [M1025]
+- Cancelled instead of ended: #postup-cancelled copy. No 404; a next step is always offered. [F060] [M1024]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]
@@ -95,6 +102,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **F053** — Map only on map, cafe and postup screens. (PostUp PM (assistant), S08-mockups-2): “The map now only shows on the map, cafe and postup screens.”
 - **F056** — Where-I'm-sitting note/picture: to-do. (Martin, S08-mockups-2 t210u): “2. You should be able to put a description of where you are or a picture.. let's leave this on the todo list for now”
 - **F059** — Report and block yes; no safety tips. (Martin, S08-mockups-2 t210u): “5. Reporting and blocking woudl be good to have. Idk about safety tips, this site is for adults and they should be smart enough to understand the risks.”
+- **F060** — Profile/account needed; fix wrong links; add ended/failed states. (Martin, S08-mockups-2 t210u): “8. yeah we need this, any ideas? 9. sure fix those 10. sure we can add those.”
 - **F064** — Phone and desktop menus match. (PostUp PM (assistant), S08-mockups-2): “**7. What I meant:** the phone and desktop layouts disagree. Desktop has a Nearby tab and phone doesn't, so I'll make the menus match.”
 - **F066** — Agreed to search picker, welcome/share pages (plus projects), menus, profile. (Martin, S08-mockups-2 t211u): “4 - ok sounds good. 6. sure that sounds good - thoguh that doesn't cover the project updates section of the site. 7. ok good yeah choose whatever you think is best. 8. Cool yeah that works”
 - **F076** — All mockup styles via dev-only setting. (Martin, S08-mockups-3 t231u): “it'd be cool if we supported all the styling choices you did in the mockups, it can be a dev only setting that I can adjust in these mockups”
@@ -116,6 +124,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
+- **M1032** — Martin, Oct 28 2026: phase scope decisions (phase 2 = MVP; ask/approve in phase 2; merged flows; empty area shows recent activity and projects)
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

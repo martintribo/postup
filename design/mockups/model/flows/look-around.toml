@@ -1,0 +1,83 @@
+# Flow: Newcomer looks around, then joins. Merged [M1032] from first-visit-live, curious-browser, stumbled; their old URLs redirect here.
+id = "look-around"
+name = "Newcomer looks around, then joins"
+role = "joiner"
+phase = 1  # [M1032]
+user = "newcomer"
+situation = "nc-looking"
+order = 1
+status = "draft"
+aliases = ["first-visit-live", "curious-browser", "stumbled"]  # old flow ids; their pages redirect here
+persona = "First-time visitor, signed out: curious what PostUp is, or has no idea and arrived from search, a social post or a link."
+goal = "Understand PostUp from the first screen, see live and past content, and join someone; sign in only at Join. [M1024] [M1025] [M1032]"
+intent = "Curious what this is; sees people live"
+start = { screen = "home", auth = "out", live = "live", tab = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Joins straight from Live now: taps a live row, Join 🔒, sign-in sheet, joined in one go (was Curious visitor joins someone live). [FS] [M1018] [M1024]",
+  "Follows the maker instead of joining: Follow 🔒 → sign-in sheet → signed in and following (was Curious browser). [FS] [M1025]",
+  "No idea what PostUp is: taps the first live person, then the cafe, to understand by example (was Stumbled on it). [FS] [M1025]",
+  "Nobody live: Home opens in Building, so the flow starts at the projects (merged from the old first-visit-none flow). [M1018b] [M1025]",
+  "Taps Post up instead: see Came to post up. [M1025]",
+  "Not now on the sheet: stays signed out, nothing lost. [drawn] [M1025]",
+  "Never empty or \"quiet\" copy when nothing is live. [F035] [R4]",
+  "Nobody live: Home opens in Building, where the welcome line shows first. [M1018b] [drawn] [M1025]",
+  "Dismisses the welcome (×): it should stay dismissed. [drawn] [unsourced]",
+  "Leaves after the first screen: the value has to be clear without scrolling. [M1025]",
+  "Not now on the sheet: stays on the postup, still signed out. [drawn] [M1024]",
+  "Switches to Building to look at projects first. [M1018b] [M1024]",
+]
+success = [
+  "No sign-in before an action. [FS]",
+  "After sign-in the original action completes. [M1018] [M1024]",
+  "Sees live and past content without signing in. [FS] [M1025]",
+  "Sign-in asked only at an action (Follow). [FS] [TK§1]",
+  "Knows what PostUp is from the first screen in either mode. [M1025]",
+  "Reaches a live postup or a project in one tap, no sign-in. [FS] [M1025]",
+]
+decide = [
+  "Should signed-out browsers ever get a soft sign-in nudge before an action? Today it is only at actions. [M1025]",
+  "Home in Live mode has no one-line explainer (only Building has the welcome). Add it to Live mode too, or a fuller \"How it works\"? [M1025]",
+  "Welcome copy and when it stops showing (dismissed, signed in, after N visits). [unsourced]",
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@out.live.live"
+thought = "Curious what this is; sees people live"
+shows = "Home in Live mode: map + Live now. [M1018b] [M1025]"
+[[steps]]
+link = "home:building"
+act = "switches to Building"
+expect = "home@out.live.building"
+thought = "What is this, really?"
+shows = "Building: the welcome line \"Post up at a cafe. See who's working nearby.\" and projects first. [M1018b] [drawn] [M1025]"
+[[steps]]
+link = "home:project"
+act = "taps a project"
+expect = "project@out.live"
+thought = "Gets it: people work on projects at cafes"
+shows = "Opens a project: updates and past postups. [FS] [M1025]"
+[[steps]]
+link = "project:maya"
+act = "taps the owner"
+expect = "profile@out.live"
+thought = "Who is behind it?"
+shows = "Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025]"
+[[steps]]
+link = "profile:postup"
+act = "taps Live at Bean Theory"
+expect = "postup@out.live"
+thought = "She's live right now"
+shows = "Her live postup; Join shows 🔒. [FS] [M1024]"
+[[steps]]
+link = "postup:join"
+act = "taps Join 🔒"
+expect = "postup+signin@out.live"
+thought = "Wants to join; asked to sign in"
+shows = "Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]"
+[[steps]]
+link = "signin:continue-with-apple"
+act = "signs in"
+expect = "joined@in.live"
+thought = "Signed in; committed"
+shows = "Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]"

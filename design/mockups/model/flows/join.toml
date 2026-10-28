@@ -1,0 +1,65 @@
+# Flow: Join someone live. Merged [M1032] from quick-joiner, cautious-joiner; their old URLs redirect here.
+id = "join"
+name = "Join someone live"
+role = "joiner"
+phase = 1  # [M1032]
+user = "registered"
+situation = "rg-wants-company"
+order = 3
+status = "draft"
+aliases = ["quick-joiner", "cautious-joiner"]  # old flow ids; their pages redirect here
+persona = "Registered user, signed in, who wants company now."
+goal = "Join a live postup and get there; checking the person first is optional. [M1024] [M1032]"
+intent = "Wants company now"
+start = { screen = "home", auth = "in", live = "live", tab = "live", device = "phone", url = "/" }
+edge_cases = [
+  "Optional check first (was Cautious joiner): from the postup, the project tag → project, the owner → profile (postup count, regular cafes, past postups), the cafe → cafe; Back returns each time. [FS] [F065] [M1024]",
+  "Compares with an Ask to join postup (Tess): phase 2, see Ask to join. [M1032]",
+  "Joined by mistake: Leave sheet, poster is alerted (see Leave a postup). [FS] [M1024]",
+  "Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]",
+  "The postup ends while they're reading: Join is replaced by the ended state (#postup-ended). [F060] [M1024]",
+  "Desktop: details open in the right panel and the map stays. [FS] [M1024]",
+]
+success = [
+  "Home → joined in 2 taps. [M1024]",
+  "Can reach postup, project, profile and cafe details from one postup and come back without losing place. [M1024]",
+  "Join is one tap once decided. [TK§1] [M1024]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@in.live.live"
+thought = "Wants company now"
+shows = "Live now list. [M1018b] [M1024]"
+[[steps]]
+link = "home:postup"
+act = "taps a live row"
+expect = "postup@in.live"
+thought = "Found someone"
+shows = "Who, project, cafe, who else is joining. [FS] [M1024]"
+[[steps]]
+link = "postup:join"
+act = "taps Join"
+expect = "joined@in.live"
+thought = "Decides to join"
+shows = "You're joining; the poster is told. [FS] [M1024]"
+[[steps]]
+link = "joined:directions"
+act = "taps Directions"
+expect = "joined+dirs@in.live"
+thought = "Needs the route"
+shows = "Directions sheet: Apple / Google Maps. [FS] [M1024]"
+[[steps]]
+link = "dirs:cancel"
+act = "closes Directions"
+expect = "joined@in.live"
+thought = "Knows the way"
+shows = "Back on the joined screen. [M1031-draft]"
+[[steps]]
+link = "joined:group-chat"
+act = "opens the group chat"
+expect = "chat@in.live"
+thought = "Says they're coming"
+shows = "Says \"on my way\" in the postup chat. [F096] [M1024]"

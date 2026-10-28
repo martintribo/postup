@@ -1,118 +1,55 @@
 {
- "cautious-joiner-1": {
-  "label": "M",
-  "back": false
- },
- "cautious-joiner-2": {
-  "label": "Star Fox 64 mod",
-  "back": false
- },
- "cautious-joiner-3": {
-  "label": "Maya",
-  "back": false
- },
- "cautious-joiner-4": {
-  "label": "Bean Theory",
-  "back": false
- },
- "cautious-joiner-5": {
+ "look-around-1": {
   "label": "Home",
   "back": false
  },
- "cautious-joiner-6": {
-  "label": "T",
+ "look-around-2": {
+  "label": "Star Fox 64 mod",
   "back": false
  },
- "cautious-joiner-7": {
+ "look-around-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "look-around-4": {
+  "label": "Live at Bean Theory",
+  "back": false
+ },
+ "look-around-5": null,
+ "look-around-6": null,
+ "look-around-7": null,
+ "empty-area-newcomer-1": null,
+ "empty-area-newcomer-2": {
+  "label": "M",
+  "back": false
+ },
+ "empty-area-newcomer-3": {
   "label": "Back",
   "back": true
  },
- "cautious-joiner-8": {
+ "empty-area-newcomer-4": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "empty-area-newcomer-5": null,
+ "join-1": {
   "label": "M",
   "back": false
  },
- "cautious-joiner-9": {
+ "join-2": {
   "label": "Join",
   "back": false
  },
- "cautious-joiner-10": {
+ "join-3": {
   "label": "Directions",
   "back": false
  },
- "cautious-joiner-11": null,
- "quick-joiner-1": {
-  "label": "M",
-  "back": false
- },
- "quick-joiner-2": {
-  "label": "Join",
-  "back": false
- },
- "quick-joiner-3": {
-  "label": "Directions",
-  "back": false
- },
- "quick-joiner-4": null,
- "quick-joiner-5": {
+ "join-4": null,
+ "join-5": {
   "label": "Group chat",
   "back": false
  },
- "quick-joiner-6": null,
- "first-visit-live-1": {
-  "label": "M",
-  "back": false
- },
- "first-visit-live-2": null,
- "first-visit-live-3": null,
- "first-visit-live-4": null,
- "curious-browser-1": {
-  "label": "M",
-  "back": false
- },
- "curious-browser-2": {
-  "label": "Back",
-  "back": true
- },
- "curious-browser-3": {
-  "label": "Home",
-  "back": false
- },
- "curious-browser-4": {
-  "label": "Projects",
-  "back": false
- },
- "curious-browser-5": {
-  "label": "Star Fox 64 mod",
-  "back": false
- },
- "curious-browser-6": {
-  "label": "Maya",
-  "back": false
- },
- "curious-browser-7": null,
- "curious-browser-8": null,
- "curious-browser-9": null,
- "stumbled-1": {
-  "label": "M",
-  "back": false
- },
- "stumbled-2": {
-  "label": "Bean Theory",
-  "back": false
- },
- "stumbled-3": {
-  "label": "Home",
-  "back": false
- },
- "stumbled-4": {
-  "label": "Home",
-  "back": false
- },
- "stumbled-5": {
-  "label": "Star Fox 64 mod",
-  "back": false
- },
- "stumbled-6": null,
+ "join-6": null,
  "invite-live-1": null,
  "invite-live-2": null,
  "invite-live-3": {
@@ -120,44 +57,20 @@
   "back": false
  },
  "invite-live-4": null,
- "invite-ended-1": null,
- "invite-ended-2": null,
- "invite-ended-3": {
-  "label": "Go to Home",
-  "back": false
- },
- "invite-ended-4": null,
- "ask-join-1": {
-  "label": "Ask to join",
-  "back": false
- },
- "ask-join-2": {
-  "label": "Send request",
-  "back": false
- },
- "ask-join-3": null,
- "ask-join-4": {
+ "empty-area-1": null,
+ "empty-area-2": {
   "label": "M",
   "back": false
  },
- "ask-join-5": null,
- "host-approve-1": {
-  "label": "D",
-  "back": false
- },
- "host-approve-2": {
-  "label": "D",
-  "back": false
- },
- "host-approve-3": {
+ "empty-area-3": {
   "label": "Back",
   "back": true
  },
- "host-approve-4": {
-  "label": "Group chat",
+ "empty-area-4": {
+  "label": "Star Fox 64 mod",
   "back": false
  },
- "host-approve-5": null,
+ "empty-area-5": null,
  "first-post-1": {
   "label": "Post up",
   "back": false
@@ -242,45 +155,6 @@
   "back": false
  },
  "leave-3": null,
- "empty-area-1": null,
- "empty-area-2": {
-  "label": "Post up",
-  "back": false
- },
- "empty-area-3": null,
- "catch-up-1": {
-  "label": "Inbox",
-  "back": false
- },
- "catch-up-2": {
-  "label": "Activity",
-  "back": false
- },
- "catch-up-3": {
-  "label": "T",
-  "back": false
- },
- "catch-up-4": {
-  "label": "Back",
-  "back": true
- },
- "catch-up-5": {
-  "label": "Chats",
-  "back": false
- },
- "catch-up-6": {
-  "label": "T",
-  "back": false
- },
- "catch-up-7": {
-  "label": "Inbox",
-  "back": false
- },
- "catch-up-8": {
-  "label": "M",
-  "back": false
- },
- "catch-up-9": null,
  "invite-project-1": null,
  "invite-project-2": null,
  "invite-project-3": {
@@ -288,6 +162,37 @@
   "back": false
  },
  "invite-project-4": null,
+ "ask-join-1": {
+  "label": "Ask to join",
+  "back": false
+ },
+ "ask-join-2": {
+  "label": "Send request",
+  "back": false
+ },
+ "ask-join-3": null,
+ "ask-join-4": {
+  "label": "M",
+  "back": false
+ },
+ "ask-join-5": null,
+ "host-approve-1": {
+  "label": "D",
+  "back": false
+ },
+ "host-approve-2": {
+  "label": "D",
+  "back": false
+ },
+ "host-approve-3": {
+  "label": "Back",
+  "back": true
+ },
+ "host-approve-4": {
+  "label": "Group chat",
+  "back": false
+ },
+ "host-approve-5": null,
  "project-builder-1": {
   "label": "New project",
   "back": false
@@ -377,5 +282,38 @@
   "label": "Sign out",
   "back": false
  },
- "settings-notify-2": null
+ "settings-notify-2": null,
+ "catch-up-1": {
+  "label": "Inbox",
+  "back": false
+ },
+ "catch-up-2": {
+  "label": "Activity",
+  "back": false
+ },
+ "catch-up-3": {
+  "label": "T",
+  "back": false
+ },
+ "catch-up-4": {
+  "label": "Back",
+  "back": true
+ },
+ "catch-up-5": {
+  "label": "Chats",
+  "back": false
+ },
+ "catch-up-6": {
+  "label": "T",
+  "back": false
+ },
+ "catch-up-7": {
+  "label": "Inbox",
+  "back": false
+ },
+ "catch-up-8": {
+  "label": "M",
+  "back": false
+ },
+ "catch-up-9": null
 }

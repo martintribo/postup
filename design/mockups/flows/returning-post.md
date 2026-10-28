@@ -23,19 +23,18 @@ Player: /mockups/flows/returning-post.html
 3. **live@in.live** · user: Managing their postup · action: opens their live postup · edge: tap: Manage postup
    - You're live: time left, requests, chat. [FS] [F057]
    - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), post-edit@in.live (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), live+endlive@in.live (End postup), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
-   - enterable flows: host-approve step 2 (if Deciding on the request), hosting step 1 (if Live; wants more time)
+   - enterable flows: hosting step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 4. **home@in.live.live** · user: Checks they show up on Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
    - next site states: postup@in.live (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), catch-up step 1 (if What did I miss?), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: join step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
 
 ## Connected flows [M1025]
 - `first-post`: branch out at step 2→6; merge in at step 2 (from its step 6)
 - `host-approve`: branch out at step 3→2; merge in at step 3 (from its step 2)
 - `desktop-browse`: branch out at step 4→1; merge in at step 1 (from its step 3)
 - `hosting`: branch out at step 3→1; merge in at —
-- `cautious-joiner`: branch out at step 4→1; merge in at —
-- `quick-joiner`: branch out at step 4→1; merge in at —
+- `join`: branch out at step 4→1; merge in at —
 - `catch-up`: branch out at step 4→1; merge in at —
 
 ## Screens

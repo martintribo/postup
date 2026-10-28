@@ -11,12 +11,11 @@ groups = [
   { id = "other", title = "Devices, network and account", order = 8 },  # [M1031-draft]
 ]
 situations = [
-  { id = "nc-sees-live", group = "discovering", user = "newcomer", title = "Sees people live nearby", setting = "Signed out on Home; someone is live nearby. [M1031-draft]" },
-  { id = "nc-no-idea", group = "discovering", user = "newcomer", title = "Has no idea what PostUp is", setting = "Signed out, landed on Home by chance. [M1031-draft]" },
+  { id = "nc-looking", group = "discovering", user = "newcomer", title = "Looking around for the first time", setting = "Signed out on Home: curious, or no idea what PostUp is; someone is live nearby. Merged from Sees people live nearby and Has no idea what PostUp is. [M1032]" },
   { id = "nc-postup-link", group = "shared-link", user = "newcomer", title = "A friend sent a postup link", setting = "Signed out, opens a shared postup link (live or ended). [M1031-draft]" },
   { id = "nc-project-link", group = "shared-link", user = "newcomer", title = "A friend sent a project link", setting = "Signed out, opens a shared project link. [M1031-draft]" },
   { id = "nc-at-cafe", group = "posting", user = "newcomer", title = "Already at a cafe, wants to post up", setting = "Signed out, wants to go live where they are. [M1031-draft]" },
-  { id = "nc-nobody-live", group = "discovering", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. No flow yet: a newcomer version of Empty area is wanted. [M1031-draft]" },
+  { id = "nc-nobody-live", group = "discovering", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. Shown recent postups and projects nearby. [M1032]" },
   { id = "rg-wants-company", group = "finding-company", user = "registered", title = "Wants company now", setting = "Signed in; someone is live nearby. [M1031-draft]" },
   { id = "rg-nobody-live", group = "finding-company", user = "registered", title = "Nobody live nearby", setting = "Signed in; no one is live in the area. [M1031-draft]" },
   { id = "rg-posting", group = "posting", user = "registered", title = "Wants to post up", setting = "Signed in, at a cafe, posting again. [M1031-draft]" },

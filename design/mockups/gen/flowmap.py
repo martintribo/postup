@@ -16,8 +16,8 @@ EDGES=[('V0','IST','no idea'),('V0','ICU','curious'),('V0','IPO','wants to post'
  ('JN','RET','postup ends or leaves'),('HOST','RET','ends postup'),('RET','RL','comes back · someone live'),('RET','RN','comes back · nobody live'),
  ('RL','JN','joins'),('RL','PEND','asks to join'),('PEND','JN','gets approved'),('PEND','RL','declined or cancels'),
  ('RL','HOST','posts up'),('RN','HOST','posts up'),('OFF','RET','back online')]
-BADGES=[('IST','stumbled',''),('ICU','curious-browser',''),('ICU','first-visit-live','someone live, joins'),('IPO','first-post',''),('SLK','invite-live',''),('SEN','invite-ended',''),
- ('SPJ','invite-project',''),('OFF','loading-offline',''),('RL','cautious-joiner',''),('RL','quick-joiner',''),('RL','ask-join',''),
+BADGES=[('ICU','look-around','curious or no idea, joins'),('SN','empty-area-newcomer','nobody live'),('IPO','first-post',''),('SLK','invite-live',''),
+ ('SPJ','invite-project',''),('OFF','loading-offline',''),('RL','join',''),('RL','ask-join',''),
  ('RL','returning-post',''),('RL','desktop-browse','on a laptop'),('RL','postup-states','postup fills or ends'),('RL','safety','someone feels off'),
  ('HOST','host-approve','gets a request'),('HOST','hosting',''),('JN','leave','plans change'),('JN','chat',''),
  ('RN','project-builder',''),('RN','following',''),('RN','empty-area','area has no postups'),('RET','delete-account',''),('RET','settings-notify',''),('RET','catch-up','comes back later')]
@@ -43,7 +43,7 @@ for s,fid,cond in BADGES:
     lab=('|"'+mq(cond)+'"|') if cond else ''
     M.append('  '+s+' -.->'+lab+' '+bid+'(["▶ '+mq(f['name'])+'"])')
     M.append(f'  click {bid} href "{fid}.html" "Open the {mq(f["name"])} player"')
-    M.append(f'  class {bid} {"must" if f["pri"]=="Phase 1" else "nice"}')
+    M.append(f'  class {bid} {"must" if f["phase"] else "nice"}')
 M+=[f'  class {i} {c}' for i,_,c in STATES]
 M+=['  classDef root fill:#0f7a4f,color:#fff,stroke:#0b5c3b,stroke-width:3px','  classDef out fill:#fff,color:#232322,stroke:#8a8984,stroke-width:2px',
     '  classDef in fill:#e6f4ec,color:#0b4a30,stroke:#10a364,stroke-width:2px','  classDef any fill:#fff3d6,color:#5c3d00,stroke:#c48a00,stroke-width:2px',
@@ -62,7 +62,7 @@ SHORT={('V0','IST'):'',('V0','ICU'):'',('V0','IPO'):'',('V0','ILK'):'',('V0','OF
 assert set(SHORT)=={(a,b) for a,b,_ in EDGES}
 SN_={i:t for i,t,_ in STATES}
 def badge(fid,cond):
-    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"must" if f["pri"]=="Phase 1" else "nice"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
+    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"must" if f["phase"] else "nice"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
 def card(i):
     c=dict((x,c) for x,_,c in STATES)[i]; bs=''.join(badge(fid,cond) for s,fid,cond in BADGES if s==i)
     return f'<div class="st {c}" id="st-{i}"><div class="sn">{SN_[i]}</div>{"<div class=bds>"+bs+"</div>" if bs else ""}</div>'

@@ -2,7 +2,7 @@
 id = "host-approve"
 name = "Host approves a request"
 role = "host"
-phase = 1  # MVP phase [M1031-draft]
+phase = 2  # [M1032]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
 situation = "rg-hosting"  # model/situations.toml [M1031-draft]
 order = 10  # position in the flow list

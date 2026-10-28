@@ -19,10 +19,11 @@ Player: /mockups/flows/settings-notify.html
 2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: tap: Sign out
    - Signed out. [M1024]
    - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
-   - enterable flows: first-post step 1 (if Came to post up right now)
+   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post step 1 (if Came to post up right now)
 
 ## Connected flows [M1025]
 - `delete-account`: branch out at step 1→2; merge in at step 1 (from its step 2)
+- `empty-area-newcomer`: branch out at step 2→1; merge in at —
 - `first-post`: branch out at step 2→1; merge in at —
 
 ## Screens

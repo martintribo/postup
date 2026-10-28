@@ -2,6 +2,7 @@
 id = "invite-ended"
 title = "Share link · ended"
 kind = "page"
+phase = 1  # [M1032]
 group = "Share-link landings"
 entry = true
 slots = [
@@ -31,4 +32,14 @@ lines = [
 section = "Gap fixes"
 lines = [
   "Gap fix (Oct 25): adds \"Follow Maya for next time\" (sign-in sheet when signed out; signing in returns here, Following) and \"Go to Home\". [M1025]",
+]
+
+[[notes]]
+section = "Was the flow \"Share link to an ended postup\""
+lines = [
+  "Now a single screen state, not a flow: an invite link whose postup has ended lands here (see the Share link to a live postup flow's edge cases). [M1032]",
+  "Signed-out visitor opening an old link should not hit a dead end: see what's nearby and follow the poster. [M1024]",
+  "\"This postup ended\" + See what's nearby, Follow Maya for next time, Go to Home. [FS] [R39]",
+  "Follow → sign-in sheet; back on the page signed in, Follow shows Following; Go to Home opens Home in Building mode. [FS] [M1018] [M1025]",
+  "Cancelled instead of ended: #postup-cancelled copy. No 404; a next step is always offered. [F060] [M1024]",
 ]

@@ -8,13 +8,15 @@ Scenario: ?auth=out|in&live=live|none (default out + live); see the Scenarios se
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing.
 
 ## Purpose
-- An area with no postups yet: "Be the first here". [FS]
+- Nobody is live nearby: show what happened here lately instead of an empty screen. Recently nearby (past postups: who, cafe, day, project) → `#profile`; Projects nearby → `#project`; then cafes to be the first today and Post up. [M1032]
+- Was: an area with no postups yet, "Be the first here". [FS]
 
 ## Scenarios
 - Same in all scenarios (the area has no postups by definition). [M1018]
 
 ## Behavior
 - No fake activity. [TK§2]
+- Recent activity is real past postups and project updates from the area (this week first, then older); if there is none at all, projects in general, then cafes. [M1032]
 
 ## Overrides
 - No postups means no map on home; the drawing shows one. Focus on projects. [F044] [R1]
@@ -122,6 +124,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
+- **M1032** — Martin, Oct 28 2026: phase scope decisions (phase 2 = MVP; ask/approve in phase 2; merged flows; empty area shows recent activity and projects)
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

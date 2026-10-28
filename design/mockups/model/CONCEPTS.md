@@ -61,7 +61,9 @@ The model in `model/` is the single source for the mockup's screens, links, note
 - Derived phase: a screen or state that a phase-N flow passes through is phase N, unless it is tagged. The lowest phase wins.
 - The validator fails if a phase-1 flow uses a screen or state that is explicitly tagged with a later phase.
 - Flows also have `user = "newcomer"` (signed out, never used) or `"registered"` (signed in), which must match the start state's `auth`. The old `mvp` flag is gone: phase 1 replaces `mvp = true`. The MVP checkboxes in the flow pages now start from phase 1.
-- The views (flows index and grid, site map, site graph, states, Map + states) have a "Phase: all / 1 only" toggle, and mark phase-1 items with a P1 badge.
+- Phase 1 is a pre-MVP step; phase 2 is the MVP, so the MVP is phases 1 and 2. [M1032]
+- The views (flows index and grid, site map, site graph, states, maps) have a toggle that cycles "Phase: all" → "1 (pre-MVP)" → "≤2 (MVP)", and mark items with a P1 or P2 badge. [M1032]
+- Merged flows keep their old ids in `aliases`; the old flow pages redirect to the merged flow. [M1032]
 
 ## Edit, then build
 

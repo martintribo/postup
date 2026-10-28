@@ -183,7 +183,7 @@ if '--no-index' not in sys.argv:
         L.append(f'- `{sid}` ({s["kind"]}, {s.get("group","")}, {"phase "+str(_SP[sid]) if _SP.get(sid) else "unphased"}{"" if s.get("phase") else " derived" if _SP.get(sid) else ""}) {s["title"]} · {len(s.get("links",[]))} links{sl}{" · entry" if s.get("entry") else ""} → screens/{sid}.toml')
     L+=['','## Flows']
     for fid,f in fl.items(): L.append(f'- `{fid}` ({f["role"]}, {"phase "+str(f["phase"]) if f.get("phase") else "unphased"}, {f.get("user","?")}, {f["status"]}) {f["name"]} · {len(f["steps"])} steps · starts {f["start"]["screen"]} → flows/{fid}.toml')
-    L+=['',f'## Phases [M1031-draft]',f'- Phase 1: {sum(1 for v in _FP.values() if v==1)} flows, {sum(1 for v in _SP.values() if v==1)} screens, {sum(1 for v in _STP.values() if v==1)} site states (screens/states derived from phase-1 flows unless tagged). Untagged = unclassified, kept.']
+    L+=['',f'## Phases [M1031-draft] [M1032]']+[f'- {nm}: {sum(1 for v in _FP.values() if v==n)} flows, {sum(1 for v in _SP.values() if v==n)} screens, {sum(1 for v in _STP.values() if v==n)} site states' for n,nm in ((1,'Phase 1 (pre-MVP)'),(2,'Phase 2 (MVP)'))]+['- Screens/states are derived from flows unless tagged; lowest phase wins. Untagged = unclassified, kept. The MVP is phases 1 and 2.']
     L+=['','## Events and conditions']+[f'- `{e["id"]}` {e["label"]}' for e in ev['events']+ev['conditions']]
     open(os.path.join(M.ROOT,'INDEX.md'),'w').write('\n'.join(L)+'\n')
 print(f'model: {len(sc)} screens ({sum(1 for s in sc.values() if s["kind"]=="page")} pages), {sum(len(s.get("links",[])) for s in sc.values())} links, {len(fl)} flows, {sum(len(f["steps"]) for f in fl.values())} steps, {len(ev["events"])} events, {len(ev["conditions"])} conditions')

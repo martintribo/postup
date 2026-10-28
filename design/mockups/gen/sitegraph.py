@@ -7,7 +7,7 @@ import sys as _sys
 _sys.path.insert(0,'gen'); import model as M, htmllinks as HL
 SC,_MFL,MEV,_MGL=M.load()
 PH_F,PH_S,PH_ST=M.phases(SC,_MFL,_MGL)  # phase per flow / screen / site state (derived) [M1031-draft]
-def ph1(x,kind='s'): return 1 if (PH_S if kind=='s' else PH_ST).get(x)==1 else 0
+def ph1(x,kind='s'): return int((PH_S if kind=='s' else PH_ST).get(x) or 0)  # phase number, 0 = unphased [M1032]
 PAGES=[k for k in S if '--' not in k and k!='index']
 OVCH={m[1]:m[2] for m in re.finditer(r'<div class="ov" id="ov-([\w-]+)">(.*?)</div></div>(?=<div class="ov"|$)',OVS,re.S)}
 assert set(OVCH)==set(OVHOST), (set(OVCH)^set(OVHOST))

@@ -1,5 +1,5 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 25 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 22 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
@@ -72,26 +72,20 @@ flowchart LR
   RL -->|"posts up"| HOST
   RN -->|"posts up"| HOST
   OFF -->|"back online"| RET
-  IST -.-> F_stumbled(["▶ Stumbled on it: what is this?"])
-  click F_stumbled href "stumbled.html"
-  ICU -.-> F_curious_browser(["▶ Curious browser: live now, then past content"])
-  click F_curious_browser href "curious-browser.html"
-  ICU -.-> F_first_visit_live(["▶ Curious visitor joins someone live"])
-  click F_first_visit_live href "first-visit-live.html"
+  ICU -.-> F_look_around(["▶ Newcomer looks around, then joins"])
+  click F_look_around href "look-around.html"
+  SN -.-> F_empty_area_newcomer(["▶ Nobody live nearby (newcomer)"])
+  click F_empty_area_newcomer href "empty-area-newcomer.html"
   IPO -.-> F_first_post(["▶ Came to post up: first post with sign-in"])
   click F_first_post href "first-post.html"
   SLK -.-> F_invite_live(["▶ Share link to a live postup"])
   click F_invite_live href "invite-live.html"
-  SEN -.-> F_invite_ended(["▶ Share link to an ended postup"])
-  click F_invite_ended href "invite-ended.html"
   SPJ -.-> F_invite_project(["▶ Share link to a project"])
   click F_invite_project href "invite-project.html"
   OFF -.-> F_loading_offline(["▶ Slow network and offline"])
   click F_loading_offline href "loading-offline.html"
-  RL -.-> F_cautious_joiner(["▶ Cautious joiner checks a few postups, then joins"])
-  click F_cautious_joiner href "cautious-joiner.html"
-  RL -.-> F_quick_joiner(["▶ Quick joiner"])
-  click F_quick_joiner href "quick-joiner.html"
+  RL -.-> F_join(["▶ Join someone live"])
+  click F_join href "join.html"
   RL -.-> F_ask_join(["▶ Ask to join, then get approved (joiner side)"])
   click F_ask_join href "ask-join.html"
   RL -.-> F_returning_post(["▶ Returning poster"])
@@ -114,7 +108,7 @@ flowchart LR
   click F_project_builder href "project-builder.html"
   RN -.-> F_following(["▶ Follow a person or project"])
   click F_following href "following.html"
-  RN -.-> F_empty_area(["▶ Empty area: be the first"])
+  RN -.-> F_empty_area(["▶ Nobody live nearby (signed in)"])
   click F_empty_area href "empty-area.html"
   RET -.-> F_delete_account(["▶ Delete account"])
   click F_delete_account href "delete-account.html"
@@ -125,22 +119,19 @@ flowchart LR
 ```
 
 ## Where each flow starts
-- `stumbled` (Phase 1): from state "Stumbled on it · no idea what PostUp is" [M1025]
-- `curious-browser` (Phase 1): from state "Curious about content · live now or past" [M1025]
-- `first-visit-live` (Phase 1): from state "Curious about content · live now or past" when someone live, joins [M1025]
+- `look-around` (Phase 1): from state "Curious about content · live now or past" when curious or no idea, joins [M1025]
+- `empty-area-newcomer` (Phase 1): from state "Signed out · nobody live" when nobody live [M1025]
 - `first-post` (Phase 1): from state "Came to post up · wants to go live now" [M1025]
 - `invite-live` (Phase 1): from state "Signed out · on a live postup link" [M1025]
-- `invite-ended` (Phase 1): from state "Signed out · on an ended postup link" [M1025]
 - `invite-project` (Unphased): from state "Signed out · on a project link" [M1025]
 - `loading-offline` (Unphased): from state "Slow network or offline" [M1025]
-- `cautious-joiner` (Phase 1): from state "Signed in · someone live nearby" [M1025]
-- `quick-joiner` (Phase 1): from state "Signed in · someone live nearby" [M1025]
-- `ask-join` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `join` (Phase 1): from state "Signed in · someone live nearby" [M1025]
+- `ask-join` (Phase 2 (MVP)): from state "Signed in · someone live nearby" [M1025]
 - `returning-post` (Phase 1): from state "Signed in · someone live nearby" [M1025]
 - `desktop-browse` (Unphased): from state "Signed in · someone live nearby" when on a laptop [M1025]
 - `postup-states` (Unphased): from state "Signed in · someone live nearby" when postup fills or ends [M1025]
 - `safety` (Phase 1): from state "Signed in · someone live nearby" when someone feels off [M1025]
-- `host-approve` (Phase 1): from state "Signed in · hosting (live)" when gets a request [M1025]
+- `host-approve` (Phase 2 (MVP)): from state "Signed in · hosting (live)" when gets a request [M1025]
 - `hosting` (Phase 1): from state "Signed in · hosting (live)" [M1025]
 - `leave` (Phase 1): from state "Signed in · joined a postup" when plans change [M1025]
 - `chat` (Phase 1): from state "Signed in · joined a postup" [M1025]
@@ -149,4 +140,4 @@ flowchart LR
 - `empty-area` (Phase 1): from state "Signed in · nobody live" when area has no postups [M1025]
 - `delete-account` (Unphased): from state "Returning user · signed in" [M1025]
 - `settings-notify` (Unphased): from state "Returning user · signed in" [M1025]
-- `catch-up` (Phase 1): from state "Returning user · signed in" when comes back later [M1025]
+- `catch-up` (Unphased): from state "Returning user · signed in" when comes back later [M1025]

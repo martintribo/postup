@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3650 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3666 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 
 Site events: postups end; someone goes live; alert arrives; comes back later; postup fills (on postup, postup-ask, joined, requested, invite, postup-full); postup is cancelled (on postup, postup-ask, joined, requested, invite, postup-full); postup ends (on postup, postup-ask, joined, requested, invite, postup-full); someone you follow posts up; network drops (on quiet-feed, loading, home). live = someone live nearby; a postup ending changes only its own page.
 
@@ -141,6 +141,10 @@ States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `emp
 - Stories Cafe 0.3 mi → `post` [tap]
 - Lot 1 Coffee 0.6 mi → `post` [tap]
 - Post up → `post` [tap]
+- Maya posted up at Bean Theory → `profile` [tap]
+- Jon posted up at Lot 1 Coffee → `profile` [tap]
+- Star Fox 64 mod → `project` [tap]
+- Bus Stop Zine → `project` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - cafe (Google card fails) → `cafe-gfail` [cond]

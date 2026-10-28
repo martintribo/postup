@@ -1,5 +1,5 @@
 # Flow: Catch up on what happened (`catch-up`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/catch-up.html
 
 ## Persona
@@ -15,7 +15,7 @@ Player: /mockups/flows/catch-up.html
 1. **home@in.live.live** · user: What did I miss? · action: comes back and opens / · edge: entry
    - Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft]
    - next site states: postup@in.live (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), **inbox@in.live** (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: cautious-joiner step 1 (if Wants company today, but careful about who), quick-joiner step 1 (if Knows a friend is live; wants to go now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: join step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing)
 2. **inbox@in.live** · user: Checks messages first · action: taps Inbox · edge: tap: Inbox
    - Chats: group chats, newest first, including an ended postup. [drawn] [M1031-draft]
    - next site states: **activity@in.live** (Activity 2), chat@in.live (M Maya's postup Maya: Grabbing ano), postup-ended@in.live (T Tess's postup Ended · Tue Tue), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S)
@@ -27,7 +27,7 @@ Player: /mockups/flows/catch-up.html
 4. **postup-ask@in.live** · user: My request was approved · action: taps "Tess said yes to your request" · edge: tap: T Tess said yes to your request Ye
    - Tess's postup. [drawn] [M1031-draft]
    - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
-   - enterable flows: cautious-joiner step 7 (if Comparing with another option), ask-join step 1 (if Interested, but the host screens people)
+   - enterable flows: ask-join step 1 (if Interested, but the host screens people)
 5. **activity@in.live** · user: Back to the list · action: taps Back · edge: back
    - Activity again. [drawn] [M1031-draft]
    - next site states: **inbox@in.live** (Chats), postup@in.live (Maya posted up at Bean Theory), live@in.live (D Dev asked to join your postup 2), chat@in.live (M Maya: Hey! Here till 4 — come sa), postup-ask@in.live (T Tess said yes to your request Ye), profile@in.live (A Ari followed you Mon), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S)
@@ -52,10 +52,9 @@ Player: /mockups/flows/catch-up.html
 ## Connected flows [M1025]
 - `ask-join`: branch out at step 3→4, step 4→1, step 5→4; merge in at step 3 (from its step 4), step 5 (from its step 4)
 - `following`: branch out at step 3→4, step 5→4; merge in at step 3 (from its step 4), step 5 (from its step 4)
-- `cautious-joiner`: branch out at step 1→1, step 4→7; merge in at step 4 (from its step 7)
 - `chat`: branch out at step 2→1, step 6→1, step 9→2; merge in at —
 - `host-approve`: branch out at step 3→1, step 5→1; merge in at —
-- `quick-joiner`: branch out at step 1→1; merge in at —
+- `join`: branch out at step 1→1; merge in at —
 - `desktop-browse`: branch out at step 1→1; merge in at —
 
 ## Screens

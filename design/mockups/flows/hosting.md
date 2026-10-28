@@ -15,7 +15,7 @@ Player: /mockups/flows/hosting.html
 1. **live@in.live** · user: Live; wants more time · action: opens their live postup · edge: entry
    - +30 min extends. [FS]
    - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), **post-edit@in.live** (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
-   - enterable flows: host-approve step 2 (if Deciding on the request), returning-post step 3 (if Managing their postup)
+   - enterable flows: returning-post step 3 (if Managing their postup), host-approve step 2 (if Deciding on the request)
 2. **post-edit@in.live** · user: Plans changed: different time · action: taps Edit · edge: tap: Edit
    - Edit cafe/what/until; Save → #live. [FS] [drawn]
    - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **live@in.live** (Save), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
@@ -23,7 +23,7 @@ Player: /mockups/flows/hosting.html
 3. **live@in.live** · user: Saved · action: taps Save · edge: back
    - Back on live. [FS]
    - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), post-edit@in.live (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), **live+endlive@in.live** (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
-   - enterable flows: host-approve step 2 (if Deciding on the request), returning-post step 3 (if Managing their postup)
+   - enterable flows: returning-post step 3 (if Managing their postup), host-approve step 2 (if Deciding on the request)
 4. **live+endlive@in.live** · user: Wrapping up · action: taps End postup · edge: tap: End postup
    - End postup → confirm; joiners and waiters alerted. [FS] [drawn]
    - next site states: live@in.live (close), **me@in.live** (End now)
@@ -34,8 +34,8 @@ Player: /mockups/flows/hosting.html
    - enterable flows: delete-account step 1 (if Leaving PostUp)
 
 ## Connected flows [M1025]
-- `host-approve`: branch out at step 1→2, step 3→2; merge in at step 1 (from its step 2), step 3 (from its step 2)
 - `returning-post`: branch out at step 1→3, step 3→3; merge in at step 1 (from its step 3), step 3 (from its step 3)
+- `host-approve`: branch out at step 1→2, step 3→2; merge in at step 1 (from its step 2), step 3 (from its step 2)
 - `delete-account`: branch out at step 5→1; merge in at —
 
 ## Screens

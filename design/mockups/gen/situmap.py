@@ -5,7 +5,7 @@ import model as _MOD
 SITS,_=_MOD.load_situations()
 UT=[('newcomer','Newcomer','Signed out, never used PostUp'),('registered','Registered','Signed in, has used PostUp')]
 _TINT=['#e8f5ee','#e9f0fb','#fdf1e4','#f3ecfb','#fbeef1','#eaf6f6','#eef1f4','#f4f1e8']
-def _fbtn(f): return f'<a class="fb" data-ph="{1 if f["phase"]==1 else 0}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"]==1)}<i>{len(f["steps"])} steps</i></a>'
+def _fbtn(f): return f'<a class="fb" data-ph="{f["phase"] or 0}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"])}<i>{len(f["steps"])} steps</i></a>'
 _lanes=''
 for u,ut,usub in UT:
     cards=''; n=0
@@ -13,7 +13,7 @@ for u,ut,usub in UT:
         inner=''; gph=0
         for sid,x in [(k,v) for k,v in SITS.items() if v['user']==u and v['group']==gid]:
             fs=[f for f in FLOWS if f['situation']==sid]
-            ph=1 if x.get('phase')==1 or any(f['phase']==1 for f in fs) else 0; gph|=ph
+            ph=min([p for p in [x.get('phase')]+[f['phase'] for f in fs] if p] or [0]); gph=min(p for p in (gph,ph) if p) if (gph or ph) else 0
             btns=''.join(_fbtn(f) for f in fs) or '<span class="nof">No flow yet</span>'
             inner+=f'<section class="sit" data-ph="{ph}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
         if inner: cards+=f'<div class="grp" data-ph="{gph}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'

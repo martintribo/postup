@@ -110,7 +110,10 @@ S['invite-ended']=f'''<header class="nb"><span class="ib"></span><b class="brand
 # ---------- empty area ----------
 ep=pin_cafe(30,36)+pin_cafe(66,54)+pin_cafe(50,22)
 S['empty-area']=f'''<div class="hm">{mapblock("380px",ep,f'<div class="mtop"><span class="brand">{I("pin",16)} Echo Park</span><a class="ib fl" href="#me" aria-label="Profile">{av("ME",30)}</a></div>')}
-<section class="sheet-p"><span class="grab"></span><div class="sp-h"><h2>Be the first here</h2></div><p class="mu sm">No postups around Echo Park yet. Start one and people nearby will see it.</p>
+<section class="sheet-p"><span class="grab"></span><div class="sp-h"><h2>Nobody's live nearby</h2></div><p class="mu sm">No one is posted up around Echo Park right now. Here's what people did nearby lately.</p>
+<h3 class="sh">Recently nearby</h3><div class="grp"><div class="lrow" onclick="go('profile')">{av('MK',32)}<div class="lm"><b class="sm">Maya posted up at Bean Theory</b><span class="xs mu">Tue · Star Fox 64 mod · 3 joined</span></div></div><div class="lrow" onclick="go('profile')">{av('JR',32)}<div class="lm"><b class="sm">Jon posted up at Lot 1 Coffee</b><span class="xs mu">Mon · Bus Stop Zine</span></div></div></div>
+<h3 class="sh">Projects nearby</h3><div class="grp"><div class="lrow" onclick="go('project')"><span class="ci sm pj">{I("folder",16)}</span><div class="lm"><b class="sm">Star Fox 64 mod</b><span class="xs mu">Maya · updated yesterday</span></div></div><div class="lrow" onclick="go('project')"><span class="ci sm pj">{I("folder",16)}</span><div class="lm"><b class="sm">Bus Stop Zine</b><span class="xs mu">Jon · page 12</span></div></div></div>
+<h3 class="sh">Be the first here today</h3>
 {cafe_row('Stories Cafe','0.3 mi').replace("pick(","postAt(")}{cafe_row('Lot 1 Coffee','0.6 mi').replace("pick(","postAt(")}
 <button class="btn" onclick="go('post')">{I("plus",18)} Post up</button></section></div>{nav("m")}'''
 

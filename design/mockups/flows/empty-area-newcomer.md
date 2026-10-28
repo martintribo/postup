@@ -1,0 +1,56 @@
+# Flow: Nobody live nearby (newcomer) (`empty-area-newcomer`)
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Player: /mockups/flows/empty-area-newcomer.html
+
+## Persona
+- First-time visitor, signed out, in an area where nobody is live right now.
+
+## Starting state
+- auth=out · live=none · device=phone · entry URL `/`
+
+## Goal
+- With nobody live nearby, see what happened here lately and projects nearby, then join in later or be the first. [M1032]
+
+## Steps
+1. **home@out.none.building** · user: Nobody around right now · action: arrives at / · edge: entry
+   - Home in Building mode: closest projects. [M1018c]
+   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), **empty-area@out.none** (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - enterable flows: first-post step 1 (if Came to post up right now)
+2. **empty-area@out.none** · user: What happens around here? · action: area has no postups · edge: cond: area has no postups
+   - Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), **profile@out.none** (Maya posted up at Bean Theory), project@out.none (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails))
+   - enterable flows: none
+3. **profile@out.none** · user: Who comes here? · action: taps Maya posted up at Bean Theory · edge: tap: Maya posted up at Bean Theory
+   - Maya's profile: regular cafes, past postups. [FS] [M1032]
+   - next site states: back (Back), profile+more@out.none (More), profile+signin@out.none (Follow), cafe@out.none (Bean Theory), project@out.none (Star Fox 64 mod Updated yesterday), home@out.none.building (home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), post@out.none (Post up), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails))
+   - enterable flows: none
+4. **empty-area@out.none** · user: Back to the area · action: taps Back · edge: back
+   - The empty-area screen again. [M1032]
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), profile@out.none (Maya posted up at Bean Theory), **project@out.none** (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails))
+   - enterable flows: none
+5. **project@out.none** · user: What are people making? · action: taps a project nearby · edge: tap: Star Fox 64 mod
+   - A project nearby: updates and past postups. [FS] [M1032]
+   - next site states: back (Back), project-new@out.none (New), profile@out.none (Maya), project-update@out.none (Update), project-attach@out.none (Post up), cafe@out.none (Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), post@out.none (Post up), projects@out.none (Projects), inbox@out.none (Inbox), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails))
+   - enterable flows: none
+
+## Connected flows [M1025]
+- `first-post`: branch out at step 1→1; merge in at —
+
+## Screens
+1. `#home` · auth=out live=none mode=building — Home in Building mode: closest projects. [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)
+2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#empty-area)
+3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#profile)
+4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#empty-area)
+5. `#project` · auth=out live=none — A project nearby: updates and past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#project)
+
+## Branches and edge cases
+- No past activity at all in the area: projects in general, then good cafes to be the first. [M1032]
+
+## Success criteria
+- Never an empty or "quiet" screen: recent postups and projects nearby are shown. [F035] [R4] [M1032]
+
+## Needs Martin's decision
+- A fallback list of good cafes for empty areas? [TK§4]
+- Launch area. [FS] [TK§4]
+
+Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

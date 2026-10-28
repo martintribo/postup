@@ -27,10 +27,11 @@ Player: /mockups/flows/delete-account.html
 4. **home@out.none.building** · user: Gone · action: confirms · edge: tap: Delete account
    - Signed out at Home. [M1024]
    - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
-   - enterable flows: first-post step 1 (if Came to post up right now)
+   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post step 1 (if Came to post up right now)
 
 ## Connected flows [M1025]
 - `settings-notify`: branch out at step 2→1; merge in at —
+- `empty-area-newcomer`: branch out at step 4→1; merge in at —
 - `first-post`: branch out at step 4→1; merge in at —
 
 ## Screens

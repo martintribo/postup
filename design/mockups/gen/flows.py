@@ -7,7 +7,7 @@ OVHOST={o:NOTES['ov-'+o]['host'] for o in re.findall(r'id="ov-([\w-]+)"',OVS)}
 ids=set()
 for f in FLOWS:
     assert f['id'] not in ids, f['id']; ids.add(f['id'])
-    assert f['pri'] in ('Phase 1','Unphased') and f['status'] in ('martin','draft')
+    assert f['pri'] in ('Phase 1','Phase 2 (MVP)','Unphased') and f['status'] in ('martin','draft')
     texts=[f['goal']]+[s[4] for s in f['steps']]+f['branches']+f['success']+f['decide']
     for t in texts:
         if not tags(t): raise SystemExit(f'flows: untagged line in {f["id"]}: {t}')
@@ -29,11 +29,11 @@ def conn_rows(fid):
     for i,h,j in c['out']: g.setdefault(h,{'out':[],'inn':[]})['out'].append((i+1,j+1))
     for i,h,j in c['inn']: g.setdefault(h,{'out':[],'inn':[]})['inn'].append((i+1,j+1))
     return sorted(g.items(),key=lambda x:-(len(x[1]['out'])+len(x[1]['inn'])))
-MVPD={f['id']:{'n':f['name'],'m':f['pri']=='Phase 1'} for f in FLOWS}
+MVPD={f['id']:{'n':f['name'],'m':f['phase'] in (1,2)} for f in FLOWS}
 PHJS='<script>'+open('gen/phase.js').read()+'</script>'
-PHCSS='.phbtn{font:600 12px Inter,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}.phbtn.on{background:#10a364;color:#fff;border-color:#10a364}html.ph1only [data-ph="0"]{display:none!important}.p1b{display:inline-block;font:700 9.5px Inter,sans-serif;color:#fff;background:#10a364;border-radius:5px;padding:1px 4px;margin-left:4px;vertical-align:middle}'
+PHCSS='.phbtn{font:600 12px Inter,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}.phbtn.on{background:#10a364;color:#fff;border-color:#10a364}html.ph1only [data-ph]:not([data-ph="1"]),html.ph2only [data-ph="0"]{display:none!important}.p1b.p2{background:#6d5bd0}.p1b{display:inline-block;font:700 9.5px Inter,sans-serif;color:#fff;background:#10a364;border-radius:5px;padding:1px 4px;margin-left:4px;vertical-align:middle}'
 PHBTN='<button class="phbtn" onclick="phToggle()">Phase: all</button>'
-def p1b(on): return '<span class="p1b" title="Phase 1">P1</span>' if on else ''
+def p1b(ph): return {1:'<span class="p1b" title="Phase 1 (pre-MVP)">P1</span>',2:'<span class="p1b p2" title="Phase 2 (MVP)">P2</span>'}.get(int(ph or 0),'')
 MVPJS='<script>window.MVPD='+json.dumps(MVPD)+';'+open('gen/mvp.js').read()+'</script>'+PHJS
 MVPCSS0=None
 MVPCSS=""".mvpbar{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}.mvpbar .mvpn{font-weight:700;color:#0f7a4f;white-space:nowrap}.mvpbar button{font:600 12px Inter,sans-serif;padding:5px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}
@@ -183,7 +183,13 @@ addEventListener("keydown",function(e){{if(e.key==="ArrowRight")step(i+1);if(e.k
 function fitpl(){{var p=document.querySelector(".pl"),dk=innerWidth>820,av=dk?innerHeight-p.offsetTop-24:Math.round(innerHeight*.8);if(dk)p.style.height=Math.max(av<380?844*.45+40:0,innerHeight-p.offsetTop)+"px";var st=fr.style;st.transformOrigin="top center";if(fr.classList.contains("phone")){{var s=Math.min(1,Math.max(.45,av/844),(dk?9e9:innerWidth-8)/390);st.width="390px";st.height="844px";st.transform="scale("+s+")";st.marginBottom=(844*(s-1))+"px";st.marginLeft=st.marginRight=(390*(s-1)/2)+"px"}}else{{st.width="";st.height=Math.max(380,av)+"px";st.transform="";st.margin=""}}}}addEventListener("resize",fitpl);fitpl();
 step(Math.max(0,Math.min(S.length-1,(parseInt(location.hash.slice(1))||1)-1)));</script>{MVPJS}</body></html>'''
 for f in FLOWS: open(f'flows/{f["id"]}.html','w').write(player(f))
-def _row(f): return f'<li data-ph="{1 if f["phase"]==1 else 0}" data-mvpf="{f["id"]}">{mvpc(f["id"])} <a href="{f["id"]}.html"><b>{H.escape(f["name"])}</b></a>{p1b(f["phase"]==1)} <span class="pill{"" if f["pri"]=="Phase 1" else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"}<div class="meta">{H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div></li>'
+for f in FLOWS:  # merged flows: old ids redirect (keep step number) [M1032]
+    for a in f['aliases']:
+        open(f'flows/{a}.html','w').write(f'<!doctype html><meta charset="utf-8"><title>Moved</title><script>location.replace("{f["id"]}.html"+location.hash)</script><p>Merged into <a href="{f["id"]}.html">{H.escape(f["name"])}</a>.</p>')
+        open(f'flows/{a}.md','w').write(f'# {a} (merged)\nMerged into [{f["name"]}]({f["id"]}.md). [M1032]\n')
+for _x in ['invite-ended']:
+    open(f'flows/{_x}.html','w').write('<!doctype html><meta charset="utf-8"><script>location.replace("states.html#screen=invite-ended")</script><p>Now a single screen state: <a href="states.html#screen=invite-ended">invite-ended</a>.</p>')
+def _row(f): return f'<li data-ph="{f["phase"] or 0}" data-mvpf="{f["id"]}">{mvpc(f["id"])} <a href="{f["id"]}.html"><b>{H.escape(f["name"])}</b></a>{p1b(f["phase"])} <span class="pill{"" if f["pri"]=="Phase 1" else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"}<div class="meta">{H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div></li>'
 UGR=[("Newcomer (signed out, never used)","newcomer"),("Registered (signed in)","registered")]
 rows=''.join(f'<h2>{t} <span class="meta">{sum(1 for f in FLOWS if f["user"]==u)} flows</span></h2><ol>'+''.join(_row(f) for f in FLOWS if f["user"]==u)+'</ol>' for t,u in UGR)+('<h2>Other</h2><ol>'+''.join(_row(f) for f in FLOWS if f["user"] not in ("newcomer","registered"))+'</ol>' if any(f["user"] not in ("newcomer","registered") for f in FLOWS) else '')
 
@@ -203,7 +209,7 @@ def cell(f,i,st):
     nc=len(SG_ENTER[(f['id'],i-1)])
     tap=(f'<div class="ctap" title="other flows enterable here">⇄ {nc} flow{"s" if nc!=1 else ""} enterable here</div>' if nc else '')+(f'<div class="ctap">● taps {"Back" if tp["back"] else "“"+H.escape(tp["label"])+"”"}</div>' if tp else '')
     return f'<a class="cell{" dk" if dk else ""}" href="{f["id"]}.html#{i}"><div class="fr">{"<i><b></b><b></b><b></b></i>" if dk else ""}<img loading="lazy" src="thumbs/{f["id"]}-{i}.webp" alt="Step {i}: #{sc}" width="{480 if dk else 240}"></div><div class="cb"><div class="cn">{i} · {H.escape(NOTES[sc]["title"] if sc in NOTES else sc)}{" + "+x["ov"] if "ov" in x else ""}</div><div class="ct">{esc(t)}</div>{tap}<div class="meta" style="font-size:10.5px">auth={a} · live={l}{" · mode="+x["mode"] if "mode" in x else ""}</div></div></a>'
-GSEC=''.join(f'<section class="gf" data-ph="{1 if f["phase"]==1 else 0}" data-mvpf="{f["id"]}" id="{f["id"]}" data-p="{"must" if f["pri"]=="Phase 1" else "nice"}" data-q="{H.escape((f["name"]+" "+f["persona"]+" "+" ".join(s[0]+" "+s[4] for s in f["steps"])).lower())}"><h2><a href="{f["id"]}.html">{H.escape(f["name"])}</a> {mvpc(f["id"])}</h2><div class="meta"><span class="pill{"" if f["pri"]=="Phase 1" else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"} {H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div><div class="gc">'+''.join(cell(f,i,st) for i,st in enumerate(f['steps'],1))+'</div></section>' for f in FLOWS)
+GSEC=''.join(f'<section class="gf" data-ph="{f["phase"] or 0}" data-mvpf="{f["id"]}" id="{f["id"]}" data-p="{"must" if f["phase"] else "nice"}" data-q="{H.escape((f["name"]+" "+f["persona"]+" "+" ".join(s[0]+" "+s[4] for s in f["steps"])).lower())}"><h2><a href="{f["id"]}.html">{H.escape(f["name"])}</a> {mvpc(f["id"])}</h2><div class="meta"><span class="pill{"" if f["pri"]=="Phase 1" else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"} {H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div><div class="gc">'+''.join(cell(f,i,st) for i,st in enumerate(f['steps'],1))+'</div></section>' for f in FLOWS)
 JUMP=''.join(f'<option value="{f["id"]}">{H.escape(f["name"])}</option>' for f in FLOWS)
 open('flows/grid.html','w').write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>All flows · grid · PostUp mockups</title><style>{GCSS}{MVPCSS}</style></head><body>
 <div class="gb"><a href="../index.html#index">← Mockups</a><b>All flows</b><a href="map.html">Flow map</a><a href="site.html">Site graph</a><a href="sitemap.html">Site map</a><button data-p="all" class="on">All</button><button data-p="must">MVP must</button><button data-p="nice">Nice</button><input id="q" placeholder="Search flows, screens, steps" autocomplete="off"><select id="j"><option value="">Jump to flow…</option>{JUMP}</select><span class="meta" id="cnt"></span>{MVPBAR}</div>

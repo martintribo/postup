@@ -12,6 +12,7 @@ goal = "Join the friend who shared the link. [M1024]"
 intent = "A friend sent this; knows the context"
 start = { screen = "invite", auth = "out", live = "live", device = "phone", url = "/p/7xk2" }
 edge_cases = [
+  "The postup has ended by the time the link is opened: lands on `#invite-ended` (This postup ended; See what's nearby, Follow Maya for next time, Go to Home). Was its own flow. [M1032]",
   "Link is to an ask-to-join postup → Ask to join flow. [FS] [M1024]",
   "Already signed in: Join goes straight to joined. [TK§1] [M1024]",
 ]

@@ -1,21 +1,21 @@
-# Flow: Empty area: be the first. Model [M1030]; phase 2 [M1031-draft].
+# Flow: Nobody live nearby (signed in). [M1032].
 id = "empty-area"
-name = "Empty area: be the first"
+name = "Nobody live nearby (signed in)"
 role = "joiner"
-phase = 1  # MVP phase [M1031-draft]
-user = "registered"  # newcomer = signed out, never used; registered = signed in
-situation = "rg-nobody-live"  # model/situations.toml [M1031-draft]
-order = 20  # position in the flow list
+phase = 1  # [M1032]
+user = "registered"
+situation = "rg-nobody-live"
+order = 8
 status = "draft"
-persona = "Signed-in user in a city with no postups yet."
-goal = "Seed the area. [M1024]"
-intent = "Nobody around here yet"
+persona = "Signed-in user in an area where nobody is live right now."
+goal = "With nobody live nearby, see what happened here lately and projects nearby, then join in later or be the first. [M1032]"
+intent = "Nobody around right now"
 start = { screen = "home", auth = "in", live = "none", tab = "building", device = "phone", url = "/" }
 edge_cases = [
-  "A newcomer (signed-out) version of this flow is wanted. [M1031-draft]",
+  "No past activity at all in the area: projects in general, then good cafes to be the first. [M1032]",
 ]
 success = [
-  "Positive copy, never \"quiet\". [F035] [R4]",
+  "Never an empty or \"quiet\" screen: recent postups and projects nearby are shown. [F035] [R4] [M1032]",
 ]
 decide = [
   "A fallback list of good cafes for empty areas? [TK§4]",
@@ -25,19 +25,29 @@ decide = [
 [[steps]]
 arrive = "arrives at /"
 expect = "home@in.none.building"
-thought = "Nobody around here yet"
-shows = "Closest projects even if far. [M1018c]"
-
+thought = "Nobody around right now"
+shows = "Home in Building mode: closest projects. [M1018c]"
 [[steps]]
 event = "empty-area"
-act = "opens the empty area"
+act = "area has no postups"
 expect = "empty-area@in.none"
-thought = "Sees the area is empty"
-shows = "\"Be the first here\". [FS]"
-
+thought = "What happens around here?"
+shows = "Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]"
 [[steps]]
-link = "empty-area:post"
-act = "taps Post up"
-expect = "post@in.none"
-thought = "Will be the first"
-shows = "Post up. [FS]"
+link = "empty-area:maya"
+act = "taps Maya posted up at Bean Theory"
+expect = "profile@in.none"
+thought = "Who comes here?"
+shows = "Maya's profile: regular cafes, past postups. [FS] [M1032]"
+[[steps]]
+link = "profile:back"
+act = "taps Back"
+expect = "empty-area@in.none"
+thought = "Back to the area"
+shows = "The empty-area screen again. [M1032]"
+[[steps]]
+link = "empty-area:star-fox-64-mod"
+act = "taps a project nearby"
+expect = "project@in.none"
+thought = "What are people making?"
+shows = "A project nearby: updates and past postups. [FS] [M1032]"
