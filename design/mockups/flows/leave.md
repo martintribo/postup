@@ -15,7 +15,7 @@ Player: /mockups/flows/leave.html
 1. **joined@in.live** · user: Plans changed · action: opens their joined postup · edge: entry
    - Leave link. [drawn]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), **joined+leave@in.live** (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going)
+   - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), quick-joiner step 3 (if Decides to just join now), invite-live step 3 (if Signed in; going)
 2. **joined+leave@in.live** · user: Backing out politely · action: taps Leave · edge: sheet: Leave
    - Confirm; poster alerted. [FS] [drawn]
    - next site states: joined@in.live (close), **postup@in.live** (Leave)

@@ -31,7 +31,7 @@ Player: /mockups/flows/ask-join.html
 5. **chat@in.live** · user: Now part of the group · action: opens the chat · edge: tap: M Maya: Hey! Here till 4 — come sa
    - Now in the postup chat. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options)
-   - enterable flows: chat step 2 (if Coordinating)
+   - enterable flows: chat step 2 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
 - `cautious-joiner`: branch out at step 1→7; merge in at step 1 (from its step 7)

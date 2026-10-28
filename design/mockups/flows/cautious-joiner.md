@@ -47,7 +47,7 @@ Player: /mockups/flows/cautious-joiner.html
 9. **joined@in.live** · user: Committed; needs to get there · action: taps Join · edge: tap: Join
    - You're joining Maya; Maya is told. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: quick-joiner step 3 (if Committed), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
+   - enterable flows: quick-joiner step 3 (if Decides to just join now), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 10. **joined+dirs@in.live** · user: On the way · action: taps Directions · edge: sheet: Directions
    - Directions sheet: Apple / Google Maps. [FS] [M1024]
    - next site states: joined@in.live (close)

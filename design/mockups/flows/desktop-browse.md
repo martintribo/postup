@@ -24,10 +24,10 @@ Player: /mockups/flows/desktop-browse.html
    - Post up as a centered dialog. [FS]
    - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **posted@in.live** (Post up)
    - enterable flows: returning-post step 1 (if Regular; working at a cafe today)
-4. **posted@in.live** · user: Live · action: taps Post up · edge: tap: Post up
+4. **posted@in.live** · user: Posted; now live for others · action: taps Post up · edge: tap: Post up
    - Posted. [FS]
    - next site states: home@in.live.live (Close), project@in.live (Star Fox 64 mod), posted+share@in.live (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Live)
+   - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
 
 ## Connected flows [M1025]
 - `first-post`: branch out at step 4→6; merge in at step 4 (from its step 6)

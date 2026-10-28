@@ -35,8 +35,8 @@ Player: /mockups/flows/first-post.html
 6. **posted@in.none** · user: Live; wants company · action: signs in · edge: sign-in: signs in
    - Posted; link to copy. [FS]
    - next site states: home@in.none.building (Close), project@in.none (Star Fox 64 mod), **posted+share@in.none** (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox), cafe-gfail@in.none (Cafe (Google card fails))
-   - enterable flows: returning-post step 2 (if Live)
-7. **posted+share@in.none** · user: Inviting friends · action: taps Invite friends · edge: sheet: Invite friends
+   - enterable flows: returning-post step 2 (if Posted; now live for others)
+7. **posted+share@in.none** · user: Wants friends to come too · action: taps Invite friends · edge: sheet: Invite friends
    - Invite friends: share sheet. [drawn] [M1024]
    - next site states: posted@in.none (close)
    - enterable flows: none

@@ -16,7 +16,7 @@ Player: /mockups/flows/chat.html
    - Inbox · Chats. [FS] [F096]
    - next site states: activity@in.live (Activity 2), **chat@in.live** (M Maya's postup Maya: Grabbing ano), postup-ended@in.live (T Tess's postup Ended · Tue Tue), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects)
    - enterable flows: none
-2. **chat@in.live** · user: Coordinating · action: opens a chat · edge: tap: M Maya's postup Maya: Grabbing ano
+2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: M Maya's postup Maya: Grabbing ano
    - One chat per postup. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options)
    - enterable flows: none

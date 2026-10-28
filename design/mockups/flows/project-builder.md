@@ -16,7 +16,7 @@ Player: /mockups/flows/project-builder.html
    - Projects, "+". [FS]
    - next site states: **project-new@in.none** (New project), project@in.none (Star Fox 64 mod M Maya · Yesterday), home@in.none.building (Home), quiet-feed@in.none (Nearby), post@in.none (Post up), inbox@in.none (Inbox)
    - enterable flows: following step 2 (if Wants to see who they follow)
-2. **project-new@in.none** · user: Creating it · action: taps New project · edge: tap: New project
+2. **project-new@in.none** · user: Starts a new project page · action: taps New project · edge: tap: New project
    - Cover, name, kind, one line. [FS] [drawn]
    - next site states: back (Back), **project@in.none** (Create)
    - enterable flows: none
@@ -35,7 +35,7 @@ Player: /mockups/flows/project-builder.html
 6. **posted@in.none** · user: Live for the project · action: taps Post up · edge: tap: Post up
    - Posted, tied to the project. [FS]
    - next site states: home@in.none.building (Close), project@in.none (Star Fox 64 mod), posted+share@in.none (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), projects@in.none (Projects), inbox@in.none (Inbox), cafe-gfail@in.none (Cafe (Google card fails))
-   - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Live)
+   - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
 
 ## Connected flows [M1025]
 - `following`: branch out at step 1→2; merge in at step 1 (from its step 2)

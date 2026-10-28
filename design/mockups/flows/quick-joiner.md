@@ -20,7 +20,7 @@ Player: /mockups/flows/quick-joiner.html
    - Taps a row, then Join. [FS] [M1024]
    - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
    - enterable flows: cautious-joiner step 2 (if Interested in Maya, not sure yet), desktop-browse step 2 (if Checking one postup)
-3. **joined@in.live** · user: Committed · action: taps Join · edge: tap: Join
+3. **joined@in.live** · user: Decides to just join now · action: taps Join · edge: tap: Join
    - Confirmation. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), **joined+dirs@in.live** (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: cautious-joiner step 9 (if Committed; needs to get there), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
@@ -31,7 +31,7 @@ Player: /mockups/flows/quick-joiner.html
 5. **chat@in.live** · user: Wants to say they're coming · action: opens the group chat · edge: 2 taps: close, then Group chat
    - Says "on my way" in the postup chat. [F096] [M1024]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options)
-   - enterable flows: chat step 2 (if Coordinating)
+   - enterable flows: chat step 2 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
 - `invite-live`: branch out at step 3→3; merge in at step 3 (from its step 3)

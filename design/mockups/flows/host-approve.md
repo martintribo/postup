@@ -27,7 +27,7 @@ Player: /mockups/flows/host-approve.html
 4. **chat@in.live** · user: Approved; welcoming them · action: opens the chat · edge: back, then tap: M Maya: Hey! Here till 4 — come sa
    - Approved people are in the chat. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options)
-   - enterable flows: chat step 2 (if Coordinating)
+   - enterable flows: chat step 2 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
 - `ask-join`: branch out at step 1→4; merge in at step 1 (from its step 4)
