@@ -1,13 +1,16 @@
-# Screen: New project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: New project. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "project-new"
 title = "New project"
 kind = "page"
 group = "Projects"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "create-signin", label = "Create", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
-  { id = "create-project", label = "Create", action = "replace", to = "project", when = "auth=in" },
+  { id = "create", label = "Create", action = "open", to = "signin", slot = "sheet", then = "project", when = "auth=out" },
+  { id = "create", label = "Create", action = "replace", to = "project", when = "auth=in" },
 ]
 
 [[notes]]

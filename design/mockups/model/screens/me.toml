@@ -1,23 +1,26 @@
-# Screen: My profile. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: My profile. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "me"
 title = "My profile"
 kind = "page"
 group = "Inbox & people"
-variants = ["me--out"]  # old HTML variants, by condition
+variants = { "auth=out" = "me--out" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "settings-settings", label = "Settings", action = "replace", to = "settings" },
-  { id = "1-42-you-re-live-at-bean-the", label = "1:42 You're live at Bean Theory Ti", action = "replace", to = "live" },
-  { id = "edit-profile-me", label = "Edit profile", action = "replace", to = "me" },
-  { id = "lantern-tea-cafe", label = "Lantern Tea", action = "replace", to = "cafe" },
-  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe" },
-  { id = "tide-clock-updated-sun-proje", label = "Tide Clock Updated Sun", action = "replace", to = "project-new" },
-  { id = "ship-models-imported-bean-th", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
-  { id = "level-editor-lantern-tea-oct", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
+  { id = "settings", label = "Settings", action = "replace", to = "settings" },
+  { id = "live", label = "1:42 You're live at Bean Theory Ti", action = "replace", to = "live" },
+  { id = "edit-profile", label = "Edit profile", action = "replace", to = "me" },
+  { id = "lantern-tea", label = "Lantern Tea", action = "replace", to = "cafe" },
+  { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe" },
+  { id = "tide-clock-updated-sun", label = "Tide Clock Updated Sun", action = "replace", to = "project-new" },
+  { id = "cafe", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
+  { id = "cafe-2", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
-  { id = "continue-with-apple-me", label = "Continue with Apple", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
-  { id = "continue-with-google-me", label = "Continue with Google", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
-  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "me", sets = "auth=in", when = "auth=out" },
+  { id = "back-3", label = "Not now", action = "back", when = "auth=out" },
 ]
 
 [[notes]]

@@ -1,8 +1,9 @@
-# Flow: Share link to a live postup. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Share link to a live postup. Model [M1030]; phase 2 [M1031-draft].
 id = "invite-live"
 name = "Share link to a live postup"
 role = "joiner"
 mvp = true
+order = 6  # position in the flow list
 status = "draft"
 persona = "Friend of a poster, signed out, opened postup.now/p/… from a message."
 goal = "Join the friend who shared the link. [M1024]"
@@ -25,19 +26,22 @@ thought = "A friend sent this; knows the context"
 shows = "Landing for the shared postup. [FS] [R39]"
 
 [[steps]]
-link = "invite:join-maya-join-signin"  # taps Join 🔒
-expect = "join-signin@out.live"
+link = "invite:join-maya"
+act = "taps Join 🔒"
+expect = "invite+signin@out.live"
 thought = "Wants to join the friend"
 shows = "Join → sign-in sheet. [FS] [M1024]"
 
 [[steps]]
-link = "join-signin:continue-with-apple-joined"  # signs in
+link = "signin:continue-with-apple"
+act = "signs in"
 expect = "joined@in.live"
 thought = "Signed in; going"
 shows = "Joined. [FS] [M1024]"
 
 [[steps]]
-link = "joined:group-chat-chat"  # opens chat
+link = "joined:group-chat"
+act = "opens chat"
 expect = "chat@in.live"
 thought = "Wants to say hi before going"
 shows = "Postup chat. [F096] [M1024]"

@@ -1,22 +1,21 @@
-# Screen: Postup full. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Postup full. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "postup-full"
 title = "Postup full"
 kind = "page"
 group = "Postups & joining"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] },
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
-  { id = "m-maya-bean-theory-profile", label = "M Maya Bean Theory", action = "replace", to = "profile" },
-  { id = "see-what-s-nearby-quiet-feed", label = "See what's nearby", action = "replace", to = "quiet-feed" },
-  { id = "follow-maya-for-next-time-si", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
-  { id = "go-to-home-home", label = "Go to Home", action = "replace", to = "home" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
-  { id = "follow-maya-for-next-time-po", label = "Follow Maya for next time", action = "swap", to = "postup-full", sets = "following=toggle", when = "auth=in" },
+  { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "profile", label = "M Maya Bean Theory", action = "replace", to = "profile" },
+  { id = "see-what-s-nearby", label = "See what's nearby", action = "replace", to = "quiet-feed" },
+  { id = "follow-maya-for", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "go-to-home", label = "Go to Home", action = "replace", to = "home" },
+  { id = "follow-maya-for", label = "Follow Maya for next time", action = "swap", to = "postup-full", when = "auth=in" },
 ]
 
 [[notes]]

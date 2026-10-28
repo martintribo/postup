@@ -1,8 +1,9 @@
-# Flow: Slow network and offline. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Slow network and offline. Model [M1030]; phase 2 [M1031-draft].
 id = "loading-offline"
 name = "Slow network and offline"
 role = "joiner"
 mvp = true
+order = 21  # position in the flow list
 status = "draft"
 persona = "Anyone on bad wifi."
 goal = "Keep showing something useful. [M1024]"
@@ -25,20 +26,23 @@ thought = "Opened the feed on bad wifi"
 shows = "Skeleton. [FS] [F060]"
 
 [[steps]]
-event = "network-drops"  # later: network drops
+event = "network-drops"
+act = "later: network drops"
 expect = "offline@in.live"
 thought = "Connection dropped"
 shows = "Cached feed + offline banner + Retry. [FS]"
 
 [[steps]]
-link = "offline:retry-quiet-feed"  # taps Retry
+link = "offline:retry"
+act = "taps Retry"
 expect = "quiet-feed@in.live"
 thought = "Back online"
 shows = "Retry succeeds. [FS]"
 
 [[steps]]
-link = "quiet-feed:maya-s-photo-cafe"  # taps a cafe
+link = "quiet-feed:maya-s-photo"
 condition = "google-card-fails"
+act = "taps a cafe"
 expect = "cafe-gfail@in.live"
 thought = "Checking a cafe; Google is down"
 shows = "Google card failed: rest of cafe still works. [F060]"

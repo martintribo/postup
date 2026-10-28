@@ -1,0 +1,20 @@
+# Chrome: desktop left rail, in every page's "rail" panel slot on desktop. [M1031-draft]
+id = "rail"
+title = "Rail (desktop)"
+kind = "panel"
+group = "Chrome"
+links = [
+  { id = "home", label = "", action = "replace", to = "home" },
+  { id = "home-2", label = "Home", action = "replace", to = "home" },
+  { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post" },
+  { id = "me", label = "S", action = "replace", to = "me" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a \"rail\" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]",
+]

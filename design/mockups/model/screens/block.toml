@@ -1,12 +1,13 @@
-# Sheet: Sheet · Block. Model [M1030]; migrated (old id ov-block, notes host postup).
+# Sheet: Sheet · Block. Model [M1030]; phase 2 [M1031-draft].
 id = "block"
 title = "Sheet · Block"
 kind = "sheet"
 group = "Sheets"
+host = "postup"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
-  { id = "block-home", label = "Block", action = "replace", to = "home" },
-  { id = "blocked-people-settings-sett", label = "Blocked people (Settings)", action = "replace", to = "settings" },
+  { id = "block", label = "Block", action = "replace", to = "home" },
+  { id = "settings", label = "Blocked people (Settings)", action = "replace", to = "settings" },
   { id = "cancel", label = "Cancel", action = "close" },
 ]
 

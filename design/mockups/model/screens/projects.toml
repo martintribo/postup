@@ -1,19 +1,18 @@
-# Screen: Projects. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Projects. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "projects"
 title = "Projects"
 kind = "page"
 group = "Projects"
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "new-project-project-new", label = "New project", action = "replace", to = "project-new" },
-  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project" },
-  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project" },
-  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project" },
-  { id = "lantern-lights-a-ari-sun-wir", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "new-project", label = "New project", action = "replace", to = "project-new" },
+  { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project" },
+  { id = "project-2", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project" },
+  { id = "project-3", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project" },
+  { id = "project-4", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project" },
 ]
 
 [[notes]]

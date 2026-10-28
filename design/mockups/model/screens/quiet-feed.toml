@@ -1,35 +1,35 @@
-# Screen: Nearby (/nearby) · photos (A). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Nearby (/nearby) · photos (A). Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "quiet-feed"
 title = "Nearby (/nearby) · photos (A)"
 kind = "page"
 group = "Home & discover"
-variants = ["quiet-feed--none"]  # old HTML variants, by condition
+variants = { "live=none" = "quiet-feed--none" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "s-me", label = "S", action = "replace", to = "me" },
-  { id = "replace-quiet", label = "", action = "replace", to = "quiet" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "maya-s-photo-cafe", label = "Maya's photo", action = "replace", to = "cafe", when = "live=live" },
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live" },
-  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
-  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post", when = "live=live" },
-  { id = "tess-s-photo-cafe", label = "Tess's photo", action = "replace", to = "cafe", when = "live=live" },
-  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project", when = "live=live" },
-  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live" },
-  { id = "jon-s-photo-cafe", label = "Jon's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "me", label = "S", action = "replace", to = "me" },
+  { id = "quiet", label = "", action = "replace", to = "quiet" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post" },
+  { id = "maya-s-photo", label = "Maya's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live" },
+  { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "post-up-here", label = "Post up here", action = "replace", to = "post", when = "live=live" },
+  { id = "tess-s-photo", label = "Tess's photo", action = "replace", to = "cafe", when = "live=live" },
+  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live" },
+  { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live" },
+  { id = "jon-s-photo", label = "Jon's photo", action = "replace", to = "cafe", when = "live=live" },
   { id = "maya-s-photo-project", label = "Maya's photo", action = "replace", to = "project", when = "live=live" },
-  { id = "bean-theory-m-j-a-3-this-wee", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
-  { id = "grindhouse-t-1-this-week-caf", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
-  { id = "lantern-tea-a-d-2-this-week-", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
-  { id = "venice-blvd-oakwood-park-mar", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
-  { id = "map-quiet", label = "Map", action = "replace", to = "quiet" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
-  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none" },
-  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none" },
-  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none" },
-  { id = "lantern-lights-a-ari-sun-wir", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none" },
+  { id = "cafe", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
+  { id = "cafe-2", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
+  { id = "cafe-3", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
+  { id = "quiet-2", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
+  { id = "map", label = "Map", action = "replace", to = "quiet" },
+  { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none" },
+  { id = "project-2", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none" },
+  { id = "project-3", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none" },
+  { id = "project-4", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none" },
 ]
 
 [[notes]]

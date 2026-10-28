@@ -1,22 +1,21 @@
-# Screen: You're posted up. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: You're posted up. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "posted"
 title = "You're posted up"
 kind = "page"
 group = "Posting & hosting"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["share"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["share"] },
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "close-home", label = "Close", action = "replace", to = "home" },
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
-  { id = "invite-friends-share", label = "Invite friends", action = "open", to = "share", slot = "sheet" },
-  { id = "manage-postup-live", label = "Manage postup", action = "replace", to = "live" },
-  { id = "map-home", label = "Map", action = "replace", to = "home" },
-  { id = "cafe-cafe", label = "Cafe", action = "replace", to = "cafe" },
-  { id = "project-project", label = "Project", action = "replace", to = "project" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "close", label = "Close", action = "replace", to = "home" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "invite-friends", label = "Invite friends", action = "open", to = "share", slot = "sheet" },
+  { id = "manage-postup", label = "Manage postup", action = "replace", to = "live" },
+  { id = "map", label = "Map", action = "replace", to = "home" },
+  { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
+  { id = "project", label = "Project", action = "replace", to = "project" },
 ]
 
 [[notes]]

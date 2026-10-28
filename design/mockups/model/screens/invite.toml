@@ -1,14 +1,18 @@
-# Screen: Share link · live postup. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Share link · live postup. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "invite"
 title = "Share link · live postup"
 kind = "page"
 group = "Share-link landings"
 entry = true
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
-  { id = "join-maya-join-signin", label = "Join Maya", action = "replace", to = "join-signin", when = "auth=out" },
-  { id = "bean-theory-0-4-mi-cafe", label = "Bean Theory · 0.4 mi", action = "replace", to = "cafe" },
-  { id = "join-maya-joined", label = "Join Maya", action = "replace", to = "joined", when = "auth=in" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "join-maya", label = "Join Maya", action = "open", to = "signin", slot = "sheet", then = "joined", when = "auth=out" },
+  { id = "cafe", label = "Bean Theory · 0.4 mi", action = "replace", to = "cafe" },
+  { id = "join-maya", label = "Join Maya", action = "replace", to = "joined", when = "auth=in" },
 ]
 
 [[notes]]

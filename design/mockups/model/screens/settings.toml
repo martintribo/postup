@@ -1,18 +1,21 @@
-# Screen: Settings. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Settings. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "settings"
 title = "Settings"
 kind = "page"
 group = "Account & safety"
-variants = ["settings--out"]  # old HTML variants, by condition
-slots = [ { name = "sheet", kind = "sheet", accepts = ["delacct"] } ]
+variants = { "auth=out" = "settings--out" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["delacct"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "sign-out-home", label = "Sign out", action = "replace", to = "home", sets = "auth=out" },
-  { id = "delete-account-delacct", label = "Delete account", action = "open", to = "delacct", slot = "sheet" },
+  { id = "sign-out", label = "Sign out", action = "replace", to = "home", sets = "auth=out" },
+  { id = "delete-account", label = "Delete account", action = "open", to = "delacct", slot = "sheet" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
-  { id = "continue-with-apple-settings", label = "Continue with Apple", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
-  { id = "continue-with-google-setting", label = "Continue with Google", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
-  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "settings", sets = "auth=in", when = "auth=out" },
+  { id = "back-3", label = "Not now", action = "back", when = "auth=out" },
 ]
 
 [[notes]]

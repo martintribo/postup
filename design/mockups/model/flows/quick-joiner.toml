@@ -1,8 +1,9 @@
-# Flow: Quick joiner. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Quick joiner. Model [M1030]; phase 2 [M1031-draft].
 id = "quick-joiner"
 name = "Quick joiner"
 role = "joiner"
 mvp = true
+order = 2  # position in the flow list
 status = "draft"
 persona = "Registered user who already knows someone nearby is live."
 goal = "Join in two taps and get directions. [M1024]"
@@ -24,25 +25,35 @@ thought = "Knows a friend is live; wants to go now"
 shows = "Live now list. [M1018b] [M1024]"
 
 [[steps]]
-link = "home:m-2-postup"  # taps the row
+link = "home:postup"
+act = "taps the row"
 expect = "postup@in.live"
 thought = "Found them; joining"
 shows = "Taps a row, then Join. [FS] [M1024]"
 
 [[steps]]
-link = "postup:join-joined"  # taps Join
+link = "postup:join"
+act = "taps Join"
 expect = "joined@in.live"
 thought = "Decides to just join now"
 shows = "Confirmation. [FS] [M1024]"
 
 [[steps]]
-link = "joined:directions-dirs"  # taps Directions
+link = "joined:directions"
+act = "taps Directions"
 expect = "joined+dirs@in.live"
 thought = "Needs the route"
 shows = "Directions. [FS] [M1024]"
 
 [[steps]]
-gap = "opens the group chat"  # no single link/event from joined+dirs@in.live to chat@in.live
+link = "dirs:cancel"
+act = "closes Directions"
+expect = "joined@in.live"
+thought = "Knows the way"
+shows = "Back on the joined screen (split: close Directions, then Group chat). [M1031-draft]"
+[[steps]]
+link = "joined:group-chat"
+act = "opens the group chat"
 expect = "chat@in.live"
 thought = "Wants to say they're coming"
 shows = "Says \"on my way\" in the postup chat. [F096] [M1024]"

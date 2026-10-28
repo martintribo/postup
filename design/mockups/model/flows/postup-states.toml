@@ -1,8 +1,9 @@
-# Flow: Postup ends, fills or is cancelled while you look. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Postup ends, fills or is cancelled while you look. Model [M1030]; phase 2 [M1031-draft].
 id = "postup-states"
 name = "Postup ends, fills or is cancelled while you look"
 role = "joiner"
 mvp = true
+order = 19  # position in the flow list
 status = "draft"
 persona = "Anyone viewing a postup."
 goal = "Clear state and a next step. [F060] [M1024]"
@@ -23,13 +24,21 @@ thought = "Wanted to join; it's full"
 shows = "Full. [F060] [R47]"
 
 [[steps]]
-event = "postup-cancelled"  # later: postup cancelled
+event = "postup-cancelled"
+act = "later: postup cancelled"
 expect = "postup-cancelled@in.live"
 thought = "Host cancelled"
 shows = "Cancelled. [F060] [R47]"
 
 [[steps]]
-gap = "later: postup ended"  # no single link/event from postup-cancelled@in.live to postup-ended@in.none
-expect = "postup-ended@in.none"
+link = "postup-cancelled:back"
+act = "taps Back"
+expect = "postup-full@in.live"
+thought = "Checks the other postup"
+shows = "Back to the full postup (split: a cancelled postup doesn't later end). [M1031-draft]"
+[[steps]]
+event = "postup-ends"
+act = "later: postup ended"
+expect = "postup-ended@in.live"
 thought = "Too late; it ended"
-shows = "Ended: see what's nearby, follow. [drawn]"
+shows = "Ended: see what's nearby, follow. [drawn] Ending is this postup's status; others may still be live nearby. [M1031-draft]"

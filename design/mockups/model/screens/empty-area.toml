@@ -1,18 +1,18 @@
-# Screen: Empty area. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Empty area. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "empty-area"
 title = "Empty area"
 kind = "page"
 group = "Home & discover"
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
-  { id = "s-me", label = "S", action = "replace", to = "me" },
-  { id = "stories-cafe-0-3-mi-post", label = "Stories Cafe 0.3 mi", action = "replace", to = "post" },
-  { id = "lot-1-coffee-0-6-mi-post", label = "Lot 1 Coffee 0.6 mi", action = "replace", to = "post" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "cafe", label = "", action = "replace", to = "cafe" },
+  { id = "me", label = "S", action = "replace", to = "me" },
+  { id = "post", label = "Stories Cafe 0.3 mi", action = "replace", to = "post" },
+  { id = "post-2", label = "Lot 1 Coffee 0.6 mi", action = "replace", to = "post" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 
 [[notes]]

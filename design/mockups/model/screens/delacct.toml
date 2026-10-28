@@ -1,11 +1,12 @@
-# Sheet: Sheet · Delete account. Model [M1030]; migrated (old id ov-delacct, notes host settings).
+# Sheet: Sheet · Delete account. Model [M1030]; phase 2 [M1031-draft].
 id = "delacct"
 title = "Sheet · Delete account"
 kind = "sheet"
 group = "Sheets"
+host = "settings"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
-  { id = "delete-account-home", label = "Delete account", action = "replace", to = "home", sets = "auth=out" },
+  { id = "delete-account", label = "Delete account", action = "replace", to = "home", sets = "auth=out" },
   { id = "cancel", label = "Cancel", action = "close" },
 ]
 

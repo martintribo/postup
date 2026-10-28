@@ -14,23 +14,23 @@ Player: /mockups/flows/safety.html
 ## Steps
 1. **postup+more@in.live** · user: Uncomfortable with someone · action: taps More · edge: entry
    - More: profile, share, report, block. [FS] [F059]
-   - next site states: postup@in.live (close), profile@in.live (View profile), postup+share@in.live (Share), **report@in.live** (Report), postup+block@in.live (Block Maya)
+   - next site states: postup@in.live (close), profile@in.live (View profile), postup+share@in.live (Share), **report@in.live** (Report), postup+block@in.live (Block)
    - enterable flows: none
 2. **report@in.live** · user: Wants to report · action: taps Report · edge: tap: Report
    - Reason + details. [F059] [drawn]
-   - next site states: back (Back), **reported@in.live** (Send report)
+   - next site states: back (Back), **reported@in.live** (Send report), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
    - enterable flows: none
 3. **reported@in.live** · user: Reported; still uneasy · action: sends the report · edge: tap: Send report
    - Thanks; offer to block. [FS]
-   - next site states: home@in.live.live (Close), **reported+block@in.live** (Block Maya too)
+   - next site states: home@in.live.live (Close), **reported+block@in.live** (Block Maya too), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
    - enterable flows: none
-4. **reported+block@in.live** · user: Wants them gone · action: taps Block too · edge: sheet: Block Maya too
+4. **reported+block@in.live** · user: Wants them gone · action: taps Block too · edge: tap: Block Maya too
    - Block: neither sees the other; they aren't told. [FS] [F059]
    - next site states: reported@in.live (close), home@in.live.live (Block), **settings@in.live** (Blocked people (Settings))
    - enterable flows: none
 5. **settings@in.live** · user: Might undo later · action: opens Settings · edge: tap: Blocked people (Settings)
    - Blocked people list to undo. [FS] [F065]
-   - next site states: back (Back), home@out.live.live (Sign out), settings+delacct@in.live (Delete account)
+   - next site states: back (Back), home@out.live.live (Sign out), settings+delacct@in.live (Delete account), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
    - enterable flows: delete-account step 2 (if Looking for the delete option), settings-notify step 1 (if Tuning alerts)
 
 ## Connected flows [M1025]

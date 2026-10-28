@@ -68,6 +68,21 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Open
 - Final style, join default, cafe name before approval, launch area, chat retention, Capacitor vs Cordova. [FS] [TK§4]
 
+### Model decisions to confirm (phase 2 draft)
+- Sign-in is one sheet, `signin`, opened in the page's sheet slot. The old `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` pages are folded into it; their URLs redirect to the page with the sheet open, and signing in continues to the action (Join → joined, Ask → ask, Post up → posted). [M1031-draft]
+- `live` means someone is live nearby (global). A postup's own status (full, cancelled, ended) is its page; ending your own postup or a postup ending does not change `live`. [M1031-draft]
+- New event: someone you follow posts up. The alert lands in Activity and Nearby now has someone live. [M1031-draft]
+- Activity gets a "Maya posted up at Bean Theory" row that opens the postup, as the app's alerts link to the postup. [M1031-draft]
+- The More sheet's block option reads "Block"; the app can name the person in context ("Block Maya"). [M1031-draft]
+- Chrome is modelled as slots: the phone tab bar is a tab slot (`tabbar`) on pages that draw it; the desktop rail is a panel slot (`rail`) on every page. Their links count only when no sheet is open. [M1031-draft]
+- Two-tap flow steps are split into two steps (Back, then a tap) instead of adding shortcut links: cautious-joiner, curious-browser, stumbled, following, host-approve, invite-project, postup-states, project-builder, quick-joiner. [M1031-draft]
+
+### Chrome: Rail (desktop) · Purpose
+- Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
+
+### Chrome: Tab bar (phone) · Purpose
+- Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
+
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”
 - **F026** — Mockups link to each other. (Martin, S08-mockups-1 t194u): “can you make the mockups link to each other?”
@@ -102,6 +117,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1018c** — Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
+- **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

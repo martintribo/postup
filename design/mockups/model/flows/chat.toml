@@ -1,8 +1,9 @@
-# Flow: Postup chat. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Postup chat. Model [M1030]; phase 2 [M1031-draft].
 id = "chat"
 name = "Postup chat"
 role = "joiner"
 mvp = true
+order = 16  # position in the flow list
 status = "draft"
 persona = "Signed-in poster or joiner."
 goal = "Coordinate in the group chat. [M1024]"
@@ -26,13 +27,15 @@ thought = "Wants to check messages"
 shows = "Inbox · Chats. [FS] [F096]"
 
 [[steps]]
-link = "inbox:m-maya-s-postup-maya-grabbin"  # opens a chat
+link = "inbox:chat"
+act = "opens a chat"
 expect = "chat@in.live"
 thought = "Wants to sort out details in chat"
 shows = "One chat per postup. [F061] [F096]"
 
 [[steps]]
-link = "chat:message-options-msg"  # long-presses a message
+link = "chat:message-options"
+act = "long-presses a message"
 expect = "chat+msg@in.live"
 thought = "Something off about a message"
 shows = "Long-press: copy, report, block sender. [F096] [FS]"

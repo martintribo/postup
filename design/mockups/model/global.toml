@@ -87,3 +87,15 @@ section = "Decisions"
 lines = [
   "No \"Mockups\" link in the real nav. [R14⚠]",
 ]
+
+[[notes]]
+section = "Model decisions to confirm (phase 2 draft)"
+lines = [
+  "Sign-in is one sheet, `signin`, opened in the page's sheet slot. The old `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` pages are folded into it; their URLs redirect to the page with the sheet open, and signing in continues to the action (Join → joined, Ask → ask, Post up → posted). [M1031-draft]",
+  "`live` means someone is live nearby (global). A postup's own status (full, cancelled, ended) is its page; ending your own postup or a postup ending does not change `live`. [M1031-draft]",
+  "New event: someone you follow posts up. The alert lands in Activity and Nearby now has someone live. [M1031-draft]",
+  "Activity gets a \"Maya posted up at Bean Theory\" row that opens the postup, as the app's alerts link to the postup. [M1031-draft]",
+  "The More sheet's block option reads \"Block\"; the app can name the person in context (\"Block Maya\"). [M1031-draft]",
+  "Chrome is modelled as slots: the phone tab bar is a tab slot (`tabbar`) on pages that draw it; the desktop rail is a panel slot (`rail`) on every page. Their links count only when no sheet is open. [M1031-draft]",
+  "Two-tap flow steps are split into two steps (Back, then a tap) instead of adding shortcut links: cautious-joiner, curious-browser, stumbled, following, host-approve, invite-project, postup-states, project-builder, quick-joiner. [M1031-draft]",
+]

@@ -1,8 +1,9 @@
-# Flow: Curious visitor joins someone live. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Curious visitor joins someone live. Model [M1030]; phase 2 [M1031-draft].
 id = "first-visit-live"
 name = "Curious visitor joins someone live"
 role = "joiner"
 mvp = true
+order = 3  # position in the flow list
 status = "draft"
 persona = "New visitor, signed out, curious; lands on / with live postups nearby."
 goal = "Understand the site and join someone; sign in only at Join. [M1024]"
@@ -26,19 +27,22 @@ thought = "Curious; sees people live right now"
 shows = "Home opens in Live mode with a one-line welcome. [M1018b] [M1024]"
 
 [[steps]]
-link = "home:m-2-postup"  # taps a live row
+link = "home:postup"
+act = "taps a live row"
 expect = "postup@out.live"
 thought = "Tempted by one postup"
 shows = "Opens a postup; Join shows 🔒. [FS] [M1024]"
 
 [[steps]]
-link = "postup:join-join-signin"  # taps Join 🔒
-expect = "join-signin@out.live"
+link = "postup:join"
+act = "taps Join 🔒"
+expect = "postup+signin@out.live"
 thought = "Wants to join; asked to sign in"
 shows = "Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]"
 
 [[steps]]
-link = "join-signin:continue-with-apple-joined"  # signs in
+link = "signin:continue-with-apple"
+act = "signs in"
 expect = "joined@in.live"
 thought = "Signed in; committed"
 shows = "Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]"

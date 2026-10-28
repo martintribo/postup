@@ -1,37 +1,37 @@
-# Screen: Home page (/). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Home page (/). Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "home"
 title = "Home page (/)"
 kind = "page"
 group = "Home & discover"
 entry = true
-variants = ["home--map-none", "home--bld", "home--bld-live"]  # old HTML variants, by condition
+variants = { "tab=live,live=live" = "home", "tab=live,live=none" = "home--map-none", "tab=building,live=live" = "home--bld-live", "tab=building,live=none" = "home--bld" }  # condition -> HTML id that renders it (first match wins)
 states = { tab = ["live", "building"] }
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "m-2-postup", label = "M 2", action = "replace", to = "postup", when = "live=live,tab=live" },
-  { id = "t-postup-ask", label = "T", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
-  { id = "replace-cafe", label = "", action = "replace", to = "cafe", when = "tab=live" },
-  { id = "live-home", label = "Live", action = "swap", to = "home", sets = "tab=live" },
-  { id = "building-home", label = "Building", action = "swap", to = "home", sets = "tab=building" },
-  { id = "locate-quiet", label = "Locate", action = "replace", to = "quiet", when = "tab=live" },
-  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live,tab=live" },
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live,tab=live" },
-  { id = "m-maya-live-bean-theory-till", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live,tab=live" },
-  { id = "j-jon-live-bean-theory-till-", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live,tab=live" },
-  { id = "grindhouse-cafe", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live,tab=live" },
-  { id = "pixel-garden-project", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,tab=live" },
-  { id = "t-tess-live-ask-to-join-grin", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
-  { id = "lantern-tea-a-d-m-3-postups-", label = "Lantern Tea A D M 3 postups", action = "replace", to = "cafe" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
-  { id = "s-me", label = "S", action = "replace", to = "me", when = "tab=building" },
-  { id = "see-map-home", label = "See map", action = "swap", to = "home", sets = "tab=live", when = "live=live,tab=building" },
-  { id = "see-all-projects-projects", label = "See all projects", action = "replace", to = "projects", when = "tab=building" },
-  { id = "star-fox-64-mod-m-maya-yeste", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "tab=building" },
-  { id = "pixel-garden-t-tess-tue-new-", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "tab=building" },
-  { id = "bus-stop-zine-j-jon-mon-page", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "tab=building" },
+  { id = "postup", label = "M 2", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "postup-ask", label = "T", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "cafe", label = "", action = "replace", to = "cafe", when = "tab=live" },
+  { id = "live", label = "Live", action = "swap", to = "home", sets = "tab=live" },
+  { id = "building", label = "Building", action = "swap", to = "home", sets = "tab=building" },
+  { id = "locate", label = "Locate", action = "replace", to = "quiet", when = "tab=live" },
+  { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live,tab=live" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live,tab=live" },
+  { id = "postup-2", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "postup-3", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live,tab=live" },
+  { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live,tab=live" },
+  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,tab=live" },
+  { id = "postup-ask-2", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "cafe-2", label = "Lantern Tea A D M 3 postups", action = "replace", to = "cafe" },
+  { id = "me", label = "S", action = "replace", to = "me", when = "tab=building" },
+  { id = "see-map", label = "See map", action = "swap", to = "home", sets = "tab=live", when = "live=live,tab=building" },
+  { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects", when = "tab=building" },
+  { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "tab=building" },
+  { id = "project-2", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "tab=building" },
+  { id = "project-3", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "tab=building" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post", when = "live=live,tab=building;live=none,tab=building;live=none,tab=live" },
 ]
 
 [[notes]]

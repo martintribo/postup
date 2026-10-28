@@ -1,8 +1,9 @@
-# Flow: Ask to join, then get approved (joiner side). Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Ask to join, then get approved (joiner side). Model [M1030]; phase 2 [M1031-draft].
 id = "ask-join"
 name = "Ask to join, then get approved (joiner side)"
 role = "joiner"
 mvp = true
+order = 9  # position in the flow list
 status = "draft"
 persona = "Signed-in user; poster approves who joins."
 goal = "Send a reason, get a yes, meet up. [M1024]"
@@ -28,25 +29,29 @@ thought = "Interested, but the host screens people"
 shows = "\"Tess approves who joins\". [FS] [F055]"
 
 [[steps]]
-link = "postup-ask:ask-to-join-ask"  # taps Ask to join
+link = "postup-ask:ask-to-join"
+act = "taps Ask to join"
 expect = "ask@in.live"
 thought = "Explaining why they want to join"
 shows = "Short reason. [F061] [F095]"
 
 [[steps]]
-link = "ask:send-request-requested"  # sends the request
+link = "ask:send-request"
+act = "sends the request"
 expect = "requested@in.live"
 thought = "Waiting for an answer"
 shows = "Request sent; can cancel. [FS] [drawn]"
 
 [[steps]]
-event = "alert-arrives"  # later: alert arrives
+event = "alert-arrives"
+act = "later: alert arrives"
 expect = "activity@in.live"
 thought = "Gets the yes"
 shows = "Activity: \"Tess said yes\". [FS] [M1024]"
 
 [[steps]]
-link = "activity:m-maya-hey-here-till-4-come-"  # opens the chat
+link = "activity:chat"
+act = "opens the chat"
 expect = "chat@in.live"
 thought = "Now part of the group"
 shows = "Now in the postup chat. [F061] [F096]"

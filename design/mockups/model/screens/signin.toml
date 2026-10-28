@@ -1,13 +1,20 @@
-# Sheet: Sheet · Sign in (follow, create, update). Model [M1030]; migrated (old id ov-signin, notes host profile).
+# Sheet: Sheet · Sign in (join, ask, post, follow, create, update). Model [M1030]; phase 2 [M1031-draft].
 id = "signin"
-title = "Sheet · Sign in (follow, create, update)"
+title = "Sheet · Sign in (join, ask, post, follow, create, update)"
 kind = "sheet"
 group = "Sheets"
+host = "profile"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
-  { id = "continue-with-apple", label = "Continue with Apple", action = "close", sets = "auth=in" },
-  { id = "continue-with-google", label = "Continue with Google", action = "close", sets = "auth=in" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "close", sets = "auth=in", continue = true },
+  { id = "continue-with-google", label = "Continue with Google", action = "close", sets = "auth=in", continue = true },
   { id = "not-now", label = "Not now", action = "close" },
+]
+
+[[notes]]
+section = "Folded pages"
+lines = [
+  "`#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` are no longer pages: their button opens this sheet over the same page (`act`), and signing in continues to the action. Old links redirect here. [M1031-draft]",
 ]
 
 [[notes]]
@@ -20,4 +27,74 @@ lines = [
 section = "Scenarios"
 lines = [
   "Signed out only; signed in never shows it. [FS]",
+]
+
+[[notes]]
+section = "Was #join-signin (over #postup): Purpose"
+lines = [
+  "Sign-in sheet over the postup when you tap Join (also used by Follow on `#invite-project`). [FS] [drawn]",
+]
+
+[[notes]]
+section = "Was #join-signin (over #postup): Scenarios"
+lines = [
+  "Signed out: the sheet. [FS]",
+  "Signed in: no sheet; shows `#postup`. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Was #join-signin (over #postup): Behavior"
+lines = [
+  "Success → `#joined`. [FS]",
+]
+
+[[notes]]
+section = "Was #ask-signin (over #postup-ask): Purpose"
+lines = [
+  "Sign-in sheet before asking to join. Success → `#ask`. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Was #ask-signin (over #postup-ask): Scenarios"
+lines = [
+  "Signed in: no sheet; shows `#postup-ask`. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Was #post-signin (over #post): Purpose"
+lines = [
+  "The global sign-in sheet, shown at the moment of action. Variants: join, ask, attach. [FS]",
+]
+
+[[notes]]
+section = "Was #post-signin (over #post): Scenarios"
+lines = [
+  "Signed out: the sheet, as drawn. [FS]",
+  "Signed in: no sheet; shows `#post`. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Was #post-signin (over #post): Behavior"
+lines = [
+  "Continue with Apple / Google, \"Not now\". The build also adds a dev sign-in and \"Use a PostUp username\" (→ /login). [FS]",
+  "Only at post, join, follow, new project. [FS]",
+  "Success → `#posted`. [drawn]",
+]
+
+[[notes]]
+section = "Was #post-signin (over #post): Unsourced"
+lines = [
+  "Every \"Log in\" link opens this sheet, not the /login page. [R10⚠]",
+]
+
+[[notes]]
+section = "Was #attach-signin (over #project-attach): Purpose"
+lines = [
+  "Sign-in sheet when posting up for a project. Success → `#posted`. [FS] [drawn]",
+]
+
+[[notes]]
+section = "Was #attach-signin (over #project-attach): Scenarios"
+lines = [
+  "Signed in: no sheet; shows `#project-attach`. [FS] [M1018]",
 ]

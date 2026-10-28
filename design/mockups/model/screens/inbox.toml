@@ -1,24 +1,23 @@
-# Screen: Inbox · Chats. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Inbox · Chats. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "inbox"
 title = "Inbox · Chats"
 kind = "page"
 group = "Inbox & people"
-variants = ["inbox--out"]  # old HTML variants, by condition
+variants = { "auth=out" = "inbox--out" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "chats-inbox", label = "Chats", action = "replace", to = "inbox" },
-  { id = "activity-2-activity", label = "Activity 2", action = "replace", to = "activity" },
-  { id = "m-maya-s-postup-maya-grabbin", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat" },
-  { id = "s-your-postup-jon-on-the-way", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat" },
-  { id = "t-tess-s-postup-ended-tue-tu", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "chats", label = "Chats", action = "replace", to = "inbox" },
+  { id = "activity-2", label = "Activity 2", action = "replace", to = "activity" },
+  { id = "chat", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat" },
+  { id = "chat-2", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat" },
+  { id = "postup-ended", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended" },
   { id = "back", label = "", action = "back", when = "auth=out" },
-  { id = "continue-with-apple-inbox", label = "Continue with Apple", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
-  { id = "continue-with-google-inbox", label = "Continue with Google", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
-  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
+  { id = "back-2", label = "Not now", action = "back", when = "auth=out" },
 ]
 
 [[notes]]

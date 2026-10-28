@@ -1,8 +1,9 @@
-# Flow: Stumbled on it: what is this?. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Stumbled on it: what is this?. Model [M1030]; phase 2 [M1031-draft].
 id = "stumbled"
 name = "Stumbled on it: what is this?"
 role = "joiner"
 mvp = true
+order = 5  # position in the flow list
 status = "draft"
 persona = "First-time visitor with no idea what PostUp is; arrived from search, a social post or a word-of-mouth link."
 goal = "Understand PostUp within the first screen and reach something real before any sign-in. [M1025]"
@@ -29,25 +30,34 @@ thought = "No idea what PostUp is"
 shows = "Home in Live mode: map + Live now. No explainer line is drawn in Live mode, only the brand. [drawn] [M1025]"
 
 [[steps]]
-link = "home:m-2-postup"  # taps the first live person
+link = "home:postup"
+act = "taps the first live person"
 expect = "postup@out.live"
 thought = "Trying to understand by example"
 shows = "Taps the first live person to see what a postup is. [FS] [M1025]"
 
 [[steps]]
-link = "postup:bean-theory-0-4-mi-8-min-wal"  # taps the cafe
+link = "postup:cafe"
+act = "taps the cafe"
 expect = "cafe@out.live"
 thought = "What is this place?"
 shows = "Taps the cafe: who is here now, Post up here. [FS] [M1025]"
 
 [[steps]]
-gap = "back to Home, flips to Building"  # no single link/event from cafe@out.live to home@out.live.building
+link = "tabbar:home"
+act = "taps Home in the tab bar"
+expect = "home@out.live.live"
+thought = "Back to the start"
+shows = "Home in Live mode (split: Home tab, then the Building toggle). [M1031-draft]"
+[[steps]]
+link = "home:building"
+act = "flips to Building"
 expect = "home@out.live.building"
 thought = "Still unsure; looks around"
 shows = "Back on Home, flips to Building: the welcome line \"Post up at a cafe. See who's working nearby.\" and \"What people are building\". [drawn] [M1018c] [M1025]"
-
 [[steps]]
-link = "home:star-fox-64-mod-m-maya-yeste"  # taps a project
+link = "home:project"
+act = "taps a project"
 expect = "project@out.live"
 thought = "Gets it: people work on projects at cafes"
 shows = "Opens a project and gets the idea; Follow and Post up (🔒) are the next steps. [FS] [M1025]"

@@ -1,15 +1,18 @@
-# Screen: Share link · ended. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Share link · ended. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "invite-ended"
 title = "Share link · ended"
 kind = "page"
 group = "Share-link landings"
 entry = true
-slots = [ { name = "sheet", kind = "sheet", accepts = ["signin"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "see-what-s-nearby-quiet-feed", label = "See what's nearby", action = "replace", to = "quiet-feed" },
-  { id = "follow-maya-for-next-time-si", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
-  { id = "go-to-home-home", label = "Go to Home", action = "replace", to = "home" },
-  { id = "follow-maya-for-next-time-in", label = "Follow Maya for next time", action = "swap", to = "invite-ended", sets = "following=toggle", when = "auth=in" },
+  { id = "see-what-s-nearby", label = "See what's nearby", action = "replace", to = "quiet-feed" },
+  { id = "follow-maya-for", label = "Follow Maya for next time", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
+  { id = "go-to-home", label = "Go to Home", action = "replace", to = "home" },
+  { id = "follow-maya-for", label = "Follow Maya for next time", action = "swap", to = "invite-ended", when = "auth=in" },
 ]
 
 [[notes]]

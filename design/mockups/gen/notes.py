@@ -1,5 +1,5 @@
 # Notes beside each mockup. exec'd by build.py after more.py (needs S, OVS).
-# Reads gen/notes.md + gen/sources/facts.jsonl; writes notes/<id>.md, notes/all.md, llms.txt;
+# Reads model/ (screens + global notes) + gen/sources/facts.jsonl; writes notes/<id>.md, notes/all.md, llms.txt;
 # defines NOTES_HTML, NOTES_CSS, NOTES_JS for index.html.
 import json, re, html as H, os
 FACTS={}
@@ -7,25 +7,28 @@ for l in open('gen/sources/facts.jsonl'):
     l=l.strip()
     if l: d=json.loads(l); FACTS[d['id']]=d
 REQ={m[1]:m[2] for m in re.finditer(r'^(\d+)\. \*\*(.+?)\*\*',open('gen/sources/requirements.md').read(),re.M)}
-SRCNAME={'FS':'final-screens.md (final screens answer, Oct 2026)','TK':'mockup-takeaways.md (mockup session takeaways)','R':'requirements.md (requirements ledger)','drawn':'the mockup drawing itself','unsourced':'no source; confirm with Martin','M1018':'Martin, Oct 18 2026 (relayed by the PM): every page gets a scenario toggle (signed out/in × live nearby/none) and renders that scenario; pages that do not differ say "same in all scenarios"; mark the home page (/) clearly','M1018b':'Martin, Oct 18 2026 (relayed by the PM): Home (/) has two modes on one URL, Live (map + Live now) and Building (projects preview, See all projects, Post up, This week); default by whether anyone is live; Live · Building switch; banner when someone goes live in Building; draw the overlay-on-map version as #home-overlay-alt, alternative, not chosen','M1025':'Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow','M1024':'Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows','M1018c':'Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are'}
-NOTES={}; ORDER=[]; cur=None; sec=None
-for raw in open('gen/notes.md').read().split('-->',1)[1].splitlines():
-    line=raw.rstrip()
-    m=re.match(r'^## (\S+) \| (.+)$',line)
-    if m: cur={'id':m[1],'title':m[2],'host':None,'secs':[]}; NOTES[m[1]]=cur; ORDER.append(m[1]); sec=None; continue
-    if cur is None or not line.strip(): continue
-    if line.startswith('host:'): cur['host']=line[5:].strip(); continue
-    m=re.match(r'^### (.+)$',line)
-    if m: sec=[m[1],[]]; cur['secs'].append(sec); continue
-    if line.startswith('- ') and sec: sec[1].append(line[2:]); continue
-    raise SystemExit(f'notes.md: cannot parse line: {line!r}')
-G=NOTES.pop('_global'); ORDER.remove('_global')
+SRCNAME={'M1030':'Martin, Oct 30 2026: model the site as screens/slots/links in model/*.toml','M1031-draft':'PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)','FS':'final-screens.md (final screens answer, Oct 2026)','TK':'mockup-takeaways.md (mockup session takeaways)','R':'requirements.md (requirements ledger)','drawn':'the mockup drawing itself','unsourced':'no source; confirm with Martin','M1018':'Martin, Oct 18 2026 (relayed by the PM): every page gets a scenario toggle (signed out/in × live nearby/none) and renders that scenario; pages that do not differ say "same in all scenarios"; mark the home page (/) clearly','M1018b':'Martin, Oct 18 2026 (relayed by the PM): Home (/) has two modes on one URL, Live (map + Live now) and Building (projects preview, See all projects, Post up, This week); default by whether anyone is live; Live · Building switch; banner when someone goes live in Building; draw the overlay-on-map version as #home-overlay-alt, alternative, not chosen','M1025':'Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow','M1024':'Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows','M1018c':'Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are'}
+# Notes come from the model (model/screens/*.toml [[notes]], model/global.toml) [M1031-draft]. Sheets keep the ov-<id> key.
+import sys as _sys
+_sys.path.insert(0,'gen'); import model as M
+MSC,MFL,MEV,MGL=M.load()
+def _secs(d,k='notes'): return [[n['section'],list(n['lines'])] for n in d.get(k,[])]
+NOTES={}; ORDER=[]
+for _k in [k for k in S if '--' not in k and k!='index']+[k for k in MSC if MSC[k]['kind']=='page' and k not in S]:
+    _d=MSC.get(_k)
+    if _d: NOTES[_k]={'id':_k,'title':_d['title'],'host':None,'secs':_secs(_d)}; ORDER.append(_k)
+NOTES['index']={'id':'index','title':'Mockup index','host':None,'secs':_secs(MGL,'index_notes')}; ORDER.insert(0,'index')
+for _k,_d in sorted(MSC.items()):
+    if _d['kind']=='sheet': NOTES['ov-'+_k]={'id':'ov-'+_k,'title':_d['title'],'host':_d['host'],'secs':_secs(_d)}; ORDER.append('ov-'+_k)
+G={'id':'_global','title':'Global rules','host':None,'secs':_secs(MGL)}
+for _k,_d in sorted(MSC.items()):
+    if _d['kind'] in ('tab','panel'): G['secs']+=[[f'Chrome: {_d["title"]} · {s_}',bs] for s_,bs in _secs(_d)]
 # checks
 BASE=[k for k in S if '--' not in k]
 missing=[k for k in BASE if k not in NOTES]; extra=[k for k in ORDER if not k.startswith('ov-') and k not in S]
 ovids=re.findall(r'id="ov-([\w-]+)"',OVS); missing+=['ov-'+o for o in ovids if 'ov-'+o not in NOTES]
 if missing or extra: raise SystemExit(f'notes: missing {missing} extra {extra}')
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025)\]'
+TAG=M.TAG
 def tags(t): return re.findall(TAG,t)
 for n in [G]+[NOTES[k] for k in ORDER]:
     for s,bs in n['secs']:
@@ -66,7 +69,7 @@ def cited(ns):
                 for t in tags(b):
                     t=t.rstrip('⚠')
                     if t not in ts: ts.append(t)
-    fs=sorted([t for t in ts if re.match(r'F\d',t)]); rs=sorted({t for t in ts if t.startswith('R')},key=lambda x:int(x[1:])); ot=[t for t in ['FS','M1018','M1018b','M1018c','M1024','M1025','drawn','unsourced'] if t in ts]+sorted(t for t in ts if t.startswith('TK'))
+    fs=sorted([t for t in ts if re.match(r'F\d',t)]); rs=sorted({t for t in ts if t.startswith('R')},key=lambda x:int(x[1:])); ot=[t for t in ['FS','M1018','M1018b','M1018c','M1024','M1025','M1030','M1031-draft','drawn','unsourced'] if t in ts]+sorted(t for t in ts if t.startswith('TK'))
     out=[]
     for t in fs:
         d=FACTS[t]; out.append(f'- **{t}** — {d["gist"]} ({d.get("speaker") or "?"}, {d["session"]}{" "+d["address"] if d.get("address") else ""}): “{d["quote"].strip()[:400]}”')
@@ -111,12 +114,18 @@ for k in ORDER:
     allmd+=f'\n---\n\n## {n["title"]} (`{k}`)\nURL: {url(n)}  ·  desktop: {url(n,"desktop")}{host}\n\n{demote(n)}'
 allmd+='\n---\n\n## Sources cited\n'+cited([G]+[NOTES[k] for k in ORDER])+'\n'
 open('notes/all.md','w').write(allmd)
+for _k,(_h,_d,_t,_s) in FOLD.items():  # folded sign-in pages keep a notes URL [M1031-draft]
+    open(f'notes/{_k}.md','w').write(f'# {_k} (folded)\n\n`#{_k}` is no longer a page. It is the sign-in sheet over `#{_h}`, continuing to `#{_d}` after sign-in. Old links redirect there.\nSee [ov-signin.md](ov-signin.md) (sections "Was #{_k}") and [{_h}.md]({_h}.md). [M1031-draft]\n')
 llms=f'''# PostUp mockups
 
 > Static mockups of the PostUp app (v1034): {len(BASE)} screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
 
 Mockup URL pattern: /mockups/?style=<fresh|cozy|night|bold>&device=<phone|desktop>&auth=<out|in>&live=<live|none>#<screen> (overlays: &ov=<sheet>)
 The home page (/) is #home, called Home, with two modes on one URL: Live and Building (?mode=live|building). #home-overlay-alt is an alternative, not chosen. #quiet is the old no-live home drawing; #quiet-feed / #quiet-feed-b are Nearby (/nearby). Project lists are headed "What people are building", sorted closest-first, showing the closest available even if none are local; never call them nearby unless they are (Martin, Oct 18).
+
+## Model (source of truth for screens, links, notes, flows)
+- [Concepts: screen, slot, link, site state, flow](model/CONCEPTS.md) · [Index of every screen and flow](model/INDEX.md) · files: model/screens/*.toml, model/flows/*.toml, model/events.toml, model/global.toml
+- Site state id: page[+child]@auth.live[.tab], e.g. postup+signin@out.live. Sheets open in a page's sheet slot; the phone tab bar and desktop rail are tab/panel slots. Sign-in is one sheet (old #join-signin, #ask-signin, #post-signin, #attach-signin URLs redirect to it).
 
 ## Notes
 - [All screens in one file](notes/all.md): global rules, every screen, every source quote

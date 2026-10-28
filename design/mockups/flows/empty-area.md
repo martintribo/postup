@@ -14,15 +14,15 @@ Player: /mockups/flows/empty-area.html
 ## Steps
 1. **home@in.none.building** · user: Nobody around here yet · action: arrives at / · edge: entry
    - Closest projects even if far. [M1018c]
-   - next site states: home@in.none.live (Live), me@in.none (S), projects@in.none (See all projects), project@in.none (Star Fox 64 mod M Maya · Yesterday), post@in.none (Post up), cafe@in.none (Lantern Tea A D M 3 postups), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), cafe-gfail@in.none (Lantern Tea A D M 3 postups (Google card fails)), **empty-area@in.none** (area has no postups)
+   - next site states: home@in.none.live (Live), cafe@in.none (Lantern Tea A D M 3 postups), me@in.none (S), projects@in.none (See all projects), project@in.none (Star Fox 64 mod M Maya · Yesterday), post@in.none (Post up), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), **empty-area@in.none** (area has no postups), cafe-gfail@in.none (Lantern Tea A D M 3 postups (Google card fails))
    - enterable flows: none
 2. **empty-area@in.none** · user: Sees the area is empty · action: opens the empty area · edge: cond: area has no postups
    - "Be the first here". [FS]
-   - next site states: cafe@in.none (tap), me@in.none (S), **post@in.none** (Stories Cafe 0.3 mi), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), cafe-gfail@in.none ( (Google card fails))
+   - next site states: cafe@in.none (cafe), me@in.none (S), **post@in.none** (Stories Cafe 0.3 mi), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), cafe-gfail@in.none (cafe (Google card fails))
    - enterable flows: none
 3. **post@in.none** · user: Will be the first · action: taps Post up · edge: tap: Stories Cafe 0.3 mi
    - Post up. [FS]
-   - next site states: back (Back), where@in.none (Bean Theory Nearest · 0.4 mi Chang), project-new@in.none (Project), posted@in.none (Post up)
+   - next site states: back (Back), where@in.none (Bean Theory Nearest · 0.4 mi Chang), project-new@in.none (Project), posted@in.none (Post up), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), me@in.none (S)
    - enterable flows: returning-post step 1 (if Regular; working at a cafe today), desktop-browse step 3 (if Wants to post too)
 
 ## Connected flows [M1025]

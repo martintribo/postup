@@ -1,25 +1,24 @@
-# Screen: Project. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Project. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "project"
 title = "Project"
 kind = "page"
 group = "Projects"
-variants = ["project--none"]  # old HTML variants, by condition
+variants = { "live=none" = "project--none" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "new-project-new", label = "New", action = "replace", to = "project-new" },
-  { id = "maya-profile", label = "Maya", action = "replace", to = "profile" },
-  { id = "update-project-update", label = "Update", action = "replace", to = "project-update" },
-  { id = "post-up-project-attach", label = "Post up", action = "replace", to = "project-attach" },
-  { id = "post-up-for-this-project-att", label = "Post up for this", action = "replace", to = "project-attach" },
-  { id = "post-update-project-update", label = "Post update", action = "replace", to = "project-update" },
-  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
-  { id = "m-maya-bean-theory-till-4pm-", label = "M Maya Bean Theory · till 4pm Live", action = "replace", to = "postup", when = "live=live" },
-  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "new", label = "New", action = "replace", to = "project-new" },
+  { id = "maya", label = "Maya", action = "replace", to = "profile" },
+  { id = "update", label = "Update", action = "replace", to = "project-update" },
+  { id = "post-up", label = "Post up", action = "replace", to = "project-attach" },
+  { id = "post-up-for-this", label = "Post up for this", action = "replace", to = "project-attach" },
+  { id = "post-update", label = "Post update", action = "replace", to = "project-update" },
+  { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "postup", label = "M Maya Bean Theory · till 4pm Live", action = "replace", to = "postup", when = "live=live" },
+  { id = "cafe", label = "", action = "replace", to = "cafe" },
 ]
 
 [[notes]]

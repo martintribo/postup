@@ -28,14 +28,18 @@
   "back": true
  },
  "cautious-joiner-8": {
-  "label": "Join",
+  "label": "M",
   "back": false
  },
  "cautious-joiner-9": {
+  "label": "Join",
+  "back": false
+ },
+ "cautious-joiner-10": {
   "label": "Directions",
   "back": false
  },
- "cautious-joiner-10": null,
+ "cautious-joiner-11": null,
  "quick-joiner-1": {
   "label": "M",
   "back": false
@@ -49,19 +53,17 @@
   "back": false
  },
  "quick-joiner-4": null,
- "quick-joiner-5": null,
+ "quick-joiner-5": {
+  "label": "Group chat",
+  "back": false
+ },
+ "quick-joiner-6": null,
  "first-visit-live-1": {
   "label": "M",
   "back": false
  },
- "first-visit-live-2": {
-  "label": "Join",
-  "back": false
- },
- "first-visit-live-3": {
-  "label": "Join",
-  "back": false
- },
+ "first-visit-live-2": null,
+ "first-visit-live-3": null,
  "first-visit-live-4": null,
  "curious-browser-1": {
   "label": "M",
@@ -72,20 +74,24 @@
   "back": true
  },
  "curious-browser-3": {
-  "label": "Projects",
+  "label": "Home",
   "back": false
  },
  "curious-browser-4": {
-  "label": "Star Fox 64 mod",
+  "label": "Projects",
   "back": false
  },
  "curious-browser-5": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "curious-browser-6": {
   "label": "Maya",
   "back": false
  },
- "curious-browser-6": null,
  "curious-browser-7": null,
  "curious-browser-8": null,
+ "curious-browser-9": null,
  "stumbled-1": {
   "label": "M",
   "back": false
@@ -99,18 +105,16 @@
   "back": false
  },
  "stumbled-4": {
+  "label": "Home",
+  "back": false
+ },
+ "stumbled-5": {
   "label": "Star Fox 64 mod",
   "back": false
  },
- "stumbled-5": null,
- "invite-live-1": {
-  "label": "Join Maya",
-  "back": false
- },
- "invite-live-2": {
-  "label": "Join",
-  "back": false
- },
+ "stumbled-6": null,
+ "invite-live-1": null,
+ "invite-live-2": null,
  "invite-live-3": {
   "label": "Group chat",
   "back": false
@@ -125,10 +129,14 @@
  "invite-ended-4": null,
  "invite-project-1": null,
  "invite-project-2": null,
- "invite-project-3": null,
+ "invite-project-3": {
+  "label": "See updates",
+  "back": false
+ },
+ "invite-project-4": null,
  "ask-join-1": {
-  "label": "Back",
-  "back": true
+  "label": "Ask to join",
+  "back": false
  },
  "ask-join-2": {
   "label": "Send request",
@@ -152,7 +160,11 @@
   "label": "Back",
   "back": true
  },
- "host-approve-4": null,
+ "host-approve-4": {
+  "label": "Group chat",
+  "back": false
+ },
+ "host-approve-5": null,
  "first-post-1": {
   "label": "Post up",
   "back": false
@@ -165,14 +177,8 @@
   "label": "tap",
   "back": false
  },
- "first-post-4": {
-  "label": "Post up",
-  "back": false
- },
- "first-post-5": {
-  "label": "Post up",
-  "back": false
- },
+ "first-post-4": null,
+ "first-post-5": null,
  "first-post-6": {
   "label": "Invite friends",
   "back": false
@@ -221,21 +227,32 @@
   "back": false
  },
  "project-builder-4": {
-  "label": "Back",
-  "back": true
+  "label": "Post update",
+  "back": false
  },
  "project-builder-5": {
   "label": "Post up",
   "back": false
  },
- "project-builder-6": null,
- "following-1": {
-  "label": "Back",
-  "back": true
+ "project-builder-6": {
+  "label": "Post up",
+  "back": false
  },
- "following-2": null,
+ "project-builder-7": null,
+ "following-1": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "following-2": {
+  "label": "Projects",
+  "back": false
+ },
  "following-3": null,
- "following-4": null,
+ "following-4": {
+  "label": "M",
+  "back": false
+ },
+ "following-5": null,
  "chat-1": {
   "label": "M",
   "back": false
@@ -279,7 +296,11 @@
   "label": "Back",
   "back": true
  },
- "postup-states-3": null,
+ "postup-states-3": {
+  "label": "Back",
+  "back": true
+ },
+ "postup-states-4": null,
  "empty-area-1": null,
  "empty-area-2": {
   "label": "Post up",

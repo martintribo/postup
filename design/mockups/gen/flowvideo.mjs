@@ -51,7 +51,7 @@ for (let i = 0; i < f.steps.length; i++) {
     const all = [...root.querySelectorAll('[onclick],a[href]')].filter(vis);
     const hit = e => { const o = (e.getAttribute('onclick') || '') + ' ' + (e.getAttribute('href') || '');
       if (nov && nsc === cur) return o.includes(`ov('${nov}')`);
-      return o.includes(`'${nsc}'`) || o.includes(`#${nsc}"`) || o.endsWith(`#${nsc}`) || (nsc === 'joined' && /sheet\('join-signin'\)|signIn\('joined'\)/.test(o)) || (nsc === 'posted' && /sheet\('(post|attach)-signin'\)/.test(o)); };
+      return o.includes(`'${nsc}'`) || o.includes(`#${nsc}"`) || o.endsWith(`#${nsc}`) || (nsc === 'posted' && /sheet\('(post|attach)-signin'\)/.test(o)); };
     let e = all.find(hit);
     if (!e && nsc !== cur) e = all.find(x => /bk\(\)/.test(x.getAttribute('onclick') || ''));
     if (!e) return null; e.scrollIntoView({ block: 'center' }); const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height };

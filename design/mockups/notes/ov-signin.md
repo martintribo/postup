@@ -1,4 +1,4 @@
-# Sheet · Sign in (follow, create, update)
+# Sheet · Sign in (join, ask, post, follow, create, update)
 Screen id: `ov-signin`
 Shown over: #profile
 URL (phone): /mockups/?style=fresh&device=phone&ov=signin#profile
@@ -8,11 +8,51 @@ Scenario: ?auth=out|in&live=live|none (default out + live); see the Scenarios se
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing.
 
+## Folded pages
+- `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` are no longer pages: their button opens this sheet over the same page (`act`), and signing in continues to the action. Old links redirect here. [M1031-draft]
+
 ## Purpose
 - Sign-in sheet for Follow, Create project and Post update when signed out. Signing in switches the toggle to Signed in and continues. [FS] [M1018]
 
 ## Scenarios
 - Signed out only; signed in never shows it. [FS]
+
+## Was #join-signin (over #postup): Purpose
+- Sign-in sheet over the postup when you tap Join (also used by Follow on `#invite-project`). [FS] [drawn]
+
+## Was #join-signin (over #postup): Scenarios
+- Signed out: the sheet. [FS]
+- Signed in: no sheet; shows `#postup`. [FS] [M1018]
+
+## Was #join-signin (over #postup): Behavior
+- Success → `#joined`. [FS]
+
+## Was #ask-signin (over #postup-ask): Purpose
+- Sign-in sheet before asking to join. Success → `#ask`. [FS] [drawn]
+
+## Was #ask-signin (over #postup-ask): Scenarios
+- Signed in: no sheet; shows `#postup-ask`. [FS] [M1018]
+
+## Was #post-signin (over #post): Purpose
+- The global sign-in sheet, shown at the moment of action. Variants: join, ask, attach. [FS]
+
+## Was #post-signin (over #post): Scenarios
+- Signed out: the sheet, as drawn. [FS]
+- Signed in: no sheet; shows `#post`. [FS] [M1018]
+
+## Was #post-signin (over #post): Behavior
+- Continue with Apple / Google, "Not now". The build also adds a dev sign-in and "Use a PostUp username" (→ /login). [FS]
+- Only at post, join, follow, new project. [FS]
+- Success → `#posted`. [drawn]
+
+## Was #post-signin (over #post): Unsourced
+- Every "Log in" link opens this sheet, not the /login page. [R10⚠]
+
+## Was #attach-signin (over #project-attach): Purpose
+- Sign-in sheet when posting up for a project. Success → `#posted`. [FS] [drawn]
+
+## Was #attach-signin (over #project-attach): Scenarios
+- Signed in: no sheet; shows `#project-attach`. [FS] [M1018]
 
 ## Global rules (every screen)
 ### Home page (/)
@@ -64,6 +104,21 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Open
 - Final style, join default, cafe name before approval, launch area, chat retention, Capacitor vs Cordova. [FS] [TK§4]
 
+### Model decisions to confirm (phase 2 draft)
+- Sign-in is one sheet, `signin`, opened in the page's sheet slot. The old `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` pages are folded into it; their URLs redirect to the page with the sheet open, and signing in continues to the action (Join → joined, Ask → ask, Post up → posted). [M1031-draft]
+- `live` means someone is live nearby (global). A postup's own status (full, cancelled, ended) is its page; ending your own postup or a postup ending does not change `live`. [M1031-draft]
+- New event: someone you follow posts up. The alert lands in Activity and Nearby now has someone live. [M1031-draft]
+- Activity gets a "Maya posted up at Bean Theory" row that opens the postup, as the app's alerts link to the postup. [M1031-draft]
+- The More sheet's block option reads "Block"; the app can name the person in context ("Block Maya"). [M1031-draft]
+- Chrome is modelled as slots: the phone tab bar is a tab slot (`tabbar`) on pages that draw it; the desktop rail is a panel slot (`rail`) on every page. Their links count only when no sheet is open. [M1031-draft]
+- Two-tap flow steps are split into two steps (Back, then a tap) instead of adding shortcut links: cautious-joiner, curious-browser, stumbled, following, host-approve, invite-project, postup-states, project-builder, quick-joiner. [M1031-draft]
+
+### Chrome: Rail (desktop) · Purpose
+- Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
+
+### Chrome: Tab bar (phone) · Purpose
+- Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
+
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”
 - **F026** — Mockups link to each other. (Martin, S08-mockups-1 t194u): “can you make the mockups link to each other?”
@@ -86,6 +141,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **R3** — requirements.md item 3: With no activity this week, home and the feed fall back to recent projects of any age. Never empty or "quiet" copy.
 - **R4** — requirements.md item 4: No empty or "quiet" copy anywhere ("No posts yet", "Nothing yet", "Nobody.", "quiet").
 - **R9** — requirements.md item 9: Sign-in only at the moment of action, as a sheet over the current screen (Apple + Google).
+- **R10** — requirements.md item 10: Every "Log in" link opens the sheet, not the /login page.
 - **R12** — requirements.md item 12: Phone tab bar: Map, Nearby, Post up, Projects, Inbox. Desktop left rail with the same items. Consistent across devices.
 - **R36** — requirements.md item 36: Google Places content only inside UI Kit widgets, never in the feed; we store only `place_id`.
 - **R38** — requirements.md item 38: Feed photos come from users and projects only; fallback is a tinted tile, never a grey box.
@@ -97,6 +153,8 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1018c** — Martin, Oct 18 2026 (relayed by the PM): the Building heading is "What people are building" (not "nearby"); the list is sorted closest-first and shows the closest projects available even if none are local; never claim "nearby" unless they are
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
+- **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
+- **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1
 - **TK§2** — mockup-takeaways.md (mockup session takeaways) §2

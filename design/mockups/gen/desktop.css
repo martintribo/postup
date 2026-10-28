@@ -15,8 +15,8 @@
 [data-device=desktop] .sheet-p{margin-top:0;border-radius:0;box-shadow:none;padding-top:20px}[data-device=desktop] .sheet-p>.grab{display:none}
 [data-device=desktop] .mock{top:auto;bottom:16px;right:476px;writing-mode:horizontal-tb;border-radius:999px!important;border:1px solid var(--n200)!important;padding:3px 10px!important;font-size:10px!important}
 /* dialogs */
-[data-device=desktop] .dev:has(#post.on,#post-signin.on,#project-new.on,#project-update.on,#project-attach.on) .ph{left:50%;right:auto;top:50%;bottom:auto;width:520px;height:min(760px,86vh);transform:translate(-50%,-50%)}
-[data-device=desktop] .dev:has(#post.on,#post-signin.on,#project-new.on,#project-update.on,#project-attach.on) .dmap:after{content:'';position:absolute;inset:0;background:rgba(10,10,10,.35);backdrop-filter:blur(2px)}
+[data-device=desktop] .dev:has(#post.on,#project-new.on,#project-update.on,#project-attach.on) .ph{left:50%;right:auto;top:50%;bottom:auto;width:520px;height:min(760px,86vh);transform:translate(-50%,-50%)}
+[data-device=desktop] .dev:has(#post.on,#project-new.on,#project-update.on,#project-attach.on) .dmap:after{content:'';position:absolute;inset:0;background:rgba(10,10,10,.35);backdrop-filter:blur(2px)}
 [data-device=desktop] .bs{left:50%;right:auto;bottom:auto;top:50%;width:420px;transform:translate(-50%,-50%);border-radius:var(--r-xl);padding:28px;animation:dpop .25s cubic-bezier(.2,.9,.25,1)}
 [data-device=desktop] .bs .grab{display:none}@keyframes dpop{from{opacity:0;transform:translate(-50%,-46%) scale(.97)}}
 [data-device=desktop] .dim{z-index:70}
@@ -59,10 +59,10 @@
 [data-device=desktop][data-style=cozy] .dev:has(#quiet-feed.on,#quiet-feed-b.on) .ph{background:transparent}
 [data-device=desktop][data-style=cozy] .scr:is(#quiet-feed,#quiet-feed-b) .hero h1{font-size:52px}
 /* full-page (no map) desktop screens */
-[data-device=desktop] .dev:has(#index.on,#projects.on,#project.on,#posted.on,#post.on,#post-signin.on,#project-new.on,#project-update.on,#project-attach.on) .dmap{display:none}
+[data-device=desktop] .dev:has(#index.on,#projects.on,#project.on,#posted.on,#post.on,#project-new.on,#project-update.on,#project-attach.on) .dmap{display:none}
 [data-device=desktop] .dev:has(#index.on,#projects.on,#project.on,#posted.on) .ph{left:92px;right:0;top:0;bottom:0;width:auto;border-radius:0;box-shadow:none;border:0;background:transparent}
-[data-device=desktop] .dev:has(#index.on,#projects.on,#project.on,#posted.on) .mock,[data-device=desktop] .dev:has(#post.on,#post-signin.on,#project-new.on,#project-update.on,#project-attach.on) .mock{right:16px}
-[data-device=desktop] .dev:has(#post.on,#post-signin.on,#project-new.on,#project-update.on,#project-attach.on){background:var(--n100)}
+[data-device=desktop] .dev:has(#index.on,#projects.on,#project.on,#posted.on) .mock,[data-device=desktop] .dev:has(#post.on,#project-new.on,#project-update.on,#project-attach.on) .mock{right:16px}
+[data-device=desktop] .dev:has(#post.on,#project-new.on,#project-update.on,#project-attach.on){background:var(--n100)}
 [data-device=desktop] .scr:is(#index,#projects,#project,#posted) .nb:not(.clr){display:none}
 [data-device=desktop] #index .pad,[data-device=desktop] #posted .pad{width:100%;max-width:640px;margin:0 auto;padding-top:44px}
 /* projects */

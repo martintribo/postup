@@ -14,15 +14,15 @@ Player: /mockups/flows/chat.html
 ## Steps
 1. **inbox@in.live** · user: Wants to check messages · action: opens Inbox · edge: entry
    - Inbox · Chats. [FS] [F096]
-   - next site states: activity@in.live (Activity 2), **chat@in.live** (M Maya's postup Maya: Grabbing ano), postup-ended@in.live (T Tess's postup Ended · Tue Tue), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects)
+   - next site states: activity@in.live (Activity 2), **chat@in.live** (M Maya's postup Maya: Grabbing ano), postup-ended@in.live (T Tess's postup Ended · Tue Tue), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S)
    - enterable flows: none
 2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: M Maya's postup Maya: Grabbing ano
    - One chat per postup. [F061] [F096]
-   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options)
+   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
    - enterable flows: none
-3. **chat+msg@in.live** · user: Something off about a message · action: long-presses a message · edge: sheet: Message options
+3. **chat+msg@in.live** · user: Something off about a message · action: long-presses a message · edge: tap: Message options
    - Long-press: copy, report, block sender. [F096] [FS]
-   - next site states: chat@in.live (close), report@in.live (Report message)
+   - next site states: chat@in.live (close), report@in.live (Report message), chat+block@in.live (Block sender)
    - enterable flows: none
 
 ## Connected flows [M1025]

@@ -1,8 +1,9 @@
-# Flow: Leave a postup you joined. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Leave a postup you joined. Model [M1030]; phase 2 [M1031-draft].
 id = "leave"
 name = "Leave a postup you joined"
 role = "joiner"
 mvp = true
+order = 18  # position in the flow list
 status = "draft"
 persona = "Signed-in joiner whose plans changed."
 goal = "Back out politely. [M1024]"
@@ -24,13 +25,15 @@ thought = "Plans changed"
 shows = "Leave link. [drawn]"
 
 [[steps]]
-link = "joined:leave-leave"  # taps Leave
+link = "joined:leave"
+act = "taps Leave"
 expect = "joined+leave@in.live"
 thought = "Backing out politely"
 shows = "Confirm; poster alerted. [FS] [drawn]"
 
 [[steps]]
-link = "leave:leave-postup"  # confirms Leave
+link = "leave:leave"
+act = "confirms Leave"
 expect = "postup@in.live"
 thought = "Out; back on the postup page"
 shows = "Back home. [M1024]"

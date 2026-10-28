@@ -1,8 +1,9 @@
-# Flow: Hosting live: extend, edit, end. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Hosting live: extend, edit, end. Model [M1030]; phase 2 [M1031-draft].
 id = "hosting"
 name = "Hosting live: extend, edit, end"
 role = "host"
 mvp = true
+order = 13  # position in the flow list
 status = "draft"
 persona = "Signed-in poster who is live."
 goal = "Manage time and end cleanly. [M1024]"
@@ -25,25 +26,29 @@ thought = "Live; wants more time"
 shows = "+30 min extends. [FS]"
 
 [[steps]]
-link = "live:edit-post-edit"  # taps Edit
+link = "live:edit"
+act = "taps Edit"
 expect = "post-edit@in.live"
 thought = "Plans changed: different time"
 shows = "Edit cafe/what/until; Save → #live. [FS] [drawn]"
 
 [[steps]]
-link = "post-edit:save-live"  # taps Save
+link = "post-edit:back"
+act = "taps Save"
 expect = "live@in.live"
 thought = "Saved"
 shows = "Back on live. [FS]"
 
 [[steps]]
-link = "live:end-postup-endlive"  # taps End postup
+link = "live:end-postup"
+act = "taps End postup"
 expect = "live+endlive@in.live"
 thought = "Wrapping up"
 shows = "End postup → confirm; joiners and waiters alerted. [FS] [drawn]"
 
 [[steps]]
-gap = "confirms End now"  # no single link/event from live+endlive@in.live to me@in.none
-expect = "me@in.none"
+link = "endlive:end-now"
+act = "confirms End now"
+expect = "me@in.live"
 thought = "Done for today"
-shows = "Back home. [M1024]"
+shows = "Back home. [M1024] Ending your own postup doesn't change who else is live nearby (live = nearby, not this postup). [M1031-draft]"

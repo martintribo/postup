@@ -1,8 +1,9 @@
-# Flow: Follow a person or project. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Follow a person or project. Model [M1030]; phase 2 [M1031-draft].
 id = "following"
 name = "Follow a person or project"
 role = "joiner"
 mvp = true
+order = 15  # position in the flow list
 status = "draft"
 persona = "Signed-in user who liked someone's work."
 goal = "Hear when they post up next. [M1024]"
@@ -25,19 +26,26 @@ thought = "Likes someone's work"
 shows = "Follow → Following. [FS]"
 
 [[steps]]
-gap = "opens Projects"  # no single link/event from profile@in.none to projects@in.none
+link = "profile:project"
+act = "taps Maya's project"
+expect = "project@in.none"
+thought = "Wants to see what else is being built"
+shows = "Profile has no tab bar (as in the app), so: project first, then the Projects tab. [M1031-draft]"
+[[steps]]
+link = "tabbar:projects"
+act = "taps Projects"
 expect = "projects@in.none"
 thought = "Wants to see who they follow"
 shows = "Projects → Following filter. [FS] [R32]"
-
 [[steps]]
-gap = "later: alert arrives"  # no single link/event from projects@in.none to activity@in.live
+event = "followed-goes-live"
+act = "later: someone they follow posts up"
 expect = "activity@in.live"
 thought = "Hears that someone posted up"
-shows = "Later: \"Maya posted up\" alert. [FS] [M1024]"
-
+shows = "Later: \"Maya posted up\" alert. [FS] [M1024] Event \"someone you follow posts up\": the alert lands in Activity and Nearby now has someone live. [M1031-draft]"
 [[steps]]
-gap = "taps the alert"  # no single link/event from activity@in.live to postup@in.live
+link = "activity:postup"
+act = "taps the alert"
 expect = "postup@in.live"
 thought = "Wants to go"
 shows = "Opens and joins. [FS]"

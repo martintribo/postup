@@ -1,22 +1,26 @@
-# Screen: Where are you?. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Where are you?. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "where"
 title = "Where are you?"
 kind = "page"
 group = "Cafes & picking a place"
-variants = ["where--none"]  # old HTML variants, by condition
+variants = { "live=none" = "where--none" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
-  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
-  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
+  { id = "where", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up", label = "Post up", action = "open", to = "signin", slot = "sheet", then = "posted", when = "auth=out" },
   { id = "back-2", label = "", action = "back" },
-  { id = "search-cafes-where-search", label = "Search cafes", action = "replace", to = "where-search" },
-  { id = "bean-theory-0-4-mi-2-live", label = "Bean Theory 0.4 mi · 2 live", action = "back", when = "live=live" },
-  { id = "lantern-tea-0-8-mi", label = "Lantern Tea 0.8 mi", action = "back" },
-  { id = "grindhouse-1-1-mi", label = "Grindhouse 1.1 mi", action = "back" },
-  { id = "sunbeam-coffee-1-6-mi", label = "Sunbeam Coffee 1.6 mi", action = "back" },
-  { id = "bean-theory-0-4-mi", label = "Bean Theory 0.4 mi", action = "back", when = "live=none" },
-  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+  { id = "search-cafes", label = "Search cafes", action = "replace", to = "where-search" },
+  { id = "back-3", label = "Bean Theory 0.4 mi · 2 live", action = "back", when = "live=live" },
+  { id = "back-4", label = "Lantern Tea 0.8 mi", action = "back" },
+  { id = "back-5", label = "Grindhouse 1.1 mi", action = "back" },
+  { id = "back-6", label = "Sunbeam Coffee 1.6 mi", action = "back" },
+  { id = "back-7", label = "Bean Theory 0.4 mi", action = "back", when = "live=none" },
+  { id = "post-up", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
 ]
 
 [[notes]]

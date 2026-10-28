@@ -1,21 +1,24 @@
-# Screen: Ask to join. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Ask to join. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "ask"
 title = "Ask to join"
 kind = "page"
 group = "Postups & joining"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
-  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
-  { id = "t-tess-live-till-3pm-profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
-  { id = "pixel-garden-drawing-crop-sp", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },
-  { id = "grindhouse-1-1-mi-22-min-wal", label = "Grindhouse 1.1 mi · 22 min walk", action = "replace", to = "cafe" },
-  { id = "ask-to-join-ask-signin", label = "Ask to join", action = "replace", to = "ask-signin", when = "auth=out" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
+  { id = "project", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },
+  { id = "cafe", label = "Grindhouse 1.1 mi · 22 min walk", action = "replace", to = "cafe" },
+  { id = "ask-to-join", label = "Ask to join", action = "open", to = "signin", slot = "sheet", then = "ask", when = "auth=out" },
   { id = "back-2", label = "", action = "back" },
-  { id = "send-request-requested", label = "Send request", action = "replace", to = "requested" },
-  { id = "cancel", label = "Cancel", action = "back" },
-  { id = "ask-to-join-ask", label = "Ask to join", action = "replace", to = "ask", when = "auth=in" },
+  { id = "send-request", label = "Send request", action = "replace", to = "requested" },
+  { id = "back-3", label = "Cancel", action = "back" },
+  { id = "ask-to-join", label = "Ask to join", action = "replace", to = "ask", when = "auth=in" },
 ]
 
 [[notes]]

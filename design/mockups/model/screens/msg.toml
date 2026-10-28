@@ -1,13 +1,14 @@
-# Sheet: Sheet · Message options. Model [M1030]; migrated (old id ov-msg, notes host chat).
+# Sheet: Sheet · Message options. Model [M1030]; phase 2 [M1031-draft].
 id = "msg"
 title = "Sheet · Message options"
 kind = "sheet"
 group = "Sheets"
+host = "chat"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
   { id = "copy", label = "Copy", action = "close" },
-  { id = "report-message-report", label = "Report message", action = "replace", to = "report" },
-  { id = "block-sender-block", label = "Block sender", action = "swap", to = "block", slot = "sheet" },
+  { id = "report-message", label = "Report message", action = "replace", to = "report" },
+  { id = "block-sender", label = "Block sender", action = "swap", to = "block" },
   { id = "cancel", label = "Cancel", action = "close" },
 ]
 

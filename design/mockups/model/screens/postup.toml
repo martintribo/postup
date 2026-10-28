@@ -1,18 +1,21 @@
-# Screen: Postup · anyone can join. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Postup · anyone can join. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "postup"
 title = "Postup · anyone can join"
 kind = "page"
 group = "Postups & joining"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["block", "more", "share"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
-  { id = "more-more", label = "More", action = "open", to = "more", slot = "sheet" },
-  { id = "m-maya-live-till-4pm-profile", label = "M Maya Live · till 4pm", action = "replace", to = "profile" },
-  { id = "star-fox-64-mod-adding-a-new", label = "Star Fox 64 mod Adding a new Corne", action = "replace", to = "project" },
-  { id = "bean-theory-0-4-mi-8-min-wal", label = "Bean Theory 0.4 mi · 8 min walk", action = "replace", to = "cafe" },
-  { id = "join-join-signin", label = "Join", action = "replace", to = "join-signin", when = "auth=out" },
-  { id = "join-joined", label = "Join", action = "replace", to = "joined", when = "auth=in" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
+  { id = "profile", label = "M Maya Live · till 4pm", action = "replace", to = "profile" },
+  { id = "project", label = "Star Fox 64 mod Adding a new Corne", action = "replace", to = "project" },
+  { id = "cafe", label = "Bean Theory 0.4 mi · 8 min walk", action = "replace", to = "cafe" },
+  { id = "join", label = "Join", action = "open", to = "signin", slot = "sheet", then = "joined", when = "auth=out" },
+  { id = "join", label = "Join", action = "replace", to = "joined", when = "auth=in" },
 ]
 
 [[notes]]

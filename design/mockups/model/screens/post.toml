@@ -1,14 +1,18 @@
-# Screen: Post up. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Post up. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "post"
 title = "Post up"
 kind = "page"
 group = "Posting & hosting"
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
-  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
-  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
-  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+  { id = "where", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up", label = "Post up", action = "open", to = "signin", slot = "sheet", then = "posted", when = "auth=out" },
+  { id = "post-up", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
 ]
 
 [[notes]]

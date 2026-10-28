@@ -1,8 +1,9 @@
-# Flow: Delete account. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Delete account. Model [M1030]; phase 2 [M1031-draft].
 id = "delete-account"
 name = "Delete account"
 role = "account"
 mvp = true
+order = 22  # position in the flow list
 status = "draft"
 persona = "Signed-in user leaving."
 goal = "Remove profile, postups and projects. [M1024]"
@@ -25,19 +26,22 @@ thought = "Leaving PostUp"
 shows = "My profile → Settings. [FS]"
 
 [[steps]]
-link = "me:settings-settings"  # taps Settings
+link = "me:settings"
+act = "taps Settings"
 expect = "settings@in.none"
 thought = "Looking for the delete option"
 shows = "Account section. [FS] [F065]"
 
 [[steps]]
-link = "settings:delete-account-delacct"  # taps Delete account
+link = "settings:delete-account"
+act = "taps Delete account"
 expect = "settings+delacct@in.none"
 thought = "Sure about it"
 shows = "Confirm; can't be undone. [FS] [drawn]"
 
 [[steps]]
-link = "delacct:delete-account-home"  # confirms
+link = "delacct:delete-account"
+act = "confirms"
 expect = "home@out.none.building"
 thought = "Gone"
 shows = "Signed out at Home. [M1024]"

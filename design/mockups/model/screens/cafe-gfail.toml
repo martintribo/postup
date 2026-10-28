@@ -1,26 +1,25 @@
-# Screen: Cafe · Google card failed. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Cafe · Google card failed. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "cafe-gfail"
 title = "Cafe · Google card failed"
 kind = "page"
 group = "Cafes & picking a place"
-variants = ["cafe-gfail--none"]  # old HTML variants, by condition
-slots = [ { name = "sheet", kind = "sheet", accepts = ["dirs", "share"] } ]
+variants = { "live=none" = "cafe-gfail--none" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["dirs", "share"] },
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
-  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
-  { id = "join-postup", label = "Join", action = "replace", to = "postup", when = "live=live" },
-  { id = "m-maya-live-bean-theory-till", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
-  { id = "j-jon-live-bean-theory-till-", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },
-  { id = "open-in-maps-dirs", label = "Open in Maps", action = "open", to = "dirs", slot = "sheet" },
-  { id = "retry-cafe", label = "Retry", action = "replace", to = "cafe" },
-  { id = "post-up-here-post", label = "Post up here", action = "replace", to = "post" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "join", label = "Join", action = "replace", to = "postup", when = "live=live" },
+  { id = "postup", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "postup-2", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },
+  { id = "open-in-maps", label = "Open in Maps", action = "open", to = "dirs", slot = "sheet" },
+  { id = "retry", label = "Retry", action = "replace", to = "cafe" },
+  { id = "post-up-here", label = "Post up here", action = "replace", to = "post" },
 ]
 
 [[notes]]

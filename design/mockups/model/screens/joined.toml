@@ -1,23 +1,22 @@
-# Screen: You're joining. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: You're joining. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "joined"
 title = "You're joining"
 kind = "page"
 group = "Postups & joining"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["dirs", "leave"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["dirs", "leave"] },
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "close-home", label = "Close", action = "replace", to = "home" },
-  { id = "bean-theory-cafe", label = "Bean Theory", action = "replace", to = "cafe" },
-  { id = "group-chat-chat", label = "Group chat", action = "replace", to = "chat" },
-  { id = "directions-dirs", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
-  { id = "back-to-map-home", label = "Back to map", action = "replace", to = "home" },
-  { id = "cafe-cafe", label = "Cafe", action = "replace", to = "cafe" },
-  { id = "project-project", label = "Project", action = "replace", to = "project" },
-  { id = "leave-leave", label = "Leave", action = "open", to = "leave", slot = "sheet" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "close", label = "Close", action = "replace", to = "home" },
+  { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat" },
+  { id = "directions", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
+  { id = "back-to-map", label = "Back to map", action = "replace", to = "home" },
+  { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
+  { id = "project", label = "Project", action = "replace", to = "project" },
+  { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet" },
 ]
 
 [[notes]]

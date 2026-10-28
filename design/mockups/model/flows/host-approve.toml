@@ -1,8 +1,9 @@
-# Flow: Host approves a request. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Host approves a request. Model [M1030]; phase 2 [M1031-draft].
 id = "host-approve"
 name = "Host approves a request"
 role = "host"
 mvp = true
+order = 10  # position in the flow list
 status = "draft"
 persona = "Signed-in poster with an ask-to-join postup."
 goal = "Approve or decline with the joiner's reason in view. [M1024]"
@@ -25,19 +26,28 @@ thought = "Hosting; someone wants in"
 shows = "Alert: \"Ari asked to join\". [FS]"
 
 [[steps]]
-link = "activity:d-dev-asked-to-join-your-pos"  # opens the request
+link = "activity:live"
+act = "opens the request"
 expect = "live@in.live"
 thought = "Deciding on the request"
 shows = "Requests with reason: Approve / Decline. [FS] [F061]"
 
 [[steps]]
-link = "live:d-dev-2-min-ago-profile"  # taps the asker
+link = "live:profile"
+act = "taps the asker"
 expect = "profile@in.live"
 thought = "Wants to check the asker first"
 shows = "Optionally checks the asker's profile first. [FS] [M1024]"
 
 [[steps]]
-gap = "opens the chat"  # no single link/event from profile@in.live to chat@in.live
+link = "profile:back"
+act = "taps Back"
+expect = "live@in.live"
+thought = "Asker looks fine; back to my postup"
+shows = "Back on your live postup; the profile has no chat link (as in the app). [M1031-draft]"
+[[steps]]
+link = "live:group-chat"
+act = "opens the group chat"
 expect = "chat@in.live"
 thought = "Approved; welcoming them"
 shows = "Approved people are in the chat. [F061] [F096]"

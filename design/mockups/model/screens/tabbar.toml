@@ -1,0 +1,18 @@
+# Chrome: phone tab bar, shown in the "nav" tab slot of pages that have one. [M1031-draft]
+id = "tabbar"
+title = "Tab bar (phone)"
+kind = "tab"
+group = "Chrome"
+links = [
+  { id = "home", label = "Home", action = "replace", to = "home" },
+  { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post" },
+  { id = "projects", label = "Projects", action = "replace", to = "projects" },
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Phone tab bar: Map, Post up, Projects. Pages that show it declare a \"nav\" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]",
+]

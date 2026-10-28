@@ -1,8 +1,9 @@
-# Flow: Share link to a project. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Share link to a project. Model [M1030]; phase 2 [M1031-draft].
 id = "invite-project"
 name = "Share link to a project"
 role = "joiner"
 mvp = true
+order = 8  # position in the flow list
 status = "draft"
 persona = "Signed-out visitor opening postup.now/project/… ."
 goal = "Follow the project to hear about the next postup. [M1024]"
@@ -24,13 +25,21 @@ thought = "Friend's project link; curious about it"
 shows = "\"Maya is building Star Fox 64 mod\". [FS] [F067]"
 
 [[steps]]
-link = "invite-project:follow-signin"  # taps Follow 🔒
+link = "invite-project:follow"
+act = "taps Follow 🔒"
 expect = "invite-project+signin@out.live"
 thought = "Wants updates"
 shows = "Follow 🔒 → sign-in sheet. [FS] [M1024]"
 
 [[steps]]
-gap = "signs in"  # no single link/event from invite-project+signin@out.live to project@in.live
+link = "signin:continue-with-apple"
+act = "signs in"
+expect = "invite-project@in.live"
+thought = "Signed in; following"
+shows = "Sign-in returns to the same page, now following (Follow has no continuation). [M1031-draft]"
+[[steps]]
+link = "invite-project:see-updates"
+act = "taps See updates"
 expect = "project@in.live"
 thought = "Following"
 shows = "Following; live postups for the project shown. [FS] [M1024]"

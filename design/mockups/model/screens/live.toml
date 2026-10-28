@@ -1,28 +1,27 @@
-# Screen: You're live. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: You're live. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "live"
 title = "You're live"
 kind = "page"
 group = "Posting & hosting"
-variants = ["live--out"]  # old HTML variants, by condition
-slots = [ { name = "sheet", kind = "sheet", accepts = ["endlive", "share"] } ]
+variants = { "auth=out" = "live--out" }  # condition -> HTML id that renders it (first match wins)
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["endlive", "share"] },
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share-share", label = "Share", action = "open", to = "share", slot = "sheet" },
-  { id = "star-fox-64-mod-project", label = "Star Fox 64 mod", action = "replace", to = "project" },
-  { id = "edit-post-edit", label = "Edit", action = "replace", to = "post-edit" },
-  { id = "d-dev-2-min-ago-profile", label = "D Dev · 2 min ago", action = "replace", to = "profile" },
-  { id = "j-jon-on-the-way-10-min-prof", label = "J Jon On the way · 10 min", action = "replace", to = "profile" },
-  { id = "group-chat-chat", label = "Group chat", action = "replace", to = "chat" },
-  { id = "end-postup-endlive", label = "End postup", action = "open", to = "endlive", slot = "sheet" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "edit", label = "Edit", action = "replace", to = "post-edit" },
+  { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile" },
+  { id = "profile-2", label = "J Jon On the way · 10 min", action = "replace", to = "profile" },
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat" },
+  { id = "end-postup", label = "End postup", action = "open", to = "endlive", slot = "sheet" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
-  { id = "continue-with-apple-live", label = "Continue with Apple", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },
-  { id = "continue-with-google-live", label = "Continue with Google", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },
-  { id = "not-now", label = "Not now", action = "back", when = "auth=out" },
+  { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },
+  { id = "back-3", label = "Not now", action = "back", when = "auth=out" },
 ]
 
 [[notes]]

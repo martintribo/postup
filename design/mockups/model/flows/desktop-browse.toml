@@ -1,8 +1,9 @@
-# Flow: Desktop browse and post. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Desktop browse and post. Model [M1030]; phase 2 [M1031-draft].
 id = "desktop-browse"
 name = "Desktop browse and post"
 role = "joiner"
 mvp = false
+order = 23  # position in the flow list
 status = "draft"
 persona = "Signed-in user at a laptop."
 goal = "Same flows with map + right panel. [FS] [M1024]"
@@ -24,21 +25,24 @@ shows = "Map with 440px panel. [FS]"
 device = "desktop"
 
 [[steps]]
-link = "home:m-2-postup"  # taps a live pin
+link = "home:postup"
+act = "taps a live pin"
 expect = "postup@in.live"
 thought = "Checking one postup"
 shows = "Postup in the panel. [FS]"
 device = "desktop"
 
 [[steps]]
-gap = "taps Post up"  # no single link/event from postup@in.live to post@in.live
+link = "rail:post-up"
+act = "taps Post up"
 expect = "post@in.live"
 thought = "Wants to post too"
 shows = "Post up as a centered dialog. [FS]"
 device = "desktop"
 
 [[steps]]
-link = "post:post-up-posted"  # taps Post up
+link = "post:post-up"
+act = "taps Post up"
 expect = "posted@in.live"
 thought = "Posted; now live for others"
 shows = "Posted. [FS]"

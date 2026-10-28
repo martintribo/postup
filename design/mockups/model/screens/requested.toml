@@ -1,18 +1,17 @@
-# Screen: Request sent. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Request sent. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "requested"
 title = "Request sent"
 kind = "page"
 group = "Postups & joining"
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "close-home", label = "Close", action = "replace", to = "home" },
-  { id = "see-who-else-is-nearby-quiet", label = "See who else is nearby", action = "replace", to = "quiet-feed" },
-  { id = "view-postup-postup-ask", label = "View postup", action = "replace", to = "postup-ask" },
-  { id = "cancel-request-postup-ask", label = "Cancel request", action = "replace", to = "postup-ask" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "close", label = "Close", action = "replace", to = "home" },
+  { id = "quiet-feed", label = "See who else is nearby", action = "replace", to = "quiet-feed" },
+  { id = "view-postup", label = "View postup", action = "replace", to = "postup-ask" },
+  { id = "cancel-request", label = "Cancel request", action = "replace", to = "postup-ask" },
 ]
 
 [[notes]]

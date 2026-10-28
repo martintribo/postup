@@ -14,8 +14,7 @@ document.documentElement.dataset.vr=pick||id;return id}
 function scenUI(){var s=scen();document.querySelectorAll("[data-sa]").forEach(function(b){b.classList.toggle("on",b.dataset.sa===s.a)});document.querySelectorAll("[data-sl]").forEach(function(b){b.classList.toggle("on",b.dataset.sl===s.l)});document.querySelectorAll("[data-sc]").forEach(function(b){b.classList.toggle("on",b.dataset.sc===s.a+"-"+s.l)})}
 function setScen(a,l){var s=scen(),h=document.documentElement;a=a||s.a;l=l||s.l;if(l!==s.l){delete h.dataset.hmode;var uu=new URL(location.href);uu.searchParams.delete("mode");history.replaceState(null,"",uu)}h.dataset.auth=a;h.dataset.live=l;try{localStorage.setItem("pu-auth",a);localStorage.setItem("pu-live",l)}catch(e){}
 var u=new URL(location.href);u.searchParams.set("auth",a);u.searchParams.set("live",l);history.replaceState(null,"",u);scenUI();show();if(window.nupd)nupd()}
-var SDEST={"post-signin":"posted","join-signin":"joined","ask-signin":"ask","attach-signin":"posted"},OSI=null;
-function sheet(id){if(scen().a==="in"&&SDEST[id]){go(SDEST[id]);return}go(id)}
+var OSI=null;
 function signIn(dest){ovx();var cur=location.hash.slice(1);setScen("in",null);if(dest===undefined)dest=OSI;OSI=null;if(dest&&dest!==cur)go(dest)}
 function osi(t,s,dest){OSI=dest||null;ov("signin");document.getElementById("osi-t").textContent=t;document.getElementById("osi-s").textContent=s||"Sign in to continue."}
 function act(dest,t,s){if(scen().a==="in"){go(dest);return}osi(t,s,dest)}

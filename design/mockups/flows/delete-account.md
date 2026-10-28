@@ -14,19 +14,19 @@ Player: /mockups/flows/delete-account.html
 ## Steps
 1. **me@in.none** · user: Leaving PostUp · action: opens My profile · edge: entry
    - My profile → Settings. [FS]
-   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), project-new@in.none (Tide Clock Updated Sun), cafe-gfail@in.none (Lantern Tea (Google card fails))
+   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), project-new@in.none (Tide Clock Updated Sun), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), post@in.none (Post up), cafe-gfail@in.none (Lantern Tea (Google card fails))
    - enterable flows: none
 2. **settings@in.none** · user: Looking for the delete option · action: taps Settings · edge: tap: Settings
    - Account section. [FS] [F065]
-   - next site states: back (Back), home@out.none.building (Sign out), **settings+delacct@in.none** (Delete account)
+   - next site states: back (Back), home@out.none.building (Sign out), **settings+delacct@in.none** (Delete account), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), post@in.none (Post up), me@in.none (S)
    - enterable flows: settings-notify step 1 (if Tuning alerts)
-3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: sheet: Delete account
+3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: tap: Delete account
    - Confirm; can't be undone. [FS] [drawn]
    - next site states: settings@in.none (close), **home@out.none.building** (Delete account)
    - enterable flows: none
 4. **home@out.none.building** · user: Gone · action: confirms · edge: tap: Delete account
    - Signed out at Home. [M1024]
-   - next site states: home@out.none.live (Live), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), cafe@out.none (Lantern Tea A D M 3 postups), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), empty-area@out.none (area has no postups)
+   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
    - enterable flows: first-post step 1 (if Came to post up right now)
 
 ## Connected flows [M1025]

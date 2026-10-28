@@ -10,6 +10,6 @@ These mockups are the source of truth for the app on `phase/final`.
 
 ## Rebuild
 
-`python3 gen/build.py`, run from this folder. Edit `gen/notes.md` for notes and `gen/*.py|css|js` for the screens. Don't hand-edit `index.html`, `notes/` or `llms.txt`; they are generated.
+`python3 gen/build.py`, run from this folder. The model in `model/` is the source for screens, links, notes and flows (see `model/CONCEPTS.md`: screen, slot, link, site state); the build validates it first and stops on any error or design gap, then checks that the HTML in `gen/*.py|css|js` renders exactly the model's links. Don't hand-edit `index.html`, `notes/` or `llms.txt`; they are generated.
 
 `shots/` holds older reference captures. `index.html` wins wherever they differ.

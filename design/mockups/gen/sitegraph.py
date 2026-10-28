@@ -1,152 +1,114 @@
-# Site graph (Martin, Oct 25 2026 [M1025]). exec'd by flows.py after the flow checks (needs S, OVS, NOTES, FLOWS).
-# Pages = screens + sheets. A SITE STATE = page [+ sheet] + auth (out|in) + live (live|none) [+ Home mode].
-# Edges are DERIVED from the mockup's own links (go/href/sheet/act/follow/ov/ovx/signIn/bk/setHome/postAt/pick)
-# in whichever variant renders that state (same rule as gen/scen.js), plus a few site EVENTS (alerts, postup changes,
-# network, someone goes live). Data conditions (full, ended, host, joined, pending ask...) are carried by the page.
-# Writes flows/sitegraph.json, flows/sitegraph.md, flows/site.html; defines SG_* for flows.py.
-from html.parser import HTMLParser
-SDEST={"post-signin":"posted","join-signin":"joined","ask-signin":"ask","attach-signin":"posted"}
+# Site graph (Martin, Oct 25 2026 [M1025]; from the model since Oct 31 [M1031-draft]). exec'd by flows.py (needs S, OVS, NOTES, FLOWS).
+# A SITE STATE = page [+ sheet in its slot] + auth (out|in) + live (someone live nearby: live|none) [+ Home tab].
+# States and edges come from model/ (screens, slots, links, events, conditions) via gen/model.py. The mockup HTML is still
+# hand-written, so the build checks DRIFT both ways: every link the HTML renders must be in the model, and every model link
+# must be rendered (same rendered variant the browser picks). Writes flows/sitegraph.json, flows/sitegraph.md, flows/site.html.
+import sys as _sys
+_sys.path.insert(0,'gen'); import model as M, htmllinks as HL
+SC,_MFL,MEV,_MGL=M.load()
 PAGES=[k for k in S if '--' not in k and k!='index']
 OVCH={m[1]:m[2] for m in re.finditer(r'<div class="ov" id="ov-([\w-]+)">(.*?)</div></div>(?=<div class="ov"|$)',OVS,re.S)}
 assert set(OVCH)==set(OVHOST), (set(OVCH)^set(OVHOST))
-PGROUPS=[('Home & discover',['home','quiet-feed','quiet-feed-b','quiet','empty-area','loading','offline','home-overlay-alt']),
- ('Cafes & picking a place',['cafe','cafe-gfail','where','where-search']),
- ('Postups & joining',['postup','postup-ask','join-signin','ask-signin','ask','requested','joined','postup-full','postup-cancelled','postup-ended']),
- ('Posting & hosting',['post','post-signin','posted','live','post-edit']),
- ('Projects',['projects','project','project-new','project-update','project-attach','attach-signin']),
- ('Share-link landings',['invite','invite-ended','invite-project']),
- ('Inbox & people',['inbox','activity','chat','profile','me']),
- ('Account & safety',['settings','report','reported'])]
-_g=[p for _,ps in PGROUPS for p in ps]; PGROUPS.append(('More',[p for p in PAGES if p not in _g])); PGROUPS=[g for g in PGROUPS if g[1]]
-assert all(p in PAGES for p in _g), [p for p in _g if p not in PAGES]
-class _LP(HTMLParser):
-    def __init__(s): super().__init__(); s.st=[]; s.out=[]
-    def handle_starttag(s,t,a):
-        a=dict(a); js=(a.get('onclick') or ''); hr=a.get('href') or ''
-        tg=[]
-        for m in re.finditer(r"\b(go|sheet|ov|signIn|setHome|act)\('([\w-]*)'",js): tg.append((m[1],m[2]))
-        if re.search(r'\bsignIn\(\)',js): tg.append(('signIn',''))
-        if re.search(r'\bpostAt\(',js): tg.append(('go','post'))
-        if re.search(r'\bfollow\(',js): tg.append(('follow',''))
-        if re.search(r'\bbk\(\)',js): tg.append(('back',''))
-        if re.search(r'\bovx\(\)',js) and not tg: tg.append(('ovx',''))
-        if re.search(r'\bpick\(',js): tg.append(('back',''))
-        m=re.fullmatch(r'#([\w-]+)',hr)
-        if m and m[1] in S: tg.append(('go',m[1]))
-        if t in ('br','img','input','meta','link','path','circle','rect'): 
-            if tg: s.out.append([tg,a.get('aria-label','') or a.get('alt','') or a.get('placeholder','')])
-            return
-        s.st.append([tg,a.get('aria-label',''),''])
-    def handle_endtag(s,t):
-        if t in ('br','img','input','meta','link','path','circle','rect'): return
-        if s.st:
-            tg,al,tx=s.st.pop()
-            if s.st: s.st[-1][2]+=' '+tx
-            if tg: s.out.append([tg,(re.sub(r'\s+',' ',tx).strip() or al)[:34]])
-    def handle_data(s,d):
-        if s.st: s.st[-1][2]+=d
-_LC={}
-def links(chunk):
-    if chunk not in _LC:
-        p=_LP(); p.feed(chunk); _LC[chunk]=p.out
-    return _LC[chunk]
-def rendered(page,a,l,mode):
-    if page=='home':
-        k='home' if mode=='live' and l=='live' else 'home--map-none' if mode=='live' else 'home--bld-live' if l=='live' else 'home--bld'
-        return S[k]
-    for c in (f'{page}--{a}-{l}',f'{page}--{l}',f'{page}--{a}'):
-        if c in S: return S[c]
-    return S[page]
+_mp=[k for k,v in SC.items() if v['kind']=='page']; _ms=[k for k,v in SC.items() if v['kind']=='sheet']
+if set(_mp)!=set(PAGES) or set(_ms)!=set(OVCH): raise SystemExit(f'model/HTML screen drift: pages {set(_mp)^set(PAGES)} sheets {set(_ms)^set(OVCH)}')
+PGROUPS=[]
+for p in PAGES:
+    g=SC[p]['group']
+    if g not in [x for x,_ in PGROUPS]: PGROUPS.append((g,[]))
+    dict(PGROUPS)[g].append(p)
+def rendered(page,a,l,mode): return S[M.rendered_id(SC[page],a,l,mode)]
 def sid(p,ov,a,l,m=None): return f'{p}{"+"+ov if ov else ""}@{a}.{l}{"."+m if m else ""}'
 def dmode(l): return 'live' if l=='live' else 'building'
-# site states: every page x auth x live (Home x mode); sheets on every page that opens them (+ their notes host)
+def _mst(k):
+    s=SST[k]; return dict(root=s['page'],kids=[('sheet',s['ov'])] if s['ov'] else [],auth=s['auth'],live=s['live'],tab=s['mode'],device='phone')
+def _sk(n): return sid(n['root'],n['kids'][-1][1] if n['kids'] else None,n['auth'],n['live'],n['tab'] if n['root']=='home' else None)
 SST={}
 for p in PAGES:
     for a in ('out','in'):
         for l in ('live','none'):
-            for m in (('live','building') if p=='home' else (None,)): SST[sid(p,None,a,l,m)]=dict(page=p,ov=None,auth=a,live=l,mode=m)
-SHEETON={o:{OVHOST[o]} for o in OVHOST}
-for k,st in list(SST.items()):
-    for tg,_ in links(rendered(st['page'],st['auth'],st['live'],st['mode'])):
-        for kind,t in tg:
-            if kind=='ov' and t in OVHOST: SHEETON[t].add(st['page'])
-            if kind in('act','follow') and st['auth']=='out': SHEETON['signin'].add(st['page'])
-for o,ps in SHEETON.items():
-    for p in ps:
-        for a in (('out',) if o=='signin' else ('out','in')):
-            for l in ('live','none'):
-                for m in (('live','building') if p=='home' else (None,)): SST[sid(p,o,a,l,m)]=dict(page=p,ov=o,auth=a,live=l,mode=m)
-# edges from links
-EDGES={}  # from-id -> list of (to-id or None for back, label, kind)
+            for m in (('live','building') if p=='home' else (None,)):
+                SST[sid(p,None,a,l,m)]=dict(page=p,ov=None,auth=a,live=l,mode=m)
+                for x in SC[p].get('slots',[]):
+                    if x['kind']!='sheet': continue
+                    for o in x['accepts']:
+                        if o=='signin' and a=='in': continue
+                        SST[sid(p,o,a,l,m)]=dict(page=p,ov=o,auth=a,live=l,mode=m)
+SHEETON={o:{OVHOST[o]}|{s['page'] for s in SST.values() if s['ov']==o} for o in OVHOST}
+EDGES={}
 def add(f,t,lab,kind):
     if t is not None and t not in SST: return
     EDGES.setdefault(f,[])
     if not any(e[0]==t and e[2]==kind and e[1]==lab for e in EDGES[f]): EDGES[f].append((t,lab,kind))
+def _kind(l,st,n):
+    if l['action']=='back': return 'back'
+    if 'auth=in' in (l.get('sets') or ''): return 'sign-in'
+    if l['action']=='close': return 'close'
+    if l['action'] in ('open',) or (l['action']=='swap' and n['kids']): return 'sheet'
+    if 'tab=' in (l.get('sets') or ''): return 'mode'
+    return 'tap'
+CONT={}  # page -> continuation targets of links that open signin there
+for p in PAGES:
+    CONT[p]={l['then'] for l in SC[p].get('links',[]) if l.get('then')}
 for k,st in SST.items():
-    p,ov,a,l,m=st['page'],st['ov'],st['auth'],st['live'],st['mode']
-    ch=OVCH[ov] if ov else rendered(p,a,l,m)
-    for tg,lab in links(ch):
-        out_=bool(re.search(r'sign out|delete',lab,re.I))
-        for kind,t in tg:
-            A='out' if out_ else a
-            if kind=='go' and t in S: tp=t.split('--')[0]; add(k,sid(tp,None,A,l,(m if p=='home' else dmode(l)) if tp=='home' else None),lab,'tap')
-            elif kind=='sheet': d=SDEST.get(t,t) if a=='in' else t; add(k,sid(d,None,a,l,None),lab,'tap')
-            elif kind=='ov' and t in OVHOST: add(k,sid(p,t,a,l,m),lab,'sheet')
-            elif kind=='ovx': add(k,sid(p,None,a,l,m),lab or 'close','close')
-            elif kind=='act': add(k,sid(p,'signin',a,l,m) if a=='out' else sid(t,None,a,l,None),lab,'tap')
-            elif kind=='follow' and a=='out': add(k,sid(p,'signin',a,l,m),lab,'sheet')
-            elif kind=='signIn': d=t or p; add(k,sid(d,None,'in',l,(m or dmode(l)) if d=='home' else None),'signs in','sign-in')
-            elif kind=='setHome' and p=='home': add(k,sid('home',None,a,l,t),lab or t,'mode')
-            elif kind=='back': add(k,None,'Back','back')
-# events (site changes the user doesn't tap)
-POSTUPISH=['postup','postup-ask','joined','requested','invite','postup-full']
+    ms=_mst(k)
+    for dev in ('phone','desktop'):
+        for own,l in M.available(SC,dict(ms,device=dev)):
+            n=M.resolve(SC,dict(ms,device=dev),l,own)
+            if n is None: continue
+            if n=='back': add(k,None,'Back','back'); continue
+            add(k,_sk(n),l.get('label') or l['id'],_kind(l,ms,n))
+            if l.get('continue') and st['ov']:
+                for t in sorted(CONT.get(st['page'],())):
+                    n2=M.resolve(SC,dict(ms,cont=t),l,own); add(k,_sk(n2),'signs in → continues','sign-in')
+POSTUPISH=[e for e in MEV['events'] if e['id']=='postup-ends'][0]['on']
+def _ev_ok(e,ms):
+    on=e.get('on',['*']); return not ms['kids'] and ('*' in on or ms['root'] in on)
 for k,st in SST.items():
-    p,ov,a,l,m=st['page'],st['ov'],st['auth'],st['live'],st['mode']
-    if ov: continue
-    add(k,sid(p,None,a,'none' if l=='live' else 'live',m),'postups end' if l=='live' else 'someone goes live','event')
-    if a=='in': add(k,sid('activity',None,a,l,None),'alert arrives','event')
-    add(k,sid('home',None,a,l,dmode(l)),'comes back later','event')
-    if p in POSTUPISH:
-        for t in ('postup-full','postup-cancelled','postup-ended'): add(k,sid(t,None,a,l if t!='postup-ended' else 'none',None),'postup fills / is cancelled / ends','event')
-    if p in ('quiet-feed','loading','home'): add(k,sid('offline',None,a,l,None),'network drops','event')
-# data conditions (site data, not a tap): a cafe whose Google card fails, an area with no postups
-for k,st in SST.items():
-    for t,lab,kind in list(EDGES.get(k,[])):
-        if t and SST[t]['page']=='cafe' and not SST[t]['ov']: add(k,sid('cafe-gfail',None,SST[t]['auth'],SST[t]['live']),lab+' (Google card fails)','cond')
-    if st['page']=='home' and not st['ov'] and st['live']=='none': add(k,sid('empty-area',None,st['auth'],'none'),'area has no postups','cond')
+    ms=_mst(k)
+    for e in MEV['events']+[c for c in MEV['conditions'] if 'action' in c]:
+        if _ev_ok(e,ms):
+            n=M.resolve(SC,ms,e,ms['root'])
+            if n: add(k,_sk(n),e['label'],'event' if e in MEV['events'] else 'cond')
+    for c in [c for c in MEV['conditions'] if 'replaces' in c]:
+        for t,lab,kind in list(EDGES.get(k,[])):
+            if t and SST[t]['page']==c['replaces'] and not SST[t]['ov']: add(k,sid(c['with'],None,SST[t]['auth'],SST[t]['live']),lab+f' ({c["label"]})','cond')
 NE=sum(len(v) for v in EDGES.values())
-# ---- validate flows against the graph ----
+# ---- drift check: HTML links vs model links, per page x condition (and per sheet x auth) ----
+_DRIFT=[]
+def _norm(t): return (t[0],t[1] if t[0]!='swap' or t[1] else '',t[3] if t[0]=='open' else '')
+def _mlinks(sc_id,cond,in_sheet):
+    out=set()
+    for l in SC[sc_id].get('links',[]):
+        if not M.matches(l.get('when',''),cond): continue
+        out.add((l['action'],l.get('to',''),l.get('then','') if l['action']=='open' else ''))
+    return out
+_IDS=set(S)
+for p in PAGES:
+    for a in ('out','in'):
+        for l in ('live','none'):
+            for m in (('live','building') if p=='home' else (None,)):
+                ch=rendered(p,a,l,m); cond=dict(auth=a,live=l,tab=m)
+                html={(x[0],x[1],x[3] if x[0]=='open' else '') for tg,lab in HL.links(HL.TABNAV.sub('',ch),_IDS) for x in HL.acts(tg,lab,a,p,False) if x[1]!='index'}
+                mod=_mlinks(p,cond,False)
+                if html!=mod: _DRIFT.append(f'{p} {a}.{l}{"."+m if m else ""}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
+                has=bool(HL.TABNAV.search(ch)); dec=any(x['kind']=='tab' for x in SC[p].get('slots',[]))
+                if has!=dec: _DRIFT.append(f'{p} {a}.{l}: tab bar drawn={has} but model tab slot={dec}')
+for o in OVCH:
+    for a in (('out',) if o=='signin' else ('out','in')):
+        html={(x[0],x[1],'') for tg,lab in HL.links(OVCH[o],_IDS) for x in HL.acts(tg,lab,a,o,True)}
+        mod={(x,y,'') for x,y,_ in _mlinks(o,dict(auth=a,live='live',tab=None),True)}
+        if html!=mod: _DRIFT.append(f'sheet {o} {a}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
+_tb={(x[0],x[1]) for tg,lab in HL.links(HL.TABNAV.search(S['home'])[0],_IDS) for x in HL.acts(tg,lab,'in','',False)}
+if _tb!={(l['action'],l['to']) for l in SC['tabbar']['links']}: _DRIFT.append(f'tabbar: HTML {sorted(_tb)} vs model')
+_rl={(x[0],x[1]) for tg,lab in HL.links(DESK.split('</aside>')[0],_IDS) for x in HL.acts(tg,lab,'in','',False) if x[1]!='index'}
+if _rl!={(l['action'],l['to']) for l in SC['rail']['links']}: _DRIFT.append(f'rail: HTML {sorted(_rl)} vs model')
+if _DRIFT: raise SystemExit('model/HTML link drift (the model is the source; fix the HTML or the model):\n  '+'\n  '.join(_DRIFT))
+# ---- flow steps: how each is reached (from the model replay in flowload.py; validate.py already proved them) ----
 SG_GAPS=[]; SG_HOW={}
 for f in FLOWS:
-    xs=f['sx']
-    for i,d in enumerate(xs):
+    for i,d in enumerate(f['sx']):
         if d['site'] not in SST: raise SystemExit(f'sitegraph: {f["id"]} step {i+1}: site state {d["site"]} is not in the site graph')
-        if i==0: SG_HOW[(f['id'],0)]='entry'; continue
-        pv=xs[i-1]['site']; cur=d['site']; es=EDGES.get(pv,[]); act=d['act']
-        how=None
-        if act.startswith('gap:'): how='gap'
-        tap=[e for e in es if e[0]==cur and e[2]!='event']
-        if not how and tap: how=tap[0][2]+': '+tap[0][1]
-        if not how and any(e[2]=='back' for e in es) and cur in [x['site'] for x in xs[:i]]: how='back'
-        c_=SST[cur]; flip=sid(c_['page'],c_['ov'],c_['auth'],'none' if c_['live']=='live' else 'live',c_['mode'])
-        if not how and act.startswith('later:'):
-            ev=[e for e in es if e[0] in (cur,flip) and e[2]=='event']
-            if ev: how='event: '+ev[0][1]
-        if not how:  # tap + the live state changing meanwhile
-            c=SST[cur]; alt=sid(c['page'],c['ov'],c['auth'],'none' if c['live']=='live' else 'live',c['mode'] if c['page']!='home' else dmode('none' if c['live']=='live' else 'live') if c['mode']==dmode(c['live']) and False else c['mode'])
-            t2=[e for e in es if e[0]==alt and e[2]!='event']
-            if t2: how=t2[0][2]+': '+t2[0][1]+' (then live changes)'
-        if not how:  # Back to an earlier step, then one tap
-            for pr in [x['site'] for x in xs[:i-1]]:
-                t3=[e for e in EDGES.get(pr,[]) if e[0]==cur and e[2]!='event']
-                if t3 and any(e[2]=='back' for e in es): how=f'back, then {t3[0][2]}: {t3[0][1]}'; break
-        if not how:  # two taps (e.g. close a sheet, then tap)
-            for t1,l1,k1 in es:
-                if t1 and k1 not in('event',):
-                    t4=[e for e in EDGES.get(t1,[]) if e[0] in(cur,flip) and e[2]!='event']
-                    if t4: how=f'2 taps: {l1 or k1}, then {t4[0][1] or t4[0][2]}'; break
-        if not how or how=='gap': how='gap'; SG_GAPS.append((f['id'],i+1,pv,cur,act))
-        SG_HOW[(f['id'],i)]=how
+        SG_HOW[(f['id'],i)]=d['how']
 # ---- derive next states and enterable flows ----
 def live_inv(p,ov,a):
     if ov: return True
@@ -208,8 +170,8 @@ def sg_write():
                 agg.setdefault((lab,tp,kind),set()).add(stname(k))
         allst={stname(k) for k,st in SST.items() if st['page']==p and st['ov']==ov}
         return [(lab,tp,kind,'' if v==allst else ', '.join(sorted(v))) for (lab,tp,kind),v in sorted(agg.items(),key=lambda x:(x[0][2]!='tap',x[0][1]))]
-    EVN='Site events on every page: someone goes live / postups end (live ↔ none), alert arrives → Activity (signed in), comes back later → Home, network drops → Offline (Home, Nearby, Loading), postup fills / is cancelled / ends (postup pages).'
-    SGHEAD=f'Site graph (Martin, Oct 25 2026 [M1025]): {len(PAGES)} pages + {len(OVHOST)} sheets, {len(SST)} site states (page [+ sheet] × auth out|in × live|none, Home × mode), {NE} edges derived from the mockup links plus site events. A flow is a path of steps, each = (site state, user state, action). Site-state id: page[+sheet]@auth.live[.mode].'
+    EVN='Site events: '+'; '.join(e['label']+(' (on '+', '.join(e['on'])+')' if e.get('on')!=['*'] else '') for e in MEV['events'])+'. live = someone live nearby; a postup ending changes only its own page.'
+    SGHEAD=f'Site graph (Martin, Oct 25 2026 [M1025]): {len(PAGES)} pages + {len(OVHOST)} sheets, {len(SST)} site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), {NE} edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]'
     md=f'# PostUp site graph\n{SGHEAD}\n\n{EVN}\n\nDimensions: auth = out | in; live = live (someone live nearby) | none; mode = live | building (Home only); data conditions are pages: postup-ask (host approves), postup-full, postup-cancelled, postup-ended, live (you are hosting), joined, requested (pending ask), empty-area, offline, cafe-gfail.\n'
     for gname,ps in PGROUPS:
         md+=f'\n## {gname}\n'

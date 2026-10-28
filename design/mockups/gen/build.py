@@ -1,6 +1,8 @@
 # Generates ../index.html (PostUp mockups v3)
-import os
+import os, subprocess, sys
 os.chdir(os.path.dirname(os.path.abspath(__file__))+'/..')
+# The model (model/*.toml) is the source for screens, links, notes and flows. Validate it before writing anything [M1031-draft].
+if subprocess.run([sys.executable,'gen/validate.py']).returncode: raise SystemExit('build: model/ failed validation (errors or design gaps above); nothing written')
 IC={ # lucide-style paths (24x24, stroke)
 'map':'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>',
 'folder':'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
@@ -220,10 +222,11 @@ DESK=f'''<aside class="rail"><a class="rlogo" href="#home">{I("coffee",22)}</a>{
 exec(open('gen/more.py').read())
 exec(open('gen/scenarios.py').read())
 exec(open('gen/home.py').read())
+exec(open('gen/fold.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())
 exec(open('gen/flows.py').read())
-JS=open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
+JS=FOLD_JS+open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
 body=''.join(f'<section class="scr{" full" if k in FULL else " dlg" if k in DLG else ""}" id="{k}" data-v="{k}">{v}</section>' for k,v in S.items())
 html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff">
 <title>PostUp · mockups</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@500;700&family=Archivo+Black&display=swap" rel="stylesheet"><style>{CSS}{NOTES_CSS}{MENU_CSS}</style></head>

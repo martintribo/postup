@@ -1,8 +1,9 @@
-# Flow: Report and block. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Report and block. Model [M1030]; phase 2 [M1031-draft].
 id = "safety"
 name = "Report and block"
 role = "account"
 mvp = true
+order = 17  # position in the flow list
 status = "draft"
 persona = "Signed-in user uncomfortable with someone."
 goal = "Report and block quickly. [F059] [M1024]"
@@ -25,25 +26,29 @@ thought = "Uncomfortable with someone"
 shows = "More: profile, share, report, block. [FS] [F059]"
 
 [[steps]]
-link = "more:report-report"  # taps Report
+link = "more:report"
+act = "taps Report"
 expect = "report@in.live"
 thought = "Wants to report"
 shows = "Reason + details. [F059] [drawn]"
 
 [[steps]]
-link = "report:send-report-reported"  # sends the report
+link = "report:send-report"
+act = "sends the report"
 expect = "reported@in.live"
 thought = "Reported; still uneasy"
 shows = "Thanks; offer to block. [FS]"
 
 [[steps]]
-link = "reported:block-maya-too-block"  # taps Block too
+link = "reported:block-maya-too"
+act = "taps Block too"
 expect = "reported+block@in.live"
 thought = "Wants them gone"
 shows = "Block: neither sees the other; they aren't told. [FS] [F059]"
 
 [[steps]]
-link = "block:blocked-people-settings-sett"  # opens Settings
+link = "block:settings"
+act = "opens Settings"
 expect = "settings@in.live"
 thought = "Might undo later"
 shows = "Blocked people list to undo. [FS] [F065]"

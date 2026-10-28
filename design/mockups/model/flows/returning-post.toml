@@ -1,8 +1,9 @@
-# Flow: Returning poster. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Returning poster. Model [M1030]; phase 2 [M1031-draft].
 id = "returning-post"
 name = "Returning poster"
 role = "host"
 mvp = true
+order = 12  # position in the flow list
 status = "draft"
 persona = "Signed-in regular."
 goal = "Post up with defaults, then see you're live. [M1024]"
@@ -25,19 +26,22 @@ thought = "Regular; working at a cafe today"
 shows = "Last project and nearest cafe preselected; no 🔒. [FS] [M1024]"
 
 [[steps]]
-link = "post:post-up-posted"  # taps Post up
+link = "post:post-up"
+act = "taps Post up"
 expect = "posted@in.live"
 thought = "Posted; now live for others"
 shows = "Posted. [FS]"
 
 [[steps]]
-link = "posted:manage-postup-live"  # opens their live postup
+link = "posted:manage-postup"
+act = "opens their live postup"
 expect = "live@in.live"
 thought = "Managing their postup"
 shows = "You're live: time left, requests, chat. [FS] [F057]"
 
 [[steps]]
-link = "live:home-home"  # goes Home
+link = "tabbar:home"
+act = "goes Home"
 expect = "home@in.live.live"
 thought = "Checks they show up on Home"
 shows = "Your live state shows on home. [R22]"

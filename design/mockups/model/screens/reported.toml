@@ -1,13 +1,16 @@
-# Screen: Reported. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Reported. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "reported"
 title = "Reported"
 kind = "page"
 group = "Account & safety"
-slots = [ { name = "sheet", kind = "sheet", accepts = ["block"] } ]
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["block"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "close-home", label = "Close", action = "replace", to = "home" },
-  { id = "block-maya-too-block", label = "Block Maya too", action = "open", to = "block", slot = "sheet" },
-  { id = "done-home", label = "Done", action = "replace", to = "home" },
+  { id = "close", label = "Close", action = "replace", to = "home" },
+  { id = "block-maya-too", label = "Block Maya too", action = "open", to = "block", slot = "sheet" },
+  { id = "done", label = "Done", action = "replace", to = "home" },
 ]
 
 [[notes]]

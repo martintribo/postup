@@ -1,11 +1,12 @@
-# Sheet: Sheet · End postup. Model [M1030]; migrated (old id ov-endlive, notes host live).
+# Sheet: Sheet · End postup. Model [M1030]; phase 2 [M1031-draft].
 id = "endlive"
 title = "Sheet · End postup"
 kind = "sheet"
 group = "Sheets"
+host = "live"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
-  { id = "end-now-me", label = "End now", action = "replace", to = "me" },
+  { id = "end-now", label = "End now", action = "replace", to = "me" },
   { id = "keep-going", label = "Keep going", action = "close" },
 ]
 

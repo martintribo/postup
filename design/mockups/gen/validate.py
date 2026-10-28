@@ -1,4 +1,4 @@
-# Validate the mockup model (model/*.toml) [M1030]. Exit 1 with file:line messages on any error. Also writes model/INDEX.md.
+# Validate the mockup model (model/*.toml) [M1030]; run by build.py before it writes anything [M1031-draft]. Exit 1 with file:line messages on any error. Also writes model/INDEX.md.
 # Usage (from mockups/): python3 gen/validate.py [--no-index]
 import os, sys, re
 sys.path.insert(0,os.path.dirname(os.path.abspath(__file__))); import model as M
@@ -9,6 +9,7 @@ def chk_when(p,w,ctx):
     for alt in M.parse_when(w):
         for k,v in alt.items():
             if k not in M.DIMS or v not in M.DIMS[k]: err(p,ctx,f'invalid condition {k}={v}')
+ALLC=[dict(auth=a,live=l,tab=t) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab']]
 EVIDS={e['id'] for e in ev['events']}|{c['id'] for c in ev['conditions']}
 # --- screens ---
 for sid,s in sc.items():
@@ -16,6 +17,9 @@ for sid,s in sc.items():
     if s.get('kind') not in M.SCREEN_KINDS: err(p,'kind =',f'invalid screen kind {s.get("kind")!r}')
     for sl in s.get('slots',[]):
         if sl.get('kind') not in M.SLOT_KINDS: err(p,'slots',f'invalid slot kind {sl.get("kind")!r}')
+        if sl.get('device') and sl['device'] not in M.DEVICES: err(p,'slots',f'invalid slot device {sl["device"]!r}')
+        for c in sl.get('accepts',[]):
+            if c in sc and sl['kind'] in ('tab','panel') and sc[c]['kind']!=sl['kind']: err(p,f'"{c}"',f'{sl["kind"]} slot {sl["name"]} accepts {c!r} of kind {sc[c]["kind"]}')
         for c in sl.get('accepts',[]):
             if c not in sc: err(p,f'"{c}"',f'slot {sl["name"]} accepts unknown screen {c!r}')
             elif sc[c]['kind']=='page': err(p,f'"{c}"',f'slot {sl["name"]} accepts a page ({c}); only child screens go in slots')
@@ -25,12 +29,22 @@ for sid,s in sc.items():
         t=l.get('to')
         if l['action'] in ('replace','open','swap') and t not in sc: err(p,ctx,f'link {l["id"]}: unknown screen {t!r}')
         if l['action']=='replace' and t in sc and sc[t]['kind']!='page': err(p,ctx,f'link {l["id"]}: replace to a child screen {t!r} (use open)')
+        if l.get('then') and (l['action']!='open' or sc.get(l['then'],{}).get('kind')!='page'): err(p,ctx,f'link {l["id"]}: then= needs an open link and a page')
+        if l.get('continue') and l['action']!='close': err(p,ctx,f'link {l["id"]}: continue= needs a close link')
         if l['action']=='open' and t in sc and not M.slot_accepts(sc,sid,l.get('slot','sheet'),t): err(p,ctx,f'link {l["id"]}: no slot {l.get("slot","sheet")!r} on {sid} accepts {t!r}')
         chk_when(p,l.get('when',''),ctx)
     for n in s.get('notes',[]):
         for i,b in enumerate(n['lines']):
             if not re.search(M.TAG,b): err(p,b[:40],f'note without source tag: {b[:60]}')
     if not s.get('notes'): err(p,'id =','screen has no notes')
+    if s['kind']=='sheet' and s.get('host') not in sc: err(p,'id =','sheet needs host = <page> (where its notes URL shows it)')
+    for w in (s.get('variants') or {}): chk_when(p,w,'variants')
+    ids={}
+    for l in s.get('links',[]): ids.setdefault(l['id'],[]).append(l)
+    for i,ls in ids.items():
+        for a in range(len(ls)):
+            for b_ in range(a+1,len(ls)):
+                if any(M.matches(ls[a].get('when',''),c) and M.matches(ls[b_].get('when',''),c) for c in ALLC): err(p,f'id = "{i}"',f'link id {i!r} is used twice with overlapping conditions')
 # slot accepting at any depth: every child chain reachable by open/swap must be accepted by its host slot
 def walk(host,child,slot,seen):
     if (host,child) in seen: return
@@ -78,12 +92,15 @@ for fid,f in fl.items():
         if not re.search(M.TAG,f.get(k,'')): err(p,k+' =',f'{k} without source tag')
     s0=f['start']
     if s0['screen'] not in sc: err(p,'start =',f'unknown start screen {s0["screen"]!r}'); continue
-    cur=dict(root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
+    cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
     if s0['screen']=='home' and not cur['tab']: cur['tab']=M.dmode(cur['live'])
     ENTERS.add(s0['screen']); hist=[cur]
     for i,st in enumerate(f['steps']):
         ctx='[[steps]]'
         if not re.search(M.TAG,st.get('shows','')): err(p,ctx,f'step {i+1}: "shows" without source tag',nth=i)
+        if st.get('device') and st['device'] not in M.DEVICES: err(p,ctx,f'step {i+1}: invalid device',nth=i)
+        cur=dict(cur,device=st.get('device') or s0.get('device','phone'))
+        if i and ('link' in st or 'event' in st) and not st.get('act'): err(p,ctx,f'step {i+1}: needs act = "<what the user does>"',nth=i)
         if i==0: pass
         elif 'gap' in st:
             GAPS.append(f'{rel(p)}:{M.lineof(p,ctx,i)}: step {i+1}: no single link or event from {M.key(cur)} to {st.get("expect")} ({st["gap"]})')
@@ -97,18 +114,20 @@ for fid,f in fl.items():
             if not n: err(p,ctx,f'step {i+1}: event {e["id"]} cannot happen in {M.key(cur)}',nth=i); continue
             cur=n; hist.append(n)
         elif 'link' in st:
-            own,_,lid=st['link'].partition(':')
+            own,ls=M.find_link(sc,cur,st['link'])
             if own not in sc: err(p,ctx,f'step {i+1}: unknown screen {own!r} in link',nth=i); continue
-            if own!=M.top(cur): err(p,ctx,f'step {i+1}: link {st["link"]} is on {own}, but {M.top(cur)} is on top in {M.key(cur)}',nth=i); continue
-            l=next((x for x in sc[own].get('links',[]) if x['id']==lid),None)
-            if not l: err(p,ctx,f'step {i+1}: no link {lid!r} on {own}',nth=i); continue
+            if ls is None: err(p,ctx,f'step {i+1}: link {st["link"]} is on {own}, which is not on top or in chrome in {M.key(cur)}',nth=i); continue
+            if not ls: err(p,ctx,f'step {i+1}: no link {st["link"]}',nth=i); continue
             if st.get('condition') and st['condition'] not in EVIDS: err(p,ctx,f'step {i+1}: unknown condition {st["condition"]!r}',nth=i)
-            if st.get('condition')=='google-card-fails' and l.get('to')=='cafe': l=dict(l,to='cafe-gfail')
-            n=M.resolve(sc,cur,l,own)
-            if n is None: err(p,ctx,f'step {i+1}: link {st["link"]} not available in {M.key(cur)} (when={l.get("when","")!r})',nth=i); continue
+            n=None
+            for l in ls:
+                if st.get('condition')=='google-card-fails' and l.get('to')=='cafe': l=dict(l,to='cafe-gfail')
+                n=M.resolve(sc,cur,l,own)
+                if n: break
+            if n is None: err(p,ctx,f'step {i+1}: link {st["link"]} not available in {M.key(cur)}',nth=i); continue
             if n=='back':
                 if len(hist)<2: err(p,ctx,f'step {i+1}: back with no history',nth=i); continue
-                hist.pop(); cur=hist[-1]
+                hist.pop(); cur=dict(hist[-1])
             else: cur=n; hist.append(n)
         else: err(p,ctx,f'step {i+1}: needs link, event or gap',nth=i); continue
         if st.get('expect') and M.key(cur)!=st['expect']: err(p,ctx,f'step {i+1}: derived {M.key(cur)} but expected {st["expect"]}',nth=i)

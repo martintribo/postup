@@ -1,18 +1,22 @@
-# Screen: Cafe search. Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Cafe search. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "where-search"
 title = "Cafe search"
 kind = "page"
 group = "Cafes & picking a place"
+slots = [
+  { name = "sheet", kind = "sheet", accepts = ["signin"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "bean-theory-nearest-0-4-mi-c", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
-  { id = "project-project-new", label = "Project", action = "replace", to = "project-new" },
-  { id = "post-up-post-signin", label = "Post up", action = "replace", to = "post-signin", when = "auth=out" },
+  { id = "where", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
+  { id = "project", label = "Project", action = "replace", to = "project-new" },
+  { id = "post-up", label = "Post up", action = "open", to = "signin", slot = "sheet", then = "posted", when = "auth=out" },
   { id = "back-2", label = "", action = "back" },
-  { id = "search-cafes-where-search", label = "Search cafes", action = "replace", to = "where-search" },
-  { id = "sunbeam-coffee-1-6-mi-abbot-", label = "Sunbeam Coffee 1.6 mi · Abbot Kinn", action = "back" },
-  { id = "sunset-roasters-2-3-mi-mar-v", label = "Sunset Roasters 2.3 mi · Mar Vista", action = "back" },
-  { id = "post-up-posted", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
+  { id = "search-cafes", label = "Search cafes", action = "replace", to = "where-search" },
+  { id = "back-3", label = "Sunbeam Coffee 1.6 mi · Abbot Kinn", action = "back" },
+  { id = "back-4", label = "Sunset Roasters 2.3 mi · Mar Vista", action = "back" },
+  { id = "post-up", label = "Post up", action = "replace", to = "posted", when = "auth=in" },
 ]
 
 [[notes]]

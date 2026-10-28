@@ -1,8 +1,9 @@
-# Flow: Notification settings and sign out. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Notification settings and sign out. Model [M1030]; phase 2 [M1031-draft].
 id = "settings-notify"
 name = "Notification settings and sign out"
 role = "account"
 mvp = false
+order = 24  # position in the flow list
 status = "draft"
 persona = "Signed-in user."
 goal = "Tune alerts, sign out. [M1024]"
@@ -24,7 +25,8 @@ thought = "Tuning alerts"
 shows = "Toggles; Sign out. [FS] [F065]"
 
 [[steps]]
-link = "settings:sign-out-home"  # taps Sign out
+link = "settings:sign-out"
+act = "taps Sign out"
 expect = "home@out.none.building"
 thought = "Done for now"
 shows = "Signed out. [M1024]"

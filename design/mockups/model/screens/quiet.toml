@@ -1,21 +1,21 @@
-# Screen: Recent map · old no-live home (not /). Model [M1030]; migrated from gen/notes.md, gen/build.py/more.py HTML links, sitegraph.py.
+# Screen: Recent map · old no-live home (not /). Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "quiet"
 title = "Recent map · old no-live home (not /)"
 kind = "page"
 group = "Home & discover"
+slots = [
+  { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
 links = [
-  { id = "3-this-week-cafe", label = "3 this week", action = "replace", to = "cafe" },
-  { id = "1-this-week-cafe", label = "1 this week", action = "replace", to = "cafe" },
-  { id = "replace-cafe", label = "", action = "replace", to = "cafe" },
-  { id = "list-quiet-feed", label = "List", action = "replace", to = "quiet-feed" },
-  { id = "see-all-quiet-feed", label = "See all", action = "replace", to = "quiet-feed" },
-  { id = "bean-theory-m-j-a-3-postups-", label = "Bean Theory M J A 3 postups · Tue", action = "replace", to = "cafe" },
-  { id = "star-fox-64-mod-new-level-ye", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project" },
-  { id = "post-up-post", label = "Post up", action = "replace", to = "post" },
-  { id = "home-home", label = "Home", action = "replace", to = "home" },
-  { id = "nearby-quiet-feed", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "projects-projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox-inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "3-this-week", label = "3 this week", action = "replace", to = "cafe" },
+  { id = "1-this-week", label = "1 this week", action = "replace", to = "cafe" },
+  { id = "cafe", label = "", action = "replace", to = "cafe" },
+  { id = "list", label = "List", action = "replace", to = "quiet-feed" },
+  { id = "see-all", label = "See all", action = "replace", to = "quiet-feed" },
+  { id = "cafe-2", label = "Bean Theory M J A 3 postups · Tue", action = "replace", to = "cafe" },
+  { id = "project", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project" },
+  { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 
 [[notes]]

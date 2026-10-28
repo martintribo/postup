@@ -1,8 +1,9 @@
-# Flow: Empty area: be the first. Model [M1030]; migrated from gen/flowdata.py.
+# Flow: Empty area: be the first. Model [M1030]; phase 2 [M1031-draft].
 id = "empty-area"
 name = "Empty area: be the first"
 role = "joiner"
 mvp = true
+order = 20  # position in the flow list
 status = "draft"
 persona = "Signed-in user in a city with no postups yet."
 goal = "Seed the area. [M1024]"
@@ -25,13 +26,15 @@ thought = "Nobody around here yet"
 shows = "Closest projects even if far. [M1018c]"
 
 [[steps]]
-event = "empty-area"  # opens the empty area
+event = "empty-area"
+act = "opens the empty area"
 expect = "empty-area@in.none"
 thought = "Sees the area is empty"
 shows = "\"Be the first here\". [FS]"
 
 [[steps]]
-link = "empty-area:stories-cafe-0-3-mi-post"  # taps Post up
+link = "empty-area:post"
+act = "taps Post up"
 expect = "post@in.none"
 thought = "Will be the first"
 shows = "Post up. [FS]"
