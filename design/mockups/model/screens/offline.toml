@@ -13,14 +13,14 @@ links = [
   { id = "retry", label = "Retry", action = "replace", to = "quiet-feed" },
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "maya-s-photo", label = "Maya's photo", action = "replace", to = "cafe" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
   { id = "post-up-here", label = "Post up here", action = "replace", to = "post" },
   { id = "tess-s-photo", label = "Tess's photo", action = "replace", to = "cafe" },
-  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project" },
+  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe" },
   { id = "jon-s-photo", label = "Jon's photo", action = "replace", to = "cafe" },
-  { id = "maya-s-photo-project", label = "Maya's photo", action = "replace", to = "project" },
+  { id = "maya-s-photo-project", label = "Maya's photo", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "cafe", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
   { id = "cafe-2", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
   { id = "cafe-3", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
@@ -44,4 +44,10 @@ lines = [
 section = "Open"
 lines = [
   "The ledger asks for a full offline screen, not just a banner; the final mockup is the cached feed + banner. [R46⚠] [FS]",
+]
+
+[[notes]]
+section = "Phase versions"
+lines = [
+  "Phase 1 version hides: star-fox-64-mod, pixel-garden, maya-s-photo-project (phase-2 screens or Building mode). [M1035]",
 ]

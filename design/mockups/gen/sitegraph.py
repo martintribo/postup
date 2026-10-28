@@ -18,11 +18,11 @@ for p in PAGES:
     g=SC[p]['group']
     if g not in [x for x,_ in PGROUPS]: PGROUPS.append((g,[]))
     dict(PGROUPS)[g].append(p)
-def rendered(page,a,l,mode): return S[M.rendered_id(SC[page],a,l,mode)]
+def rendered(page,a,l,mode,ph=None): return S[M.rendered_id(SC[page],a,l,mode,ph)]
 def sid(p,ov,a,l,m=None): return f'{p}{"+"+ov if ov else ""}@{a}.{l}{"."+m if m else ""}'
 def dmode(l): return 'live' if l=='live' else 'building'
-def _mst(k):
-    s=SST[k]; return dict(root=s['page'],kids=[('sheet',s['ov'])] if s['ov'] else [],auth=s['auth'],live=s['live'],tab=s['mode'],device='phone')
+def _mst(k,ph=None):
+    s=SST[k]; return dict(root=s['page'],kids=[('sheet',s['ov'])] if s['ov'] else [],auth=s['auth'],live=s['live'],tab=s['mode'],device='phone',phase=ph or M.MAXPH)
 def _sk(n): return sid(n['root'],n['kids'][-1][1] if n['kids'] else None,n['auth'],n['live'],n['tab'] if n['root']=='home' else None)
 SST={}
 for p in PAGES:
@@ -51,8 +51,8 @@ def _kind(l,st,n):
 CONT={}  # page -> continuation targets of links that open signin there
 for p in PAGES:
     CONT[p]={l['then'] for l in SC[p].get('links',[]) if l.get('then')}
-for k,st in SST.items():
-    ms=_mst(k)
+for k,st,_ph in [(k,st,_ph) for k,st in SST.items() for _ph in M.PHASES]:  # edges from every phase version (union) [M1035]
+    ms=_mst(k,_ph)
     for dev in ('phone','desktop'):
         for own,l in M.available(SC,dict(ms,device=dev)):
             n=M.resolve(SC,dict(ms,device=dev),l,own)
@@ -79,31 +79,35 @@ NE=sum(len(v) for v in EDGES.values())
 _DRIFT=[]
 def _norm(t): return (t[0],t[1] if t[0]!='swap' or t[1] else '',t[3] if t[0]=='open' else '')
 def _mlinks(sc_id,cond,in_sheet):
+    cond=dict(cond); cond.setdefault('phase',M.MAXPH)
     out=set()
     for l in SC[sc_id].get('links',[]):
         if not M.matches(l.get('when',''),cond): continue
         out.add((l['action'],l.get('to',''),l.get('then','') if l['action']=='open' else ''))
     return out
 _IDS=set(S)
-for p in PAGES:
+for p,_ph in [(p,_ph) for p in PAGES for _ph in M.PHASES]:  # each phase version separately [M1035]
     for a in ('out','in'):
         for l in ('live','none'):
-            for m in (('live','building') if p=='home' else (None,)):
-                ch=rendered(p,a,l,m); cond=dict(auth=a,live=l,tab=m)
-                html={(x[0],x[1],x[3] if x[0]=='open' else '') for tg,lab in HL.links(HL.TABNAV.sub('',ch),_IDS) for x in HL.acts(tg,lab,a,p,False) if x[1]!='index'}
+            for m in (('live','building') if p=='home' and _ph>=2 else ('live',) if p=='home' else (None,)):
+                ch=rendered(p,a,l,m,_ph); cond=dict(auth=a,live=l,tab=m,phase=_ph)
+                html={(x[0],x[1],x[3] if x[0]=='open' else '') for tg,lab in HL.links(HL.TABNAV.sub('',ch),_IDS,_ph) for x in HL.acts(tg,lab,a,p,False) if x[1]!='index'}
                 mod=_mlinks(p,cond,False)
-                if html!=mod: _DRIFT.append(f'{p} {a}.{l}{"."+m if m else ""}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
+                if html!=mod: _DRIFT.append(f'{p} phase {_ph} {a}.{l}{"."+m if m else ""}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
                 has=bool(HL.TABNAV.search(ch)); dec=any(x['kind']=='tab' for x in SC[p].get('slots',[]))
                 if has!=dec: _DRIFT.append(f'{p} {a}.{l}: tab bar drawn={has} but model tab slot={dec}')
-for o in OVCH:
+for o,_ph in [(o,_ph) for o in OVCH for _ph in M.PHASES]:
     for a in (('out',) if o=='signin' else ('out','in')):
-        html={(x[0],x[1],'') for tg,lab in HL.links(OVCH[o],_IDS) for x in HL.acts(tg,lab,a,o,True)}
-        mod={(x,y,'') for x,y,_ in _mlinks(o,dict(auth=a,live='live',tab=None),True)}
-        if html!=mod: _DRIFT.append(f'sheet {o} {a}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
-_tb={(x[0],x[1]) for tg,lab in HL.links(HL.TABNAV.search(S['home'])[0],_IDS) for x in HL.acts(tg,lab,'in','',False)}
-if _tb!={(l['action'],l['to']) for l in SC['tabbar']['links']}: _DRIFT.append(f'tabbar: HTML {sorted(_tb)} vs model')
-_rl={(x[0],x[1]) for tg,lab in HL.links(DESK.split('</aside>')[0],_IDS) for x in HL.acts(tg,lab,'in','',False) if x[1]!='index'}
-if _rl!={(l['action'],l['to']) for l in SC['rail']['links']}: _DRIFT.append(f'rail: HTML {sorted(_rl)} vs model')
+        html={(x[0],x[1],'') for tg,lab in HL.links(OVCH[o],_IDS,_ph) for x in HL.acts(tg,lab,a,o,True)}
+        mod={(x,y,'') for x,y,_ in _mlinks(o,dict(auth=a,live='live',tab=None,phase=_ph),True)}
+        if html!=mod: _DRIFT.append(f'sheet {o} phase {_ph} {a}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
+for _ph in M.PHASES:
+    _tb={(x[0],x[1]) for tg,lab in HL.links(HL.TABNAV.search(S['home'])[0],_IDS,_ph) for x in HL.acts(tg,lab,'in','',False)}
+    if _tb!={(l['action'],l['to']) for l in SC['tabbar']['links'] if M.matches(l.get('when',''),dict(phase=_ph))}: _DRIFT.append(f'tabbar phase {_ph}: HTML {sorted(_tb)} vs model')
+    _rl={(x[0],x[1]) for tg,lab in HL.links(DESK.split('</aside>')[0],_IDS,_ph) for x in HL.acts(tg,lab,'in','',False) if x[1]!='index'}
+    if _rl!={(l['action'],l['to']) for l in SC['rail']['links'] if M.matches(l.get('when',''),dict(phase=_ph))}: _DRIFT.append(f'rail phase {_ph}: HTML {sorted(_rl)} vs model')
+# screens with per-phase versions (phase-conditioned links or p1only/p2only blocks, tab bar aside) [M1035]
+VERS=sorted(p for p in PAGES if any('phase' in (l.get('when') or '') for l in SC[p].get('links',[])) or any(re.search(r'p[12]only',HL.TABNAV.sub('',S[x])) for x in S if x==p or x.startswith(p+'--')))
 if _DRIFT: raise SystemExit('model/HTML link drift (the model is the source; fix the HTML or the model):\n  '+'\n  '.join(_DRIFT))
 # ---- flow steps: how each is reached (from the model replay in flowload.py; validate.py already proved them) ----
 SG_GAPS=[]; SG_HOW={}
@@ -158,7 +162,7 @@ print('sitegraph',len(PAGES),'pages',len(OVHOST),'sheets',len(SST),'states',NE,'
 
 def sg_write():
     global SGHEAD,EVN
-    json.dump(dict(states={k:dict(v,url=surl_s(k)[3:]) for k,v in SST.items()},edges={k:[list(e) for e in v] for k,v in EDGES.items()}),open('flows/sitegraph.json','w'))
+    json.dump(dict(versions=VERS,states={k:dict(v,url=surl_s(k)[3:]) for k,v in SST.items()},edges={k:[list(e) for e in v] for k,v in EDGES.items()}),open('flows/sitegraph.json','w'))
     def ptitle(p): return NOTES[p]['title'] if p in NOTES else p
     def stname(k):
         s=SST[k]; return f'{s["auth"]}·{s["live"]}'+(f'·{s["mode"]}' if s['mode'] else '')

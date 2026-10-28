@@ -11,10 +11,10 @@ slots = [
 links = [
   { id = "3-this-week", label = "3 this week", action = "replace", to = "cafe" },
   { id = "cafe", label = "", action = "replace", to = "cafe" },
-  { id = "project", label = "Star Fox 64 mod Maya · Corneria II", action = "replace", to = "project" },
-  { id = "project-2", label = "Pixel Garden Tess · New crop sprit", action = "replace", to = "project" },
-  { id = "project-3", label = "Bus Stop Zine Jon · Page 12 inked", action = "replace", to = "project" },
-  { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects" },
+  { id = "project", label = "Star Fox 64 mod Maya · Corneria II", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
+  { id = "project-2", label = "Pixel Garden Tess · New crop sprit", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
+  { id = "project-3", label = "Bus Stop Zine Jon · Page 12 inked", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
+  { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 
@@ -35,4 +35,10 @@ section = "Behavior"
 lines = [
   "Card: 3 projects, See all projects, Post up, Show map (hides the card). [M1018b] [drawn]",
   "Heading \"What people are building\". [M1018c]",
+]
+
+[[notes]]
+section = "Phase versions"
+lines = [
+  "Phase 1 version hides: project, project-2, project-3, see-all-projects (phase-2 screens or Building mode). [M1035]",
 ]

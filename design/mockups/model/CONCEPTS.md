@@ -65,6 +65,24 @@ The model in `model/` is the single source for the mockup's screens, links, note
 - The views (flows index and grid, site map, site graph, states, maps) have a toggle that cycles "Phase: all" → "1 (pre-MVP)" → "≤2 (MVP)", and mark items with a P1 or P2 badge. [M1032]
 - Merged flows keep their old ids in `aliases`; the old flow pages redirect to the merged flow. [M1032]
 
+## Phase versions of a screen [M1035]
+
+- **View phase** is a site-state dimension like `auth`, with values 1 and 2. It is not written in the state id: `inbox@in.live` is the same state in both phases, but it can render and link differently.
+- **Which phase renders:** a phase-N flow walks and renders phase-N versions. An untagged flow, and the "All" view, use the latest phase (2).
+- **Conditions:** `when` and `variants` keys accept `phase=1`, `phase>=2` or `phase<=1`, combined like any other key: `when = "live=live,tab=live,phase>=2"`; alternatives are still separated by `;`. A link with no phase condition exists in every phase.
+- **HTML:** one chunk per screen holds both versions. Give an element `class="p2only"` to show it only in phase 2+, or `class="p1only"` to show it only in phase 1. `gen/phasev.py` marks every element that links to a phase-2 screen (projects, Activity) as `p2only` automatically, so phase-1 links to them don't need hand edits.
+- **Mockup:** `html[data-vph]` comes from `?ph=` if present, otherwise from the shared Phase toggle (`localStorage pu-ph1`; "1" means phase 1, anything else means the latest). The mockup index has the same switch. `#inbox-one` redirects to `#inbox`.
+- **Phase 1 has no Building mode on Home:** `dmode()` returns `live` there, and a phase-1 flow may not start in `.building`.
+- **Validator:** each flow is replayed in its phase. The drift check parses each screen's phase-1 and phase-2 HTML separately (dropping `p2only` and `p1only` respectively) and compares them with the model links valid in that phase. The tab bar and rail are checked the same way.
+- **Views:** flow players and their thumbnails load `?ph=<flow phase>`. The site map swaps in `pages/<id>--p1.webp` when the toggle is 1. On "All", the states view lists the P1 and P2 version of each state for screens that have versions. The site graph's edges are the union of both phases.
+- **Screens with phase versions (from `flows/sitegraph.json` `versions`):** inbox (P1 one list, P2 Chats | Activity), the tab bar and desktop rail (no Projects in P1), and home (no Live | Building switch and no project tags in P1). Also every screen whose project links are phase 2: cafe, cafe-gfail, invite, joined, live, me, offline, post, post-edit, posted, postup, profile, quiet, quiet-feed, quiet-feed-b, where, where-search, and home-overlay-alt.
+
+### Conventions for editing (edit-mockup-model) [M1035]
+
+1. To drop something from phase 1, tag the target screen `phase = 2`. Then add `phase>=2` to the links that point to it on screens phase 1 still uses. The HTML for those links is hidden automatically.
+2. To add phase-1-only content, wrap it in `class="p1only"` and add its links with `when = "...,phase=1"`.
+3. Don't make a separate screen for a phase version, the way `inbox-one` used to be. Put both versions in one screen.
+
 ## Edit, then build
 
 Edit the `.toml` files and, if a link changes, the HTML in `gen/*.py` as well. Then run `python3 gen/build.py`. `INDEX.md` is generated and lists every screen and flow on one line each. Every note line needs a source tag such as [FS], [F###], [M1031-draft] or [drawn].

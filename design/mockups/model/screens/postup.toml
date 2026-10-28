@@ -12,7 +12,7 @@ links = [
   { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
   { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
   { id = "profile", label = "M Maya Live · till 4pm", action = "replace", to = "profile" },
-  { id = "project", label = "Star Fox 64 mod Adding a new Corne", action = "replace", to = "project" },
+  { id = "project", label = "Star Fox 64 mod Adding a new Corne", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "cafe", label = "Bean Theory 0.4 mi · 8 min walk", action = "replace", to = "cafe" },
   { id = "join", label = "Join", action = "open", to = "signin", slot = "sheet", then = "joined", when = "auth=out" },
   { id = "join", label = "Join", action = "replace", to = "joined", when = "auth=in" },
@@ -59,8 +59,9 @@ lines = [
   "Explain what Join means (\"Let Maya know you're coming, then say hi at the cafe\"). [R24⚠]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+  "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]

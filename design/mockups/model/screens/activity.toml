@@ -2,7 +2,7 @@
 id = "activity"
 title = "Inbox · Activity"
 kind = "page"
-phase = 2  # later design; phase 1 uses inbox-one [M1033]
+phase = 2  # phase-2 Inbox tab; phase 1 Inbox is one list [M1033] [M1035]
 group = "Inbox & people"
 variants = { "auth=out" = "activity--out" }  # condition -> HTML id that renders it (first match wins)
 slots = [

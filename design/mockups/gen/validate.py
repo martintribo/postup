@@ -8,8 +8,10 @@ def err(p,needle,msg,nth=0,kind='error'): (ERR if kind=='error' else WARN).appen
 def chk_when(p,w,ctx):
     for alt in M.parse_when(w):
         for k,v in alt.items():
-            if k not in M.DIMS or v not in M.DIMS[k]: err(p,ctx,f'invalid condition {k}={v}')
-ALLC=[dict(auth=a,live=l,tab=t) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab']]
+            if k=='phase':
+                if not re.fullmatch(r'(>=|<=)?\d+',v): err(p,ctx,f'invalid condition phase{"" if v[:1] in "<>" else "="}{v}')
+            elif k not in M.DIMS or v not in M.DIMS[k]: err(p,ctx,f'invalid condition {k}={v}')
+ALLC=[dict(auth=a,live=l,tab=t,phase=ph) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab'] for ph in M.PHASES]
 REPL=M.REPL
 EVIDS={e['id'] for e in ev['events']}|{c['id'] for c in ev['conditions']}
 # --- screens ---
@@ -93,8 +95,10 @@ for fid,f in fl.items():
         if not re.search(M.TAG,f.get(k,'')): err(p,k+' =',f'{k} without source tag')
     s0=f['start']
     if s0['screen'] not in sc: err(p,'start =',f'unknown start screen {s0["screen"]!r}'); continue
-    cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
-    if s0['screen']=='home' and not cur['tab']: cur['tab']=M.dmode(cur['live'])
+    FPH=M.flow_phase(f)  # walk this flow's phase version of every screen [M1035]
+    cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None,phase=FPH)
+    if s0['screen']=='home' and not cur['tab']: cur['tab']=M.dmode(cur['live'],FPH)
+    if s0['screen']=='home' and cur['tab']!=M.dmode('live',FPH) and FPH<2 and cur['tab']=='building': err(p,'start =',f'phase-{FPH} flow starts in Building mode, which is phase 2')
     ENTERS.add(s0['screen']); hist=[cur]
     for i,st in enumerate(f['steps']):
         ctx='[[steps]]'
@@ -105,7 +109,8 @@ for fid,f in fl.items():
         if i==0: pass
         elif 'gap' in st:
             GAPS.append(f'{rel(p)}:{M.lineof(p,ctx,i)}: step {i+1}: no single link or event from {M.key(cur)} to {st.get("expect")} ({st["gap"]})')
-            n=parse_site(st.get('expect','')); 
+            n=parse_site(st.get('expect',''))
+            if n: n['phase']=FPH 
             if n: cur=n; hist.append(n)
             continue
         elif 'event' in st:

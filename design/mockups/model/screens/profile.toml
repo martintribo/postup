@@ -15,7 +15,7 @@ links = [
   { id = "follow", label = "Follow", action = "open", to = "signin", slot = "sheet", when = "auth=out" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe" },
-  { id = "project", label = "Star Fox 64 mod Updated yesterday", action = "replace", to = "project" },
+  { id = "project", label = "Star Fox 64 mod Updated yesterday", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "cafe", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
   { id = "cafe-2", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
   { id = "follow", label = "Follow", action = "swap", to = "profile", when = "auth=in" },
@@ -42,8 +42,9 @@ lines = [
   "⋯ → report / block. [FS] [F059]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+  "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]

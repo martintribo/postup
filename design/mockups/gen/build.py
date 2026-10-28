@@ -222,6 +222,7 @@ DESK=f'''<aside class="rail"><a class="rlogo" href="#home">{I("coffee",22)}</a>{
 exec(open('gen/more.py').read())
 exec(open('gen/scenarios.py').read())
 exec(open('gen/home.py').read())
+exec(open('gen/phasev.py').read())
 exec(open('gen/fold.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())

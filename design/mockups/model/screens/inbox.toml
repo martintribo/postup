@@ -1,8 +1,7 @@
-# Screen: Inbox · Chats. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
+# Screen: Inbox. Phase 1 = one list, phase 2 = Chats | Activity tabs [M1035]. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "inbox"
-title = "Inbox · Chats"
+title = "Inbox"
 kind = "page"
-phase = 2  # later design; phase 1 uses inbox-one [M1033]
 group = "Inbox & people"
 variants = { "auth=out" = "inbox--out" }  # condition -> HTML id that renders it (first match wins)
 slots = [
@@ -10,11 +9,14 @@ slots = [
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
 links = [
-  { id = "chats", label = "Chats", action = "replace", to = "inbox" },
-  { id = "activity-2", label = "Activity 2", action = "replace", to = "activity" },
-  { id = "chat", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat" },
-  { id = "chat-2", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat" },
-  { id = "postup-ended", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended" },
+  { id = "chats", label = "Chats", action = "replace", to = "inbox", when = "phase>=2" },
+  { id = "activity-2", label = "Activity 2", action = "replace", to = "activity", when = "phase>=2" },
+  { id = "chat", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat", when = "phase>=2" },
+  { id = "chat-2", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat", when = "phase>=2" },
+  { id = "postup-ended", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended", when = "phase>=2" },
+  { id = "maya-chat", label = "Maya's postup · Bean Theory", action = "replace", to = "chat", when = "phase=1" },  # phase-1 one list [M1033] [M1035]
+  { id = "your-chat", label = "Your postup · Lot 1 Coffee", action = "replace", to = "chat", when = "phase=1" },
+  { id = "tess-ended", label = "Tess's postup · Grindhouse", action = "replace", to = "postup-ended", when = "phase=1" },
   { id = "back", label = "", action = "back", when = "auth=out" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
   { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "inbox", sets = "auth=in", when = "auth=out" },
@@ -37,6 +39,15 @@ lines = [
 [[notes]]
 section = "Behavior"
 lines = [
-  "Phase 2 design; phase 1 uses the one-list inbox-one (reached via condition inbox-tabs). [M1033]",
-  "Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]",
+  "Phase 2: Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]",
+]
+
+[[notes]]
+section = "Phase 1 version"
+lines = [
+  "Phase 1: ONE list, no Chats/Activity tabs (was the separate screen inbox-one; #inbox-one still opens it). [M1033] [M1035]",
+  "Each row is a postup's chat, newest first, with an unread dot. [M1033]",
+  "Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. \"Jon joined\"; the preview keeps the latest message visible. [M1033] [M1034]",
+  "Alerts not tied to a chat get their own row; none are drawn in phase 1 since following is not phase 1. [M1033] [M1034]",
+  "Ended postups stay in the list, dimmed, and open the ended page. Root tab: no Back. [M1033]",
 ]

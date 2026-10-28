@@ -14,7 +14,7 @@ Player: /mockups/flows/invite-live.html
 ## Steps
 1. **invite@out.live** · user: A friend sent this; knows the context · action: opens the share link · edge: entry
    - Landing for the shared postup. [FS] [R39]
-   - next site states: project@out.live (Star Fox 64 mod), **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox-one@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), inbox@out.live (Inbox), post@out.live (Post up), me@out.live (S), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails))
    - enterable flows: none
 2. **invite+signin@out.live** · user: Wants to join the friend · action: taps Join 🔒 · edge: tap: Join Maya
    - Join → sign-in sheet. [FS] [M1024]
@@ -22,11 +22,11 @@ Player: /mockups/flows/invite-live.html
    - enterable flows: none
 3. **joined@in.live** · user: Signed in; going · action: signs in · edge: tap: Continue with Apple
    - Joined. [FS] [M1024]
-   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **chat@in.live** (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Bean Theory (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **chat@in.live** (Group chat), joined+dirs@in.live (Directions), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), inbox@in.live (Inbox), me@in.live (S), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: join step 3 (if Decides to join), leave step 1 (if Plans changed)
 4. **chat@in.live** · user: Wants to say hi before going · action: opens chat · edge: tap: Group chat
    - Postup chat. [F096] [M1024]
-   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S), projects@in.live (Projects)
    - enterable flows: chat step 2 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
@@ -35,10 +35,10 @@ Player: /mockups/flows/invite-live.html
 - `leave`: branch out at step 3→1; merge in at —
 
 ## Screens
-1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live#invite)
-2. `#invite` + sheet `signin` · auth=out live=live — Join → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin#invite)
-3. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#joined)
-4. `#chat` · auth=in live=live — Postup chat. [F096] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#chat)
+1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=1#invite)
+2. `#invite` + sheet `signin` · auth=out live=live — Join → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=1#invite)
+3. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#joined)
+4. `#chat` · auth=in live=live — Postup chat. [F096] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#chat)
 
 ## Branches and edge cases
 - The postup has ended by the time the link is opened: lands on `#invite-ended` (This postup ended; See what's nearby, Follow Maya for next time, Go to Home). Was its own flow. [M1032]

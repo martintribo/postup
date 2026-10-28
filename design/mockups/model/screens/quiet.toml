@@ -14,7 +14,7 @@ links = [
   { id = "list", label = "List", action = "replace", to = "quiet-feed" },
   { id = "see-all", label = "See all", action = "replace", to = "quiet-feed" },
   { id = "cafe-2", label = "Bean Theory M J A 3 postups · Tue", action = "replace", to = "cafe" },
-  { id = "project", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project" },
+  { id = "project", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 
@@ -46,4 +46,10 @@ lines = [
 section = "Open"
 lines = [
   "Whether this map stays reachable at all once home is projects-first. [unsourced]",
+]
+
+[[notes]]
+section = "Phase versions"
+lines = [
+  "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]

@@ -14,7 +14,7 @@ links = [
   { id = "edit-profile", label = "Edit profile", action = "replace", to = "me" },
   { id = "lantern-tea", label = "Lantern Tea", action = "replace", to = "cafe" },
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe" },
-  { id = "tide-clock-updated-sun", label = "Tide Clock Updated Sun", action = "replace", to = "project-new" },
+  { id = "tide-clock-updated-sun", label = "Tide Clock Updated Sun", action = "replace", to = "project-new", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "cafe", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
   { id = "cafe-2", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
@@ -43,8 +43,9 @@ lines = [
   "Desktop rail avatar opens this. [FS]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: tide-clock-updated-sun. [M1034]",
+  "Phase 1 version hides: tide-clock-updated-sun (phase-2 screens or Building mode). [M1035]",
 ]

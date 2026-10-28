@@ -22,7 +22,7 @@ for k,base in [('post-signin','post'),('join-signin','postup'),('ask-signin','po
     VAR[k+'--in']=S[base]
 # signed out: account-only pages show a sign-in sheet over themselves
 def gate(k,title,sub): VAR[k+'--out']=S[k]+signin(k+'--out',title,sub,k).replace("onclick=\"go('%s')\""%k,"onclick=\"signIn('%s')\""%k)
-for k,t,s in [('inbox-one','Your inbox','Sign in to see your postup chats.'),('inbox','Your inbox','Sign in to see your chats and activity.'),('activity','Your inbox','Sign in to see your chats and activity.'),
+for k,t,s in [('inbox','Your inbox','Sign in to see your chats and activity.'),('activity','Your inbox','Sign in to see your chats and activity.'),
               ('chat','Join the chat','Sign in to see this postup\'s chat.'),('me','Your profile','Sign in to see your profile.'),
               ('settings','Settings','Sign in to change your settings.'),('live','Your postup','Sign in to manage your postup.'),('post-edit','Your postup','Sign in to edit your postup.')]:
     gate(k,t,s)

@@ -12,22 +12,24 @@ slots = [
 links = [
   { id = "me", label = "S", action = "replace", to = "me" },
   { id = "quiet", label = "", action = "replace", to = "quiet" },
+  { id = "maya-recent", label = "Maya posted up at Bean Theory", action = "replace", to = "profile", when = "live=none,phase=1" },  # phase 1: recent postups instead of projects [M1035]
+  { id = "jon-recent", label = "Jon posted up at Lot 1 Coffee", action = "replace", to = "profile", when = "live=none,phase=1" },
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "cafe", label = "", action = "replace", to = "cafe", when = "live=live" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live,phase>=2" },  # phase 2 only [M1035]
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
   { id = "post-up-here", label = "Post up here", action = "replace", to = "post", when = "live=live" },
-  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live" },
+  { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,phase>=2" },  # phase 2 only [M1035]
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live" },
   { id = "cafe-2", label = "Bean Theory M J A 3 this week", action = "replace", to = "cafe" },
   { id = "cafe-3", label = "Grindhouse T 1 this week", action = "replace", to = "cafe" },
   { id = "cafe-4", label = "Lantern Tea A D 2 this week", action = "replace", to = "cafe" },
   { id = "quiet-2", label = "Venice Blvd Oakwood Park Marina Op", action = "replace", to = "quiet" },
   { id = "map", label = "Map", action = "replace", to = "quiet" },
-  { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none" },
-  { id = "project-2", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none" },
-  { id = "project-3", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none" },
-  { id = "project-4", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none" },
+  { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "live=none,phase>=2" },  # phase 2 only [M1035]
+  { id = "project-2", label = "Pixel Garden T Tess · Tue New crop", action = "replace", to = "project", when = "live=none,phase>=2" },  # phase 2 only [M1035]
+  { id = "project-3", label = "Bus Stop Zine J Jon · Mon Page 12", action = "replace", to = "project", when = "live=none,phase>=2" },  # phase 2 only [M1035]
+  { id = "project-4", label = "Lantern Lights A Ari · Sun Wiring", action = "replace", to = "project", when = "live=none,phase>=2" },  # phase 2 only [M1035]
 ]
 
 [[notes]]
@@ -54,4 +56,10 @@ lines = [
 section = "Open"
 lines = [
   "Which variant ships. Photo cards are listed as missing from the build, which implies A. [FS] [unsourced]",
+]
+
+[[notes]]
+section = "Phase versions"
+lines = [
+  "Phase 1 version hides: star-fox-64-mod, pixel-garden, project, project-2, project-3, project-4 (phase-2 screens or Building mode). [M1035]",
 ]

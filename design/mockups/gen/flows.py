@@ -45,7 +45,7 @@ MVPBAR0=MVPBAR.replace('<label><input type="checkbox" class="mvpo"> Show only MV
 def surl(f,st,rel='../'):
     sc,a,l,x,_=st; d=x.get('device',f['start']['device'])
     q=f'style=fresh&device={d}&auth={a}&live={l}'+(f'&mode={x["mode"]}' if 'mode' in x else '')+(f'&ov={x["ov"]}' if 'ov' in x else '')
-    return f'{rel}index.html?{q}#{sc}'
+    return f'{rel}index.html?{q}&ph={f.get("phase") or M.MAXPH}#{sc}'  # a flow renders its phase version [M1035]
 def murl(f,st): return surl(f,st,'/mockups/').replace('/mockups/index.html','/mockups/')
 STAT={'martin':"Martin's example (Oct 24)",'draft':'Draft, inferred from the notes; confirm with Martin'}
 def flow_md(f,lvl='#'):

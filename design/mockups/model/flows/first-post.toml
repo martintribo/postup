@@ -10,7 +10,7 @@ status = "draft"
 persona = "First-time visitor already at a cafe who came to go live right now (signed out)."
 goal = "Go live in about ten seconds. [M1024]"
 intent = "Came to post up right now"
-start = { screen = "home", auth = "out", live = "none", tab = "building", device = "phone", url = "/" }
+start = { screen = "home", auth = "out", live = "none", tab = "live", device = "phone", url = "/" }
 edge_cases = [
   "Location denied: picker falls back to search. [R21] [unsourced]",
   "Cafe search fails without a Maps key → error state. [unsourced]",
@@ -24,7 +24,7 @@ decide = [
 
 [[steps]]
 arrive = "arrives at /"
-expect = "home@out.none.building"
+expect = "home@out.none.live"
 thought = "Came to post up right now"
 shows = "Taps Post up. [M1018b]"
 

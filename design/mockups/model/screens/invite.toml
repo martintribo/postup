@@ -9,7 +9,7 @@ slots = [
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
 links = [
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "join-maya", label = "Join Maya", action = "open", to = "signin", slot = "sheet", then = "joined", when = "auth=out" },
   { id = "cafe", label = "Bean Theory · 0.4 mi", action = "replace", to = "cafe" },
   { id = "join-maya", label = "Join Maya", action = "replace", to = "joined", when = "auth=in" },
@@ -41,8 +41,9 @@ lines = [
   "Join → sign-in → `#joined`. Cafe → `#cafe`. [drawn]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod. [M1034]",
+  "Phase 1 version hides: star-fox-64-mod (phase-2 screens or Building mode). [M1035]",
 ]

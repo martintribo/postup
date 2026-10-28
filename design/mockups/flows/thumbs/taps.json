@@ -271,7 +271,10 @@
   "back": false
  },
  "settings-notify-2": null,
- "catch-up-1": null,
+ "catch-up-1": {
+  "label": "Inbox",
+  "back": false
+ },
  "catch-up-2": {
   "label": "Activity",
   "back": false
@@ -293,8 +296,8 @@
   "back": false
  },
  "catch-up-7": {
-  "label": "Back",
-  "back": true
+  "label": "Inbox",
+  "back": false
  },
  "catch-up-8": {
   "label": "M",

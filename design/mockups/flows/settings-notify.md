@@ -14,21 +14,19 @@ Player: /mockups/flows/settings-notify.html
 ## Steps
 1. **settings@in.none** · user: Tuning alerts · action: opens Settings · edge: entry
    - Toggles; Sign out. [FS] [F065]
-   - next site states: back (Back), **home@out.none.building** (Sign out), settings+delacct@in.none (Delete account), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: back (Back), home@out.none.live (Sign out), settings+delacct@in.none (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), post@in.none (Post up), me@in.none (S), **home@out.none.building** (Sign out), home@in.none.building (home), projects@in.none (Projects)
    - enterable flows: delete-account step 2 (if Looking for the delete option)
 2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: tap: Sign out
    - Signed out. [M1024]
-   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox-one@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
-   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post step 1 (if Came to post up right now)
+   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - enterable flows: none
 
 ## Connected flows [M1025]
 - `delete-account`: branch out at step 1→2; merge in at step 1 (from its step 2)
-- `empty-area-newcomer`: branch out at step 2→1; merge in at —
-- `first-post`: branch out at step 2→1; merge in at —
 
 ## Screens
-1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none#settings)
-2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)
+1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#settings)
+2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=2#home)
 
 ## Success criteria
 - Toggles actually change alerts. [M1024]

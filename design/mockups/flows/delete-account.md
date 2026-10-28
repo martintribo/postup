@@ -14,31 +14,29 @@ Player: /mockups/flows/delete-account.html
 ## Steps
 1. **me@in.none** · user: Leaving PostUp · action: opens My profile · edge: entry
    - My profile → Settings. [FS]
-   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), project-new@in.none (Tide Clock Updated Sun), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), post@in.none (Post up), cafe-gfail@in.none (Lantern Tea (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), home@in.none.live (home), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), post@in.none (Post up), project-new@in.none (Tide Clock Updated Sun), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Lantern Tea (Google card fails))
    - enterable flows: none
 2. **settings@in.none** · user: Looking for the delete option · action: taps Settings · edge: tap: Settings
    - Account section. [FS] [F065]
-   - next site states: back (Back), home@out.none.building (Sign out), **settings+delacct@in.none** (Delete account), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: back (Back), home@out.none.live (Sign out), **settings+delacct@in.none** (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), post@in.none (Post up), me@in.none (S), home@out.none.building (Sign out), home@in.none.building (home), projects@in.none (Projects)
    - enterable flows: settings-notify step 1 (if Tuning alerts)
 3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: tap: Delete account
    - Confirm; can't be undone. [FS] [drawn]
-   - next site states: settings@in.none (close), **home@out.none.building** (Delete account)
+   - next site states: settings@in.none (close), home@out.none.live (Delete account), **home@out.none.building** (Delete account)
    - enterable flows: none
 4. **home@out.none.building** · user: Gone · action: confirms · edge: tap: Delete account
    - Signed out at Home. [M1024]
-   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox-one@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
-   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post step 1 (if Came to post up right now)
+   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - enterable flows: none
 
 ## Connected flows [M1025]
 - `settings-notify`: branch out at step 2→1; merge in at —
-- `empty-area-newcomer`: branch out at step 4→1; merge in at —
-- `first-post`: branch out at step 4→1; merge in at —
 
 ## Screens
-1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none#me)
-2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none#settings)
-3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct#settings)
-4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)
+1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#me)
+2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#settings)
+3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct&ph=2#settings)
+4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=2#home)
 
 ## Branches and edge cases
 - Deleting while live: postup ends and joiners are alerted? [unsourced]

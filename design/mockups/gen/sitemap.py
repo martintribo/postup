@@ -6,7 +6,7 @@ SM_GROUPS=[('Home and browse','#e8f5ee',3,['home','quiet-feed','quiet-feed-b','q
  ('Postup and join','#e9f0fb',5,['postup','postup-ask','ask','requested','joined','postup-full','postup-cancelled','postup-ended']),
  ('Post and host','#fdf1e4',4,['post','where','where-search','posted','live','post-edit']),
  ('Projects','#f3ecfb',3,['projects','project','project-new','project-update','project-attach']),
- ('Inbox and social','#fbeef1',4,['inbox-one','inbox','activity','chat','profile']),
+ ('Inbox and social','#fbeef1',4,['inbox','activity','chat','profile']),
  ('Profile and settings','#eef1f4',4,['me','settings','report','reported']),
  ('Share landings','#eaf6f6',3,['invite','invite-ended','invite-project']),
  ('System states','#f4f1e8',4,['empty-area','loading','offline','cafe-gfail'])]
@@ -55,7 +55,7 @@ for k,s in SST.items():
 for k,s in SST.items():
     if s['ov'] and (s['ov'] not in _pick or _rk(k)-5<_rk(_pick[s['ov']])-(5 if '+' in _pick[s['ov']] else 0)): _pick[s['ov']]=k
 DATA=dict(pos=POS,box=BOX,W=WW,H=WH,cw=CW,ch=CH,
-  pages={p:dict(ph=ph1(p),t=_title(p),s=re.split(r' — ',_title(p))[0].replace(' (/)',''),g=g[0],sh=sorted(SHEETS.get(p,())),fl=FUSE.get(p,[]),th=_pick[p],
+  pages={p:dict(v=1 if p in VERS else 0,ph=ph1(p),t=_title(p),s=re.split(r' — ',_title(p))[0].replace(' (/)',''),g=g[0],sh=sorted(SHEETS.get(p,())),fl=FUSE.get(p,[]),th=_pick[p],
     st=[[k,('signed in' if SST[k]['auth']=='in' else 'signed out')+' · '+('live' if SST[k]['live']=='live' else 'no one live')+(' · '+SST[k]['mode'] if SST[k]['mode'] else '')+(' · sheet '+SST[k]['ov'] if SST[k]['ov'] else ''),surl_s(k)] for k in sorted((k for k in SST if (SST[k]['ov']==p if p in OVHOST else SST[k]['page']==p)),key=lambda k:(bool(SST[k]['ov']),SST[k]['auth']!='in',SST[k]['live']!='live',k))]) for g in SM_GROUPS+[SM_SHEETS] for p in g[3]},
   links=[[a,b,[x[:38]+('…' if len(x)>38 else '') for x in sorted(v)[:3]]] for (a,b),v in sorted(L.items())])
 _drop=', '.join(f'{v} {k}' for k,v in DROP.items() if v)
@@ -86,7 +86,7 @@ path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8
 <div class="zb">{PHBTN}<button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
 <div id="vp"><div id="w"></div></div>
 <div id="pn"><button class="x" onclick="sel(null)" aria-label="Close">×</button><div id="pc"></div></div>
-'''+PHJS+f'''<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};
+'''+PHJS+f'''<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};function phImg(){{var o=document.documentElement.classList.contains('ph1only');document.querySelectorAll('.pg img[data-v="1"]').forEach(function(i){{var p=i.closest('.pg').dataset.p;i.src='pages/'+p+(o?'--p1':'')+'.webp'}})}}addEventListener('phchange',function(){{setTimeout(phImg,0)}});
 var w=document.getElementById('w'),vp=document.getElementById('vp'),s=1,tx=0,ty=0,cur=null;w.style.width=D.W+'px';w.style.height=D.H+'px';
 function esc(t){{return String(t).replace(/[&<>"]/g,function(c){{return{{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]}})}}
 var h='';D.box.forEach(function(b){{h+='<div class="box" style="left:'+b.x+'px;top:'+b.y+'px;width:'+b.w+'px;height:'+b.h+'px;background:'+b.c+'"><h3>'+esc(b.n)+'</h3></div>'}});
@@ -95,7 +95,7 @@ function c(p){{var q=D.pos[p];return[q[0]+D.cw/2,q[1]+80]}}
 D.links.forEach(function(l,i){{var a=c(l[0]),b=c(l[1]),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=.18;
  sv+='<path class="l" data-ph="'+(D.pages[l[0]].ph&&D.pages[l[1]].ph?Math.max(D.pages[l[0]].ph,D.pages[l[1]].ph):0)+'" data-a="'+l[0]+'" data-b="'+l[1]+'" marker-end="url(#ah)" d="M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1]+'"/>'}});
 h+=sv+'</svg>';
-Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-ph="'+P.ph+'" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+(P.ph?'<span class="p1b">P1</span>':'')+'</div></div>'}});
+Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-ph="'+P.ph+'" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" data-v="'+P.v+'" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+(P.ph?'<span class="p1b">P1</span>':'')+'</div></div>'}});
 w.innerHTML=h;
 function ap(){{w.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')'}}
 function Z(f,cx,cy){{cx=cx==null?vp.clientWidth/2:cx;cy=cy==null?vp.clientHeight/2:cy;var ns=Math.max(.2,Math.min(4,s*f));tx=cx-(cx-tx)*ns/s;ty=cy-(cy-ty)*ns/s;s=ns;ap()}}

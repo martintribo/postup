@@ -10,12 +10,12 @@ slots = [
 ]
 links = [
   { id = "close", label = "Close", action = "replace", to = "home" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "invite-friends", label = "Invite friends", action = "open", to = "share", slot = "sheet" },
   { id = "manage-postup", label = "Manage postup", action = "replace", to = "live" },
   { id = "map", label = "Map", action = "replace", to = "home" },
   { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
-  { id = "project", label = "Project", action = "replace", to = "project" },
+  { id = "project", label = "Project", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
 ]
 
 [[notes]]
@@ -45,8 +45,9 @@ lines = [
   "Home is called Home; the \"Map\" link label wasn't decided. [F046] [unsourced]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod, project. [M1034]",
+  "Phase 1 version hides: star-fox-64-mod, project (phase-2 screens or Building mode). [M1035]",
 ]

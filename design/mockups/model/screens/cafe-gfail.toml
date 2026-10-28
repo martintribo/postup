@@ -13,7 +13,7 @@ links = [
   { id = "back", label = "Back", action = "back" },
   { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "join", label = "Join", action = "replace", to = "postup", when = "live=live" },
   { id = "postup", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
   { id = "postup-2", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },
@@ -38,4 +38,10 @@ lines = [
 section = "Behavior"
 lines = [
   "\"Details unavailable\", Open in Maps, Retry. [FS] [R37]",
+]
+
+[[notes]]
+section = "Phase versions"
+lines = [
+  "Phase 1 version hides: star-fox-64-mod (phase-2 screens or Building mode). [M1035]",
 ]

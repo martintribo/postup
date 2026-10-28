@@ -10,7 +10,7 @@ slots = [
 links = [
   { id = "back", label = "Back", action = "back" },
   { id = "where", label = "Bean Theory Nearest · 0.4 mi Chang", action = "replace", to = "where" },
-  { id = "project", label = "Project", action = "replace", to = "project-new" },
+  { id = "project", label = "Project", action = "replace", to = "project-new", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "post-up", label = "Post up", action = "open", to = "signin", slot = "sheet", then = "posted", when = "auth=out" },
   { id = "back-2", label = "", action = "back" },
   { id = "search-cafes", label = "Search cafes", action = "replace", to = "where-search" },
@@ -37,8 +37,9 @@ lines = [
   "Google Places Autocomplete in our UI is fine; show \"powered by Google\" attribution. [F097] [FS]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+  "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]

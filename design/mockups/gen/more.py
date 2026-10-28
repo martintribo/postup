@@ -8,7 +8,7 @@ IC.update({'more':'<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.
  'refresh':'<path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/>','msg':'<path d="M4 5h16v11H9l-5 4z"/>','ext':'<path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6"/>'})
 NB=f'<button class="ib" onclick="bk()" aria-label="Back">{I("back",22)}</button>'
 def nav(a):
-    it=[('#home','map','Map','m'),('#quiet-feed','list','Nearby','n'),None,('#projects','folder','Projects','p'),('#inbox-one','inbox','Inbox','i')]  # phase 1: one list [M1033]
+    it=[('#home','map','Map','m'),('#quiet-feed','list','Nearby','n'),None,('#projects','folder','Projects','p'),('#inbox','inbox','Inbox','i')]
     h='<nav class="tab t5">'
     for x in it:
         if x is None: h+=f'<a href="#post" class="tp">{I("plus",22)}<span>Post up</span></a>'; continue
@@ -111,7 +111,7 @@ S['invite-ended']=f'''<header class="nb"><span class="ib"></span><b class="brand
 ep=pin_cafe(30,36)+pin_cafe(66,54)+pin_cafe(50,22)
 S['empty-area']=f'''<div class="hm">{mapblock("380px",ep,f'<div class="mtop"><span class="brand">{I("pin",16)} Echo Park</span><a class="ib fl" href="#me" aria-label="Profile">{av("ME",30)}</a></div>')}
 <section class="sheet-p"><span class="grab"></span><div class="sp-h"><h2>Nobody's live nearby</h2></div><p class="mu sm">No one is posted up around Echo Park right now. Here's what people did nearby lately.</p>
-<h3 class="sh">Recently nearby</h3><div class="grp"><div class="lrow" onclick="go('profile')">{av('MK',32)}<div class="lm"><b class="sm">Maya posted up at Bean Theory</b><span class="xs mu">Tue · Star Fox 64 mod · 3 joined</span></div></div><div class="lrow" onclick="go('profile')">{av('JR',32)}<div class="lm"><b class="sm">Jon posted up at Lot 1 Coffee</b><span class="xs mu">Mon · Bus Stop Zine</span></div></div></div>
+<h3 class="sh">Recently nearby</h3><div class="grp"><div class="lrow" onclick="go('profile')">{av('MK',32)}<div class="lm"><b class="sm">Maya posted up at Bean Theory</b><span class="xs mu">Tue · 3 joined</span></div></div><div class="lrow" onclick="go('profile')">{av('JR',32)}<div class="lm"><b class="sm">Jon posted up at Lot 1 Coffee</b><span class="xs mu">Mon · 2 joined</span></div></div></div>
 <h3 class="sh">Be the first here today</h3>
 {cafe_row('Stories Cafe','0.3 mi').replace("pick(","postAt(")}{cafe_row('Lot 1 Coffee','0.6 mi').replace("pick(","postAt(")}
 <button class="btn" onclick="go('post')">{I("plus",18)} Post up</button></section></div>{nav("m")}'''
@@ -155,6 +155,11 @@ def act(k,txt,time,dest,ic):
     return f'<div class="lrow" onclick="go(\'{dest}\')">{av(k,40)}<div class="lm"><span class="sm">{txt}</span><span class="xs mu">{time}</span></div><span class="ixi">{I(ic,16)}</span></div>'
 S['activity']=ihead('a')+'<div class="grp">'+act('MK','<b>Maya</b> posted up at Bean Theory','Just now','postup','coffee')+act('DN','<b>Dev</b> asked to join your postup','2 min ago','live','users')+act('JR','<b>Jon</b> joined your postup','14 min ago','live','check')+act('MK','<b>Maya</b>: Hey! Here till 4 — come say hi.','20 min ago','chat','msg')+act('TS','<b>Tess</b> said yes to your request','Yesterday','postup-ask','check')+act('AL','<b>Ari</b> followed you','Mon','profile','users')+f'</div></div>{nav("i")}'
 
+# Inbox has two phase versions [M1035]: phase 1 = one list (was #inbox-one, [M1033]); phase 2 = Chats | Activity tabs.
+_TOP=top("Inbox",'',back=False); _NV=nav("i")
+assert S['inbox'].startswith(_TOP) and S['inbox'].endswith(_NV) and S['inbox-one'].startswith(_TOP) and S['inbox-one'].endswith(_NV)
+S['inbox']=_TOP+'<div class="p1only">'+S['inbox-one'][len(_TOP):-len(_NV)]+'</div><div class="p2only">'+S['inbox'][len(_TOP):-len(_NV)]+'</div>'+_NV
+del S['inbox-one']
 # ---------- profiles ----------
 def ppast(d,c,w): return f'<div class="lrow" onclick="go(\'cafe\')"><span class="ci sm">{I("coffee",16)}</span><div class="lm"><b class="sm">{w}</b><span class="l2">{c} · {d}</span></div></div>'
 def prof(k,me):
@@ -169,7 +174,7 @@ def prof(k,me):
     return f'''{top("",right)}<div class="pad prof">{live}
 <div class="phd">{av(k,88)}<h1>{n}</h1><p class="mu">{bio}</p><p class="mu sm">{"8" if me else "12"} postups · since Sep</p>{act}</div>
 <h3 class="sh">Regular cafes</h3><div class="chips"><button class="chip" onclick="go('cafe')">{"Lantern Tea" if me else "Bean Theory"}</button><button class="chip" onclick="go('cafe')">Grindhouse</button></div>
-<h3 class="sh">Projects</h3><div class="grp">{projs}</div>
+<div class="p2only"><h3 class="sh">Projects</h3><div class="grp">{projs}</div></div>
 <h3 class="sh">Past postups</h3><div class="grp">{ppast("Mon","Bean Theory","Ship models imported")}{ppast("Oct 9","Lantern Tea","Level editor")}</div></div>'''
 S['profile']=prof('MK',False); S['me']=prof('ME',True)
 def tgl(t,on=True): return f'<label class="lrow tgr"><span class="lm sm">{t}</span><input type="checkbox" class="tg" {"checked" if on else ""}></label>'
@@ -189,7 +194,7 @@ S['index']=f'''{top("Mockups",back=False)}<div class="pad"><p class="mu">Tap thr
 {grp("Browse",[("#home","Map","Who's live","map"),("#quiet-feed","Nearby","Feed with photos","list"),("#quiet-feed-b","Nearby B","No photos","list"),("#quiet","Recent map","This week","pin"),("#cafe","Cafe","Who's here","coffee"),("#projects","Projects","Browse, filter","folder"),("#project","Project","Updates","folder")])}
 {grp("Post up",[("#post","Post up","Form","plus"),("#where","Where are you?","Pick a cafe","search"),("#where-search","Cafe search","Google results","search"),("#post-signin","Sign in","At post time","lock"),("#posted","Posted","Share link","check"),("#live","You're live","Manage, requests","clock"),("#post-edit","Edit","Change postup","edit")])}
 {grp("Join",[("#postup","Postup","Anyone can join","users"),("#postup-ask","Ask to join","Poster approves","lock"),("#ask","Request","Write a reason","send"),("#requested","Request sent","Waiting","send"),("#joined","Joined","Directions, chat","check"),("#chat","Group chat","Postup chat","msg")])}
-{grp("Inbox & people",[("#inbox-one","Inbox","One list (phase 1)","inbox"),("#inbox","Chats","Tabs (later)","inbox"),("#activity","Activity","Joins, requests","bell"),("#profile","Profile","Maya","users"),("#me","My profile","Live + settings","users"),("#settings","Settings","Account","gear"),("#report","Report","Reasons","flag"),("#reported","Reported","Block too","ban")])}
+{grp("Inbox & people",[("#inbox","Inbox","P1 one list · P2 tabs","inbox"),("#activity","Activity","Joins, requests","bell"),("#profile","Profile","Maya","users"),("#me","My profile","Live + settings","users"),("#settings","Settings","Account","gear"),("#report","Report","Reasons","flag"),("#reported","Reported","Block too","ban")])}
 {grp("First visit",[("#quiet-feed","Welcome","Strip atop feed","spark"),("#invite","Invite link","Join Maya?","share"),("#invite-ended","Invite ended","Postup over","share")])}
 {grp("States",[("#empty-area","Empty area","Be the first","pin"),("#postup-ended","Ended","Postup over","clock"),("#postup-full","Full","No room","users"),("#postup-cancelled","Cancelled","Called off","x"),("#cafe-gfail","Google failed","Fallback","image"),("#loading","Loading","Skeleton","refresh"),("#offline","Offline","Cached","wifi")])}
 <h3 class="sh">Notes</h3><div class="grp">{ix("feed-rationale.md","Rationale","Why feed","spark")}{ix("review-2026-10-14.md","UX review","Gaps","list")}</div></div>'''
@@ -206,9 +211,9 @@ OVS+=ovs('msg','<h2>Message</h2>'+opt('Copy','copy',"ovx()")+opt('Report message
 OVS+=ovs('block','<h2>Block Maya?</h2><p class="mu">You won\'t see each other\'s postups or messages. She won\'t be told.</p><button class="btn danger" onclick="ovx();go(\'home\')">Block</button><a class="lnk sm" href="#settings" onclick="ovx()">Blocked people (Settings)</a><button class="tx" onclick="ovx()">Cancel</button>')
 OVS+=ovs('delacct','<h2>Delete your account?</h2><p class="mu">Your profile, postups and projects will be removed. This can\'t be undone.</p><button class="btn danger" onclick="ovx();setScen(\'out\',null);go(\'home\')">Delete account</button><button class="tx" onclick="ovx()">Cancel</button>')
 
-FULL=['inbox-one','index','quiet-feed','quiet-feed-b','projects','project','posted','inbox','activity','chat','profile','me','settings','report','reported','invite','invite-ended','loading','offline','requested']
+FULL=['index','quiet-feed','quiet-feed-b','projects','project','posted','inbox','activity','chat','profile','me','settings','report','reported','invite','invite-ended','loading','offline','requested']
 DLG=['post','post-signin','where','where-search','post-edit','project-new','project-update','project-attach','attach-signin']
-DESK=f'''<aside class="rail"><a class="rlogo" href="#home">{I("coffee",22)}</a>{rl("#home","map","Map")}{rl("#quiet-feed","list","Nearby")}{rl("#projects","folder","Projects")}{rl("#inbox-one","inbox","Inbox")}<a class="rpost" href="#post">{I("plus",22)}<span>Post up</span></a><span class="rsp"></span><a href="#me" data-r="me" class="rme">{av('ME',36)}</a></aside>
+DESK=f'''<aside class="rail"><a class="rlogo" href="#home">{I("coffee",22)}</a>{rl("#home","map","Map")}{rl("#quiet-feed","list","Nearby")}{rl("#projects","folder","Projects")}{rl("#inbox","inbox","Inbox")}<a class="rpost" href="#post">{I("plus",22)}<span>Post up</span></a><span class="rsp"></span><a href="#me" data-r="me" class="rme">{av('ME',36)}</a></aside>
 <div class="dmap">{dmapsvg()}{dpins}<span class="you" style="left:47%;top:52%"></span><div class="dsearch">{I("pin",16)} Venice &amp; Mar Vista</div><div class="attr">Map mockup</div></div>'''
 # projects welcome + project invite landing
 PW=f'<div class="welcome pwel"><span class="ci sm pj">{I("folder",16)}</span><p>See what people are building. Follow along or post up to work on yours.</p><button class="ib" onclick="this.parentNode.remove()" aria-label="Dismiss">{I("x",18)}</button></div>'

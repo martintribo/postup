@@ -15,7 +15,7 @@ links = [
   { id = "directions", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
   { id = "back-to-map", label = "Back to map", action = "replace", to = "home" },
   { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
-  { id = "project", label = "Project", action = "replace", to = "project" },
+  { id = "project", label = "Project", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet" },
 ]
 
@@ -45,8 +45,9 @@ lines = [
   "Directions open Apple/Google Maps (ledger item). [R25⚠]",
 ]
 
+
 [[notes]]
-section = "Phase 1"
+section = "Phase versions"
 lines = [
-  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+  "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]

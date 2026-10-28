@@ -8,8 +8,11 @@ SCREEN_KINDS={'page','sheet','modal','drawer','panel','tab'}
 DEVICES={'phone','desktop'}
 ROLES={'joiner','host','account','visitor'}
 STATUSES={'martin','draft'}
-DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building')}
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034)\]'
+DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phase':('1','2')}
+# View phase [M1035]: a site-state dimension like auth, but not part of the state id. A phase-N flow walks phase-N screen
+# versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
+PHASES=(1,2); MAXPH=max(PHASES)
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
@@ -20,16 +23,32 @@ def load(root=ROOT):
     gl=tomllib.load(open(f'{root}/global.toml','rb')); gl['_file']=f'{root}/global.toml'
     return sc,fl,ev,gl
 def parse_when(w):
-    """'auth=out,live=none; auth=in' -> list of dicts (alternatives). '' -> [{}] (always)."""
+    """'auth=out,live=none; auth=in' -> list of dicts (alternatives). '' -> [{}] (always).
+    Phase may use >= or <= ('phase>=2' -> {'phase': '>=2'}); other keys use = only. [M1035]"""
     if not w: return [{}]
-    return [dict(kv.split('=',1) for kv in alt.split(',')) for alt in w.split(';')]
+    out=[]
+    for alt in w.split(';'):
+        d={}
+        for kv in alt.split(','):
+            m=re.fullmatch(r'\s*(\w+)\s*(>=|<=|=)\s*(\S+)\s*',kv)
+            if not m: d[kv.strip()]='?'; continue
+            d[m[1]]=(m[3] if m[2]=='=' else m[2]+m[3])
+        out.append(d)
+    return out
+def _ok(cur,v):
+    if v[:2] in ('>=','<='):
+        try: c=int(cur); n=int(v[2:])
+        except (TypeError,ValueError): return False
+        return c>=n if v[:2]=='>=' else c<=n
+    return cur is not None and str(cur)==v
 def matches(w,st):
-    return any(all(st.get(k)==v for k,v in alt.items()) for alt in parse_when(w))
+    st=dict(st); st.setdefault('phase',MAXPH)
+    return any(all(_ok(st.get(k),v) for k,v in alt.items()) for alt in parse_when(w))
 # A site state: root screen + open child (slot, screen) chain + conditions. Kept flat for the current depth (page + one sheet)
 # but resolve() walks children generically. dict(root=, kids=[(slot,screen),...], auth=, live=, tab=)
 def key(st): return st['root']+''.join('+'+c for _,c in st['kids'])+f"@{st['auth']}.{st['live']}"+(f".{st['tab']}" if st['root']=='home' else '')
 def top(st): return st['kids'][-1][1] if st['kids'] else st['root']
-def dmode(l): return 'live' if l=='live' else 'building'
+def dmode(l,ph=None): return 'live' if l=='live' or (ph or MAXPH)<2 else 'building'  # phase 1 has no Building mode [M1035]
 def apply_sets(st,sets):
     for kv in (sets or '').split(','):
         if '=' in kv:
@@ -40,14 +59,14 @@ def resolve(sc,st,link,owner=None):
     'open' may carry then=<page>: the opened child remembers it (st['cont']); a child link with continue=true then
     replaces the root with that page instead of just closing (the signin sheet's continuation, [M1031-draft])."""
     owner=owner or top(st)
-    cond=dict(auth=st['auth'],live=st['live'],tab=st.get('tab'))
+    cond=dict(auth=st['auth'],live=st['live'],tab=st.get('tab'),phase=st.get('phase') or MAXPH)
     if not matches(link.get('when',''),cond): return None
     n=dict(st,kids=list(st['kids'])); n['cont']=None; a=link['action']; to=link.get('to')
     if a=='close' and link.get('continue') and st.get('cont'): a='replace'; to=st['cont']
     if a=='replace':
         n['root']=to; n['kids']=[]
         apply_sets(n,link.get('sets'))
-        if to=='home' and st['root']!='home' and 'tab=' not in (link.get('sets') or ''): n['tab']=dmode(n['live'])
+        if to=='home' and st['root']!='home' and 'tab=' not in (link.get('sets') or ''): n['tab']=dmode(n['live'],n.get('phase'))
     elif a=='open':
         slot=link.get('slot','sheet'); host=owner
         if not slot_accepts(sc,host,slot,to): return None
@@ -64,7 +83,7 @@ def resolve(sc,st,link,owner=None):
         n['kids'].pop(); apply_sets(n,link.get('sets'))
     elif a=='back': return 'back'
     if n['root']!='home': n['tab']=None
-    elif not n.get('tab'): n['tab']=dmode(n['live'])
+    elif not n.get('tab'): n['tab']=dmode(n['live'],n.get('phase'))
     return n
 def slot_accepts(sc,host,slot,child):
     s=sc.get(host)
@@ -83,9 +102,10 @@ def find_link(sc,st,ref):
     own,_,lid=ref.partition(':')
     if own!=top(st) and own not in chrome(sc,st): return own,None
     return own,[l for l in sc.get(own,{}).get('links',[]) if l['id']==lid]
-def rendered_id(s,auth,live,tab):
-    """HTML element id that renders screen s in these conditions: first matching 'variants' entry, else the screen id."""
-    c=dict(auth=auth,live=live,tab=tab)
+def rendered_id(s,auth,live,tab,phase=None):
+    """HTML element id that renders screen s in these conditions: first matching 'variants' entry, else the screen id.
+    Variant keys may name the phase, e.g. "phase=1" or "phase=1,auth=out" [M1035]."""
+    c=dict(auth=auth,live=live,tab=tab,phase=phase or MAXPH)
     for w,hid in (s.get('variants') or {}).items():
         if matches(w,c): return hid
     return s['id']
@@ -99,10 +119,11 @@ def lineof(path,needle,nth=0):
 USERS={'newcomer','registered'}
 import tomllib as _tl, os as _os
 REPL={c['id']:(c['replaces'],c['with']) for c in _tl.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','model','events.toml'),'rb'))['conditions'] if 'replaces' in c}
+def flow_phase(f): return f.get('phase') or MAXPH  # the phase version a flow walks [M1035]
 def flow_states(sc,f):
     """Replay a flow; return the list of (state-key, screens on it) per step (assumes it validates)."""
-    s0=f['start']; cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
-    if cur['root']=='home' and not cur['tab']: cur['tab']=dmode(cur['live'])
+    s0=f['start']; cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None,phase=flow_phase(f))
+    if cur['root']=='home' and not cur['tab']: cur['tab']=dmode(cur['live'],cur['phase'])
     out=[]; hist=[cur]
     for i,st in enumerate(f['steps']):
         if i and 'link' in st:
@@ -115,7 +136,7 @@ def flow_states(sc,f):
             if n=='back': hist.pop(); cur=dict(hist[-1])
             elif n: cur=n; hist.append(n)
         elif i and st.get('expect'):
-            cur=parse_key(st['expect']); hist.append(cur)
+            cur=dict(parse_key(st['expect']),phase=cur['phase']); hist.append(cur)
         out.append((key(cur),[cur['root']]+[c for _,c in cur['kids']]))
     return out
 def parse_key(k):

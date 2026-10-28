@@ -10,7 +10,7 @@ status = "draft"
 persona = "Signed-in user in an area where nobody is live right now."
 goal = "With nobody live nearby, see who posted up here lately, then be the first today. [M1032]"
 intent = "Nobody around right now"
-start = { screen = "home", auth = "in", live = "none", tab = "building", device = "phone", url = "/" }
+start = { screen = "home", auth = "in", live = "none", tab = "live", device = "phone", url = "/" }
 edge_cases = [
   "No past activity at all in the area: good cafes to be the first. [M1032] [M1034]",
 ]
@@ -24,9 +24,9 @@ decide = [
 
 [[steps]]
 arrive = "arrives at /"
-expect = "home@in.none.building"
+expect = "home@in.none.live"
 thought = "Nobody around right now"
-shows = "Home in Building mode: closest projects. [M1018c]"
+shows = "Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035]"
 [[steps]]
 event = "empty-area"
 act = "area has no postups"

@@ -1,4 +1,4 @@
-# Inbox · Chats
+# Inbox
 Screen id: `inbox`
 URL (phone): /mockups/?style=fresh&device=phone#inbox
 URL (desktop): /mockups/?style=fresh&device=desktop#inbox
@@ -15,8 +15,14 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - Signed in: as drawn. [drawn]
 
 ## Behavior
-- Phase 2 design; phase 1 uses the one-list inbox-one (reached via condition inbox-tabs). [M1033]
-- Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]
+- Phase 2: Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]
+
+## Phase 1 version
+- Phase 1: ONE list, no Chats/Activity tabs (was the separate screen inbox-one; #inbox-one still opens it). [M1033] [M1035]
+- Each row is a postup's chat, newest first, with an unread dot. [M1033]
+- Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. "Jon joined"; the preview keeps the latest message visible. [M1033] [M1034]
+- Alerts not tied to a chat get their own row; none are drawn in phase 1 since following is not phase 1. [M1033] [M1034]
+- Ended postups stay in the list, dimmed, and open the ended page. Root tab: no Back. [M1033]
 
 ## Global rules (every screen)
 ### Home page (/)
@@ -80,14 +86,14 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Purpose
 - Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
 
-### Chrome: Rail (desktop) · Phase 1
-- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
+### Chrome: Rail (desktop) · Phase versions
+- Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
 
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
 
-### Chrome: Tab bar (phone) · Phase 1
-- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
+### Chrome: Tab bar (phone) · Phase versions
+- Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
 
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”
@@ -127,6 +133,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **M1033** — Martin, Oct 28 2026: phase-1 Inbox is one list (no Chats/Activity tabs)
 - **M1034** — Martin, Oct 28 2026: projects move to phase 2
+- **M1035** — Martin, Oct 28 2026: per-phase screen versions
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1
