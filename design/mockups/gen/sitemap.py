@@ -77,7 +77,7 @@ path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8
 .lk{{display:block;padding:4px 0;color:#232322;text-decoration:none;cursor:pointer;border-bottom:1px solid #f0efea}}.lk i{{font-style:normal;color:#77756f;font-size:11.5px}}.lk:hover b{{color:#0b7a4b}}
 .x{{position:absolute;top:10px;right:12px;border:0;background:none;font-size:20px;cursor:pointer}}.lg{{font-size:11.5px;color:#77756f}}.sw{{display:inline-block;width:18px;height:3px;vertical-align:middle;margin:0 4px 0 8px}}
 </style></head><body>
-<div class="bar"><a href="index.html">← All flows</a><a href="site.html">Site graph (tables)</a><b>Site map</b><span class="mu">{len(_pp)} pages · {len(L)} page-to-page links (from {_nedge} edges over {_nstate} states) · sheets as badges · click a page</span><span class="sp"></span>
+<div class="bar"><a href="index.html">← All flows</a><a href="site.html">Site graph (tables)</a><a href="states.html">States by screen</a><b>Site map</b><span class="mu">{len(_pp)} pages · {len(L)} page-to-page links (from {_nedge} edges over {_nstate} states) · sheets as badges · click a page</span><span class="sp"></span>
 <span class="lg"><span class="sw" style="background:#10a364"></span>goes to<span class="sw" style="background:#3a6fd8"></span>comes from</span>
 <div class="zb"><button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
 <div id="vp"><div id="w"></div></div>
