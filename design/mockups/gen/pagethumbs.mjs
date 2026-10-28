@@ -7,6 +7,9 @@ const OUT = `${ROOT}/flows/pages`; fs.mkdirSync(OUT, { recursive: true });
 const { states } = JSON.parse(fs.readFileSync(`${ROOT}/flows/sitegraph.json`));
 const pick = {}; const rank = k => (k.includes('@in.live') ? 0 : k.includes('@in.') ? 1 : 2) + (k.includes('+') ? 5 : 0) + (k.endsWith('.building') ? 1 : 0);
 for (const [k, s] of Object.entries(states)) if (!pick[s.page] || rank(k) < rank(pick[s.page])) pick[s.page] = k;
+// sheets too (shown open over a host page) for the split explorer's sitemap [M1031-draft]
+const rk2 = k => (k.includes('@in.live') ? 0 : k.includes('@in.') ? 1 : 2);
+for (const [k, s] of Object.entries(states)) if (s.ov && (!pick[s.ov] || rk2(k) < rk2(pick[s.ov]))) pick[s.ov] = k;
 const srv = http.createServer((req, res) => { let p = decodeURIComponent(req.url.split('?')[0]); if (p.endsWith('/')) p += 'index.html'; const fp = path.join(ROOT, p);
   if (!fp.startsWith(ROOT) || !fs.existsSync(fp)) { res.writeHead(404); return res.end(); }
   res.writeHead(200, { 'content-type': { '.html': 'text/html', '.svg': 'image/svg+xml', '.png': 'image/png' }[path.extname(fp)] || 'application/octet-stream' }); fs.createReadStream(fp).pipe(res); }).listen(0);

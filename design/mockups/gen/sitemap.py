@@ -10,10 +10,11 @@ SM_GROUPS=[('Home and browse','#e8f5ee',3,['home','quiet-feed','quiet-feed-b','q
  ('Profile and settings','#eef1f4',4,['me','settings','report','reported']),
  ('Share landings','#eaf6f6',3,['invite','invite-ended','invite-project']),
  ('System states','#f4f1e8',4,['empty-area','loading','offline','cafe-gfail'])]
+SM_SHEETS=('Sheets (in a page slot)','#efeee9',3,sorted(OVHOST))
 _pp=[p for g in SM_GROUPS for p in g[3]]; _all=sorted({s['page'] for s in SST.values()})
 assert sorted(_pp)==_all, set(_pp)^set(_all)
 CW,CH,HD,PD,GX,GY=96,196,30,10,44,44
-_rows=[SM_GROUPS[:4],SM_GROUPS[4:]]; POS={}; BOX=[]; y=0
+_rows=[SM_GROUPS[:4],SM_GROUPS[4:]+[SM_SHEETS]]; POS={}; BOX=[]; y=0
 for row in _rows:
     x=0; rh=0
     for name,tint,cols,ps in row:
@@ -26,18 +27,18 @@ WW=max(b['x']+b['w'] for b in BOX); WH=y-GY
 TABL={'Home','Nearby','Projects','Inbox','Post up','Map','S',''}
 L={}; DROP={'back':0,'close':0,'tab bar':0,'event':0,'condition':0,'mode':0}
 for s,es in EDGES.items():
-    a=SST[s]['page']
+    a=SST[s]['ov'] or SST[s]['page']
     for e in es:
         t,lab,k=e[0],e[1],e[2]
-        if t not in SST: continue
-        b=SST[t]['page']
+        if t not in SST or k=='close': continue
+        b=SST[t]['ov'] or SST[t]['page']
         if a==b: continue
         if k in('tap','sign-in','sheet'):
             if lab in TABL: DROP['tab bar']+=1; continue
             L.setdefault((a,b),set()).add(lab or k)
         else: DROP[{'cond':'condition'}.get(k,k)]=DROP.get({'cond':'condition'}.get(k,k),0)+1
 def _title(p):
-    s=NOTES[p]['title'] if p in NOTES else p
+    s=NOTES[p]['title'] if p in NOTES else re.sub(r'^Sheet · ','',NOTES['ov-'+p]['title']).split(' (')[0]+' (sheet)' if 'ov-'+p in NOTES else p
     return s
 SHEETS={}
 for k,s in SST.items():
@@ -45,15 +46,17 @@ for k,s in SST.items():
 FUSE={}
 for f in FLOWS:
     for i,d in enumerate(f['sx']):
-        p=d['site'].split('@')[0].split('+')[0]
+        p=d['site'].split('@')[0].split('+')[-1]
         FUSE.setdefault(p,[]).append([f['id'],f['name'],i])
 _pick={}
 _rk=lambda k:(0 if '@in.live' in k else 1 if '@in.' in k else 2)+(5 if '+' in k else 0)+(1 if k.endswith('.building') else 0)
 for k,s in SST.items():
     if s['page'] not in _pick or _rk(k)<_rk(_pick[s['page']]): _pick[s['page']]=k
+for k,s in SST.items():
+    if s['ov'] and (s['ov'] not in _pick or _rk(k)-5<_rk(_pick[s['ov']])-(5 if '+' in _pick[s['ov']] else 0)): _pick[s['ov']]=k
 DATA=dict(pos=POS,box=BOX,W=WW,H=WH,cw=CW,ch=CH,
   pages={p:dict(t=_title(p),s=re.split(r' — ',_title(p))[0].replace(' (/)',''),g=g[0],sh=sorted(SHEETS.get(p,())),fl=FUSE.get(p,[]),th=_pick[p],
-    st=[[k,('signed in' if SST[k]['auth']=='in' else 'signed out')+' · '+('live' if SST[k]['live']=='live' else 'no one live')+(' · '+SST[k]['mode'] if SST[k]['mode'] else '')+(' · sheet '+SST[k]['ov'] if SST[k]['ov'] else ''),surl_s(k)] for k in sorted((k for k in SST if SST[k]['page']==p),key=lambda k:(bool(SST[k]['ov']),SST[k]['auth']!='in',SST[k]['live']!='live',k))]) for g in SM_GROUPS for p in g[3]},
+    st=[[k,('signed in' if SST[k]['auth']=='in' else 'signed out')+' · '+('live' if SST[k]['live']=='live' else 'no one live')+(' · '+SST[k]['mode'] if SST[k]['mode'] else '')+(' · sheet '+SST[k]['ov'] if SST[k]['ov'] else ''),surl_s(k)] for k in sorted((k for k in SST if (SST[k]['ov']==p if p in OVHOST else SST[k]['page']==p)),key=lambda k:(bool(SST[k]['ov']),SST[k]['auth']!='in',SST[k]['live']!='live',k))]) for g in SM_GROUPS+[SM_SHEETS] for p in g[3]},
   links=[[a,b,[x[:38]+('…' if len(x)>38 else '') for x in sorted(v)[:3]]] for (a,b),v in sorted(L.items())])
 _drop=', '.join(f'{v} {k}' for k,v in DROP.items() if v)
 _nstate=len(SST); _nedge=sum(len(v) for v in EDGES.values())
@@ -76,13 +79,14 @@ path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8
 .chip{{display:inline-block;margin:0 4px 4px 0;padding:3px 8px;border:1px solid #d8d6cf;border-radius:999px;font-size:11.5px;color:#232322;text-decoration:none}}.chip:hover{{border-color:#10a364}}
 .lk{{display:block;padding:4px 0;color:#232322;text-decoration:none;cursor:pointer;border-bottom:1px solid #f0efea}}.lk i{{font-style:normal;color:#77756f;font-size:11.5px}}.lk:hover b{{color:#0b7a4b}}
 .x{{position:absolute;top:10px;right:12px;border:0;background:none;font-size:20px;cursor:pointer}}.lg{{font-size:11.5px;color:#77756f}}.sw{{display:inline-block;width:18px;height:3px;vertical-align:middle;margin:0 4px 0 8px}}
+.emb .bar a,.emb .bar .mu{{display:none}}
 </style></head><body>
-<div class="bar"><a href="index.html">← All flows</a><a href="site.html">Site graph (tables)</a><a href="states.html">States by screen</a><b>Site map</b><span class="mu">{len(_pp)} pages · {len(L)} page-to-page links (from {_nedge} edges over {_nstate} states) · sheets as badges · click a page</span><span class="sp"></span>
+<div class="bar"><a href="index.html">← All flows</a><a href="site.html">Site graph (tables)</a><a href="states.html">States by screen</a><a href="explore.html">Map + states</a><b>Site map</b><span class="mu">{len(_pp)} pages · {len(L)} page-to-page links (from {_nedge} edges over {_nstate} states) · sheets as badges · click a page</span><span class="sp"></span>
 <span class="lg"><span class="sw" style="background:#10a364"></span>goes to<span class="sw" style="background:#3a6fd8"></span>comes from</span>
 <div class="zb"><button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
 <div id="vp"><div id="w"></div></div>
 <div id="pn"><button class="x" onclick="sel(null)" aria-label="Close">×</button><div id="pc"></div></div>
-<script>var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};
+<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};
 var w=document.getElementById('w'),vp=document.getElementById('vp'),s=1,tx=0,ty=0,cur=null;w.style.width=D.W+'px';w.style.height=D.H+'px';
 function esc(t){{return String(t).replace(/[&<>"]/g,function(c){{return{{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]}})}}
 var h='';D.box.forEach(function(b){{h+='<div class="box" style="left:'+b.x+'px;top:'+b.y+'px;width:'+b.w+'px;height:'+b.h+'px;background:'+b.c+'"><h3>'+esc(b.n)+'</h3></div>'}});
@@ -100,7 +104,7 @@ var dr=null,mv=0;vp.addEventListener('mousedown',function(e){{dr=[e.clientX-tx,e
 addEventListener('mousemove',function(e){{if(!dr)return;mv++;tx=e.clientX-dr[0];ty=e.clientY-dr[1];ap()}});addEventListener('mouseup',function(){{dr=null;vp.classList.remove('drag')}});
 vp.addEventListener('click',function(e){{if(mv>3)return;var g=e.target.closest('.pg');sel(g?g.dataset.p:null)}});addEventListener('keydown',function(e){{if(e.key==='Escape')sel(null)}});
 function row(p,labs){{return '<a class="lk" onclick="sel(\\''+p+'\\')"><b>'+esc(D.pages[p].t)+'</b> <i>#'+p+(labs?' · '+esc(labs.join(' / ')):'')+'</i></a>'}}
-function sel0(p){{cur=p;location.replace('#'+(p||''));document.getElementById('pn').classList.toggle('on',!!p);
+function sel0(p){{cur=p;if(EMB){{if(p&&!sel0.q)parent.postMessage({{sm:p}},'*');sel0.q=0}}else location.replace('#'+(p||''));document.getElementById('pn').classList.toggle('on',!!p&&!EMB);
  document.querySelectorAll('.pg').forEach(function(g){{g.classList.toggle('sel',g.dataset.p===p);g.classList.toggle('nb',!!p&&g.dataset.p!==p&&D.links.some(function(l){{return(l[0]===p&&l[1]===g.dataset.p)||(l[1]===p&&l[0]===g.dataset.p)}}));g.classList.toggle('dim',!!p&&g.dataset.p!==p&&!D.links.some(function(l){{return(l[0]===p&&l[1]===g.dataset.p)||(l[1]===p&&l[0]===g.dataset.p)}}))}});
  document.querySelectorAll('path.l').forEach(function(l){{var o=p&&l.dataset.a===p,i=p&&l.dataset.b===p;l.classList.toggle('out',!!o);l.classList.toggle('in',!!i);l.classList.toggle('off',!!p&&!o&&!i)}});
  if(!p)return;var P=D.pages[p],o=D.links.filter(function(l){{return l[0]===p}}),n=D.links.filter(function(l){{return l[1]===p}});
@@ -129,7 +133,7 @@ function target(p){{var T={{}},O={{}};Object.keys(D.pos).forEach(function(q){{T[
  [[top,-1],[bot,1]].forEach(function(z){{z[0].forEach(function(q,i){{T[q]=[cx+(i-(z[0].length-1)/2)*GXc,cy+z[1]*(mr/2+.6)*GYc]}})}});
  T[p]=[cx,cy];var cl=[p].concat(R,L,both);cl.forEach(function(q){{O[q]=[1,1]}});
  var x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;cl.forEach(function(q){{x0=Math.min(x0,T[q][0]);y0=Math.min(y0,T[q][1]);x1=Math.max(x1,T[q][0]+D.cw);y1=Math.max(y1,T[q][1]+D.ch)}});return[T,O,[x0,y0,x1,y1]]}}
-function view(bb){{var W=vp.clientWidth-(cur?360:0),H=vp.clientHeight;if(!bb)bb=[0,0,D.W,D.H];var bw=bb[2]-bb[0],bh=bb[3]-bb[1],ns=Math.min((W-60)/bw,(H-60)/bh,cur?1.3:1.6);return[ns,(W-bw*ns)/2-bb[0]*ns,(H-bh*ns)/2-bb[1]*ns]}}
+function view(bb){{var W=vp.clientWidth-(cur&&!EMB?360:0),H=vp.clientHeight;if(!bb)bb=[0,0,D.W,D.H];var bw=bb[2]-bb[0],bh=bb[3]-bb[1],ns=Math.min((W-60)/bw,(H-60)/bh,cur?1.3:1.6);return[ns,(W-bw*ns)/2-bb[0]*ns,(H-bh*ns)/2-bb[1]*ns]}}
 var anim=0;function layout(p){{var tg=target(p),v=view(tg[2]),S0={{}},Q0={{}},s0=s,tx0=tx,ty0=ty,t0=performance.now(),id=++anim;
  Object.keys(NP).forEach(function(q){{S0[q]=NP[q].slice();Q0[q]=OP[q].slice()}});document.getElementById('w').classList.toggle('foc',!!p);
  (function step(now){{if(id!==anim)return;var u=Math.min(1,(now-t0)/500),e=u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2;
@@ -137,7 +141,7 @@ var anim=0;function layout(p){{var tg=target(p),v=view(tg[2]),S0={{}},Q0={{}},s0
   s=s0+(v[0]-s0)*e;tx=tx0+(v[1]-tx0)*e;ty=ty0+(v[2]-ty0)*e;draw();if(u<1)requestAnimationFrame(step)}})(performance.now())}}
 function sel(p){{sel0(p);layout(p)}}
 function fit(){{var v=view(target(cur)[2]);s=v[0];tx=v[1];ty=v[2];ap()}}
-addEventListener('resize',fit);draw();fit();var hp=location.hash.slice(1);if(hp&&D.pages[hp])sel(hp)
+addEventListener('message',function(e){{var p=e.data&&e.data.pick;if(p&&D.pages[p]&&p!==cur){{sel0.q=1;sel(p)}}}});addEventListener('resize',fit);draw();fit();var hp=location.hash.slice(1);if(hp&&D.pages[hp])sel(hp)
 </script></body></html>'''
 open('flows/sitemap.html','w').write(SMHTML)
 print('sitemap',len(_pp),'pages',len(L),'links')

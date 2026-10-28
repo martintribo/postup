@@ -29,7 +29,7 @@ _scr['Sheets (open in a page slot)']=sorted(OVHOST)
 SCREENS=[[g,[[p,_stitle(p),sum(1 for s in SST.values() if s['page']==p or s['ov']==p)] for p in ps]] for g,ps in _scr.items()]
 LBL={k:_short_state(k) for k in SST}
 STATES_N=len(SST)
-STCSS='''body{background:#f4f3ef}.stw{display:grid;grid-template-columns:230px 1fr;height:100vh}.pick{overflow:auto;padding:10px 12px;border-right:1px solid #e4e2dc;background:#fff;font-size:12.5px}
+STCSS='''.emb .stw{grid-template-columns:1fr}.emb .pick,.emb .top a{display:none}.emb .grid{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}body{background:#f4f3ef}.stw{display:grid;grid-template-columns:230px 1fr;height:100vh}.pick{overflow:auto;padding:10px 12px;border-right:1px solid #e4e2dc;background:#fff;font-size:12.5px}
 .pick h4{margin:10px 0 3px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:#6b6b67}.pick a{display:flex;justify-content:space-between;padding:2px 6px;border-radius:6px;text-decoration:none;color:#232322}.pick a.on{background:#10a364;color:#fff}.pick a i{font-style:normal;color:#8a8984;font-size:11px}.pick a.on i{color:#e6fff2}
 .main{overflow:auto;padding:10px 16px 40px}.top{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px}.top h1{font-size:18px;margin:0}.top .mu{color:#6b6b67}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(400px,1fr));gap:10px;margin-top:10px}
@@ -55,8 +55,11 @@ function render(){var Q=q(),c=Q.s,ks=Object.keys(D.st).filter(function(k){var s=
   var inn=s.inn.map(function(o){return"<li>"+lnk(o[0],D.lbl[o[0]])+' <span class="kd">·</span> '+e(o[1])+"</li>"}).join("")||"<li class=kd>none (entry only)</li>";
   var fl=s.fl.map(function(f){return'<a href="'+f[0]+'.html#'+f[1]+'" title="'+e(f[2])+'">'+e(f[0])+" "+f[1]+"</a>"}).join("");
   return'<div class="card'+(Q.st===k?" hl":"")+'" id="c-'+k.replace(/[^\\w-]/g,"_")+'"><div class="th" style="width:'+tw+"px;height:"+thh+'px"><iframe loading="lazy" src="'+u+'" style="width:'+W+"px;height:"+H+"px;transform:scale("+sc+')" tabindex="-1"></iframe><a href="'+u.replace("notes=0&","")+'" target="_blank" title="Open this state in the mockup"></a></div><div class="inf"><b class="k">'+e(k)+'</b><div class="ch">'+ch+"</div><h5>Out ("+s.out.length+")</h5><ul>"+out+"</ul><h5>In ("+s.inn.length+")</h5><ul>"+inn+"</ul>"+(fl?'<h5>Flows</h5><div class="fl">'+fl+"</div>":"")+"</div></div>"}).join("");
+ if(!Q.st){document.querySelector(".main").scrollTop=0;scrollTo(0,0)}
  if(Q.st){var el=document.getElementById("c-"+Q.st.replace(/[^\\w-]/g,"_"));if(el)el.scrollIntoView({block:"center"})}}
-function go(){pick();render()}
+var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add("emb");
+function go(){pick();render();if(EMB&&!go.q){var Q=q();parent.postMessage({st:Q.s,k:Q.st},"*")}go.q=0}
+addEventListener("message",function(e){var d=e.data||{};if(d.show){var Q=q();if(Q.s===d.show&&(Q.st||"")===(d.k||""))return;go.q=1;location.hash="screen="+d.show+(d.k?"&st="+encodeURIComponent(d.k):"")}});
 document.querySelectorAll(".tg button").forEach(function(b){b.onclick=function(){dev=b.dataset.d;document.querySelectorAll(".tg button").forEach(function(x){x.classList.toggle("on",x===b)});render()}});
 addEventListener("hashchange",go);go();'''
 _title={p:_stitle(p) for p in list(PAGES)+list(OVHOST)}
@@ -67,3 +70,23 @@ open('flows/states.html','w').write(f'''<!doctype html><html lang="en"><head><me
 <script type="application/json" id="stdata">{_data}</script><script>{STJS}</script></body></html>''')
 with open('llms.txt','a') as fh: fh.write('- [Site states by screen](flows/states.html): every state each screen appears in (conditions, open slots, links in/out, flow steps), from model/\n')
 print('states view',len(PAGES)+len(OVHOST),'screens',STATES_N,'states')
+
+EXCSS="""*{box-sizing:border-box}html,body{margin:0;height:100%;font:13px Inter,system-ui,sans-serif;background:#f4f3ef}.xb{height:40px;display:flex;align-items:center;gap:14px;padding:0 14px;background:#fff;border-bottom:1px solid #e4e2dc}
+.xb a{color:#0b7a4b;text-decoration:none}.xb b{font-size:15px}.xb .mu{color:#77756f;font-size:12px}.sp2{display:flex;height:calc(100vh - 40px)}.sp2 iframe{border:0;height:100%;display:block}
+#L{width:40%;min-width:240px}#R{flex:1;min-width:0}.gut{width:7px;cursor:col-resize;background:#e4e2dc;flex:none}.gut:hover{background:#10a364}
+@media(max-width:820px){.sp2{flex-direction:column;height:auto}#L{width:100%!important;height:55vh}#R{height:100vh}.gut{display:none}}"""
+EXJS="""var L=document.getElementById("L"),R=document.getElementById("R"),cur={};
+function hp(){var h=new URLSearchParams(location.hash.slice(1));return{s:h.get("screen")||"home",k:h.get("st")||""}}
+function push(s,k){cur={s:s,k:k||""};history.replaceState(null,"","#screen="+s+(k?"&st="+encodeURIComponent(k):""))}
+addEventListener("message",function(e){var d=e.data||{};
+ if(d.sm&&e.source===L.contentWindow){if(d.sm===cur.s)return;push(d.sm,"");R.contentWindow.postMessage({show:d.sm},"*")}
+ if(d.st&&e.source===R.contentWindow){if(d.st===cur.s&&(d.k||"")===cur.k)return;var ch=d.st!==cur.s;push(d.st,d.k);if(ch)L.contentWindow.postMessage({pick:d.st},"*")}});
+var H=hp();push(H.s,H.k);L.src="sitemap.html?embed=1#"+H.s;R.src="states.html?embed=1#screen="+H.s+(H.k?"&st="+encodeURIComponent(H.k):"");
+addEventListener("hashchange",function(){var H=hp();push(H.s,H.k);L.contentWindow.postMessage({pick:H.s},"*");R.contentWindow.postMessage({show:H.s,k:H.k},"*")});
+var g=document.querySelector(".gut");g.onmousedown=function(e){e.preventDefault();L.style.pointerEvents=R.style.pointerEvents="none";
+ function mv(e){L.style.width=Math.max(15,Math.min(80,e.clientX/innerWidth*100))+"%"}function up(){removeEventListener("mousemove",mv);removeEventListener("mouseup",up);L.style.pointerEvents=R.style.pointerEvents=""}
+ addEventListener("mousemove",mv);addEventListener("mouseup",up)};"""
+open('flows/explore.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Site map + states · PostUp mockups</title><style>{EXCSS}</style></head><body>
+<div class="xb"><a href="../index.html#index">← Mockups</a><b>Site map + states</b><span class="mu">Click a screen on the map; its {STATES_N} site states total, per screen on the right. Drag the divider to resize.</span><span style="flex:1"></span><a href="sitemap.html">Site map</a><a href="states.html">States list</a><a href="site.html">Site graph</a></div>
+<div class="sp2"><iframe id="L" title="Site map"></iframe><div class="gut" title="Drag to resize"></div><iframe id="R" title="States of the selected screen"></iframe></div><script>{EXJS}</script></body></html>''')
+with open('llms.txt','a') as fh: fh.write('- [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states\n')
