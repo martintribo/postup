@@ -3,7 +3,7 @@
 # The mockup sets html[data-vph] from ?ph= or the shared Phase toggle (localStorage pu-ph1); 'All' renders the latest phase.
 # The drift check (sitegraph.py) parses each phase version separately against the model links valid in that phase.
 import re
-P2T=('project','projects','project-new','project-update','project-attach','invite-project','activity')
+P2T=('project','projects','project-new','project-update','project-attach','invite-project','activity','postup-ask','ask','ask-signin','requested')  # + ask to join [M1036]
 import sys as _s; _s.path.insert(0,'gen'); import model as _PM
 _SKIP=set(P2T)|{'inbox','index'}|{k for k,v in _PM.load()[0].items() if (v.get('phase') or 0)>=2}  # phase-2 screens keep their links
 _TGT=re.compile(r"""(?:go|act)\('(%s)'|href="#(%s)\"""" % ('|'.join(P2T),'|'.join(P2T)))
@@ -43,3 +43,12 @@ for k in [k for k in S if k=='postup' or k.startswith('postup--') or k.startswit
 # mockup index: the same Phase choice as the flow views (All = latest version)
 S['index']=S['index'].replace('<h3 class="sh">Style</h3>','<h3 class="sh">Phase</h3><div class="seg vps"><button data-vp="0" onclick="setVph(\'0\')">All (latest)</button><button data-vp="1" onclick="setVph(\'1\')">1 (pre-MVP)</button><button data-vp="2" onclick="setVph(\'2\')">≤2 (MVP)</button></div><h3 class="sh">Style</h3>',1)
 assert 'data-vp="1"' in S['index']
+
+# Ask to join is phase 2 [M1036]: phase 1 hides the "Who can join" choice and the host's Requests (approval) section
+for k in [k for k in S if k.split('--')[0] in ('post','post-signin','post-edit','where','where-search','live')]:
+    S[k]=re.sub(r'(<label( class="lab")?>Who can join</label><div class="seg[^"]*">.*?</div>)',r'<div class="p2only">\1</div>',S[k],count=1,flags=re.S)
+for k in [k for k in S if k.split('--')[0]=='live']:
+    S[k]=re.sub(r'(<div class="sp-h"><h2>Requests</h2>.*?)(?=<div class="sp-h"><h2>Joined</h2>)',r'<div class="p2only">\1</div>',S[k],count=1,flags=re.S)
+assert 'Requests</h2>' in S['live'] and '<div class="p2only"><div class="sp-h"><h2>Requests' in S['live']
+for k in [k for k in S if k=='home' or k.startswith('home--')]:
+    S[k]=S[k].replace('<span class="mu sm">3 nearby</span>','<span class="mu sm p2only">3 nearby</span><span class="mu sm p1only">2 nearby</span>')  # Tess (ask to join) hidden in phase 1 [M1036]

@@ -36,6 +36,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Phase versions
 - Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]
 
+## Phase versions (ask to join)
+- Phase 1 version hides the Who can join choice (everyone can join); phase 2 keeps Anyone can join | Ask to join. [M1036]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]
@@ -152,6 +155,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **M1035** — Martin, Oct 28 2026: per-phase screen versions
+- **M1036** — Martin, Oct 28 2026: ask to join hidden in phase 1
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

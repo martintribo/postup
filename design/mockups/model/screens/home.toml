@@ -12,7 +12,7 @@ slots = [
 ]
 links = [
   { id = "postup", label = "M 2", action = "replace", to = "postup", when = "live=live,tab=live" },
-  { id = "postup-ask", label = "T", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "postup-ask", label = "T", action = "replace", to = "postup-ask", when = "live=live,tab=live,phase>=2" },  # phase 2 only [M1036]
   { id = "cafe", label = "", action = "replace", to = "cafe", when = "tab=live" },
   { id = "live", label = "Live", action = "swap", to = "home", sets = "tab=live", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "building", label = "Building", action = "swap", to = "home", sets = "tab=building", when = "phase>=2" },  # phase 2 only [M1035]
@@ -23,7 +23,7 @@ links = [
   { id = "postup-3", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live,tab=live" },
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe", when = "live=live,tab=live" },
   { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,tab=live,phase>=2" },  # phase 2 only [M1035]
-  { id = "postup-ask-2", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live" },
+  { id = "postup-ask-2", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live,phase>=2" },  # phase 2 only [M1036]
   { id = "cafe-2", label = "Lantern Tea A D M 3 postups", action = "replace", to = "cafe" },
   { id = "me", label = "S", action = "replace", to = "me", when = "tab=building" },
   { id = "see-map", label = "See map", action = "swap", to = "home", sets = "tab=live", when = "live=live,tab=building,phase>=2" },  # phase 2 only [M1035]
@@ -102,4 +102,10 @@ lines = [
 section = "Phase versions"
 lines = [
   "Phase 1 version hides: live, building, star-fox-64-mod, pixel-garden, see-map, see-all-projects, project, project-2, project-3 (phase-2 screens or Building mode). [M1035]",
+]
+
+[[notes]]
+section = "Phase versions (ask to join)"
+lines = [
+  "Phase 1 version hides the ask-to-join entry points: postup-ask, postup-ask-2; phase 2 keeps them. [M1036]",
 ]

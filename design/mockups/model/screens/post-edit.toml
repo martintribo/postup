@@ -43,3 +43,9 @@ section = "Phase versions"
 lines = [
   "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
 ]
+
+[[notes]]
+section = "Phase versions (ask to join)"
+lines = [
+  "Phase 1 version hides the Who can join choice (everyone can join); phase 2 keeps Anyone can join | Ask to join. [M1036]",
+]

@@ -14,7 +14,7 @@ links = [
   { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
   { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "edit", label = "Edit", action = "replace", to = "post-edit" },
-  { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile" },
+  { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile", when = "phase>=2" },  # request card is phase 2 [M1036]
   { id = "profile-2", label = "J Jon On the way · 10 min", action = "replace", to = "profile" },
   { id = "group-chat", label = "Group chat", action = "replace", to = "chat" },
   { id = "end-postup", label = "End postup", action = "open", to = "endlive", slot = "sheet" },
@@ -57,4 +57,10 @@ lines = [
 section = "Phase versions"
 lines = [
   "Phase 1 version hides: star-fox-64-mod (phase-2 screens or Building mode). [M1035]",
+]
+
+[[notes]]
+section = "Phase versions (ask to join)"
+lines = [
+  "Phase 1 version hides Who can join and the Requests section (Dev's request, Approve / Decline); phase 2 keeps them. [M1036]",
 ]

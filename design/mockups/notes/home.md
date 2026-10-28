@@ -49,6 +49,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Phase versions
 - Phase 1 version hides: live, building, star-fox-64-mod, pixel-garden, see-map, see-all-projects, project, project-2, project-3 (phase-2 screens or Building mode). [M1035]
 
+## Phase versions (ask to join)
+- Phase 1 version hides the ask-to-join entry points: postup-ask, postup-ask-2; phase 2 keeps them. [M1036]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]
@@ -165,6 +168,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **M1035** — Martin, Oct 28 2026: per-phase screen versions
+- **M1036** — Martin, Oct 28 2026: ask to join hidden in phase 1
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1
