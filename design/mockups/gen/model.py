@@ -9,7 +9,7 @@ DEVICES={'phone','desktop'}
 ROLES={'joiner','host','account','visitor'}
 STATUSES={'martin','draft'}
 DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building')}
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):

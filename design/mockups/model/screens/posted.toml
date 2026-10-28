@@ -44,3 +44,9 @@ section = "Overrides"
 lines = [
   "Home is called Home; the \"Map\" link label wasn't decided. [F046] [unsourced]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod, project. [M1034]",
+]

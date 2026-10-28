@@ -68,8 +68,14 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Purpose
 - Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
 
+### Chrome: Rail (desktop) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
+
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
+
+### Chrome: Tab bar (phone) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
 
 
 ---
@@ -129,6 +135,9 @@ URL: /mockups/?style=fresh&device=phone#home  ·  desktop: /mockups/?style=fresh
 
 ### Gap fixes
 - Gap fix (Oct 25): Live now includes an ask-to-join postup (Tess, marked "Ask to join") that opens `#postup-ask`; open-join rows unchanged. [M1025]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod, pixel-garden, see-all-projects, project, project-2, project-3. [M1034]
 
 ---
 
@@ -263,6 +272,9 @@ URL: /mockups/?style=fresh&device=phone#post  ·  desktop: /mockups/?style=fresh
 ### Not adopted
 - "Where I'm sitting" note/photo: todo. [F056]
 
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
+
 ---
 
 ## You're posted up (`posted`)
@@ -282,6 +294,9 @@ URL: /mockups/?style=fresh&device=phone#posted  ·  desktop: /mockups/?style=fre
 
 ### Overrides
 - Home is called Home; the "Map" link label wasn't decided. [F046] [unsourced]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod, project. [M1034]
 
 ---
 
@@ -311,6 +326,9 @@ URL: /mockups/?style=fresh&device=phone#postup  ·  desktop: /mockups/?style=fre
 ### Unsourced
 - Explain what Join means ("Let Maya know you're coming, then say hi at the cafe"). [R24⚠]
 
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
+
 ---
 
 ## You're joining (`joined`)
@@ -329,6 +347,9 @@ URL: /mockups/?style=fresh&device=phone#joined  ·  desktop: /mockups/?style=fre
 
 ### Unsourced
 - Directions open Apple/Google Maps (ledger item). [R25⚠]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
 
 ---
 
@@ -452,6 +473,9 @@ URL: /mockups/?style=fresh&device=phone#where  ·  desktop: /mockups/?style=fres
 ### Gap fixes
 - Gap fix (Oct 25): tapping the search box opens `#where-search`. [M1025]
 
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
+
 ---
 
 ## Cafe search (`where-search`)
@@ -465,6 +489,9 @@ URL: /mockups/?style=fresh&device=phone#where-search  ·  desktop: /mockups/?sty
 
 ### Behavior
 - Google Places Autocomplete in our UI is fine; show "powered by Google" attribution. [F097] [FS]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
 
 ---
 
@@ -480,6 +507,9 @@ URL: /mockups/?style=fresh&device=phone#post-edit  ·  desktop: /mockups/?style=
 
 ### Decisions
 - Managing your own postup is important. [F057]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
 
 ---
 
@@ -501,6 +531,9 @@ URL: /mockups/?style=fresh&device=phone#live  ·  desktop: /mockups/?style=fresh
 
 ### Decisions
 - Before this screen, nothing showed you were live (review gap). [F112]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod. [M1034]
 
 ---
 
@@ -607,6 +640,9 @@ URL: /mockups/?style=fresh&device=phone#invite  ·  desktop: /mockups/?style=fre
 ### Links
 - Join → sign-in → `#joined`. Cafe → `#cafe`. [drawn]
 
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod. [M1034]
+
 ---
 
 ## Share link · ended (`invite-ended`)
@@ -634,7 +670,6 @@ URL: /mockups/?style=fresh&device=phone#invite-ended  ·  desktop: /mockups/?sty
 URL: /mockups/?style=fresh&device=phone#empty-area  ·  desktop: /mockups/?style=fresh&device=desktop#empty-area
 
 ### Purpose
-- Nobody is live nearby: show what happened here lately instead of an empty screen. Recently nearby (past postups: who, cafe, day, project) → `#profile`; Projects nearby → `#project`; then cafes to be the first today and Post up. [M1032]
 - Was: an area with no postups yet, "Be the first here". [FS]
 
 ### Scenarios
@@ -642,7 +677,7 @@ URL: /mockups/?style=fresh&device=phone#empty-area  ·  desktop: /mockups/?style
 
 ### Behavior
 - No fake activity. [TK§2]
-- Recent activity is real past postups and project updates from the area (this week first, then older); if there is none at all, projects in general, then cafes. [M1032]
+- Recent activity is real past postups from the area (this week first, then older); if there is none at all, cafes to be the first. Projects nearby are phase 2. [M1032] [M1034]
 
 ### Overrides
 - No postups means no map on home; the drawing shows one. Focus on projects. [F044] [R1]
@@ -740,8 +775,8 @@ URL: /mockups/?style=fresh&device=phone#inbox-one  ·  desktop: /mockups/?style=
 
 ### Behavior
 - Each row is a postup's chat, newest first, with an unread dot. [M1033]
-- Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. "Jon joined · extended till 5pm". [M1033]
-- Alerts not tied to a chat (e.g. a new follower) get their own row. [M1033]
+- Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. "Jon joined"; the preview keeps the latest message visible. [M1033] [M1034]
+- Alerts not tied to a chat get their own row; none are drawn in phase 1 since following is not phase 1. [M1033] [M1034]
 - Ended postups stay in the list, dimmed, and open the ended page. Root tab: no Back. [M1033]
 - The two-tab Inbox (Chats | Activity) is the later design (phase 2): condition inbox-tabs. [M1033]
 
@@ -780,6 +815,9 @@ URL: /mockups/?style=fresh&device=phone#profile  ·  desktop: /mockups/?style=fr
 - Live card, avatar, bio, "N postups · since Sep", Follow, regular cafes, projects, past postups. [FS] [R76]
 - ⋯ → report / block. [FS] [F059]
 
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]
+
 ---
 
 ## My profile (`me`)
@@ -795,6 +833,9 @@ URL: /mockups/?style=fresh&device=phone#me  ·  desktop: /mockups/?style=fresh&d
 ### Behavior
 - Live card → `#live`, Edit profile, gear → `#settings`. [FS]
 - Desktop rail avatar opens this. [FS]
+
+### Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: tide-clock-updated-sun. [M1034]
 
 ---
 
@@ -1129,6 +1170,7 @@ URL: /mockups/?style=fresh&device=phone&ov=signin#profile  ·  desktop: /mockups
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **M1032** — Martin, Oct 28 2026: phase scope decisions (phase 2 = MVP; ask/approve in phase 2; merged flows; empty area shows recent activity and projects)
 - **M1033** — Martin, Oct 28 2026: phase-1 Inbox is one list (no Chats/Activity tabs)
+- **M1034** — Martin, Oct 28 2026: projects move to phase 2
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1
@@ -1156,48 +1198,44 @@ Player: /mockups/flows/look-around.html
 ### Steps
 1. **home@out.live.live** · user: Curious what this is; sees people live · action: arrives at / · edge: entry
    - Home in Live mode: map + Live now. [M1018b] [M1025]
-   - next site states: postup@out.live (M 2), postup-ask@out.live (T), cafe@out.live (cafe), **home@out.live.building** (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox-one@out.live (Inbox), me@out.live (S), cafe-gfail@out.live (cafe (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: **postup@out.live** (M 2), postup-ask@out.live (T), cafe@out.live (cafe), home@out.live.building (Building), quiet@out.live (Locate), project@out.live (Star Fox 64 mod), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox-one@out.live (Inbox), me@out.live (S), cafe-gfail@out.live (cafe (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
-2. **home@out.live.building** · user: What is this, really? · action: switches to Building · edge: tap: Building
-   - Building: the welcome line "Post up at a cafe. See who's working nearby." and projects first. [M1018b] [drawn] [M1025]
-   - next site states: home@out.live.live (Live), cafe@out.live (Lantern Tea A D M 3 postups), me@out.live (S), projects@out.live (See all projects), **project@out.live** (Star Fox 64 mod M Maya · Yesterday), post@out.live (Post up), quiet-feed@out.live (Nearby), inbox-one@out.live (Inbox), cafe-gfail@out.live (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+2. **postup@out.live** · user: What is she doing? · action: taps Maya's live row · edge: tap: M Maya Live Bean Theory · till 4pm
+   - Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034]
+   - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), **profile@out.live** (M Maya Live · till 4pm), project@out.live (Star Fox 64 mod Adding a new Corne), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), postup+signin@out.live (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox-one@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
-3. **project@out.live** · user: Gets it: people work on projects at cafes · action: taps a project · edge: tap: Star Fox 64 mod M Maya · Yesterday
-   - Opens a project: updates and past postups. [FS] [M1025]
-   - next site states: back (Back), project-new@out.live (New), **profile@out.live** (Maya), project-update@out.live (Update), project-attach@out.live (Post up), cafe@out.live (Bean Theory), postup@out.live (M Maya Bean Theory · till 4pm Live), home@out.live.live (Home), quiet-feed@out.live (Nearby), post@out.live (Post up), projects@out.live (Projects), inbox-one@out.live (Inbox), me@out.live (S), cafe-gfail@out.live (Bean Theory (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
-   - enterable flows: none
-4. **profile@out.live** · user: Who is behind it? · action: taps the owner · edge: tap: Maya
+3. **profile@out.live** · user: Who is behind it? · action: taps Maya · edge: tap: M Maya Live · till 4pm
    - Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025]
    - next site states: back (Back), profile+more@out.live (More), **postup@out.live** (Live at Bean Theory Till 4pm · Sta), profile+signin@out.live (Follow), cafe@out.live (Bean Theory), project@out.live (Star Fox 64 mod Updated yesterday), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox-one@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
-5. **postup@out.live** · user: She's live right now · action: taps Live at Bean Theory · edge: tap: Live at Bean Theory Till 4pm · Sta
+4. **postup@out.live** · user: She's live right now · action: taps Live at Bean Theory · edge: tap: Live at Bean Theory Till 4pm · Sta
    - Her live postup; Join shows 🔒. [FS] [M1024]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), project@out.live (Star Fox 64 mod Adding a new Corne), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), **postup+signin@out.live** (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox-one@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
-6. **postup+signin@out.live** · user: Wants to join; asked to sign in · action: taps Join 🔒 · edge: tap: Join
+5. **postup+signin@out.live** · user: Wants to join; asked to sign in · action: taps Join 🔒 · edge: tap: Join
    - Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]
    - next site states: postup@out.live (close), postup@in.live (Continue with Apple), **joined@in.live** (signs in → continues)
    - enterable flows: none
-7. **joined@in.live** · user: Signed in; committed · action: signs in · edge: tap: Continue with Apple
+6. **joined@in.live** · user: Signed in; committed · action: signs in · edge: tap: Continue with Apple
    - Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), chat@in.live (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Bean Theory (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: join step 3 (if Decides to join), invite-live step 3 (if Signed in; going), leave step 1 (if Plans changed)
 
 ### Connected flows [M1025]
-- `join`: branch out at step 7→3; merge in at step 7 (from its step 3)
-- `invite-live`: branch out at step 7→3; merge in at step 7 (from its step 3)
-- `leave`: branch out at step 7→1; merge in at —
+- `join`: branch out at step 6→3; merge in at step 6 (from its step 3)
+- `invite-live`: branch out at step 6→3; merge in at step 6 (from its step 3)
+- `leave`: branch out at step 6→1; merge in at —
 
 ### Screens
 1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live#home)
-2. `#home` · auth=out live=live mode=building — Building: the welcome line "Post up at a cafe. See who's working nearby." and projects first. [M1018b] [drawn] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building#home)
-3. `#project` · auth=out live=live — Opens a project: updates and past postups. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#project)
-4. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#profile)
-5. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
-6. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin#postup)
-7. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#joined)
+2. `#postup` · auth=out live=live — Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
+3. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live#profile)
+4. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live#postup)
+5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin#postup)
+6. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live#joined)
 
 ### Branches and edge cases
+- Switches to Building mode for the welcome line and projects: phase 2, since projects are phase 2. [M1034]
 - Joins straight from Live now: taps a live row, Join 🔒, sign-in sheet, joined in one go (was Curious visitor joins someone live). [FS] [M1018] [M1024]
 - Follows the maker instead of joining: Follow 🔒 → sign-in sheet → signed in and following (was Curious browser). [FS] [M1025]
 - No idea what PostUp is: taps the first live person, then the cafe, to understand by example (was Stumbled on it). [FS] [M1025]
@@ -1237,7 +1275,7 @@ Player: /mockups/flows/empty-area-newcomer.html
 - auth=out · live=none · device=phone · entry URL `/`
 
 ### Goal
-- With nobody live nearby, see what happened here lately and projects nearby, then join in later or be the first. [M1032]
+- With nobody live nearby, see who posted up here lately, then be the first today. [M1032]
 
 ### Steps
 1. **home@out.none.building** · user: Nobody around right now · action: arrives at / · edge: entry
@@ -1245,8 +1283,8 @@ Player: /mockups/flows/empty-area-newcomer.html
    - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox-one@out.none (Inbox), **empty-area@out.none** (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: first-post step 1 (if Came to post up right now)
 2. **empty-area@out.none** · user: What happens around here? · action: area has no postups · edge: cond: area has no postups
-   - Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]
-   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), **profile@out.none** (Maya posted up at Bean Theory), project@out.none (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032]
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), **profile@out.none** (Maya posted up at Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 3. **profile@out.none** · user: Who comes here? · action: taps Maya posted up at Bean Theory · edge: tap: Maya posted up at Bean Theory
    - Maya's profile: regular cafes, past postups. [FS] [M1032]
@@ -1254,11 +1292,7 @@ Player: /mockups/flows/empty-area-newcomer.html
    - enterable flows: none
 4. **empty-area@out.none** · user: Back to the area · action: taps Back · edge: back
    - The empty-area screen again. [M1032]
-   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), profile@out.none (Maya posted up at Bean Theory), **project@out.none** (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
-   - enterable flows: none
-5. **project@out.none** · user: What are people making? · action: taps a project nearby · edge: tap: Star Fox 64 mod
-   - A project nearby: updates and past postups. [FS] [M1032]
-   - next site states: back (Back), project-new@out.none (New), profile@out.none (Maya), project-update@out.none (Update), project-attach@out.none (Post up), cafe@out.none (Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), post@out.none (Post up), projects@out.none (Projects), inbox-one@out.none (Inbox), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), profile@out.none (Maya posted up at Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 
 ### Connected flows [M1025]
@@ -1266,13 +1300,12 @@ Player: /mockups/flows/empty-area-newcomer.html
 
 ### Screens
 1. `#home` · auth=out live=none mode=building — Home in Building mode: closest projects. [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building#home)
-2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#empty-area)
+2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#empty-area)
 3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#profile)
 4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#empty-area)
-5. `#project` · auth=out live=none — A project nearby: updates and past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none#project)
 
 ### Branches and edge cases
-- No past activity at all in the area: projects in general, then good cafes to be the first. [M1032]
+- No past activity at all in the area: good cafes to be the first. [M1032] [M1034]
 
 ### Success criteria
 - Never an empty or "quiet" screen: recent postups and projects nearby are shown. [F035] [R4] [M1032]
@@ -1415,7 +1448,7 @@ Player: /mockups/flows/empty-area.html
 - auth=in · live=none · device=phone · entry URL `/`
 
 ### Goal
-- With nobody live nearby, see what happened here lately and projects nearby, then join in later or be the first. [M1032]
+- With nobody live nearby, see who posted up here lately, then be the first today. [M1032]
 
 ### Steps
 1. **home@in.none.building** · user: Nobody around right now · action: arrives at / · edge: entry
@@ -1423,8 +1456,8 @@ Player: /mockups/flows/empty-area.html
    - next site states: home@in.none.live (Live), cafe@in.none (Lantern Tea A D M 3 postups), me@in.none (S), projects@in.none (See all projects), project@in.none (Star Fox 64 mod M Maya · Yesterday), post@in.none (Post up), quiet-feed@in.none (Nearby), inbox-one@in.none (Inbox), **empty-area@in.none** (area has no postups), cafe-gfail@in.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 2. **empty-area@in.none** · user: What happens around here? · action: area has no postups · edge: cond: area has no postups
-   - Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]
-   - next site states: cafe@in.none (cafe), me@in.none (S), post@in.none (Stories Cafe 0.3 mi), **profile@in.none** (Maya posted up at Bean Theory), project@in.none (Star Fox 64 mod), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), cafe-gfail@in.none (cafe (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032]
+   - next site states: cafe@in.none (cafe), me@in.none (S), post@in.none (Stories Cafe 0.3 mi), **profile@in.none** (Maya posted up at Bean Theory), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), cafe-gfail@in.none (cafe (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 3. **profile@in.none** · user: Who comes here? · action: taps Maya posted up at Bean Theory · edge: tap: Maya posted up at Bean Theory
    - Maya's profile: regular cafes, past postups. [FS] [M1032]
@@ -1432,26 +1465,20 @@ Player: /mockups/flows/empty-area.html
    - enterable flows: following step 1 (if Likes someone's work)
 4. **empty-area@in.none** · user: Back to the area · action: taps Back · edge: back
    - The empty-area screen again. [M1032]
-   - next site states: cafe@in.none (cafe), me@in.none (S), post@in.none (Stories Cafe 0.3 mi), profile@in.none (Maya posted up at Bean Theory), **project@in.none** (Star Fox 64 mod), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), cafe-gfail@in.none (cafe (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: cafe@in.none (cafe), me@in.none (S), post@in.none (Stories Cafe 0.3 mi), profile@in.none (Maya posted up at Bean Theory), home@in.none.building (Home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), cafe-gfail@in.none (cafe (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
-5. **project@in.none** · user: What are people making? · action: taps a project nearby · edge: tap: Star Fox 64 mod
-   - A project nearby: updates and past postups. [FS] [M1032]
-   - next site states: back (Back), project-new@in.none (New), profile@in.none (Maya), project-update@in.none (Update), project-attach@in.none (Post up), cafe@in.none (Bean Theory), home@in.none.building (Home), quiet-feed@in.none (Nearby), post@in.none (Post up), projects@in.none (Projects), inbox-one@in.none (Inbox), me@in.none (S), cafe-gfail@in.none (Bean Theory (Google card fails)), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
-   - enterable flows: project-builder step 3 (if Project exists), following step 2 (if Wants to see what else is being built)
 
 ### Connected flows [M1025]
-- `following`: branch out at step 3→1, step 5→2; merge in at step 5 (from its step 2)
-- `project-builder`: branch out at step 5→3; merge in at step 5 (from its step 3)
+- `following`: branch out at step 3→1; merge in at —
 
 ### Screens
 1. `#home` · auth=in live=none mode=building — Home in Building mode: closest projects. [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=building#home)
-2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none#empty-area)
+2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none#empty-area)
 3. `#profile` · auth=in live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none#profile)
 4. `#empty-area` · auth=in live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none#empty-area)
-5. `#project` · auth=in live=none — A project nearby: updates and past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none#project)
 
 ### Branches and edge cases
-- No past activity at all in the area: projects in general, then good cafes to be the first. [M1032]
+- No past activity at all in the area: good cafes to be the first. [M1032] [M1034]
 
 ### Success criteria
 - Never an empty or "quiet" screen: recent postups and projects nearby are shown. [F035] [R4] [M1032]
@@ -1658,7 +1685,7 @@ Player: /mockups/flows/chat.html
 ### Steps
 1. **inbox-one@in.live** · user: Wants to check messages · action: opens Inbox · edge: entry
    - Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033]
-   - next site states: **chat@in.live** (Maya's postup · Bean Theory), profile@in.live (Ari followed you), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: **chat@in.live** (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: Maya's postup · Bean Theory
    - One chat per postup. [F061] [F096]
@@ -1792,7 +1819,7 @@ Player: /mockups/flows/leave.html
 ---
 
 ## Flow: Share link to a project (`invite-project`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/invite-project.html
 
 ### Persona
@@ -1961,7 +1988,7 @@ Player: /mockups/flows/host-approve.html
 ---
 
 ## Flow: Project builder: create, update, post up for it (`project-builder`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/project-builder.html
 
 ### Persona

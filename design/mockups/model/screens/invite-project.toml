@@ -2,6 +2,7 @@
 id = "invite-project"
 title = "Share link · project"
 kind = "page"
+phase = 2  # projects are phase 2 [M1034]
 group = "Share-link landings"
 entry = true
 slots = [

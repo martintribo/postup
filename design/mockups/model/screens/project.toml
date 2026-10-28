@@ -2,6 +2,7 @@
 id = "project"
 title = "Project"
 kind = "page"
+phase = 2  # projects are phase 2 [M1034]
 group = "Projects"
 variants = { "live=none" = "project--none" }  # condition -> HTML id that renders it (first match wins)
 slots = [

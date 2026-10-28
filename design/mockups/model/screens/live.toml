@@ -51,3 +51,9 @@ section = "Decisions"
 lines = [
   "Before this screen, nothing showed you were live (review gap). [F112]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod. [M1034]",
+]

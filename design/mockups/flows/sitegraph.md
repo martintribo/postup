@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3896 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3884 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 
 Site events: postups end; someone goes live; alert arrives; comes back later; postup fills (on postup, postup-ask, joined, requested, invite, postup-full); postup is cancelled (on postup, postup-ask, joined, requested, invite, postup-full); postup ends (on postup, postup-ask, joined, requested, invite, postup-full); someone you follow posts up; network drops (on quiet-feed, loading, home). live = someone live nearby; a postup ending changes only its own page.
 
@@ -147,8 +147,6 @@ States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `emp
 - Post up → `post` [tap]
 - Maya posted up at Bean Theory → `profile` [tap]
 - Jon posted up at Lot 1 Coffee → `profile` [tap]
-- Star Fox 64 mod → `project` [tap]
-- Bus Stop Zine → `project` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - cafe (Google card fails) → `cafe-gfail` [cond]
@@ -750,7 +748,6 @@ States: `inbox-one@out.live`, `inbox-one@out.none`, `inbox-one@in.live`, `inbox-
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Tess's postup · Grindhouse → `postup-ended` [tap]
-- Ari followed you → `profile` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back] — only out·live, out·none

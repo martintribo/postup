@@ -41,3 +41,9 @@ lines = [
   "Live card, avatar, bio, \"N postups · since Sep\", Follow, regular cafes, projects, past postups. [FS] [R76]",
   "⋯ → report / block. [FS] [F059]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+]

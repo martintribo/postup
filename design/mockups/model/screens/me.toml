@@ -42,3 +42,9 @@ lines = [
   "Live card → `#live`, Edit profile, gear → `#settings`. [FS]",
   "Desktop rail avatar opens this. [FS]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: tide-clock-updated-sun. [M1034]",
+]

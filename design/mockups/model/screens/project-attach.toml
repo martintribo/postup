@@ -2,6 +2,7 @@
 id = "project-attach"
 title = "Post up for a project"
 kind = "page"
+phase = 2  # projects are phase 2 [M1034]
 group = "Projects"
 slots = [
   { name = "sheet", kind = "sheet", accepts = ["signin"] },

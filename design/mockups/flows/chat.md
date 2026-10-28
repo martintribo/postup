@@ -14,7 +14,7 @@ Player: /mockups/flows/chat.html
 ## Steps
 1. **inbox-one@in.live** · user: Wants to check messages · action: opens Inbox · edge: entry
    - Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033]
-   - next site states: **chat@in.live** (Maya's postup · Bean Theory), profile@in.live (Ari followed you), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
+   - next site states: **chat@in.live** (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: Maya's postup · Bean Theory
    - One chat per postup. [F061] [F096]

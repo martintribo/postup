@@ -8,7 +8,6 @@ Scenario: ?auth=out|in&live=live|none (default out + live); see the Scenarios se
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing.
 
 ## Purpose
-- Nobody is live nearby: show what happened here lately instead of an empty screen. Recently nearby (past postups: who, cafe, day, project) → `#profile`; Projects nearby → `#project`; then cafes to be the first today and Post up. [M1032]
 - Was: an area with no postups yet, "Be the first here". [FS]
 
 ## Scenarios
@@ -16,7 +15,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 
 ## Behavior
 - No fake activity. [TK§2]
-- Recent activity is real past postups and project updates from the area (this week first, then older); if there is none at all, projects in general, then cafes. [M1032]
+- Recent activity is real past postups from the area (this week first, then older); if there is none at all, cafes to be the first. Projects nearby are phase 2. [M1032] [M1034]
 
 ## Overrides
 - No postups means no map on home; the drawing shows one. Focus on projects. [F044] [R1]
@@ -87,8 +86,14 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Purpose
 - Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
 
+### Chrome: Rail (desktop) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
+
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
+
+### Chrome: Tab bar (phone) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
 
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”
@@ -125,6 +130,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
 - **M1032** — Martin, Oct 28 2026: phase scope decisions (phase 2 = MVP; ask/approve in phase 2; merged flows; empty area shows recent activity and projects)
+- **M1034** — Martin, Oct 28 2026: projects move to phase 2
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

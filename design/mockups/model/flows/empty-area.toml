@@ -8,11 +8,11 @@ situation = "rg-nobody-live"
 order = 8
 status = "draft"
 persona = "Signed-in user in an area where nobody is live right now."
-goal = "With nobody live nearby, see what happened here lately and projects nearby, then join in later or be the first. [M1032]"
+goal = "With nobody live nearby, see who posted up here lately, then be the first today. [M1032]"
 intent = "Nobody around right now"
 start = { screen = "home", auth = "in", live = "none", tab = "building", device = "phone", url = "/" }
 edge_cases = [
-  "No past activity at all in the area: projects in general, then good cafes to be the first. [M1032]",
+  "No past activity at all in the area: good cafes to be the first. [M1032] [M1034]",
 ]
 success = [
   "Never an empty or \"quiet\" screen: recent postups and projects nearby are shown. [F035] [R4] [M1032]",
@@ -32,7 +32,7 @@ event = "empty-area"
 act = "area has no postups"
 expect = "empty-area@in.none"
 thought = "What happens around here?"
-shows = "Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]"
+shows = "Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032]"
 [[steps]]
 link = "empty-area:maya"
 act = "taps Maya posted up at Bean Theory"
@@ -45,9 +45,3 @@ act = "taps Back"
 expect = "empty-area@in.none"
 thought = "Back to the area"
 shows = "The empty-area screen again. [M1032]"
-[[steps]]
-link = "empty-area:star-fox-64-mod"
-act = "taps a project nearby"
-expect = "project@in.none"
-thought = "What are people making?"
-shows = "A project nearby: updates and past postups. [FS] [M1032]"

@@ -1,5 +1,5 @@
 # Flow: Project builder: create, update, post up for it (`project-builder`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/project-builder.html
 
 ## Persona

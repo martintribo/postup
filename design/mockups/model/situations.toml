@@ -15,7 +15,7 @@ situations = [
   { id = "nc-postup-link", group = "shared-link", user = "newcomer", title = "A friend sent a postup link", setting = "Signed out, opens a shared postup link (live or ended). [M1031-draft]" },
   { id = "nc-project-link", group = "shared-link", user = "newcomer", title = "A friend sent a project link", setting = "Signed out, opens a shared project link. [M1031-draft]" },
   { id = "nc-at-cafe", group = "posting", user = "newcomer", title = "Already at a cafe, wants to post up", setting = "Signed out, wants to go live where they are. [M1031-draft]" },
-  { id = "nc-nobody-live", group = "discovering", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. Shown recent postups and projects nearby. [M1032]" },
+  { id = "nc-nobody-live", group = "discovering", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. Shown recent postups nearby, then cafes to be the first. [M1032] [M1034]" },
   { id = "rg-wants-company", group = "finding-company", user = "registered", title = "Wants company now", setting = "Signed in; someone is live nearby. [M1031-draft]" },
   { id = "rg-nobody-live", group = "finding-company", user = "registered", title = "Nobody live nearby", setting = "Signed in; no one is live in the area. [M1031-draft]" },
   { id = "rg-posting", group = "posting", user = "registered", title = "Wants to post up", setting = "Signed in, at a cafe, posting again. [M1031-draft]" },

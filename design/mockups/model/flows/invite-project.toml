@@ -2,6 +2,7 @@
 id = "invite-project"
 name = "Share link to a project"
 role = "joiner"
+phase = 2  # projects are phase 2 [M1034]
 user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 situation = "nc-project-link"  # model/situations.toml [M1031-draft]
 order = 8  # position in the flow list

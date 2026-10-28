@@ -2,6 +2,7 @@
 id = "project-builder"
 name = "Project builder: create, update, post up for it"
 role = "host"
+phase = 2  # projects are phase 2 [M1034]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
 situation = "rg-projects"  # model/situations.toml [M1031-draft]
 order = 14  # position in the flow list

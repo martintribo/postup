@@ -79,10 +79,10 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [chat](flows/chat.md): Postup chat (Phase 1, draft) · player: flows/chat.html
 - [safety](flows/safety.md): Report and block (Phase 1, draft) · player: flows/safety.html
 - [leave](flows/leave.md): Leave a postup you joined (Phase 1, draft) · player: flows/leave.html
-- [invite-project](flows/invite-project.md): Share link to a project (Unphased, draft) · player: flows/invite-project.html
+- [invite-project](flows/invite-project.md): Share link to a project (Phase 2 (MVP), draft) · player: flows/invite-project.html
 - [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (Phase 2 (MVP), draft) · player: flows/ask-join.html
 - [host-approve](flows/host-approve.md): Host approves a request (Phase 2 (MVP), draft) · player: flows/host-approve.html
-- [project-builder](flows/project-builder.md): Project builder: create, update, post up for it (Unphased, draft) · player: flows/project-builder.html
+- [project-builder](flows/project-builder.md): Project builder: create, update, post up for it (Phase 2 (MVP), draft) · player: flows/project-builder.html
 - [following](flows/following.md): Follow a person or project (Unphased, draft) · player: flows/following.html
 - [postup-states](flows/postup-states.md): Postup ends, fills or is cancelled while you look (Unphased, draft) · player: flows/postup-states.html
 - [loading-offline](flows/loading-offline.md): Slow network and offline (Unphased, draft) · player: flows/loading-offline.html
@@ -92,7 +92,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [catch-up](flows/catch-up.md): Catch up on what happened (Unphased, draft) · player: flows/catch-up.html
 
 ## Site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3896 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3884 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 - [Site graph: pages, site states, edges, design gaps](flows/sitegraph.md) · page: flows/site.html · data: flows/sitegraph.json
 - [Site states by screen](flows/states.html): every state each screen appears in (conditions, open slots, links in/out, flow steps), from model/
 - [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states

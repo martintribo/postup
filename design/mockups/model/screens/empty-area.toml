@@ -15,14 +15,11 @@ links = [
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "maya", label = "Maya posted up at Bean Theory", action = "replace", to = "profile" },  # [M1032]
   { id = "jon", label = "Jon posted up at Lot 1 Coffee", action = "replace", to = "profile" },  # [M1032]
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project" },  # [M1032]
-  { id = "bus-stop-zine", label = "Bus Stop Zine", action = "replace", to = "project" },  # [M1032]
 ]
 
 [[notes]]
 section = "Purpose"
 lines = [
-  "Nobody is live nearby: show what happened here lately instead of an empty screen. Recently nearby (past postups: who, cafe, day, project) → `#profile`; Projects nearby → `#project`; then cafes to be the first today and Post up. [M1032]",
   "Was: an area with no postups yet, \"Be the first here\". [FS]",
 ]
 
@@ -36,7 +33,7 @@ lines = [
 section = "Behavior"
 lines = [
   "No fake activity. [TK§2]",
-  "Recent activity is real past postups and project updates from the area (this week first, then older); if there is none at all, projects in general, then cafes. [M1032]",
+  "Recent activity is real past postups from the area (this week first, then older); if there is none at all, cafes to be the first. Projects nearby are phase 2. [M1032] [M1034]",
 ]
 
 [[notes]]

@@ -116,8 +116,14 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Purpose
 - Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a "rail" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]
 
+### Chrome: Rail (desktop) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
+
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
+
+### Chrome: Tab bar (phone) · Phase 1
+- Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]
 
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”
@@ -154,6 +160,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
+- **M1034** — Martin, Oct 28 2026: projects move to phase 2
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

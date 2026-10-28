@@ -12,7 +12,6 @@ slots = [
 links = [
   { id = "maya-chat", label = "Maya's postup · Bean Theory", action = "replace", to = "chat" },
   { id = "your-chat", label = "Your postup · Lot 1 Coffee", action = "replace", to = "chat" },
-  { id = "ari", label = "Ari followed you", action = "replace", to = "profile" },
   { id = "tess-ended", label = "Tess's postup · Grindhouse", action = "replace", to = "postup-ended" },
   { id = "back", label = "", action = "back", when = "auth=out" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "inbox-one", sets = "auth=in", when = "auth=out" },
@@ -37,8 +36,8 @@ lines = [
 section = "Behavior"
 lines = [
   "Each row is a postup's chat, newest first, with an unread dot. [M1033]",
-  "Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. \"Jon joined · extended till 5pm\". [M1033]",
-  "Alerts not tied to a chat (e.g. a new follower) get their own row. [M1033]",
+  "Postup alerts (someone joined, extended, ended) show as system lines in that chat and in the row preview, e.g. \"Jon joined\"; the preview keeps the latest message visible. [M1033] [M1034]",
+  "Alerts not tied to a chat get their own row; none are drawn in phase 1 since following is not phase 1. [M1033] [M1034]",
   "Ended postups stay in the list, dimmed, and open the ended page. Root tab: no Back. [M1033]",
   "The two-tab Inbox (Chats | Activity) is the later design (phase 2): condition inbox-tabs. [M1033]",
 ]

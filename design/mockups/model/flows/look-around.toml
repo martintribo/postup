@@ -13,6 +13,7 @@ goal = "Understand PostUp from the first screen, see live and past content, and 
 intent = "Curious what this is; sees people live"
 start = { screen = "home", auth = "out", live = "live", tab = "live", device = "phone", url = "/" }
 edge_cases = [
+  "Switches to Building mode for the welcome line and projects: phase 2, since projects are phase 2. [M1034]",
   "Joins straight from Live now: taps a live row, Join 🔒, sign-in sheet, joined in one go (was Curious visitor joins someone live). [FS] [M1018] [M1024]",
   "Follows the maker instead of joining: Follow 🔒 → sign-in sheet → signed in and following (was Curious browser). [FS] [M1025]",
   "No idea what PostUp is: taps the first live person, then the cafe, to understand by example (was Stumbled on it). [FS] [M1025]",
@@ -46,23 +47,19 @@ expect = "home@out.live.live"
 thought = "Curious what this is; sees people live"
 shows = "Home in Live mode: map + Live now. [M1018b] [M1025]"
 [[steps]]
-link = "home:building"
-act = "switches to Building"
-expect = "home@out.live.building"
-thought = "What is this, really?"
-shows = "Building: the welcome line \"Post up at a cafe. See who's working nearby.\" and projects first. [M1018b] [drawn] [M1025]"
+link = "home:postup-2"
+act = "taps Maya's live row"
+expect = "postup@out.live"
+thought = "What is she doing?"
+shows = "Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034]"
+
 [[steps]]
-link = "home:project"
-act = "taps a project"
-expect = "project@out.live"
-thought = "Gets it: people work on projects at cafes"
-shows = "Opens a project: updates and past postups. [FS] [M1025]"
-[[steps]]
-link = "project:maya"
-act = "taps the owner"
+link = "postup:profile"
+act = "taps Maya"
 expect = "profile@out.live"
 thought = "Who is behind it?"
 shows = "Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025]"
+
 [[steps]]
 link = "profile:postup"
 act = "taps Live at Bean Theory"

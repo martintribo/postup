@@ -55,3 +55,9 @@ section = "Gap fixes"
 lines = [
   "Gap fix (Oct 25): tapping the search box opens `#where-search`. [M1025]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+]

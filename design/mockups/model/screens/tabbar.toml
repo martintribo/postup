@@ -16,3 +16,9 @@ section = "Purpose"
 lines = [
   "Phone tab bar: Map, Post up, Projects. Pages that show it declare a \"nav\" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]",
+]

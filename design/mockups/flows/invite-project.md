@@ -1,5 +1,5 @@
 # Flow: Share link to a project (`invite-project`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/invite-project.html
 
 ## Persona

@@ -2,6 +2,7 @@
 id = "projects"
 title = "Projects"
 kind = "page"
+phase = 2  # projects are phase 2 [M1034]
 group = "Projects"
 slots = [
   { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },

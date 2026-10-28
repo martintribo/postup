@@ -96,3 +96,9 @@ section = "Gap fixes"
 lines = [
   "Gap fix (Oct 25): Live now includes an ask-to-join postup (Tess, marked \"Ask to join\") that opens `#postup-ask`; open-join rows unchanged. [M1025]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: star-fox-64-mod, pixel-garden, see-all-projects, project, project-2, project-3. [M1034]",
+]

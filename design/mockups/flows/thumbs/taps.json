@@ -1,23 +1,19 @@
 {
  "look-around-1": {
-  "label": "Home",
+  "label": "M",
   "back": false
  },
  "look-around-2": {
-  "label": "Star Fox 64 mod",
+  "label": "M",
   "back": false
  },
  "look-around-3": {
-  "label": "Maya",
-  "back": false
- },
- "look-around-4": {
   "label": "Live at Bean Theory",
   "back": false
  },
+ "look-around-4": null,
  "look-around-5": null,
  "look-around-6": null,
- "look-around-7": null,
  "empty-area-newcomer-1": null,
  "empty-area-newcomer-2": {
   "label": "M",
@@ -27,11 +23,7 @@
   "label": "Back",
   "back": true
  },
- "empty-area-newcomer-4": {
-  "label": "Star Fox 64 mod",
-  "back": false
- },
- "empty-area-newcomer-5": null,
+ "empty-area-newcomer-4": null,
  "join-1": {
   "label": "M",
   "back": false
@@ -66,11 +58,7 @@
   "label": "Back",
   "back": true
  },
- "empty-area-4": {
-  "label": "Star Fox 64 mod",
-  "back": false
- },
- "empty-area-5": null,
+ "empty-area-4": null,
  "first-post-1": {
   "label": "Post up",
   "back": false

@@ -112,7 +112,6 @@ ep=pin_cafe(30,36)+pin_cafe(66,54)+pin_cafe(50,22)
 S['empty-area']=f'''<div class="hm">{mapblock("380px",ep,f'<div class="mtop"><span class="brand">{I("pin",16)} Echo Park</span><a class="ib fl" href="#me" aria-label="Profile">{av("ME",30)}</a></div>')}
 <section class="sheet-p"><span class="grab"></span><div class="sp-h"><h2>Nobody's live nearby</h2></div><p class="mu sm">No one is posted up around Echo Park right now. Here's what people did nearby lately.</p>
 <h3 class="sh">Recently nearby</h3><div class="grp"><div class="lrow" onclick="go('profile')">{av('MK',32)}<div class="lm"><b class="sm">Maya posted up at Bean Theory</b><span class="xs mu">Tue · Star Fox 64 mod · 3 joined</span></div></div><div class="lrow" onclick="go('profile')">{av('JR',32)}<div class="lm"><b class="sm">Jon posted up at Lot 1 Coffee</b><span class="xs mu">Mon · Bus Stop Zine</span></div></div></div>
-<h3 class="sh">Projects nearby</h3><div class="grp"><div class="lrow" onclick="go('project')"><span class="ci sm pj">{I("folder",16)}</span><div class="lm"><b class="sm">Star Fox 64 mod</b><span class="xs mu">Maya · updated yesterday</span></div></div><div class="lrow" onclick="go('project')"><span class="ci sm pj">{I("folder",16)}</span><div class="lm"><b class="sm">Bus Stop Zine</b><span class="xs mu">Jon · page 12</span></div></div></div>
 <h3 class="sh">Be the first here today</h3>
 {cafe_row('Stories Cafe','0.3 mi').replace("pick(","postAt(")}{cafe_row('Lot 1 Coffee','0.6 mi').replace("pick(","postAt(")}
 <button class="btn" onclick="go('post')">{I("plus",18)} Post up</button></section></div>{nav("m")}'''
@@ -149,8 +148,7 @@ def irow(k,title,prev,time,dest,unread=False,dim=False,sysl=''):
     return f'<div class="lrow{" dimmed" if dim else ""}" onclick="go(\'{dest}\')">{av(k,44)}<div class="lm"><b>{title}</b><div class="l2">{s}{prev}</div></div><span class="ir"><span class="xs mu">{time}</span>{u}</span></div>'
 S['inbox-one']=f'''{top("Inbox",'',back=False)}<div class="pad"><div class="grp">
 {irow('MK',"Maya's postup · Bean Theory","Maya: Grabbing another coffee…",'2:20','chat',True)}
-{irow('ME',"Your postup · Lot 1 Coffee","Jon: On the way",'1:58','chat',True,sysl='Jon joined · extended till 5pm')}
-{irow('AL',"Ari followed you","See Ari's profile",'Mon','profile')}
+{irow('ME',"Your postup · Lot 1 Coffee","Jon: On the way",'1:58','chat',True,sysl='Jon joined')}
 {irow('TS',"Tess's postup · Grindhouse","Tess: Thanks all!",'Tue','postup-ended',dim=True,sysl='Postup ended')}
 </div></div>{nav("i")}'''
 def act(k,txt,time,dest,ic):

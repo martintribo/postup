@@ -44,3 +44,9 @@ section = "Unsourced"
 lines = [
   "Directions open Apple/Google Maps (ledger item). [R25⚠]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: project. [M1034]",
+]

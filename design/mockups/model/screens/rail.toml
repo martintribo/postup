@@ -18,3 +18,9 @@ section = "Purpose"
 lines = [
   "Desktop left rail: Map, Nearby, Projects, Inbox, Post up. Every page has a \"rail\" panel slot on desktop; its links are available when no sheet is open. The right panel is the page itself on desktop (drawn beside the map). [drawn] [M1031-draft]",
 ]
+
+[[notes]]
+section = "Phase 1"
+lines = [
+  "Phase 1 hides project links; still drawn here, and no phase-1 flow uses them: projects. [M1034]",
+]
