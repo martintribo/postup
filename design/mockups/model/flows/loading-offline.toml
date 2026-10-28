@@ -3,6 +3,7 @@ id = "loading-offline"
 name = "Slow network and offline"
 role = "joiner"
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-bad-network"  # model/situations.toml [M1031-draft]
 order = 21  # position in the flow list
 status = "draft"
 persona = "Anyone on bad wifi."

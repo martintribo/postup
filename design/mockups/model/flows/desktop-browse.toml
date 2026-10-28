@@ -3,6 +3,7 @@ id = "desktop-browse"
 name = "Desktop browse and post"
 role = "joiner"
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-laptop"  # model/situations.toml [M1031-draft]
 order = 23  # position in the flow list
 status = "draft"
 persona = "Signed-in user at a laptop."

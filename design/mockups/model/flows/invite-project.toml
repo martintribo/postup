@@ -3,6 +3,7 @@ id = "invite-project"
 name = "Share link to a project"
 role = "joiner"
 user = "newcomer"  # newcomer = signed out, never used; registered = signed in
+situation = "nc-project-link"  # model/situations.toml [M1031-draft]
 order = 8  # position in the flow list
 status = "draft"
 persona = "Signed-out visitor opening postup.now/project/… ."

@@ -12,7 +12,7 @@ _EVS={e['id']:e for e in _EV['events']+_EV['conditions']}
 FLOWS=[]
 for _id in sorted(_FL,key=lambda k:(0 if _FL[k].get('phase')==1 else 1,_FL[k].get('order',99),k)):
     _f=_FL[_id]; s0=_f['start']
-    f=dict(id=_id,name=_f['name'],pri='Phase 1' if _f.get('phase')==1 else 'Unphased',phase=_f.get('phase'),user=_f['user'],status=_f['status'],persona=_f['persona'],goal=_f['goal'],
+    f=dict(id=_id,name=_f['name'],pri='Phase 1' if _f.get('phase')==1 else 'Unphased',phase=_f.get('phase'),user=_f['user'],situation=_f.get('situation'),status=_f['status'],persona=_f['persona'],goal=_f['goal'],
            start=dict(auth=s0['auth'],live=s0['live'],device=s0['device'],url=s0['url']),branches=_f.get('edge_cases',[]),success=_f.get('success',[]),decide=_f.get('decide',[]),role=_f['role'])
     sx=[]
     for i,st in enumerate(_f['steps']):

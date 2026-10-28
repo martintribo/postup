@@ -4,6 +4,7 @@ name = "Host approves a request"
 role = "host"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-hosting"  # model/situations.toml [M1031-draft]
 order = 10  # position in the flow list
 status = "draft"
 persona = "Signed-in poster with an ask-to-join postup."

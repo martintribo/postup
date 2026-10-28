@@ -4,6 +4,7 @@ name = "Ask to join, then get approved (joiner side)"
 role = "joiner"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-wants-company"  # model/situations.toml [M1031-draft]
 order = 9  # position in the flow list
 status = "draft"
 persona = "Signed-in user; poster approves who joins."

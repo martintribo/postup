@@ -3,6 +3,7 @@ id = "following"
 name = "Follow a person or project"
 role = "joiner"
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-coming-back"  # model/situations.toml [M1031-draft]
 order = 15  # position in the flow list
 status = "draft"
 persona = "Signed-in user who liked someone's work."

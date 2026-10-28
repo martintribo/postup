@@ -4,6 +4,7 @@ name = "Share link to an ended postup"
 role = "joiner"
 phase = 1  # MVP phase [M1031-draft]
 user = "newcomer"  # newcomer = signed out, never used; registered = signed in
+situation = "nc-postup-link"  # model/situations.toml [M1031-draft]
 order = 7  # position in the flow list
 status = "draft"
 persona = "Signed-out visitor opening an old link."

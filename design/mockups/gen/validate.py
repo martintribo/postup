@@ -154,6 +154,16 @@ if not ERR:
             for s in scs:
                 if sc[s].get('phase') and sc[s]['phase']>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} uses {s}, tagged phase {sc[s]["phase"]}',nth=i)
             if _SO.get(k) and _SO[k]>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} passes state {k}, tagged phase {_SO[k]}',nth=i)
+# situations [M1031-draft]
+SIT,_sp=M.load_situations()
+for i,x in SIT.items():
+    if x.get('user') not in M.USERS: err(_sp,f'id = "{i}"',f'situation {i}: user must be one of {sorted(M.USERS)}')
+    if not re.search(M.TAG,x.get('setting','')): err(_sp,f'id = "{i}"',f'situation {i}: setting without source tag')
+    if 'phase' in x and not _pint(x['phase']): err(_sp,f'id = "{i}"',f'situation {i}: phase must be a positive integer')
+for fid,f in fl.items():
+    si=f.get('situation')
+    if si not in SIT: err(f['_file'],'situation' if si else 'user =',f'flow {fid}: situation {si!r} is not in situations.toml')
+    elif SIT[si]['user']!=f.get('user'): err(f['_file'],'situation',f'flow {fid}: situation {si} is for {SIT[si]["user"]}, flow user is {f.get("user")}')
 # orphans
 IN={t for s in sc.values() for l in s.get('links',[]) for t in [l.get('to')] if t and t!=s['id']}
 IN|={c for s in sc.values() for sl in s.get('slots',[]) for c in sl.get('accepts',[])}

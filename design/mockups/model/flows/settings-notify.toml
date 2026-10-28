@@ -3,6 +3,7 @@ id = "settings-notify"
 name = "Notification settings and sign out"
 role = "account"
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-account"  # model/situations.toml [M1031-draft]
 order = 24  # position in the flow list
 status = "draft"
 persona = "Signed-in user."

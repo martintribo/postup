@@ -48,6 +48,12 @@ The model in `model/` is the single source for the mockup's screens, links, note
   Each step also has `act` (what the user does), `expect` (the site state it must reach), `thought` and `shows`. Steps that take two taps are written as two steps.
 - **Sign-in**: one `signin` sheet. The old `#join-signin`, `#ask-signin`, `#post-signin` and `#attach-signin` URLs still work: they redirect to the page with the sheet open.
 
+## Situations [M1031-draft]
+
+- `situations.toml` lists situations: `id`, `user` (newcomer | registered), a plain-words `title`, a source-tagged `setting` line, and an optional `phase`.
+- Every flow has `situation = "<id>"`. The validator fails if the situation doesn't exist or is for the other user type.
+- `flows/map.html` is the flow map by situation: one map per user type (`#newcomer`, `#registered`), with buttons that open the flows. The old user-state map is now `flows/map-states.html`.
+
 ## Phases (MVP pruning) [M1031-draft]
 
 - `phase` is an optional positive integer on a flow, a screen, or a site state. Untagged means unclassified: it is kept, not deleted.

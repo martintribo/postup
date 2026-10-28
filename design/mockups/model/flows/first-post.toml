@@ -4,6 +4,7 @@ name = "Came to post up: first post with sign-in"
 role = "host"
 phase = 1  # MVP phase [M1031-draft]
 user = "newcomer"  # newcomer = signed out, never used; registered = signed in
+situation = "nc-at-cafe"  # model/situations.toml [M1031-draft]
 order = 11  # position in the flow list
 status = "draft"
 persona = "First-time visitor already at a cafe who came to go live right now (signed out)."

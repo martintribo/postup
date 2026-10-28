@@ -4,6 +4,7 @@ name = "Postup chat"
 role = "joiner"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-after-joining"  # model/situations.toml [M1031-draft]
 order = 16  # position in the flow list
 status = "draft"
 persona = "Signed-in poster or joiner."

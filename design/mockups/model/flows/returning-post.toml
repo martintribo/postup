@@ -4,6 +4,7 @@ name = "Returning poster"
 role = "host"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-posting"  # model/situations.toml [M1031-draft]
 order = 12  # position in the flow list
 status = "draft"
 persona = "Signed-in regular."

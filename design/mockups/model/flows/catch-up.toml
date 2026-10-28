@@ -4,6 +4,7 @@ name = "Catch up on what happened"
 role = "joiner"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-coming-back"  # model/situations.toml [M1031-draft]
 order = 25  # position in the flow list
 status = "draft"
 persona = "Registered user coming back after a while away."

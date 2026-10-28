@@ -134,3 +134,7 @@ def phases(sc,fl,gl):
                 if sc[s].get('phase') is None: SP[s]=min(SP.get(s) or ph,ph)
     STP.update(SO)
     return FP,SP,STP
+def load_situations(root=ROOT):
+    p=f'{root}/situations.toml'
+    d=tomllib.load(open(p,'rb')) if os.path.exists(p) else {'situations':[]}
+    return {x['id']:x for x in d['situations']},p

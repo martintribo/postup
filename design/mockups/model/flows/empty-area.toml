@@ -4,6 +4,7 @@ name = "Empty area: be the first"
 role = "joiner"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-nobody-live"  # model/situations.toml [M1031-draft]
 order = 20  # position in the flow list
 status = "draft"
 persona = "Signed-in user in a city with no postups yet."

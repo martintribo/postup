@@ -3,6 +3,7 @@ id = "postup-states"
 name = "Postup ends, fills or is cancelled while you look"
 role = "joiner"
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-postup-changes"  # model/situations.toml [M1031-draft]
 order = 19  # position in the flow list
 status = "draft"
 persona = "Anyone viewing a postup."

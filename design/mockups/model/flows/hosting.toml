@@ -4,6 +4,7 @@ name = "Hosting live: extend, edit, end"
 role = "host"
 phase = 1  # MVP phase [M1031-draft]
 user = "registered"  # newcomer = signed out, never used; registered = signed in
+situation = "rg-hosting"  # model/situations.toml [M1031-draft]
 order = 13  # position in the flow list
 status = "draft"
 persona = "Signed-in poster who is live."
