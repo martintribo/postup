@@ -14,23 +14,23 @@ Player: /mockups/flows/empty-area-newcomer.html
 ## Steps
 1. **home@out.none.building** · user: Nobody around right now · action: arrives at / · edge: entry
    - Home in Building mode: closest projects. [M1018c]
-   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), **empty-area@out.none** (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox-one@out.none (Inbox), **empty-area@out.none** (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: first-post step 1 (if Came to post up right now)
 2. **empty-area@out.none** · user: What happens around here? · action: area has no postups · edge: cond: area has no postups
    - Nobody's live nearby: Recently nearby (past postups) and Projects nearby, then cafes to be the first. [M1032]
-   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), **profile@out.none** (Maya posted up at Bean Theory), project@out.none (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails))
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), **profile@out.none** (Maya posted up at Bean Theory), project@out.none (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 3. **profile@out.none** · user: Who comes here? · action: taps Maya posted up at Bean Theory · edge: tap: Maya posted up at Bean Theory
    - Maya's profile: regular cafes, past postups. [FS] [M1032]
-   - next site states: back (Back), profile+more@out.none (More), profile+signin@out.none (Follow), cafe@out.none (Bean Theory), project@out.none (Star Fox 64 mod Updated yesterday), home@out.none.building (home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), post@out.none (Post up), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails))
+   - next site states: back (Back), profile+more@out.none (More), profile+signin@out.none (Follow), cafe@out.none (Bean Theory), project@out.none (Star Fox 64 mod Updated yesterday), home@out.none.building (home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), post@out.none (Post up), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 4. **empty-area@out.none** · user: Back to the area · action: taps Back · edge: back
    - The empty-area screen again. [M1032]
-   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), profile@out.none (Maya posted up at Bean Theory), **project@out.none** (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails))
+   - next site states: cafe@out.none (cafe), me@out.none (S), post@out.none (Stories Cafe 0.3 mi), profile@out.none (Maya posted up at Bean Theory), **project@out.none** (Star Fox 64 mod), home@out.none.building (Home), quiet-feed@out.none (Nearby), projects@out.none (Projects), inbox-one@out.none (Inbox), cafe-gfail@out.none (cafe (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 5. **project@out.none** · user: What are people making? · action: taps a project nearby · edge: tap: Star Fox 64 mod
    - A project nearby: updates and past postups. [FS] [M1032]
-   - next site states: back (Back), project-new@out.none (New), profile@out.none (Maya), project-update@out.none (Update), project-attach@out.none (Post up), cafe@out.none (Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), post@out.none (Post up), projects@out.none (Projects), inbox@out.none (Inbox), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails))
+   - next site states: back (Back), project-new@out.none (New), profile@out.none (Maya), project-update@out.none (Update), project-attach@out.none (Post up), cafe@out.none (Bean Theory), home@out.none.building (Home), quiet-feed@out.none (Nearby), post@out.none (Post up), projects@out.none (Projects), inbox-one@out.none (Inbox), me@out.none (S), cafe-gfail@out.none (Bean Theory (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 
 ## Connected flows [M1025]

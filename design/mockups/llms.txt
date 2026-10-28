@@ -1,6 +1,6 @@
 # PostUp mockups
 
-> Static mockups of the PostUp app (v1034): 41 screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
+> Static mockups of the PostUp app (v1034): 42 screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
 
 Mockup URL pattern: /mockups/?style=<fresh|cozy|night|bold>&device=<phone|desktop>&auth=<out|in>&live=<live|none>#<screen> (overlays: &ov=<sheet>)
 The home page (/) is #home, called Home, with two modes on one URL: Live and Building (?mode=live|building). #home-overlay-alt is an alternative, not chosen. #quiet is the old no-live home drawing; #quiet-feed / #quiet-feed-b are Nearby (/nearby). Project lists are headed "What people are building", sorted closest-first, showing the closest available even if none are local; never call them nearby unless they are (Martin, Oct 18).
@@ -46,6 +46,7 @@ The home page (/) is #home, called Home, with two modes on one URL: Live and Bui
 - [offline](notes/offline.md): Offline
 - [chat](notes/chat.md): Group chat
 - [inbox](notes/inbox.md): Inbox · Chats
+- [inbox-one](notes/inbox-one.md): Inbox · one list
 - [activity](notes/activity.md): Inbox · Activity
 - [profile](notes/profile.md): Profile
 - [me](notes/me.md): My profile
@@ -91,7 +92,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [catch-up](flows/catch-up.md): Catch up on what happened (Unphased, draft) · player: flows/catch-up.html
 
 ## Site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3666 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3896 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 - [Site graph: pages, site states, edges, design gaps](flows/sitegraph.md) · page: flows/site.html · data: flows/sitegraph.json
 - [Site states by screen](flows/states.html): every state each screen appears in (conditions, open slots, links in/out, flow steps), from model/
 - [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states

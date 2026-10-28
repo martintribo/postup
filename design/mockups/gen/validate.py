@@ -10,6 +10,7 @@ def chk_when(p,w,ctx):
         for k,v in alt.items():
             if k not in M.DIMS or v not in M.DIMS[k]: err(p,ctx,f'invalid condition {k}={v}')
 ALLC=[dict(auth=a,live=l,tab=t) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab']]
+REPL=M.REPL
 EVIDS={e['id'] for e in ev['events']}|{c['id'] for c in ev['conditions']}
 # --- screens ---
 for sid,s in sc.items():
@@ -121,7 +122,8 @@ for fid,f in fl.items():
             if st.get('condition') and st['condition'] not in EVIDS: err(p,ctx,f'step {i+1}: unknown condition {st["condition"]!r}',nth=i)
             n=None
             for l in ls:
-                if st.get('condition')=='google-card-fails' and l.get('to')=='cafe': l=dict(l,to='cafe-gfail')
+                _c=REPL.get(st.get('condition'))
+                if _c and l.get('to')==_c[0]: l=dict(l,to=_c[1])  # data condition swaps the target screen [M1033]
                 n=M.resolve(sc,cur,l,own)
                 if n: break
             if n is None: err(p,ctx,f'step {i+1}: link {st["link"]} not available in {M.key(cur)}',nth=i); continue

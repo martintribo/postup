@@ -14,19 +14,19 @@ Player: /mockups/flows/desktop-browse.html
 ## Steps
 1. **home@in.live.live** · user: At a laptop; browsing · action: arrives at / · edge: entry
    - Map with 440px panel. [FS]
-   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails))
+   - next site states: **postup@in.live** (M 2), postup-ask@in.live (T), cafe@in.live (cafe), home@in.live.building (Building), quiet@in.live (Locate), project@in.live (Star Fox 64 mod), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (cafe (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: join step 1 (if Wants company now), catch-up step 1 (if What did I miss?)
 2. **postup@in.live** · user: Checking one postup · action: taps a live pin · edge: tap: M 2
    - Postup in the panel. [FS]
-   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), **post@in.live** (Post up), me@in.live (S), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), project@in.live (Star Fox 64 mod Adding a new Corne), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), **post@in.live** (Post up), me@in.live (S), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: join step 2 (if Found someone)
 3. **post@in.live** · user: Wants to post too · action: taps Post up · edge: tap: Post up
    - Post up as a centered dialog. [FS]
-   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **posted@in.live** (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
+   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **posted@in.live** (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: returning-post step 1 (if Regular; working at a cafe today)
 4. **posted@in.live** · user: Posted; now live for others · action: taps Post up · edge: tap: Post up
    - Posted. [FS]
-   - next site states: home@in.live.live (Close), project@in.live (Star Fox 64 mod), posted+share@in.live (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Cafe (Google card fails))
+   - next site states: home@in.live.live (Close), project@in.live (Star Fox 64 mod), posted+share@in.live (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Cafe (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
 
 ## Connected flows [M1025]

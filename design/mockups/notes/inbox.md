@@ -15,6 +15,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - Signed in: as drawn. [drawn]
 
 ## Behavior
+- Phase 2 design; phase 1 uses the one-list inbox-one (reached via condition inbox-tabs). [M1033]
 - Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]
 
 ## Global rules (every screen)
@@ -118,6 +119,7 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 - **M1024** — Martin, Oct 24 2026 (relayed by the PM): keep tracking user types/scenarios and also track critical flows: a type of user arrives in a certain situation and goes through a scenario step by step; draft all important MVP flows
 - **M1025** — Martin, Oct 25 2026 (relayed by the PM): a flow map, a state machine from a first-time visitor (not registered) showing how users reach the starting point of each flow
 - **M1031-draft** — PM draft decision, Oct 31 2026 (model phase 2, approved scope; each one listed for Martin to confirm)
+- **M1033** — Martin, Oct 28 2026: phase-1 Inbox is one list (no Chats/Activity tabs)
 - **drawn** — the mockup drawing itself
 - **unsourced** — no source; confirm with Martin
 - **TK§1** — mockup-takeaways.md (mockup session takeaways) §1

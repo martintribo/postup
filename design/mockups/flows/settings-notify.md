@@ -14,11 +14,11 @@ Player: /mockups/flows/settings-notify.html
 ## Steps
 1. **settings@in.none** · user: Tuning alerts · action: opens Settings · edge: entry
    - Toggles; Sign out. [FS] [F065]
-   - next site states: back (Back), **home@out.none.building** (Sign out), settings+delacct@in.none (Delete account), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox@in.none (Inbox), post@in.none (Post up), me@in.none (S)
+   - next site states: back (Back), **home@out.none.building** (Sign out), settings+delacct@in.none (Delete account), home@in.none.building (home), quiet-feed@in.none (Nearby), projects@in.none (Projects), inbox-one@in.none (Inbox), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: delete-account step 2 (if Looking for the delete option)
 2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: tap: Sign out
    - Signed out. [M1024]
-   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: home@out.none.live (Live), cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox-one@out.none (Inbox), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), inbox@out.none (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post step 1 (if Came to post up right now)
 
 ## Connected flows [M1025]

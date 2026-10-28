@@ -10,7 +10,7 @@ status = "draft"
 persona = "Signed-in poster or joiner."
 goal = "Coordinate in the group chat. [M1024]"
 intent = "Wants to check messages"
-start = { screen = "inbox", auth = "in", live = "live", device = "phone", url = "/inbox" }
+start = { screen = "inbox-one", auth = "in", live = "live", device = "phone", url = "/inbox" }  # [M1033]
 edge_cases = [
   "Signed out: sign-in sheet over Inbox. [unsourced]",
   "Chat closes 24h after the postup. [R31] [FS]",
@@ -24,12 +24,12 @@ decide = [
 
 [[steps]]
 arrive = "opens Inbox"
-expect = "inbox@in.live"
+expect = "inbox-one@in.live"
 thought = "Wants to check messages"
-shows = "Inbox · Chats. [FS] [F096]"
+shows = "Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033]"
 
 [[steps]]
-link = "inbox:chat"
+link = "inbox-one:maya-chat"
 act = "opens a chat"
 expect = "chat@in.live"
 thought = "Wants to sort out details in chat"

@@ -6,7 +6,7 @@ SM_GROUPS=[('Home and browse','#e8f5ee',3,['home','quiet-feed','quiet-feed-b','q
  ('Postup and join','#e9f0fb',5,['postup','postup-ask','ask','requested','joined','postup-full','postup-cancelled','postup-ended']),
  ('Post and host','#fdf1e4',4,['post','where','where-search','posted','live','post-edit']),
  ('Projects','#f3ecfb',3,['projects','project','project-new','project-update','project-attach']),
- ('Inbox and social','#fbeef1',4,['inbox','activity','chat','profile']),
+ ('Inbox and social','#fbeef1',4,['inbox-one','inbox','activity','chat','profile']),
  ('Profile and settings','#eef1f4',4,['me','settings','report','reported']),
  ('Share landings','#eaf6f6',3,['invite','invite-ended','invite-project']),
  ('System states','#f4f1e8',4,['empty-area','loading','offline','cafe-gfail'])]

@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3666 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 41 pages + 9 sheets, 340 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3896 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 
 Site events: postups end; someone goes live; alert arrives; comes back later; postup fills (on postup, postup-ask, joined, requested, invite, postup-full); postup is cancelled (on postup, postup-ask, joined, requested, invite, postup-full); postup ends (on postup, postup-ask, joined, requested, invite, postup-full); someone you follow posts up; network drops (on quiet-feed, loading, home). live = someone live nearby; a postup ending changes only its own page.
 
@@ -15,7 +15,7 @@ States: `home@out.live.live`, `home@out.live.building`, `home@out.none.live`, `h
 - Lantern Tea A D M 3 postups → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - M 2 → `postup` [tap] — only in·live·live, out·live·live
@@ -40,6 +40,7 @@ States: `home@out.live.live`, `home@out.live.building`, `home@out.none.live`, `h
 - Live → `home` [mode]
 - Building → `home` [mode]
 - See map → `home` [mode] — only in·live·building, out·live·building
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Recent map · old no-live home (not /) (`quiet`)
 States: `quiet@out.live`, `quiet@out.none`, `quiet@in.live`, `quiet@in.none`
@@ -49,7 +50,7 @@ States: `quiet@out.live`, `quiet@out.none`, `quiet@in.live`, `quiet@in.none`
 - Bean Theory M J A 3 postups · Tue → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Star Fox 64 mod New level yesterda → `project` [tap]
@@ -61,6 +62,7 @@ States: `quiet@out.live`, `quiet@out.none`, `quiet@in.live`, `quiet@in.none`
 - 1 this week (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
 - Bean Theory M J A 3 postups · Tue (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Nearby (/nearby) · photos (A) (`quiet-feed`)
 States: `quiet-feed@out.live`, `quiet-feed@out.none`, `quiet-feed@in.live`, `quiet-feed@in.none`
@@ -74,7 +76,7 @@ States: `quiet-feed@out.live`, `quiet-feed@out.none`, `quiet-feed@in.live`, `qui
 - Lantern Tea A D 2 this week → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up here → `post` [tap] — only in·live, out·live
@@ -98,6 +100,7 @@ States: `quiet-feed@out.live`, `quiet-feed@out.none`, `quiet-feed@in.live`, `qui
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Nearby (/nearby) · no photos (B) (`quiet-feed-b`)
 States: `quiet-feed-b@out.live`, `quiet-feed-b@out.none`, `quiet-feed-b@in.live`, `quiet-feed-b@in.none`
@@ -109,7 +112,7 @@ States: `quiet-feed-b@out.live`, `quiet-feed-b@out.none`, `quiet-feed-b@in.live`
 - Lantern Tea A D 2 this week → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up here → `post` [tap] — only in·live, out·live
@@ -130,13 +133,14 @@ States: `quiet-feed-b@out.live`, `quiet-feed-b@out.none`, `quiet-feed-b@in.live`
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Empty area (`empty-area`)
 States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `empty-area@in.none`
 - cafe → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Stories Cafe 0.3 mi → `post` [tap]
 - Lot 1 Coffee 0.6 mi → `post` [tap]
@@ -148,16 +152,18 @@ States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `emp
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - cafe (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Loading (`loading`)
 States: `loading@out.live`, `loading@out.none`, `loading@in.live`, `loading@in.none`
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Offline (`offline`)
 States: `offline@out.live`, `offline@out.none`, `offline@in.live`, `offline@in.none`
@@ -171,7 +177,7 @@ States: `offline@out.live`, `offline@out.none`, `offline@in.live`, `offline@in.n
 - Lantern Tea A D 2 this week → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up here → `post` [tap]
@@ -192,6 +198,7 @@ States: `offline@out.live`, `offline@out.none`, `offline@in.live`, `offline@in.n
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Home overlay · alternative, not chosen (`home-overlay-alt`)
 States: `home-overlay-alt@out.live`, `home-overlay-alt@out.none`, `home-overlay-alt@in.live`, `home-overlay-alt@in.none`
@@ -199,7 +206,7 @@ States: `home-overlay-alt@out.live`, `home-overlay-alt@out.none`, `home-overlay-
 - cafe → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Star Fox 64 mod Maya · Corneria II → `project` [tap]
@@ -210,6 +217,7 @@ States: `home-overlay-alt@out.live`, `home-overlay-alt@out.none`, `home-overlay-
 - Nearby → `quiet-feed` [tap]
 - 3 this week (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ## Cafes & picking a place
 
@@ -218,7 +226,7 @@ States: `cafe@out.live`, `cafe@out.none`, `cafe@in.live`, `cafe@in.none`
 - Bean Theory → `cafe` [tap] — only in·live, out·live
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up here → `post` [tap]
 - Post up → `post` [tap]
@@ -231,13 +239,14 @@ States: `cafe@out.live`, `cafe@out.none`, `cafe@in.live`, `cafe@in.none`
 - Back → `Back` [back]
 - Share → `cafe+share` [sheet]
 - Bean Theory (Google card fails) → `cafe-gfail` [cond] — only in·live, out·live
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - sheet `share` over this page: close → `cafe`; Messages → `cafe`; WhatsApp → `cafe`; Email → `cafe`; More → `cafe`; Cancel → `cafe`; close (Google card fails) → `cafe-gfail`; Messages (Google card fails) → `cafe-gfail`; WhatsApp (Google card fails) → `cafe-gfail`; Email (Google card fails) → `cafe-gfail`; More (Google card fails) → `cafe-gfail`; Cancel (Google card fails) → `cafe-gfail`
 
 ### Where are you? (`where`)
 States: `where@out.live`, `where@out.none`, `where@in.live`, `where@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up → `posted` [tap] — only in·live, in·none
@@ -247,6 +256,7 @@ States: `where@out.live`, `where@out.none`, `where@in.live`, `where@in.none`
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Search cafes → `where-search` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Post up → `where+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `posted (signs in)`; close → `where`; Not now → `where`; Continue with Apple → `where (signs in)`; Continue with Google → `where (signs in)`
 
@@ -254,7 +264,7 @@ States: `where@out.live`, `where@out.none`, `where@in.live`, `where@in.none`
 States: `where-search@out.live`, `where-search@out.none`, `where-search@in.live`, `where-search@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up → `posted` [tap] — only in·live, in·none
@@ -264,6 +274,7 @@ States: `where-search@out.live`, `where-search@out.none`, `where-search@in.live`
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Search cafes → `where-search` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Post up → `where-search+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `posted (signs in)`; close → `where-search`; Not now → `where-search`; Continue with Apple → `where-search (signs in)`; Continue with Google → `where-search (signs in)`
 
@@ -273,7 +284,7 @@ States: `cafe-gfail@out.live`, `cafe-gfail@out.none`, `cafe-gfail@in.live`, `caf
 - Retry → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up here → `post` [tap]
 - Post up → `post` [tap]
@@ -288,6 +299,7 @@ States: `cafe-gfail@out.live`, `cafe-gfail@out.none`, `cafe-gfail@in.live`, `caf
 - Retry (Google card fails) → `cafe-gfail` [cond]
 - Open in Maps → `cafe-gfail+dirs` [sheet]
 - Share → `cafe-gfail+share` [sheet]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - sheet `dirs` over this page: close → `cafe-gfail`; Open in Apple Maps → `cafe-gfail`; Open in Google Maps → `cafe-gfail`; Cancel → `cafe-gfail`
 - sheet `share` over this page: close → `cafe-gfail`; Messages → `cafe-gfail`; WhatsApp → `cafe-gfail`; Email → `cafe-gfail`; More → `cafe-gfail`; Cancel → `cafe-gfail`
 
@@ -297,7 +309,7 @@ States: `cafe-gfail@out.live`, `cafe-gfail@out.none`, `cafe-gfail@in.live`, `caf
 States: `post@out.live`, `post@out.none`, `post@in.live`, `post@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up → `posted` [tap] — only in·live, in·none
@@ -306,6 +318,7 @@ States: `post@out.live`, `post@out.none`, `post@in.live`, `post@in.none`
 - Nearby → `quiet-feed` [tap]
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Post up → `post+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: close → `post`; Not now → `post`; Continue with Apple → `post (signs in)`; Continue with Google → `post (signs in)`; signs in → continues → `posted (signs in)`
 
@@ -316,7 +329,7 @@ States: `posted@out.live`, `posted@out.none`, `posted@in.live`, `posted@in.none`
 - Map → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Manage postup → `live` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
@@ -325,6 +338,7 @@ States: `posted@out.live`, `posted@out.none`, `posted@in.live`, `posted@in.none`
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Cafe (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Invite friends → `posted+share` [sheet]
 - sheet `share` over this page: close → `posted`; Messages → `posted`; WhatsApp → `posted`; Email → `posted`; More → `posted`; Cancel → `posted`
 
@@ -332,7 +346,7 @@ States: `posted@out.live`, `posted@out.none`, `posted@in.live`, `posted@in.none`
 States: `post-edit@out.live`, `post-edit@out.none`, `post-edit@in.live`, `post-edit@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Save → `live` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
@@ -341,6 +355,7 @@ States: `post-edit@out.live`, `post-edit@out.none`, `post-edit@in.live`, `post-e
 - Nearby → `quiet-feed` [tap]
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Continue with Apple → `post-edit (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `post-edit (signs in)` [sign-in] — only out·live, out·none
 
@@ -349,7 +364,7 @@ States: `live@out.live`, `live@out.none`, `live@in.live`, `live@in.none`
 - Group chat → `chat` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Edit → `post-edit` [tap]
@@ -359,6 +374,7 @@ States: `live@out.live`, `live@out.none`, `live@in.live`, `live@in.none`
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Continue with Apple → `live (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `live (signs in)` [sign-in] — only out·live, out·none
 - End postup → `live+endlive` [sheet]
@@ -373,7 +389,7 @@ States: `postup@out.live`, `postup@out.none`, `postup@in.live`, `postup@in.none`
 - Bean Theory 0.4 mi · 8 min walk → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Join → `joined` [tap] — only in·live, in·none
 - S → `me` [tap]
 - Post up → `post` [tap]
@@ -383,6 +399,7 @@ States: `postup@out.live`, `postup@out.none`, `postup@in.live`, `postup@in.none`
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - Bean Theory 0.4 mi · 8 min walk (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `postup+more` [sheet]
 - Share → `postup+share` [sheet]
 - Join → `postup+signin` [sheet] — only out·live, out·none
@@ -400,7 +417,7 @@ States: `joined@out.live`, `joined@out.none`, `joined@in.live`, `joined@in.none`
 - Back to map → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Project → `project` [tap]
@@ -408,6 +425,7 @@ States: `joined@out.live`, `joined@out.none`, `joined@in.live`, `joined@in.none`
 - Nearby → `quiet-feed` [tap]
 - Bean Theory (Google card fails) → `cafe-gfail` [cond]
 - Cafe (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Directions → `joined+dirs` [sheet]
 - Leave → `joined+leave` [sheet]
 - sheet `dirs` over this page: close → `joined`; Open in Apple Maps → `joined`; Open in Google Maps → `joined`; Cancel → `joined`
@@ -419,7 +437,7 @@ States: `postup-ask@out.live`, `postup-ask@out.none`, `postup-ask@in.live`, `pos
 - Grindhouse 1.1 mi · 22 min walk → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - T Tess Live · till 3pm → `profile` [tap]
@@ -428,6 +446,7 @@ States: `postup-ask@out.live`, `postup-ask@out.none`, `postup-ask@in.live`, `pos
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - Grindhouse 1.1 mi · 22 min walk (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `postup-ask+more` [sheet]
 - Share → `postup-ask+share` [sheet]
 - Ask to join → `postup-ask+signin` [sheet] — only out·live, out·none
@@ -442,7 +461,7 @@ States: `ask@out.live`, `ask@out.none`, `ask@in.live`, `ask@in.none`
 - Grindhouse 1.1 mi · 22 min walk → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - T Tess Live · till 3pm → `profile` [tap]
@@ -455,6 +474,7 @@ States: `ask@out.live`, `ask@out.none`, `ask@in.live`, `ask@in.none`
 - Share → `ask+share` [sheet]
 - Ask to join → `ask+signin` [sheet] — only out·live, out·none
 - Grindhouse 1.1 mi · 22 min walk (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `ask`; Cancel → `ask`
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `ask`; Cancel → `ask`; Block → `ask+block`; Share → `ask+share`
 - sheet `share` over this page: close → `ask`; Messages → `ask`; WhatsApp → `ask`; Email → `ask`; More → `ask`; Cancel → `ask`
@@ -465,7 +485,7 @@ States: `requested@out.live`, `requested@out.none`, `requested@in.live`, `reques
 - Close → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - View postup → `postup-ask` [tap]
@@ -473,13 +493,14 @@ States: `requested@out.live`, `requested@out.none`, `requested@in.live`, `reques
 - Projects → `projects` [tap]
 - See who else is nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Postup ended (`postup-ended`)
 States: `postup-ended@out.live`, `postup-ended@out.none`, `postup-ended@in.live`, `postup-ended@in.none`
 - Go to Home → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Follow Maya for next time → `postup-ended` [tap] — only in·live, in·none
@@ -488,6 +509,7 @@ States: `postup-ended@out.live`, `postup-ended@out.none`, `postup-ended@in.live`
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `postup-ended+more` [sheet]
 - Follow Maya for next time → `postup-ended+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-ended`; Cancel → `postup-ended`
@@ -500,7 +522,7 @@ States: `postup-full@out.live`, `postup-full@out.none`, `postup-full@in.live`, `
 - Go to Home → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Follow Maya for next time → `postup-full` [tap] — only in·live, in·none
@@ -509,6 +531,7 @@ States: `postup-full@out.live`, `postup-full@out.none`, `postup-full@in.live`, `
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `postup-full+more` [sheet]
 - Follow Maya for next time → `postup-full+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-full`; Cancel → `postup-full`
@@ -521,7 +544,7 @@ States: `postup-cancelled@out.live`, `postup-cancelled@out.none`, `postup-cancel
 - Go to Home → `home` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Follow Maya for next time → `postup-cancelled` [tap] — only in·live, in·none
@@ -530,6 +553,7 @@ States: `postup-cancelled@out.live`, `postup-cancelled@out.none`, `postup-cancel
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `postup-cancelled+more` [sheet]
 - Follow Maya for next time → `postup-cancelled+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-cancelled`; Cancel → `postup-cancelled`
@@ -545,7 +569,7 @@ States: `project@out.live`, `project@out.none`, `project@in.live`, `project@in.n
 - cafe → `cafe` [tap]
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - M Maya Bean Theory · till 4pm Live → `postup` [tap] — only in·live, out·live
@@ -560,12 +584,13 @@ States: `project@out.live`, `project@out.none`, `project@in.live`, `project@in.n
 - Back → `Back` [back]
 - Bean Theory (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Projects (`projects`)
 States: `projects@out.live`, `projects@out.none`, `projects@in.live`, `projects@in.none`
 - Home → `home` [tap]
 - home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Star Fox 64 mod M Maya · Yesterday → `project` [tap]
@@ -575,18 +600,20 @@ States: `projects@out.live`, `projects@out.none`, `projects@in.live`, `projects@
 - New project → `project-new` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### New project (`project-new`)
 States: `project-new@out.live`, `project-new@out.none`, `project-new@in.live`, `project-new@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Create → `project` [tap] — only in·live, in·none
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Create → `project-new+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `project (signs in)`; close → `project-new`; Not now → `project-new`; Continue with Apple → `project-new (signs in)`; Continue with Google → `project-new (signs in)`
 
@@ -594,13 +621,14 @@ States: `project-new@out.live`, `project-new@out.none`, `project-new@in.live`, `
 States: `project-update@out.live`, `project-update@out.none`, `project-update@in.live`, `project-update@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post update → `project` [tap] — only in·live, in·none
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Post update → `project-update+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `project (signs in)`; close → `project-update`; Not now → `project-update`; Continue with Apple → `project-update (signs in)`; Continue with Google → `project-update (signs in)`
 
@@ -608,13 +636,14 @@ States: `project-update@out.live`, `project-update@out.none`, `project-update@in
 States: `project-attach@out.live`, `project-attach@out.none`, `project-attach@in.live`, `project-attach@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Post up → `posted` [tap] — only in·live, in·none
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Post up → `project-attach+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `posted (signs in)`; close → `project-attach`; Not now → `project-attach`; Continue with Apple → `project-attach (signs in)`; Continue with Google → `project-attach (signs in)`
 
@@ -625,7 +654,7 @@ States: `invite@out.live`, `invite@out.none`, `invite@in.live`, `invite@in.none`
 - Bean Theory · 0.4 mi → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Join Maya → `joined` [tap] — only in·live, in·none
 - S → `me` [tap]
 - Post up → `post` [tap]
@@ -633,6 +662,7 @@ States: `invite@out.live`, `invite@out.none`, `invite@in.live`, `invite@in.none`
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Bean Theory · 0.4 mi (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Join Maya → `invite+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: close → `invite`; Not now → `invite`; Continue with Apple → `invite (signs in)`; Continue with Google → `invite (signs in)`; signs in → continues → `joined (signs in)`
 
@@ -641,13 +671,14 @@ States: `invite-ended@out.live`, `invite-ended@out.none`, `invite-ended@in.live`
 - Go to Home → `home` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Follow Maya for next time → `invite-ended` [tap] — only in·live, in·none
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Follow Maya for next time → `invite-ended+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: close → `invite-ended`; Not now → `invite-ended`; Continue with Apple → `invite-ended (signs in)`; Continue with Google → `invite-ended (signs in)`
 
@@ -655,7 +686,7 @@ States: `invite-ended@out.live`, `invite-ended@out.none`, `invite-ended@in.live`
 States: `invite-project@out.live`, `invite-project@out.none`, `invite-project@in.live`, `invite-project@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - Follow → `invite-project` [tap] — only in·live, in·none
 - S → `me` [tap]
 - Post up → `post` [tap]
@@ -663,6 +694,7 @@ States: `invite-project@out.live`, `invite-project@out.none`, `invite-project@in
 - See updates → `project` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Follow → `invite-project+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: close → `invite-project`; Not now → `invite-project`; Continue with Apple → `invite-project (signs in)`; Continue with Google → `invite-project (signs in)`
 
@@ -672,7 +704,7 @@ States: `invite-project@out.live`, `invite-project@out.none`, `invite-project@in
 States: `chat@out.live`, `chat@out.none`, `chat@in.live`, `chat@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - M J S Bean Theory · till 4pm · 3 p → `postup` [tap]
@@ -683,6 +715,7 @@ States: `chat@out.live`, `chat@out.none`, `chat@in.live`, `chat@in.none`
 - Continue with Google → `chat (signs in)` [sign-in] — only out·live, out·none
 - More → `chat+more` [sheet]
 - Message options → `chat+msg` [sheet]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `chat`; Cancel → `chat`
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `chat`; Cancel → `chat`; Block → `chat+block`; Share → `chat+share`
 - sheet `msg` over this page: Report message → `report`; close → `chat`; Copy → `chat`; Cancel → `chat`; Block sender → `chat+block`
@@ -696,15 +729,36 @@ States: `inbox@out.live`, `inbox@out.none`, `inbox@in.live`, `inbox@in.none`
 - Home → `home` [tap]
 - home → `home` [tap]
 - Chats → `inbox` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - T Tess's postup Ended · Tue Tue → `postup-ended` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back] — only out·live, out·none
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Continue with Apple → `inbox (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `inbox (signs in)` [sign-in] — only out·live, out·none
+
+### Inbox · one list (`inbox-one`)
+States: `inbox-one@out.live`, `inbox-one@out.none`, `inbox-one@in.live`, `inbox-one@in.none`
+- Maya's postup · Bean Theory → `chat` [tap]
+- Your postup · Lot 1 Coffee → `chat` [tap]
+- Home → `home` [tap]
+- home → `home` [tap]
+- Inbox → `inbox-one` [tap]
+- S → `me` [tap]
+- Post up → `post` [tap]
+- Tess's postup · Grindhouse → `postup-ended` [tap]
+- Ari followed you → `profile` [tap]
+- Projects → `projects` [tap]
+- Nearby → `quiet-feed` [tap]
+- Back → `Back` [back] — only out·live, out·none
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
+- Continue with Apple (later design: two-tab Inbox (phase 2) [M1033]) → `inbox (signs in)` [cond] — only out·live, out·none
+- Continue with Google (later design: two-tab Inbox (phase 2) [M1033]) → `inbox (signs in)` [cond] — only out·live, out·none
+- Continue with Apple → `inbox-one (signs in)` [sign-in] — only out·live, out·none
+- Continue with Google → `inbox-one (signs in)` [sign-in] — only out·live, out·none
 
 ### Inbox · Activity (`activity`)
 States: `activity@out.live`, `activity@out.none`, `activity@in.live`, `activity@in.none`
@@ -713,7 +767,7 @@ States: `activity@out.live`, `activity@out.none`, `activity@in.live`, `activity@
 - Home → `home` [tap]
 - home → `home` [tap]
 - Chats → `inbox` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - D Dev asked to join your postup 2 → `live` [tap]
 - J Jon joined your postup 14 min ag → `live` [tap]
 - S → `me` [tap]
@@ -726,6 +780,7 @@ States: `activity@out.live`, `activity@out.none`, `activity@in.live`, `activity@
 - Back → `Back` [back] — only out·live, out·none
 - Continue with Apple → `activity (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `activity (signs in)` [sign-in] — only out·live, out·none
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Profile (`profile`)
 States: `profile@out.live`, `profile@out.none`, `profile@in.live`, `profile@in.none`
@@ -735,7 +790,7 @@ States: `profile@out.live`, `profile@out.none`, `profile@in.live`, `profile@in.n
 - Level editor Lantern Tea · Oct 9 → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Live at Bean Theory Till 4pm · Sta → `postup` [tap] — only in·live, out·live
@@ -748,6 +803,7 @@ States: `profile@out.live`, `profile@out.none`, `profile@in.live`, `profile@in.n
 - Grindhouse (Google card fails) → `cafe-gfail` [cond]
 - Ship models imported Bean Theory · (Google card fails) → `cafe-gfail` [cond]
 - Level editor Lantern Tea · Oct 9 (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - More → `profile+more` [sheet]
 - Follow → `profile+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `profile`; Cancel → `profile`
@@ -763,7 +819,7 @@ States: `me@out.live`, `me@out.none`, `me@in.live`, `me@in.none`
 - Level editor Lantern Tea · Oct 9 → `cafe` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - 1:42 You're live at Bean Theory Ti → `live` [tap]
 - Edit profile → `me` [tap]
 - S → `me` [tap]
@@ -777,6 +833,7 @@ States: `me@out.live`, `me@out.none`, `me@in.live`, `me@in.none`
 - Grindhouse (Google card fails) → `cafe-gfail` [cond]
 - Ship models imported Bean Theory · (Google card fails) → `cafe-gfail` [cond]
 - Level editor Lantern Tea · Oct 9 (Google card fails) → `cafe-gfail` [cond]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Continue with Apple → `me (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `me (signs in)` [sign-in] — only out·live, out·none
 
@@ -788,12 +845,13 @@ States: `settings@out.live`, `settings@out.none`, `settings@in.live`, `settings@
 - home → `home` [tap]
 - Home → `home` [tap]
 - Sign out → `home (signed out)` [tap] — only in·live, in·none
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Continue with Apple → `settings (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `settings (signs in)` [sign-in] — only out·live, out·none
 - Delete account → `settings+delacct` [sheet]
@@ -803,13 +861,14 @@ States: `settings@out.live`, `settings@out.none`, `settings@in.live`, `settings@
 States: `report@out.live`, `report@out.none`, `report@in.live`, `report@in.none`
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Send report → `reported` [tap]
 - Back → `Back` [back]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 
 ### Reported (`reported`)
 States: `reported@out.live`, `reported@out.none`, `reported@in.live`, `reported@in.none`
@@ -817,11 +876,12 @@ States: `reported@out.live`, `reported@out.none`, `reported@in.live`, `reported@
 - Done → `home` [tap]
 - home → `home` [tap]
 - Home → `home` [tap]
-- Inbox → `inbox` [tap]
+- Inbox → `inbox-one` [tap]
 - S → `me` [tap]
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
+- Inbox (later design: two-tab Inbox (phase 2) [M1033]) → `inbox` [cond]
 - Block Maya too → `reported+block` [sheet]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `reported`; Cancel → `reported`
 

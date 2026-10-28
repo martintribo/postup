@@ -2,6 +2,7 @@
 id = "inbox"
 title = "Inbox · Chats"
 kind = "page"
+phase = 2  # later design; phase 1 uses inbox-one [M1033]
 group = "Inbox & people"
 variants = { "auth=out" = "inbox--out" }  # condition -> HTML id that renders it (first match wins)
 slots = [
@@ -36,5 +37,6 @@ lines = [
 [[notes]]
 section = "Behavior"
 lines = [
+  "Phase 2 design; phase 1 uses the one-list inbox-one (reached via condition inbox-tabs). [M1033]",
   "Chats | Activity tabs. Ended chats dimmed. Unread dot on the tab. Root tab: no Back. [FS] [R13]",
 ]

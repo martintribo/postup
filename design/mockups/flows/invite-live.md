@@ -14,7 +14,7 @@ Player: /mockups/flows/invite-live.html
 ## Steps
 1. **invite@out.live** · user: A friend sent this; knows the context · action: opens the share link · edge: entry
    - Landing for the shared postup. [FS] [R39]
-   - next site states: project@out.live (Star Fox 64 mod), **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails))
+   - next site states: project@out.live (Star Fox 64 mod), **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), projects@out.live (Projects), inbox-one@out.live (Inbox), post@out.live (Post up), me@out.live (S), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails)), inbox@out.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 2. **invite+signin@out.live** · user: Wants to join the friend · action: taps Join 🔒 · edge: tap: Join Maya
    - Join → sign-in sheet. [FS] [M1024]
@@ -22,11 +22,11 @@ Player: /mockups/flows/invite-live.html
    - enterable flows: none
 3. **joined@in.live** · user: Signed in; going · action: signs in · edge: tap: Continue with Apple
    - Joined. [FS] [M1024]
-   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **chat@in.live** (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **chat@in.live** (Group chat), joined+dirs@in.live (Directions), project@in.live (Project), joined+leave@in.live (Leave), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), cafe-gfail@in.live (Bean Theory (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: join step 3 (if Decides to join), leave step 1 (if Plans changed)
 4. **chat@in.live** · user: Wants to say hi before going · action: opens chat · edge: tap: Group chat
    - Postup chat. [F096] [M1024]
-   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
+   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: chat step 2 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]

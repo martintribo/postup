@@ -14,15 +14,15 @@ Player: /mockups/flows/hosting.html
 ## Steps
 1. **live@in.live** · user: Live; wants more time · action: opens their live postup · edge: entry
    - +30 min extends. [FS]
-   - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), **post-edit@in.live** (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
+   - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), **post-edit@in.live** (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: returning-post step 3 (if Managing their postup), host-approve step 2 (if Deciding on the request)
 2. **post-edit@in.live** · user: Plans changed: different time · action: taps Edit · edge: tap: Edit
    - Edit cafe/what/until; Save → #live. [FS] [drawn]
-   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **live@in.live** (Save), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), me@in.live (S)
+   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), project-new@in.live (Project), **live@in.live** (Save), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: none
 3. **live@in.live** · user: Saved · action: taps Save · edge: back
    - Back on live. [FS]
-   - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), post-edit@in.live (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), **live+endlive@in.live** (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox@in.live (Inbox), me@in.live (S)
+   - next site states: back (Back), live+share@in.live (Share), project@in.live (Star Fox 64 mod), post-edit@in.live (Edit), profile@in.live (D Dev · 2 min ago), chat@in.live (Group chat), **live+endlive@in.live** (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), projects@in.live (Projects), inbox-one@in.live (Inbox), me@in.live (S), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: returning-post step 3 (if Managing their postup), host-approve step 2 (if Deciding on the request)
 4. **live+endlive@in.live** · user: Wrapping up · action: taps End postup · edge: tap: End postup
    - End postup → confirm; joiners and waiters alerted. [FS] [drawn]
@@ -30,7 +30,7 @@ Player: /mockups/flows/hosting.html
    - enterable flows: none
 5. **me@in.live** · user: Done for today · action: confirms End now · edge: tap: End now
    - Back home. [M1024] Ending your own postup doesn't change who else is live nearby (live = nearby, not this postup). [M1031-draft]
-   - next site states: back (Back), settings@in.live (Settings), live@in.live (1:42 You're live at Bean Theory Ti), cafe@in.live (Lantern Tea), project-new@in.live (Tide Clock Updated Sun), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox@in.live (Inbox), post@in.live (Post up), cafe-gfail@in.live (Lantern Tea (Google card fails))
+   - next site states: back (Back), settings@in.live (Settings), live@in.live (1:42 You're live at Bean Theory Ti), cafe@in.live (Lantern Tea), project-new@in.live (Tide Clock Updated Sun), home@in.live.live (home), quiet-feed@in.live (Nearby), projects@in.live (Projects), inbox-one@in.live (Inbox), post@in.live (Post up), cafe-gfail@in.live (Lantern Tea (Google card fails)), inbox@in.live (Inbox (later design: two-tab Inbox (phase 2) [M1033]))
    - enterable flows: delete-account step 1 (if Leaving PostUp)
 
 ## Connected flows [M1025]

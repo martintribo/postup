@@ -193,3 +193,6 @@ h1,h2,h3,p{margin:0}h1{font-size:var(--t-xl);font-weight:800;letter-spacing:-.02
 [data-device=desktop] #home-overlay-alt .hoa-card{position:static;box-shadow:none;padding:var(--s5)}
 .hoa{height:100dvh}@media(min-width:520px){.hoa{height:844px}}
 .hoa>.map{flex:1 1 auto;height:auto!important;min-height:100%}.hoa-card .altb.dk{display:inline-block}
+
+/* phase-1 one-list inbox [M1033] */
+.lrow .ir{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.udot{width:9px;height:9px;border-radius:50%;background:#10a364;display:block}.sysl{color:#10a364;font-weight:600}

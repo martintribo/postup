@@ -9,7 +9,7 @@ DEVICES={'phone','desktop'}
 ROLES={'joiner','host','account','visitor'}
 STATUSES={'martin','draft'}
 DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building')}
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
@@ -97,6 +97,8 @@ def lineof(path,needle,nth=0):
             if n==nth: return i
     return 1
 USERS={'newcomer','registered'}
+import tomllib as _tl, os as _os
+REPL={c['id']:(c['replaces'],c['with']) for c in _tl.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','model','events.toml'),'rb'))['conditions'] if 'replaces' in c}
 def flow_states(sc,f):
     """Replay a flow; return the list of (state-key, screens on it) per step (assumes it validates)."""
     s0=f['start']; cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None)
@@ -106,7 +108,8 @@ def flow_states(sc,f):
         if i and 'link' in st:
             own,ls=find_link(sc,dict(cur,device=st.get('device') or s0.get('device','phone')),st['link']); n=None
             for l in ls or []:
-                if st.get('condition')=='google-card-fails' and l.get('to')=='cafe': l=dict(l,to='cafe-gfail')
+                _c=REPL.get(st.get('condition'))
+                if _c and l.get('to')==_c[0]: l=dict(l,to=_c[1])  # data condition swaps the target screen [M1033]
                 n=resolve(sc,cur,l,own)
                 if n: break
             if n=='back': hist.pop(); cur=dict(hist[-1])

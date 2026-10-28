@@ -8,7 +8,7 @@ links = [
   { id = "home-2", label = "Home", action = "replace", to = "home" },
   { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
   { id = "projects", label = "Projects", action = "replace", to = "projects" },
-  { id = "inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox-one" },  # phase 1 one-list [M1033]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "me", label = "S", action = "replace", to = "me" },
 ]

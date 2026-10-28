@@ -14,5 +14,6 @@ events = [
 ]
 conditions = [
   { id = "google-card-fails", label = "Google card fails", replaces = "cafe", with = "cafe-gfail" },
+  { id = "inbox-tabs", label = "later design: two-tab Inbox (phase 2) [M1033]", replaces = "inbox-one", with = "inbox" },
   { id = "empty-area", label = "area has no postups", on = ["home"], when = "live=none", action = "replace", to = "empty-area" },
 ]

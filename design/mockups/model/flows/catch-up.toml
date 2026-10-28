@@ -32,6 +32,7 @@ shows = "Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft]
 
 [[steps]]
 link = "tabbar:inbox"
+condition = "inbox-tabs"  # later two-tab design [M1033]
 act = "taps Inbox"
 expect = "inbox@in.live"
 thought = "Checks messages first"
