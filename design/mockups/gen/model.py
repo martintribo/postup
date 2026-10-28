@@ -137,4 +137,5 @@ def phases(sc,fl,gl):
 def load_situations(root=ROOT):
     p=f'{root}/situations.toml'
     d=tomllib.load(open(p,'rb')) if os.path.exists(p) else {'situations':[]}
+    load_situations.groups={g['id']:g for g in sorted(d.get('groups',[]),key=lambda g:g.get('order',99))}
     return {x['id']:x for x in d['situations']},p

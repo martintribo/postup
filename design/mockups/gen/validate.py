@@ -156,7 +156,11 @@ if not ERR:
             if _SO.get(k) and _SO[k]>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} passes state {k}, tagged phase {_SO[k]}',nth=i)
 # situations [M1031-draft]
 SIT,_sp=M.load_situations()
+SGR=M.load_situations.groups
+for gi,g in SGR.items():
+    if not g.get('title') or not isinstance(g.get('order'),int): err(_sp,f'id = "{gi}"',f'group {gi}: needs title and integer order')
 for i,x in SIT.items():
+    if x.get('group') not in SGR: err(_sp,f'id = "{i}"',f'situation {i}: group {x.get("group")!r} is not in groups')
     if x.get('user') not in M.USERS: err(_sp,f'id = "{i}"',f'situation {i}: user must be one of {sorted(M.USERS)}')
     if not re.search(M.TAG,x.get('setting','')): err(_sp,f'id = "{i}"',f'situation {i}: setting without source tag')
     if 'phase' in x and not _pint(x['phase']): err(_sp,f'id = "{i}"',f'situation {i}: phase must be a positive integer')

@@ -50,7 +50,7 @@ The model in `model/` is the single source for the mockup's screens, links, note
 
 ## Situations [M1031-draft]
 
-- `situations.toml` lists situations: `id`, `user` (newcomer | registered), a plain-words `title`, a source-tagged `setting` line, and an optional `phase`.
+- `situations.toml` has `groups` (id, title, order: high-level groupings shared across user types) and situations: `id`, `group`, `user` (newcomer | registered), a plain-words `title`, a source-tagged `setting` line, and an optional `phase`.
 - Every flow has `situation = "<id>"`. The validator fails if the situation doesn't exist or is for the other user type.
 - `flows/map.html` is the flow map by situation: one map per user type (`#newcomer`, `#registered`), with buttons that open the flows. The old user-state map is now `flows/map-states.html`.
 

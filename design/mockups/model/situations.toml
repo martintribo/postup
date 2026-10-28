@@ -1,22 +1,32 @@
 # Situations: who the user is and the setting they are in when a flow starts. Draft groupings [M1031-draft].
-# id, user (newcomer|registered), title (plain words), setting (one line, source-tagged), optional phase. Flows point here with situation = "<id>".
+# groups: id, title, order (high-level grouping, shared across user types). situations: id, group, user (newcomer|registered), title (plain words), setting (one line, source-tagged), optional phase. Flows point here with situation = "<id>".
+groups = [
+  { id = "discovering", title = "Discovering PostUp", order = 1 },  # [M1031-draft]
+  { id = "shared-link", title = "Opening a shared link", order = 2 },  # [M1031-draft]
+  { id = "finding-company", title = "Finding company", order = 3 },  # [M1031-draft]
+  { id = "posting", title = "Posting up and hosting", order = 4 },  # [M1031-draft]
+  { id = "after-joining", title = "After joining", order = 5 },  # [M1031-draft]
+  { id = "safety", title = "Staying safe", order = 6 },  # [M1031-draft]
+  { id = "projects", title = "Projects", order = 7 },  # [M1031-draft]
+  { id = "other", title = "Devices, network and account", order = 8 },  # [M1031-draft]
+]
 situations = [
-  { id = "nc-sees-live", user = "newcomer", title = "Sees people live nearby", setting = "Signed out on Home; someone is live nearby. [M1031-draft]" },
-  { id = "nc-no-idea", user = "newcomer", title = "Has no idea what PostUp is", setting = "Signed out, landed on Home by chance. [M1031-draft]" },
-  { id = "nc-postup-link", user = "newcomer", title = "A friend sent a postup link", setting = "Signed out, opens a shared postup link (live or ended). [M1031-draft]" },
-  { id = "nc-project-link", user = "newcomer", title = "A friend sent a project link", setting = "Signed out, opens a shared project link. [M1031-draft]" },
-  { id = "nc-at-cafe", user = "newcomer", title = "Already at a cafe, wants to post up", setting = "Signed out, wants to go live where they are. [M1031-draft]" },
-  { id = "nc-nobody-live", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. No flow yet: a newcomer version of Empty area is wanted. [M1031-draft]" },
-  { id = "rg-wants-company", user = "registered", title = "Wants company now", setting = "Signed in; someone is live nearby. [M1031-draft]" },
-  { id = "rg-nobody-live", user = "registered", title = "Nobody live nearby", setting = "Signed in; no one is live in the area. [M1031-draft]" },
-  { id = "rg-posting", user = "registered", title = "Wants to post up", setting = "Signed in, at a cafe, posting again. [M1031-draft]" },
-  { id = "rg-hosting", user = "registered", title = "Hosting a postup", setting = "Signed in and live; people join or ask. [M1031-draft]" },
-  { id = "rg-after-joining", user = "registered", title = "After joining", setting = "Signed in, joined a postup; chat or change of plans. [M1031-draft]" },
-  { id = "rg-postup-changes", user = "registered", title = "A postup changes while you look", setting = "The postup fills, is cancelled or ends. [M1031-draft]" },
-  { id = "rg-unsafe", user = "registered", title = "Feels unsafe", setting = "Someone in a postup feels off. [M1031-draft]" },
-  { id = "rg-coming-back", user = "registered", title = "Coming back later", setting = "Returns after a while away. [M1031-draft]" },
-  { id = "rg-projects", user = "registered", title = "Working on a project", setting = "Signed in, building something over time. [M1031-draft]" },
-  { id = "rg-laptop", user = "registered", title = "On a laptop", setting = "Signed in on desktop. [M1031-draft]" },
-  { id = "rg-bad-network", user = "registered", title = "Bad connection", setting = "Slow network or offline. [M1031-draft]" },
-  { id = "rg-account", user = "registered", title = "Managing the account", setting = "Settings, notifications, sign out, delete. [M1031-draft]" },
+  { id = "nc-sees-live", group = "discovering", user = "newcomer", title = "Sees people live nearby", setting = "Signed out on Home; someone is live nearby. [M1031-draft]" },
+  { id = "nc-no-idea", group = "discovering", user = "newcomer", title = "Has no idea what PostUp is", setting = "Signed out, landed on Home by chance. [M1031-draft]" },
+  { id = "nc-postup-link", group = "shared-link", user = "newcomer", title = "A friend sent a postup link", setting = "Signed out, opens a shared postup link (live or ended). [M1031-draft]" },
+  { id = "nc-project-link", group = "shared-link", user = "newcomer", title = "A friend sent a project link", setting = "Signed out, opens a shared project link. [M1031-draft]" },
+  { id = "nc-at-cafe", group = "posting", user = "newcomer", title = "Already at a cafe, wants to post up", setting = "Signed out, wants to go live where they are. [M1031-draft]" },
+  { id = "nc-nobody-live", group = "discovering", user = "newcomer", title = "Nobody live nearby", setting = "Signed out on Home; no one is live. No flow yet: a newcomer version of Empty area is wanted. [M1031-draft]" },
+  { id = "rg-wants-company", group = "finding-company", user = "registered", title = "Wants company now", setting = "Signed in; someone is live nearby. [M1031-draft]" },
+  { id = "rg-nobody-live", group = "finding-company", user = "registered", title = "Nobody live nearby", setting = "Signed in; no one is live in the area. [M1031-draft]" },
+  { id = "rg-posting", group = "posting", user = "registered", title = "Wants to post up", setting = "Signed in, at a cafe, posting again. [M1031-draft]" },
+  { id = "rg-hosting", group = "posting", user = "registered", title = "Hosting a postup", setting = "Signed in and live; people join or ask. [M1031-draft]" },
+  { id = "rg-after-joining", group = "after-joining", user = "registered", title = "After joining", setting = "Signed in, joined a postup; chat or change of plans. [M1031-draft]" },
+  { id = "rg-postup-changes", group = "finding-company", user = "registered", title = "A postup changes while you look", setting = "The postup fills, is cancelled or ends. [M1031-draft]" },
+  { id = "rg-unsafe", group = "safety", user = "registered", title = "Feels unsafe", setting = "Someone in a postup feels off. [M1031-draft]" },
+  { id = "rg-coming-back", group = "after-joining", user = "registered", title = "Coming back later", setting = "Returns after a while away. [M1031-draft]" },
+  { id = "rg-projects", group = "projects", user = "registered", title = "Working on a project", setting = "Signed in, building something over time. [M1031-draft]" },
+  { id = "rg-laptop", group = "other", user = "registered", title = "On a laptop", setting = "Signed in on desktop. [M1031-draft]" },
+  { id = "rg-bad-network", group = "other", user = "registered", title = "Bad connection", setting = "Slow network or offline. [M1031-draft]" },
+  { id = "rg-account", group = "other", user = "registered", title = "Managing the account", setting = "Settings, notifications, sign out, delete. [M1031-draft]" },
 ]
