@@ -81,7 +81,7 @@ ol{padding-left:22px;margin:6px 0}ol li{padding:5px 6px;border-radius:8px;cursor
 h3{font-size:13px;margin:14px 0 4px;text-transform:uppercase;letter-spacing:.04em;color:#6b6b67}ul{padding-left:18px;margin:4px 0}.tg{font-size:10.5px;color:#8a8984}
 .stage{display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px}iframe{border:0;background:#fff;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
 iframe.phone{width:400px;height:min(860px,calc(100vh - 60px))}iframe.desktop{width:100%;height:calc(100vh - 24px)}
-@media(max-width:820px){.fh{order:1;border:0}.fp{display:flex;flex-direction:column;height:auto}.side{display:contents}.top{order:0;padding:12px 14px 4px}.stage{order:1}.side>*:not(.top){order:2;padding:0 14px}.stage{padding:0 0 12px}iframe.phone,iframe.desktop{width:100%;height:72vh;border-radius:12px}}'''
+@media(max-width:820px){.fh{order:1;border:0}.fp{display:flex;flex-direction:column;height:auto}.side{display:contents}.top{order:0;padding:12px 14px 4px}.stage{order:1}.side>*:not(.top){order:2;padding:0 14px}.stage{padding:0 0 12px}iframe.desktop{width:100%;height:72vh;border-radius:12px}}'''
 def esc(t): return re.sub(r'(\[[^\]]+\])',r'<span class="tg">\1</span>',H.escape(t,quote=False))
 FBR_WEAK=set()
 def _ptitle(sc): return NOTES[sc]['title'] if sc in NOTES else sc
@@ -148,7 +148,7 @@ path.m{stroke:#10a364;stroke-width:2;fill:none}path.b{stroke:#b9acec;stroke-widt
 .dc em{font-size:11px;color:#4b33b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-style:italic}.dc span{font-size:10px;color:#6b6b67;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dc:hover{background:#fff;border-color:#9b8ae0;z-index:5}
 .dct{display:none;position:absolute;left:100%;top:-30px;margin-left:6px;width:60px;height:130px;object-fit:cover;object-position:top;border:2px solid #222;border-radius:9px;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.2)}.dc:hover .dct{display:block}
 .dl{position:absolute;width:180px;text-align:center;font-size:10.5px;color:#8a5a00;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fbfaf7}
-.pl{display:grid;grid-template-columns:400px 1fr;overflow:hidden}.pl .side{overflow:auto}.pl .stage{overflow:hidden}.dt{background:#f7f6f2;border-radius:12px;padding:12px;margin:8px 0}.dt .su{display:block;font-size:14px;color:#0f7a4f;font-style:italic;margin:4px 0}
+.pl{display:grid;grid-template-columns:400px 1fr;overflow:hidden}.pl .side{overflow:auto}.pl .stage{overflow:hidden;align-items:flex-start;padding-top:12px}.dt{background:#f7f6f2;border-radius:12px;padding:12px;margin:8px 0}.dt .su{display:block;font-size:14px;color:#0f7a4f;font-style:italic;margin:4px 0}
 .dt .sa{font-size:12.5px;color:#55544f}.dlg{font-size:11px;color:#6b6b67;padding:4px 16px}.dlg i{font-style:normal;display:inline-block;width:14px;height:3px;vertical-align:middle;margin:0 4px 0 10px}
 @media(max-width:820px){.pl{display:flex;flex-direction:column;height:auto!important;overflow:visible}.pl .stage{order:0}.pl .side{order:1;padding:0 14px}}'''
 def player(f):
@@ -169,13 +169,13 @@ def player(f):
 <div class="stage"><iframe id="fr" class="{dev}" title="Mockup step"></iframe></div></div>
 <script>var S={json.dumps(st)},i=0,fr=document.getElementById("fr"),y=0;fr.addEventListener("load",function(){{scrollTo(0,y);setTimeout(function(){{scrollTo(0,y)}},300)}});
 function un(s){{return s.replace(/&amp;/g,"&").replace(/&#x27;/g,"'").replace(/&quot;/g,'"')}}
-function step(n){{if(n<0||n>=S.length)return;i=n;y=scrollY;var x=S[i];fr.className=x.u.indexOf("device=desktop")>0?"desktop":"phone";fr.src=x.u.replace("#","&notes=0&fs="+i+"#");
+function step(n){{if(n<0||n>=S.length)return;i=n;y=scrollY;var x=S[i];fr.className=x.u.indexOf("device=desktop")>0?"desktop":"phone";if(window.fitpl)fitpl();fr.src=x.u.replace("#","&notes=0&fs="+i+"#");
 document.getElementById("ct").innerHTML=(i+1)+". "+x.t;document.getElementById("du").textContent="“"+un(x.us)+"”";document.getElementById("da").textContent="Got here: "+un(x.ac);document.getElementById("cp").textContent="#"+x.sc+" · "+x.p;document.getElementById("cu").href=x.u;
 document.getElementById("pos").textContent="Step "+(i+1)+" of "+S.length;document.getElementById("bk").disabled=i==0;document.getElementById("nx").disabled=i==S.length-1;
 document.querySelectorAll(".dn").forEach(function(l){{var on=+l.dataset.i===i;l.classList.toggle("on",on);if(on){{var g=document.getElementById("dg"),r=l.offsetLeft-g.clientWidth/2+32;if(r<g.scrollLeft||l.offsetLeft+64>g.scrollLeft+g.clientWidth)g.scrollTo({{left:r,behavior:"smooth"}})}}}});history.replaceState(null,"","#"+(i+1))}}
 document.getElementById("dg").addEventListener("click",function(e){{var g=e.target.closest("[data-go]");if(g){{e.preventDefault();step(+g.dataset.go);return}}if(e.target.closest("a"))return;var l=e.target.closest(".dn");if(l)step(+l.dataset.i)}});
 addEventListener("keydown",function(e){{if(e.key==="ArrowRight")step(i+1);if(e.key==="ArrowLeft")step(i-1)}});
-function fitpl(){{var p=document.querySelector(".pl");p.style.height=Math.max(520,innerHeight-p.offsetTop)+"px";fr.style.height=innerWidth>820?(Math.max(500,innerHeight-p.offsetTop-24))+"px":""}}addEventListener("resize",fitpl);fitpl();
+function fitpl(){{var p=document.querySelector(".pl"),dk=innerWidth>820,av=dk?innerHeight-p.offsetTop-24:Math.round(innerHeight*.8);if(dk)p.style.height=Math.max(av<380?844*.45+40:0,innerHeight-p.offsetTop)+"px";var st=fr.style;st.transformOrigin="top center";if(fr.classList.contains("phone")){{var s=Math.min(1,Math.max(.45,av/844),(dk?9e9:innerWidth-8)/390);st.width="390px";st.height="844px";st.transform="scale("+s+")";st.marginBottom=(844*(s-1))+"px";st.marginLeft=st.marginRight=(390*(s-1)/2)+"px"}}else{{st.width="";st.height=Math.max(380,av)+"px";st.transform="";st.margin=""}}}}addEventListener("resize",fitpl);fitpl();
 step(Math.max(0,Math.min(S.length-1,(parseInt(location.hash.slice(1))||1)-1)));</script>{MVPJS}</body></html>'''
 for f in FLOWS: open(f'flows/{f["id"]}.html','w').write(player(f))
 rows=''.join(f'<li data-mvpf="{f["id"]}">{mvpc(f["id"])} <a href="{f["id"]}.html"><b>{H.escape(f["name"])}</b></a> <span class="pill{"" if f["pri"]=="MVP must" else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"}<div class="meta">{H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div></li>' for f in FLOWS)
