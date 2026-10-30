@@ -20,8 +20,8 @@ for (const [p, k] of Object.entries(pick)) {
   await pg.screenshot({ path: '/tmp/pthumb.png' });
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}.webp`]);
 }
-for (const p of versions || []) { const k = pick[p]; if (!k) continue;  // phase-1 version [M1035]
-  await pg.goto(base + states[k].url.replace('#', '&notes=0&embed=1&ph=1#')); await pg.waitForTimeout(350); await pg.screenshot({ path: '/tmp/pthumb.png' });
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}--p1.webp`]); }
+for (const ph of [1, 0]) for (const p of versions || []) { const k = pick[p]; if (!k) continue;  // phase-1 and phase-0 versions [M1035] [M1037]
+  await pg.goto(base + states[k].url.replace('#', `&notes=0&embed=1&ph=${ph}#`)); await pg.waitForTimeout(350); await pg.screenshot({ path: '/tmp/pthumb.png' });
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}--p${ph}.webp`]); }
 fs.writeFileSync(`${OUT}/states.json`, JSON.stringify(pick, null, 1));
 await b.close(); srv.close(); console.log('pagethumbs', Object.keys(pick).length);

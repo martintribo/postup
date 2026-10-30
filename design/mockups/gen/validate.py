@@ -139,16 +139,16 @@ for fid,f in fl.items():
         else: err(p,ctx,f'step {i+1}: needs link, event or gap',nth=i); continue
         if st.get('expect') and M.key(cur)!=st['expect']: err(p,ctx,f'step {i+1}: derived {M.key(cur)} but expected {st["expect"]}',nth=i)
 # phases [M1031-draft]
-def _pint(v): return isinstance(v,int) and not isinstance(v,bool) and v>0
+def _pint(v): return isinstance(v,int) and not isinstance(v,bool) and v in M.PHASES  # a known phase: 0, 1 or 2 [M1037]
 for sid,s in sc.items():
-    if 'phase' in s and not _pint(s['phase']): err(s['_file'],'phase =',f'phase must be a positive integer, got {s["phase"]!r}')
+    if 'phase' in s and not _pint(s['phase']): err(s['_file'],'phase =',f'phase must be one of the phases 0, 1, 2, got {s["phase"]!r}')
     for k,v in s.get('state_phases',{}).items():
-        if not _pint(v): err(s['_file'],k,f'state phase must be a positive integer, got {v!r}')
+        if not _pint(v): err(s['_file'],k,f'state phase must be one of the phases 0, 1, 2, got {v!r}')
 for k,v in gl.get('state_phases',{}).items():
-    if not _pint(v): err(gl['_file'],k,f'state phase must be a positive integer, got {v!r}')
+    if not _pint(v): err(gl['_file'],k,f'state phase must be one of the phases 0, 1, 2, got {v!r}')
 for fid,f in fl.items():
     p=f['_file']
-    if 'phase' in f and not _pint(f['phase']): err(p,'phase =',f'phase must be a positive integer, got {f["phase"]!r}')
+    if 'phase' in f and not _pint(f['phase']): err(p,'phase =',f'phase must be one of the phases 0, 1, 2, got {f["phase"]!r}')
     if f.get('user') not in M.USERS: err(p,'user =',f'user must be one of {sorted(M.USERS)}')
     elif (f['user']=='newcomer')!=(f['start']['auth']=='out'): err(p,'user =',f'user {f["user"]!r} does not match start auth {f["start"]["auth"]!r}')
 if not ERR:
@@ -156,11 +156,11 @@ if not ERR:
     for s in sc.values(): _SO.update(s.get('state_phases',{}))
     for fid,f in fl.items():
         ph=f.get('phase')
-        if not ph: continue
+        if ph is None: continue
         for i,(k,scs) in enumerate(M.flow_states(sc,f)):
             for s in scs:
-                if sc[s].get('phase') and sc[s]['phase']>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} uses {s}, tagged phase {sc[s]["phase"]}',nth=i)
-            if _SO.get(k) and _SO[k]>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} passes state {k}, tagged phase {_SO[k]}',nth=i)
+                if sc[s].get('phase') is not None and sc[s]['phase']>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} uses {s}, tagged phase {sc[s]["phase"]}',nth=i)
+            if _SO.get(k) is not None and _SO[k]>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} passes state {k}, tagged phase {_SO[k]}',nth=i)
 # situations [M1031-draft]
 SIT,_sp=M.load_situations()
 SGR=M.load_situations.groups
@@ -170,7 +170,7 @@ for i,x in SIT.items():
     if x.get('group') not in SGR: err(_sp,f'id = "{i}"',f'situation {i}: group {x.get("group")!r} is not in groups')
     if x.get('user') not in M.USERS: err(_sp,f'id = "{i}"',f'situation {i}: user must be one of {sorted(M.USERS)}')
     if not re.search(M.TAG,x.get('setting','')): err(_sp,f'id = "{i}"',f'situation {i}: setting without source tag')
-    if 'phase' in x and not _pint(x['phase']): err(_sp,f'id = "{i}"',f'situation {i}: phase must be a positive integer')
+    if 'phase' in x and not _pint(x['phase']): err(_sp,f'id = "{i}"',f'situation {i}: phase must be one of the phases 0, 1, 2')
 for fid,f in fl.items():
     si=f.get('situation')
     if si not in SIT: err(f['_file'],'situation' if si else 'user =',f'flow {fid}: situation {si!r} is not in situations.toml')

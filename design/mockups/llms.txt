@@ -67,16 +67,16 @@ The home page (/) is #home, called Home, with two modes on one URL: Live and Bui
 ## Critical flows
 Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certain situation and goes through a scenario step by step. Each step names the screen and the scenario params (auth, live, Home mode, sheet). Flows marked Draft were inferred from the screen notes; confirm with Martin.
 - [All flows in one file](flows/all.md)
-- [look-around](flows/look-around.md): Newcomer looks around, then joins (Phase 1, draft) · player: flows/look-around.html
-- [empty-area-newcomer](flows/empty-area-newcomer.md): Nobody live nearby (newcomer) (Phase 1, draft) · player: flows/empty-area-newcomer.html
-- [join](flows/join.md): Join someone live (Phase 1, draft) · player: flows/join.html
-- [invite-live](flows/invite-live.md): Share link to a live postup (Phase 1, draft) · player: flows/invite-live.html
-- [empty-area](flows/empty-area.md): Nobody live nearby (signed in) (Phase 1, draft) · player: flows/empty-area.html
-- [first-post](flows/first-post.md): Came to post up: first post with sign-in (Phase 1, draft) · player: flows/first-post.html
+- [look-around](flows/look-around.md): Newcomer looks around, then joins (Phase 0, draft) · player: flows/look-around.html
+- [empty-area-newcomer](flows/empty-area-newcomer.md): Nobody live nearby (newcomer) (Phase 0, draft) · player: flows/empty-area-newcomer.html
+- [join](flows/join.md): Join someone live (Phase 0, draft) · player: flows/join.html
+- [invite-live](flows/invite-live.md): Share link to a live postup (Phase 0, draft) · player: flows/invite-live.html
+- [empty-area](flows/empty-area.md): Nobody live nearby (signed in) (Phase 0, draft) · player: flows/empty-area.html
+- [first-post](flows/first-post.md): Came to post up: first post with sign-in (Phase 0, draft) · player: flows/first-post.html
 - [returning-post](flows/returning-post.md): Returning poster (Phase 1, draft) · player: flows/returning-post.html
 - [hosting](flows/hosting.md): Hosting live: extend, edit, end (Phase 1, draft) · player: flows/hosting.html
 - [chat](flows/chat.md): Postup chat (Phase 1, draft) · player: flows/chat.html
-- [safety](flows/safety.md): Report and block (Phase 1, draft) · player: flows/safety.html
+- [safety](flows/safety.md): Report and block (Phase 0, draft) · player: flows/safety.html
 - [leave](flows/leave.md): Leave a postup you joined (Phase 1, draft) · player: flows/leave.html
 - [invite-project](flows/invite-project.md): Share link to a project (Phase 2 (MVP), draft) · player: flows/invite-project.html
 - [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (Phase 2 (MVP), draft) · player: flows/ask-join.html

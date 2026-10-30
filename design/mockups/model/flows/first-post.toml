@@ -2,7 +2,7 @@
 id = "first-post"
 name = "Came to post up: first post with sign-in"
 role = "host"
-phase = 1  # MVP phase [M1031-draft]
+phase = 0  # smallest MVP [M1037]
 user = "newcomer"  # newcomer = signed out, never used; registered = signed in
 situation = "nc-at-cafe"  # model/situations.toml [M1031-draft]
 order = 11  # position in the flow list
@@ -12,6 +12,7 @@ goal = "Go live in about ten seconds. [M1024]"
 intent = "Came to post up right now"
 start = { screen = "home", auth = "out", live = "none", tab = "live", device = "phone", url = "/" }
 edge_cases = [
+  "Also covers a returning poster in phase 0: same steps, with the cafe and what you're working on prefilled. The separate Returning poster flow is phase 1. [M1037]",
   "Location denied: picker falls back to search. [R21] [unsourced]",
   "Cafe search fails without a Maps key → error state. [unsourced]",
 ]

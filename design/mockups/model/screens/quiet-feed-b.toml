@@ -12,8 +12,8 @@ slots = [
 links = [
   { id = "me", label = "S", action = "replace", to = "me" },
   { id = "quiet", label = "", action = "replace", to = "quiet" },
-  { id = "maya-recent", label = "Maya posted up at Bean Theory", action = "replace", to = "profile", when = "live=none,phase=1" },  # phase 1: recent postups instead of projects [M1035]
-  { id = "jon-recent", label = "Jon posted up at Lot 1 Coffee", action = "replace", to = "profile", when = "live=none,phase=1" },
+  { id = "maya-recent", label = "Maya posted up at Bean Theory", action = "replace", to = "profile", when = "live=none,phase<=1" },  # phase 1: recent postups instead of projects [M1035]
+  { id = "jon-recent", label = "Jon posted up at Lot 1 Coffee", action = "replace", to = "profile", when = "live=none,phase<=1" },
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "cafe", label = "", action = "replace", to = "cafe", when = "live=live" },
   { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "live=live,phase>=2" },  # phase 2 only [M1035]

@@ -1,5 +1,5 @@
 # Flow: Nobody live nearby (signed in) (`empty-area`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/empty-area.html
 
 ## Persona
@@ -14,7 +14,7 @@ Player: /mockups/flows/empty-area.html
 ## Steps
 1. **home@in.none.live** · user: Nobody around right now · action: arrives at / · edge: entry
    - Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035]
-   - next site states: cafe@in.none (cafe), quiet@in.none (Locate), post@in.none (Post up), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), me@in.none (S), home@in.none.building (Building), projects@in.none (Projects), **empty-area@in.none** (area has no postups), cafe-gfail@in.none (cafe (Google card fails))
+   - next site states: cafe@in.none (cafe), quiet@in.none (Locate), post@in.none (Post up), quiet-feed@in.none (Nearby), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Building), projects@in.none (Projects), **empty-area@in.none** (area has no postups), cafe-gfail@in.none (cafe (Google card fails))
    - enterable flows: none
 2. **empty-area@in.none** · user: What happens around here? · action: area has no postups · edge: cond: area has no postups
    - Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032]
@@ -22,7 +22,7 @@ Player: /mockups/flows/empty-area.html
    - enterable flows: none
 3. **profile@in.none** · user: Who comes here? · action: taps Maya posted up at Bean Theory · edge: tap: Maya posted up at Bean Theory
    - Maya's profile: regular cafes, past postups. [FS] [M1032]
-   - next site states: back (Back), profile+more@in.none (More), cafe@in.none (Bean Theory), home@in.none.live (home), quiet-feed@in.none (Nearby), inbox@in.none (Inbox), post@in.none (Post up), me@in.none (S), project@in.none (Star Fox 64 mod Updated yesterday), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Bean Theory (Google card fails))
+   - next site states: back (Back), profile+more@in.none (More), cafe@in.none (Bean Theory), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), project@in.none (Star Fox 64 mod Updated yesterday), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Bean Theory (Google card fails))
    - enterable flows: following step 1 (if Likes someone's work)
 4. **empty-area@in.none** · user: Back to the area · action: taps Back · edge: back
    - The empty-area screen again. [M1032]
@@ -33,10 +33,10 @@ Player: /mockups/flows/empty-area.html
 - `following`: branch out at step 3→1; merge in at —
 
 ## Screens
-1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=1#home)
-2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=1#empty-area)
-3. `#profile` · auth=in live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=1#profile)
-4. `#empty-area` · auth=in live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=1#empty-area)
+1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=0#home)
+2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#empty-area)
+3. `#profile` · auth=in live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#profile)
+4. `#empty-area` · auth=in live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#empty-area)
 
 ## Branches and edge cases
 - No past activity at all in the area: good cafes to be the first. [M1032] [M1034]

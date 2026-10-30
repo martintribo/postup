@@ -10,7 +10,7 @@ class LP(HTMLParser):
         if s.skip:
             if t not in VOID: s.skip+=1
             return
-        if s.drop and s.drop in (a.get('class') or '').split():
+        if s.drop and set(s.drop)&set((a.get('class') or '').split()):
             if t not in VOID: s.skip=1
             return
         js=(a.get('onclick') or ''); hr=a.get('href') or ''
@@ -39,9 +39,11 @@ class LP(HTMLParser):
         if s.skip: return
         if s.st: s.st[-1][2]+=d
 TABNAV=re.compile(r'<nav class="tab[^"]*">.*?</nav>',re.S)
+# classes not rendered in each phase [M1037]: p0only = phase 0 only, p1up = phase 1+, p1only = phase <=1, p2only = phase 2+
+DROP={0:('p2only','p1up'),1:('p2only','p0only'),2:('p1only','p0only')}
 def links(chunk,ids,phase=None):
     """phase=1 drops .p2only elements, phase>=2 drops .p1only (the per-phase HTML versions [M1035])."""
-    p=LP(ids,None if phase is None else ('p2only' if phase<2 else 'p1only')); p.feed(chunk); return p.out
+    p=LP(ids,None if phase is None else DROP[phase]); p.feed(chunk); return p.out
 SIGNOUT=re.compile(r'sign out|delete',re.I)
 def acts(tg,lab,auth,owner,in_sheet):
     """one rendered link -> model-shaped (action,to,sets,then) tuples for this auth"""

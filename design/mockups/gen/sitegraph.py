@@ -7,7 +7,8 @@ import sys as _sys
 _sys.path.insert(0,'gen'); import model as M, htmllinks as HL
 SC,_MFL,MEV,_MGL=M.load()
 PH_F,PH_S,PH_ST=M.phases(SC,_MFL,_MGL)  # phase per flow / screen / site state (derived) [M1031-draft]
-def ph1(x,kind='s'): return int((PH_S if kind=='s' else PH_ST).get(x) or 0)  # phase number, 0 = unphased [M1032]
+def ph1(x,kind='s'): return (PH_S if kind=='s' else PH_ST).get(x)  # phase number 0-2, None = unphased [M1032] [M1037]
+def dph(x): return 'n' if x is None else x  # data-ph value [M1037]
 PAGES=[k for k in S if '--' not in k and k!='index']
 OVCH={m[1]:m[2] for m in re.finditer(r'<div class="ov" id="ov-([\w-]+)">(.*?)</div></div>(?=<div class="ov"|$)',OVS,re.S)}
 assert set(OVCH)==set(OVHOST), (set(OVCH)^set(OVHOST))
@@ -22,7 +23,7 @@ def rendered(page,a,l,mode,ph=None): return S[M.rendered_id(SC[page],a,l,mode,ph
 def sid(p,ov,a,l,m=None): return f'{p}{"+"+ov if ov else ""}@{a}.{l}{"."+m if m else ""}'
 def dmode(l): return 'live' if l=='live' else 'building'
 def _mst(k,ph=None):
-    s=SST[k]; return dict(root=s['page'],kids=[('sheet',s['ov'])] if s['ov'] else [],auth=s['auth'],live=s['live'],tab=s['mode'],device='phone',phase=ph or M.MAXPH)
+    s=SST[k]; return dict(root=s['page'],kids=[('sheet',s['ov'])] if s['ov'] else [],auth=s['auth'],live=s['live'],tab=s['mode'],device='phone',phase=M.vp(ph))
 def _sk(n): return sid(n['root'],n['kids'][-1][1] if n['kids'] else None,n['auth'],n['live'],n['tab'] if n['root']=='home' else None)
 SST={}
 for p in PAGES:
@@ -107,7 +108,7 @@ for _ph in M.PHASES:
     _rl={(x[0],x[1]) for tg,lab in HL.links(DESK.split('</aside>')[0],_IDS,_ph) for x in HL.acts(tg,lab,'in','',False) if x[1]!='index'}
     if _rl!={(l['action'],l['to']) for l in SC['rail']['links'] if M.matches(l.get('when',''),dict(phase=_ph))}: _DRIFT.append(f'rail phase {_ph}: HTML {sorted(_rl)} vs model')
 # screens with per-phase versions (phase-conditioned links or p1only/p2only blocks, tab bar aside) [M1035]
-VERS=sorted(p for p in PAGES if any('phase' in (l.get('when') or '') for l in SC[p].get('links',[])) or any(re.search(r'p[12]only',HL.TABNAV.sub('',S[x])) for x in S if x==p or x.startswith(p+'--')))
+VERS=sorted(p for p in PAGES if any('phase' in (l.get('when') or '') for l in SC[p].get('links',[])) or any(re.search(r'p[012]only|p1up',HL.TABNAV.sub('',S[x])) for x in S if x==p or x.startswith(p+'--')))
 if _DRIFT: raise SystemExit('model/HTML link drift (the model is the source; fix the HTML or the model):\n  '+'\n  '.join(_DRIFT))
 # ---- flow steps: how each is reached (from the model replay in flowload.py; validate.py already proved them) ----
 SG_GAPS=[]; SG_HOW={}
@@ -189,7 +190,7 @@ def sg_write():
     md+='\n## Missing edges found by the flows (design gaps)\n'+(''.join(f'- `{fi}` step {n}: `{a}` → `{b}` ("{act}") [M1025]\n' for fi,n,a,b,act in SG_GAPS) or '- none\n')
     open('flows/sitegraph.md','w').write(md)
     # site.html
-    def chip(k): s=SST[k]; return f'<a class="sc" data-ph="{ph1(k,"st")}" href="{surl_s(k)}" target="_blank">{stname(k)}</a>'
+    def chip(k): s=SST[k]; return f'<a class="sc" data-ph="{dph(ph1(k,"st"))}" href="{surl_s(k)}" target="_blank">{stname(k)}</a>'
     cards=''
     for gname,ps in PGROUPS:
         cards+=f'<section class="pg"><h2>{H.escape(gname)}</h2><div class="pgs">'
@@ -198,7 +199,7 @@ def sg_write():
             ed=''.join(f'<li class="k-{kind}"><span class="el">{H.escape(lab or "(tap)")}</span> → <b>{H.escape(tp)}</b>{"<span class=cnd>"+H.escape(c)+"</span>" if c else ""}</li>' for lab,tp,kind,c in pedges(p))
             sh=''.join(f'<li class="k-sheet">sheet <b>{o}</b>: '+H.escape('; '.join(f'{lab or "(tap)"} → {tp}' for lab,tp,kind,c in pedges(p,o)))+'</li>' for o in sorted({s['ov'] for s in SST.values() if s['page']==p and s['ov']}))
             used=sorted({f['id'] for f in FLOWS for d in f['sx'] if SST[d['site']]['page']==p})
-            cards+=f'<article class="pc" data-ph="{ph1(p)}" id="p-{p}"><h3>{H.escape(ptitle(p))}{p1b(ph1(p))} <code>{p}</code> <a class="sc" href="states.html#screen={p}">all states</a></h3><div class="sts">{sts}</div><ul>{ed}{sh}</ul>'+(f'<p class="fl">In flows: '+' '.join(f'<a href="{x}.html">{x}</a>' for x in used)+'</p>' if used else '')+'</article>'
+            cards+=f'<article class="pc" data-ph="{dph(ph1(p))}" id="p-{p}"><h3>{H.escape(ptitle(p))}{p1b(ph1(p))} <code>{p}</code> <a class="sc" href="states.html#screen={p}">all states</a></h3><div class="sts">{sts}</div><ul>{ed}{sh}</ul>'+(f'<p class="fl">In flows: '+' '.join(f'<a href="{x}.html">{x}</a>' for x in used)+'</p>' if used else '')+'</article>'
         cards+='</div></section>'
     gaps=''.join(f'<li><a href="{fi}.html#{n}">{fi} step {n}</a>: <code>{H.escape(a)}</code> → <code>{H.escape(b)}</code> <span class="meta">({H.escape(act)})</span></li>' for fi,n,a,b,act in SG_GAPS) or '<li>none</li>'
     SITECSS=""".sgw{max-width:1500px;margin:0 auto;padding:10px 20px 40px}.pg h2{font-size:16px;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.04em;color:#33332f}.pgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}

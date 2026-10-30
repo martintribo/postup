@@ -2,6 +2,7 @@
 id = "leave"
 title = "Sheet · Leave"
 kind = "sheet"
+phase = 1  # leaving early is cut from phase 0 [M1037]
 group = "Sheets"
 host = "joined"  # page whose notes URL shows this sheet
 links = [
@@ -20,4 +21,10 @@ lines = [
 section = "Scenarios"
 lines = [
   "Same in all scenarios. [M1018]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Not in phase 0: leaving early is cut; phase 1 and 2 unchanged. [M1037]",
 ]

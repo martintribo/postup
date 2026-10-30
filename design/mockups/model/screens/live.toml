@@ -16,7 +16,7 @@ links = [
   { id = "edit", label = "Edit", action = "replace", to = "post-edit" },
   { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile", when = "phase>=2" },  # request card is phase 2 [M1036]
   { id = "profile-2", label = "J Jon On the way · 10 min", action = "replace", to = "profile" },
-  { id = "group-chat", label = "Group chat", action = "replace", to = "chat" },
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", when = "phase>=1" },  # no chat in phase 0 [M1037]
   { id = "end-postup", label = "End postup", action = "open", to = "endlive", slot = "sheet" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },
@@ -63,4 +63,10 @@ lines = [
 section = "Phase versions (ask to join)"
 lines = [
   "Phase 1 version hides Who can join and the Requests section (Dev's request, Approve / Decline); phase 2 keeps them. [M1036]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Phase 0 version hides: group-chat (no chat) and the +30 min extend button (the host posts again when time runs out). Edit stays. [M1037]",
 ]

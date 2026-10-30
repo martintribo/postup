@@ -2,7 +2,7 @@
 id = "empty-area-newcomer"
 name = "Nobody live nearby (newcomer)"
 role = "joiner"
-phase = 1  # [M1032]
+phase = 0  # smallest MVP [M1037]
 user = "newcomer"
 situation = "nc-nobody-live"
 order = 2

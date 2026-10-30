@@ -117,11 +117,17 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Phase versions
 - Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
 
+### Chrome: Rail (desktop) · Phase 0
+- Phase 0 version hides: inbox (no chat, so no Inbox). [M1037]
+
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
 
 ### Chrome: Tab bar (phone) · Phase versions
 - Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
+
+### Chrome: Tab bar (phone) · Phase 0
+- Phase 0 version hides: inbox (no chat, so no Inbox); the tab bar is Map, Nearby, Post up. [M1037]
 
 ## Sources cited
 - **F003** — Map provider must have a hard cap; prefer failing over surprise charges. (Martin, S03 t63u): “I'd like to find a map provider that has some limit cap so I don't get charged a bunch if we get lots of traffic, I'd rather the site jsut fail”

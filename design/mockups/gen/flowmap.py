@@ -43,7 +43,7 @@ for s,fid,cond in BADGES:
     lab=('|"'+mq(cond)+'"|') if cond else ''
     M.append('  '+s+' -.->'+lab+' '+bid+'(["▶ '+mq(f['name'])+'"])')
     M.append(f'  click {bid} href "{fid}.html" "Open the {mq(f["name"])} player"')
-    M.append(f'  class {bid} {"must" if f["phase"] else "nice"}')
+    M.append(f'  class {bid} {"nice" if f["phase"] is None else "must"}')
 M+=[f'  class {i} {c}' for i,_,c in STATES]
 M+=['  classDef root fill:#0f7a4f,color:#fff,stroke:#0b5c3b,stroke-width:3px','  classDef out fill:#fff,color:#232322,stroke:#8a8984,stroke-width:2px',
     '  classDef in fill:#e6f4ec,color:#0b4a30,stroke:#10a364,stroke-width:2px','  classDef any fill:#fff3d6,color:#5c3d00,stroke:#c48a00,stroke-width:2px',
@@ -62,7 +62,7 @@ SHORT={('V0','IST'):'',('V0','ICU'):'',('V0','IPO'):'',('V0','ILK'):'',('V0','OF
 assert set(SHORT)=={(a,b) for a,b,_ in EDGES}
 SN_={i:t for i,t,_ in STATES}
 def badge(fid,cond):
-    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"must" if f["phase"] else "nice"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
+    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"nice" if f["phase"] is None else "must"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
 def card(i):
     c=dict((x,c) for x,_,c in STATES)[i]; bs=''.join(badge(fid,cond) for s,fid,cond in BADGES if s==i)
     return f'<div class="st {c}" id="st-{i}"><div class="sn">{SN_[i]}</div>{"<div class=bds>"+bs+"</div>" if bs else ""}</div>'

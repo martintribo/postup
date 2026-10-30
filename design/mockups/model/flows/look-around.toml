@@ -2,7 +2,7 @@
 id = "look-around"
 name = "Newcomer looks around, then joins"
 role = "joiner"
-phase = 1  # [M1032]
+phase = 0  # smallest MVP [M1037]
 user = "newcomer"
 situation = "nc-looking"
 order = 1

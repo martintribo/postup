@@ -8,7 +8,7 @@ links = [
   { id = "home-2", label = "Home", action = "replace", to = "home" },
   { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
   { id = "projects", label = "Projects", action = "replace", to = "projects", when = "phase>=2" },  # phase 2 only [M1035]
-  { id = "inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox", when = "phase>=1" },  # no Inbox in phase 0 [M1037]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "me", label = "S", action = "replace", to = "me" },
 ]
@@ -24,4 +24,10 @@ lines = [
 section = "Phase versions"
 lines = [
   "Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Phase 0 version hides: inbox (no chat, so no Inbox). [M1037]",
 ]

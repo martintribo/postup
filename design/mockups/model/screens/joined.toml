@@ -11,12 +11,12 @@ slots = [
 links = [
   { id = "close", label = "Close", action = "replace", to = "home" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
-  { id = "group-chat", label = "Group chat", action = "replace", to = "chat" },
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", when = "phase>=1" },  # no chat in phase 0 [M1037]
   { id = "directions", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
   { id = "back-to-map", label = "Back to map", action = "replace", to = "home" },
   { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
   { id = "project", label = "Project", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
-  { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet" },
+  { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet", when = "phase>=1" },  # phase 0: the postup ends at its set time [M1037]
 ]
 
 [[notes]]
@@ -50,4 +50,10 @@ lines = [
 section = "Phase versions"
 lines = [
   "Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Phase 0 version hides: group-chat (no chat) and leave (the postup ends at its set time). Joining means you're coming in person. [M1037]",
 ]

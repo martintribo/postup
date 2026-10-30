@@ -4,13 +4,13 @@ var q=new URLSearchParams(location.search),A=null,L=null;try{A=localStorage.getI
 a=q.get("auth")||A||"out";l=q.get("live")||L||"live";if(a!=="in")a="out";if(l!=="none")l="live";h.dataset.auth=a;h.dataset.live=l;return{a:a,l:l}}
 /* the chosen variant takes the base id (so #id CSS applies); the base steps aside as <id>--base */
 /* view phase [M1035]: ?ph= wins, else the shared Phase toggle (localStorage pu-ph1: "1" = phase 1; all / <=2 = latest) */
-function vph(){var h=document.documentElement,q=new URLSearchParams(location.search).get("ph"),v=null;if(q)v=q;else{try{v=localStorage.getItem("pu-ph1")}catch(e){}}v=v==="1"?"1":"2";h.dataset.vph=v;return v}
+function vph(){var h=document.documentElement,q=new URLSearchParams(location.search).get("ph"),v=null;if(q)v=q;else{try{v=localStorage.getItem("pu-ph1")}catch(e){}}v=(v==="1"||v==="0"&&q)?v:v==="p0"?"0":"2";/* ?ph=0 or toggle "p0" = phase 0 [M1037] */h.dataset.vph=v;return v}
 vph();addEventListener("storage",function(e){if(e.key==="pu-ph1"&&!new URLSearchParams(location.search).get("ph")){vph();if(window.phUI)phUI();show()}});
 var ALIAS={"inbox-one":"inbox"};
 function setVph(v){try{localStorage.setItem("pu-ph1",v)}catch(e){}var u=new URL(location.href);u.searchParams.delete("ph");history.replaceState(null,"",u);vph();phUI();show()}
 function phUI(){var v;try{v=localStorage.getItem("pu-ph1")||"0"}catch(e){v="0"}document.querySelectorAll("[data-vp]").forEach(function(b){b.classList.toggle("on",b.dataset.vp===v)})}
 document.addEventListener("DOMContentLoaded",phUI);
-function homeMode(){var h=document.documentElement;if(vph()==="1")return"live";if(!h.dataset.hmode){var q=new URLSearchParams(location.search).get("mode");if(q==="live"||q==="building")h.dataset.hmode=q}return h.dataset.hmode||(scen().l==="live"?"live":"building")}
+function homeMode(){var h=document.documentElement;if(vph()!=="2")return"live";if(!h.dataset.hmode){var q=new URLSearchParams(location.search).get("mode");if(q==="live"||q==="building")h.dataset.hmode=q}return h.dataset.hmode||(scen().l==="live"?"live":"building")}
 function setHome(m){document.documentElement.dataset.hmode=m;var u=new URL(location.href);u.searchParams.set("mode",m);history.replaceState(null,"",u);show();if(window.nupd)nupd();if(window.pmUI)pmUI()}
 function vid(id){var s=scen(),c=[id+"--"+s.a+"-"+s.l,id+"--"+s.l,id+"--"+s.a],pick=null;
 document.querySelectorAll(".scr[data-v]").forEach(function(e){e.id=e.dataset.v});

@@ -86,16 +86,16 @@ path.l.out{{stroke:#10a364;opacity:.95;stroke-width:2}}path.l.in{{stroke:#3a6fd8
 <div class="zb">{PHBTN}<button onclick="Z(1.2)">+</button><button onclick="Z(1/1.2)">−</button><button onclick="fit()">Fit</button></div></div>
 <div id="vp"><div id="w"></div></div>
 <div id="pn"><button class="x" onclick="sel(null)" aria-label="Close">×</button><div id="pc"></div></div>
-'''+PHJS+f'''<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};function phImg(){{var o=document.documentElement.classList.contains('ph1only');document.querySelectorAll('.pg img[data-v="1"]').forEach(function(i){{var p=i.closest('.pg').dataset.p;i.src='pages/'+p+(o?'--p1':'')+'.webp'}})}}addEventListener('phchange',function(){{setTimeout(phImg,0)}});
+'''+PHJS+f'''<script>var EMB=/[?&]embed=1/.test(location.search);if(EMB)document.documentElement.classList.add('emb');var D={_j.dumps(DATA)};var DROP={_j.dumps(_drop)};function phImg(){{var c=document.documentElement.classList,o=c.contains('ph0only')?'--p0':c.contains('ph1only')?'--p1':'';document.querySelectorAll('.pg img[data-v="1"]').forEach(function(i){{var p=i.closest('.pg').dataset.p;i.src='pages/'+p+o+'.webp'}})}}addEventListener('phchange',function(){{setTimeout(phImg,0)}});
 var w=document.getElementById('w'),vp=document.getElementById('vp'),s=1,tx=0,ty=0,cur=null;w.style.width=D.W+'px';w.style.height=D.H+'px';
 function esc(t){{return String(t).replace(/[&<>"]/g,function(c){{return{{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c]}})}}
 var h='';D.box.forEach(function(b){{h+='<div class="box" style="left:'+b.x+'px;top:'+b.y+'px;width:'+b.w+'px;height:'+b.h+'px;background:'+b.c+'"><h3>'+esc(b.n)+'</h3></div>'}});
 var sv='<svg width="'+D.W+'" height="'+D.H+'"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L8 4L0 8z" fill="#8d8a82"/></marker></defs>';
 function c(p){{var q=D.pos[p];return[q[0]+D.cw/2,q[1]+80]}}
 D.links.forEach(function(l,i){{var a=c(l[0]),b=c(l[1]),mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,dx=b[0]-a[0],dy=b[1]-a[1],k=.18;
- sv+='<path class="l" data-ph="'+(D.pages[l[0]].ph&&D.pages[l[1]].ph?Math.max(D.pages[l[0]].ph,D.pages[l[1]].ph):0)+'" data-a="'+l[0]+'" data-b="'+l[1]+'" marker-end="url(#ah)" d="M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1]+'"/>'}});
+ sv+='<path class="l" data-ph="'+(D.pages[l[0]].ph!=null&&D.pages[l[1]].ph!=null?Math.max(D.pages[l[0]].ph,D.pages[l[1]].ph):"n")+'" data-a="'+l[0]+'" data-b="'+l[1]+'" marker-end="url(#ah)" d="M'+a[0]+' '+a[1]+' Q'+(mx-dy*k)+' '+(my+dx*k)+' '+b[0]+' '+b[1]+'"/>'}});
 h+=sv+'</svg>';
-Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-ph="'+P.ph+'" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" data-v="'+P.v+'" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+(P.ph?'<span class="p1b">P1</span>':'')+'</div></div>'}});
+Object.keys(D.pos).forEach(function(p){{var q=D.pos[p],P=D.pages[p];h+='<div class="pg" data-ph="'+P.ph+'" data-p="'+p+'" style="left:'+q[0]+'px;top:'+q[1]+'px" title="'+esc(P.t)+' (#'+p+')"><div class="ph"><img loading="lazy" src="pages/'+p+'.webp" data-v="'+P.v+'" alt=""></div>'+(P.sh.length?'<span class="sh" title="Sheets: '+esc(P.sh.join(', '))+'">◱ '+P.sh.length+'</span>':'')+'<div class="t">'+esc(P.s)+(P.ph!=null?'<span class="p1b'+(P.ph>1?' p2':P.ph<1?' p0':'')+'">P'+P.ph+'</span>':'')+'</div></div>'}});
 w.innerHTML=h;
 function ap(){{w.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')'}}
 function Z(f,cx,cy){{cx=cx==null?vp.clientWidth/2:cx;cy=cy==null?vp.clientHeight/2:cy;var ns=Math.max(.2,Math.min(4,s*f));tx=cx-(cx-tx)*ns/s;ty=cy-(cy-ty)*ns/s;s=ns;ap()}}

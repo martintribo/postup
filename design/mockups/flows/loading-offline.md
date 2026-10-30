@@ -14,7 +14,7 @@ Player: /mockups/flows/loading-offline.html
 ## Steps
 1. **loading@in.live** · user: Opened the feed on bad wifi · action: opens Nearby · edge: entry
    - Skeleton. [FS] [F060]
-   - next site states: home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), inbox@in.live (Inbox), me@in.live (S), projects@in.live (Projects)
+   - next site states: home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
    - enterable flows: none
 2. **offline@in.live** · user: Connection dropped · action: later: network drops · edge: event: network drops
    - Cached feed + offline banner + Retry. [FS]
@@ -26,7 +26,7 @@ Player: /mockups/flows/loading-offline.html
    - enterable flows: none
 4. **cafe-gfail@in.live** · user: Checking a cafe; Google is down · action: taps a cafe · edge: tap: Maya's photo (Google card fails)
    - Google card failed: rest of cafe still works. [F060]
-   - next site states: back (Back), cafe-gfail+share@in.live (Share), cafe@in.live (Bean Theory), postup@in.live (Join), cafe-gfail+dirs@in.live (Open in Maps), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), inbox@in.live (Inbox), me@in.live (S), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
+   - next site states: back (Back), cafe-gfail+share@in.live (Share), cafe@in.live (Bean Theory), postup@in.live (Join), cafe-gfail+dirs@in.live (Open in Maps), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
    - enterable flows: none
 
 ## Connected flows [M1025]

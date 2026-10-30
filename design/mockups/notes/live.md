@@ -29,6 +29,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Phase versions (ask to join)
 - Phase 1 version hides Who can join and the Requests section (Dev's request, Approve / Decline); phase 2 keeps them. [M1036]
 
+## Phase 0
+- Phase 0 version hides: group-chat (no chat) and the +30 min extend button (the host posts again when time runs out). Edit stays. [M1037]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]
@@ -94,11 +97,17 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ### Chrome: Rail (desktop) · Phase versions
 - Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
 
+### Chrome: Rail (desktop) · Phase 0
+- Phase 0 version hides: inbox (no chat, so no Inbox). [M1037]
+
 ### Chrome: Tab bar (phone) · Purpose
 - Phone tab bar: Map, Post up, Projects. Pages that show it declare a "nav" tab slot; its links are available on those pages when no sheet is open. [drawn] [M1031-draft]
 
 ### Chrome: Tab bar (phone) · Phase versions
 - Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]
+
+### Chrome: Tab bar (phone) · Phase 0
+- Phase 0 version hides: inbox (no chat, so no Inbox); the tab bar is Map, Nearby, Post up. [M1037]
 
 ## Sources cited
 - **F013** — General UX rule: little on screen at a time; drill-down with back button. (Martin, S05 t119u): “In general I want to stick to there is always not much on the screen at at time”

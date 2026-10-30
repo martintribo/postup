@@ -52,3 +52,24 @@ for k in [k for k in S if k.split('--')[0]=='live']:
 assert 'Requests</h2>' in S['live'] and '<div class="p2only"><div class="sp-h"><h2>Requests' in S['live']
 for k in [k for k in S if k=='home' or k.startswith('home--')]:
     S[k]=S[k].replace('<span class="mu sm">3 nearby</span>','<span class="mu sm p2only">3 nearby</span><span class="mu sm p1only">2 nearby</span>')  # Tess (ask to join) hidden in phase 1 [M1036]
+
+# Phase 0 [M1037]: no chat or Inbox, no extend, no leave. Elements that link to those screens get p1up (rendered in phase 1+).
+P1T=('inbox','inbox-one','chat','activity')
+_TGT1=re.compile(r"""(?:go|act)\('(%s)'|href="#(%s)\"|ov\('leave'\)""" % ('|'.join(P1T),'|'.join(P1T)))
+def _mark1(tag):
+    if 'p2only' in tag or 'p1up' in tag: return tag
+    if re.search(r'\sclass="',tag): return re.sub(r'\sclass="',' class="p1up ',tag,count=1)
+    return re.sub(r'^<(\w+)',r'<\1 class="p1up"',tag)
+def p1links(h): return re.sub(r'<\w+\b[^>]*>',lambda m:_mark1(m[0]) if _TGT1.search(m[0]) else m[0],h)
+for k in list(S):
+    if k.split('--')[0] in set(P1T)|{'index','leave'}: continue
+    S[k]=p1links(S[k])
+DESK=p1links(DESK)
+OVS=''.join(p1links(x) if not x.startswith('<div class="ov" id="ov-leave"') else x for x in re.split(r'(?=<div class="ov" id="ov-)',OVS))
+# extend while hosting is phase 1+
+_n=0
+for k in [k for k in S if k=='live' or k.startswith('live--')]:
+    S[k],c=re.subn(r'<button class="btn sec" onclick="this.innerHTML=\'Till 4:15pm ✓\'">','<button class="p1up btn sec" onclick="this.innerHTML=\'Till 4:15pm ✓\'">',S[k]); _n+=c
+assert _n, 'extend button'
+S['index']=S['index'].replace('<button data-vp="0" onclick="setVph(\'0\')">All (latest)</button>','<button data-vp="0" onclick="setVph(\'0\')">All (latest)</button><button data-vp="p0" onclick="setVph(\'p0\')">0 (smallest)</button>',1).replace('>1 (pre-MVP)<','>≤1 (pre-MVP)<',1)
+assert 'data-vp="p0"' in S['index']

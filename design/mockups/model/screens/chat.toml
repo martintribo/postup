@@ -2,6 +2,7 @@
 id = "chat"
 title = "Group chat"
 kind = "page"
+phase = 1  # group chat is cut from phase 0 [M1037]
 group = "Inbox & people"
 variants = { "auth=out" = "chat--out" }  # condition -> HTML id that renders it (first match wins)
 slots = [
@@ -44,4 +45,10 @@ lines = [
 section = "Open"
 lines = [
   "Retention: code uses 24h; that's our default. [R31] [FS]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Not in phase 0: group chat is cut; phase 1 and 2 unchanged. [M1037]",
 ]

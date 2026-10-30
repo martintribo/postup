@@ -2,7 +2,7 @@
 id = "empty-area"
 name = "Nobody live nearby (signed in)"
 role = "joiner"
-phase = 1  # [M1032]
+phase = 0  # smallest MVP [M1037]
 user = "registered"
 situation = "rg-nobody-live"
 order = 8

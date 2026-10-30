@@ -2,7 +2,7 @@
 id = "join"
 name = "Join someone live"
 role = "joiner"
-phase = 1  # [M1032]
+phase = 0  # smallest MVP [M1037]
 user = "registered"
 situation = "rg-wants-company"
 order = 3
@@ -13,6 +13,7 @@ goal = "Join a live postup and get there; checking the person first is optional.
 intent = "Wants company now"
 start = { screen = "home", auth = "in", live = "live", tab = "live", device = "phone", url = "/" }
 edge_cases = [
+  "Phase 0: no group chat; joining means you're coming in person. The chat step moved to the Chat flow (phase 1). [M1037]",
   "Optional check first (was Cautious joiner): from the postup, the project tag → project, the owner → profile (postup count, regular cafes, past postups), the cafe → cafe; Back returns each time. [FS] [F065] [M1024]",
   "Compares with an Ask to join postup (Tess): phase 2, see Ask to join. [M1032]",
   "Joined by mistake: Leave sheet, poster is alerted (see Leave a postup). [FS] [M1024]",
@@ -57,9 +58,3 @@ act = "closes Directions"
 expect = "joined@in.live"
 thought = "Knows the way"
 shows = "Back on the joined screen. [M1031-draft]"
-[[steps]]
-link = "joined:group-chat"
-act = "opens the group chat"
-expect = "chat@in.live"
-thought = "Says they're coming"
-shows = "Says \"on my way\" in the postup chat. [F096] [M1024]"

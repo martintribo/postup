@@ -37,18 +37,10 @@
   "back": false
  },
  "join-4": null,
- "join-5": {
-  "label": "Group chat",
-  "back": false
- },
- "join-6": null,
+ "join-5": null,
  "invite-live-1": null,
  "invite-live-2": null,
- "invite-live-3": {
-  "label": "Group chat",
-  "back": false
- },
- "invite-live-4": null,
+ "invite-live-3": null,
  "empty-area-1": null,
  "empty-area-2": {
   "label": "M",

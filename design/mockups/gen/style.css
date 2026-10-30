@@ -197,5 +197,8 @@ h1,h2,h3,p{margin:0}h1{font-size:var(--t-xl);font-weight:800;letter-spacing:-.02
 /* phase-1 one-list inbox [M1033] */
 .lrow .ir{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.udot{width:9px;height:9px;border-radius:50%;background:#10a364;display:block}.sysl{color:#10a364;font-weight:600}
 /* per-phase versions [M1035]: html[data-vph] is 1 or 2 (latest) */
-html[data-vph="1"] .p2only{display:none!important}html:not([data-vph="1"]) .p1only{display:none!important}
+html[data-vph="1"] .p2only,html[data-vph="0"] .p2only{display:none!important}html[data-vph="2"] .p1only{display:none!important}
 html[data-vph="1"] .tab.t5{grid-template-columns:repeat(4,1fr)}
+/* phase 0 [M1037]: p1up = phase 1+, p0only = phase 0 only; tab bar is Map, Nearby, Post up */
+html[data-vph="0"] .p1up{display:none!important}html:not([data-vph="0"]) .p0only{display:none!important}
+html[data-vph="0"] .tab.t5{grid-template-columns:repeat(3,1fr)}

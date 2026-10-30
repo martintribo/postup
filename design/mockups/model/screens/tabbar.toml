@@ -8,7 +8,7 @@ links = [
   { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "projects", label = "Projects", action = "replace", to = "projects", when = "phase>=2" },  # phase 2 only [M1035]
-  { id = "inbox", label = "Inbox", action = "replace", to = "inbox" },
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox", when = "phase>=1" },  # no Inbox in phase 0 [M1037]
 ]
 
 [[notes]]
@@ -22,4 +22,10 @@ lines = [
 section = "Phase versions"
 lines = [
   "Phase 1 version hides: projects (phase-2 screens or Building mode). [M1035]",
+]
+
+[[notes]]
+section = "Phase 0"
+lines = [
+  "Phase 0 version hides: inbox (no chat, so no Inbox); the tab bar is Map, Nearby, Post up. [M1037]",
 ]
