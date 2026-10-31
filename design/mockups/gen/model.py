@@ -13,7 +13,7 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phas
 # versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
 PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
 def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
