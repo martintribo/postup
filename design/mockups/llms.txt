@@ -132,3 +132,4 @@ Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visito
 - [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html
 - [Flow map by situation](flows/map.html): per user type (#newcomer, #registered), situations with their flows; data model/situations.toml
 - [Flow graph](flows/graph.html): one-screen graph of a flow, its ways in and its outcomes; opens each user type main flow (users.toml main_flow) [M1041] [M1044]
+- [Walkthrough](flows/walk.html): step through the real screens as a user type from a way in, with goals, drop-offs and notes per step; #user=&way=&ph=&path= [M1045]
