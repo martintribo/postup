@@ -1,6 +1,7 @@
 # Sheet: Sheet · Share. Model [M1030]; phase 2 [M1031-draft].
 id = "share"
 title = "Sheet · Share"
+phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 kind = "sheet"
 group = "Sheets"
 host = "posted"  # page whose notes URL shows this sheet

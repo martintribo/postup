@@ -16,6 +16,7 @@ start = { screen = "home", live = "none", tab = "live", url = "/" }
 
 [[ways]]
 id = "link-live"
+phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 label = "Shared link, still live"
 when = "Opens a postup link a friend sent, and the postup is still live. [R39] [M1041]"
 users = ["newcomer", "registered"]
@@ -23,6 +24,7 @@ start = { screen = "invite", live = "live", url = "/p/7xk2" }
 
 [[ways]]
 id = "link-ended"
+phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 label = "Shared link, ended"
 when = "Opens a postup link a friend sent, but the postup has ended. [M1032] [M1041]"
 users = ["newcomer", "registered"]

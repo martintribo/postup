@@ -42,15 +42,11 @@ Player: /mockups/flows/registered-visit--builds-project.html
    - enterable flows: none
 8. **posted@in.none** · user: Live for the project · action: taps Post up · edge: tap: Post up
    - Posted, tied to the project. [FS]
-   - next site states: home@in.none.live (Close), posted+share@in.none (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), registered-visit--post step 3 (if Live)
+   - next site states: home@in.none.live (Close), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), posted+share@in.none (Invite friends), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
+   - enterable flows: registered-visit--post step 3 (if Live)
 
 ## Connected flows [M1025]
 - `following`: branch out at step 2→3, step 4→2, step 6→2; merge in at step 2 (from its step 3), step 4 (from its step 2), step 6 (from its step 2)
-- `first-visit--ended-post`: branch out at step 8→7; merge in at step 8 (from its step 7)
-- `first-visit--link-post`: branch out at step 8→7; merge in at step 8 (from its step 7)
-- `first-visit--live-post`: branch out at step 8→6; merge in at step 8 (from its step 6)
-- `first-visit--post`: branch out at step 8→6; merge in at step 8 (from its step 6)
 - `registered-visit--post`: branch out at step 8→3; merge in at step 8 (from its step 3)
 - `registered-visit--nobody`: branch out at step 1→1; merge in at —
 - `registered-visit--nobody-post`: branch out at step 1→1; merge in at —

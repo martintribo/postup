@@ -1,6 +1,7 @@
 # Screen: Share link · live postup. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "invite"
 title = "Share link · live postup"
+phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 kind = "page"
 group = "Share-link landings"
 entry = true

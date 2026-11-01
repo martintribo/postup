@@ -14,11 +14,11 @@ Player: /mockups/flows/ask-join.html
 ## Steps
 1. **postup-ask@in.live** · user: Interested, but the host screens people · action: opens an ask-to-join postup · edge: entry
    - "Tess approves who joins". [FS] [F055]
-   - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **ask@in.live** (Ask to join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
+   - next site states: back (Back), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **ask@in.live** (Ask to join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), postup-ask+share@in.live (Share), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
    - enterable flows: catch-up step 4 (if My request was approved)
 2. **ask@in.live** · user: Explaining why they want to join · action: taps Ask to join · edge: tap: Ask to join
    - Short reason. [F061] [F095]
-   - next site states: back (Back), ask+share@in.live (Share), ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **requested@in.live** (Send request), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
+   - next site states: back (Back), ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), **requested@in.live** (Send request), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), ask+share@in.live (Share), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
    - enterable flows: none
 3. **requested@in.live** · user: Waiting for an answer · action: sends the request · edge: tap: Send request
    - Request sent; can cancel. [FS] [drawn]

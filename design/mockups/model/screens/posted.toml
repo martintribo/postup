@@ -8,10 +8,11 @@ slots = [
   { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
+# Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "close", label = "Close", action = "replace", to = "home" },
   { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
-  { id = "invite-friends", label = "Invite friends", action = "open", to = "share", slot = "sheet" },
+  { id = "invite-friends", label = "Invite friends", action = "open", to = "share", slot = "sheet", when = "phase>=1" },
   { id = "manage-postup", label = "Manage postup", action = "replace", to = "live" },
   { id = "map", label = "Map", action = "replace", to = "home" },
   { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },

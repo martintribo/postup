@@ -230,6 +230,15 @@ exec(open('gen/phasev.py').read())
 exec(open('gen/fold.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())
+import re
+# No share links in phase 0 (Martin, Nov 1 2026) [M1046]: every control that opens the Share sheet renders phase 1+ only.
+def _p1share(h):
+    def f(m):
+        t=m.group(0)
+        if 'class="' in t: return t.replace('class="','class="p1up ',1)
+        return t.replace('<'+m.group(1),'<'+m.group(1)+' class="p1up"',1)
+    return re.sub(r"<(\w+)\b[^>]*onclick=\"[^\"]*ov\('share'\)[^\"]*\"[^>]*>",f,h)
+S={k:_p1share(v) for k,v in S.items()}; OVS=_p1share(OVS)
 exec(open('gen/flows.py').read())
 JS=FOLD_JS+open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
 body=''.join(f'<section class="scr{" full" if k in FULL else " dlg" if k in DLG else ""}" id="{k}" data-v="{k}">{v}</section>' for k,v in S.items())

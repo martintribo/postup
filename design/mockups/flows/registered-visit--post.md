@@ -22,11 +22,11 @@ Player: /mockups/flows/registered-visit--post.html
    - enterable flows: registered-visit--already-posted step 2 (if At a cafe, wants company), registered-visit--ended-post step 3 (if At a cafe, wants company), registered-visit--link-post step 3 (if At a cafe, wants company), registered-visit--nobody-post step 2 (if At a cafe, wants company), registered-visit--too-far step 2 (if At a cafe, wants company), desktop-browse step 3 (if At a cafe, wants company)
 3. **posted@in.live** · user: Live · action: taps Post up · edge: tap: Post up
    - Posted; link to copy. [FS]
-   - next site states: home@in.live.live (Close), posted+share@in.live (Invite friends), **live@in.live** (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company)
+   - next site states: home@in.live.live (Close), **live@in.live** (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), posted+share@in.live (Invite friends), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
+   - enterable flows: none
 4. **live@in.live** · user: Managing their postup · action: opens their live postup · edge: tap: Manage postup
    - You're live: time left, requests, chat. [FS] [F057]
-   - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
+   - next site states: back (Back), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), live+share@in.live (Share), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
    - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--hosting-project step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 5. **home@in.live.live** · user: Checks they show up on Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
@@ -45,10 +45,6 @@ Player: /mockups/flows/registered-visit--post.html
 - `registered-visit--already-posted`: branch out at step 2→2, step 5→1; merge in at —
 - `registered-visit--nobody-post`: branch out at step 2→2; merge in at step 2 (from its step 2)
 - `registered-visit--too-far`: branch out at step 2→2, step 5→1; merge in at —
-- `first-visit--ended-post`: branch out at step 3→7; merge in at step 3 (from its step 7)
-- `first-visit--link-post`: branch out at step 3→7; merge in at step 3 (from its step 7)
-- `first-visit--live-post`: branch out at step 3→6; merge in at step 3 (from its step 6)
-- `first-visit--post`: branch out at step 3→6; merge in at step 3 (from its step 6)
 - `host-approve`: branch out at step 4→2; merge in at step 4 (from its step 2)
 - `registered-visit--hosting`: branch out at step 4→1; merge in at —
 - `registered-visit--hosting-project`: branch out at step 4→1; merge in at —

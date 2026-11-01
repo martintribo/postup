@@ -26,7 +26,7 @@ Player: /mockups/flows/catch-up.html
    - enterable flows: ask-join step 4 (if Gets the yes), host-approve step 1 (if Hosting; someone wants in), following step 4 (if Hears that someone posted up)
 4. **postup-ask@in.live** · user: My request was approved · action: taps "Tess said yes to your request" · edge: tap: T Tess said yes to your request Ye
    - Tess's postup. [drawn] [M1031-draft]
-   - next site states: back (Back), postup-ask+share@in.live (Share), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
+   - next site states: back (Back), postup-ask+more@in.live (More), profile@in.live (T Tess Live · till 3pm), project@in.live (Pixel Garden Drawing crop sprites.), cafe@in.live (Grindhouse 1.1 mi · 22 min walk), ask@in.live (Ask to join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), postup-ask+share@in.live (Share), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Grindhouse 1.1 mi · 22 min walk (Google card fails))
    - enterable flows: ask-join step 1 (if Interested, but the host screens people)
 5. **activity@in.live** · user: Back to the list · action: taps Back · edge: back
    - Activity again. [drawn] [M1031-draft]

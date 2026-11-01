@@ -22,8 +22,8 @@ Player: /mockups/flows/registered-visit--nobody-post.html
    - enterable flows: registered-visit--already-posted step 2 (if At a cafe, wants company), registered-visit--ended-post step 3 (if At a cafe, wants company), registered-visit--link-post step 3 (if At a cafe, wants company), registered-visit--post step 2 (if At a cafe, wants company), registered-visit--too-far step 2 (if At a cafe, wants company), desktop-browse step 3 (if At a cafe, wants company)
 3. **posted@in.none** · user: Live · action: taps Post up · edge: tap: Post up
    - Posted; link to copy. [FS]
-   - next site states: home@in.none.live (Close), posted+share@in.none (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), registered-visit--post step 3 (if Live)
+   - next site states: home@in.none.live (Close), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), posted+share@in.none (Invite friends), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
+   - enterable flows: registered-visit--post step 3 (if Live)
 
 ## Connected flows [M1025]
 - `registered-visit--post`: branch out at step 2→2, step 3→3; merge in at step 2 (from its step 2), step 3 (from its step 3)
@@ -32,10 +32,6 @@ Player: /mockups/flows/registered-visit--nobody-post.html
 - `registered-visit--link-post`: branch out at step 2→3; merge in at step 2 (from its step 3)
 - `registered-visit--too-far`: branch out at step 2→2; merge in at step 2 (from its step 2)
 - `desktop-browse`: branch out at step 2→3; merge in at step 2 (from its step 3)
-- `first-visit--ended-post`: branch out at step 3→7; merge in at step 3 (from its step 7)
-- `first-visit--link-post`: branch out at step 3→7; merge in at step 3 (from its step 7)
-- `first-visit--live-post`: branch out at step 3→6; merge in at step 3 (from its step 6)
-- `first-visit--post`: branch out at step 3→6; merge in at step 3 (from its step 6)
 - `registered-visit--nobody`: branch out at step 1→1; merge in at —
 - `registered-visit--builds-project`: branch out at step 1→1; merge in at —
 

@@ -2,7 +2,7 @@
 id = "invite-ended"
 title = "Share link · ended"
 kind = "page"
-phase = 0  # ended links happen in phase 0: postups end at their set time [M1041]
+phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 group = "Share-link landings"
 entry = true
 slots = [

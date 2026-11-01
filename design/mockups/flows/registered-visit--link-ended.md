@@ -1,5 +1,5 @@
 # Flow: Registered visit → Ended link, joins someone nearby (`registered-visit--link-ended`)
-Priority: **Phase 0** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-ended.html
 
 ## Persona
@@ -22,11 +22,11 @@ Player: /mockups/flows/registered-visit--link-ended.html
    - enterable flows: registered-visit--ended-post step 2 (if Who else is around?), registered-visit--ended-project step 2 (if Who else is around?), loading-offline step 3 (if Back online)
 3. **cafe@in.live** · user: Someone's at Bean Theory now · action: taps a live postup's photo · edge: tap: Maya's photo
    - The cafe with who's live there. [FS] [M1043]
-   - next site states: back (Back), cafe+share@in.live (Share), **postup@in.live** (Join), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
+   - next site states: back (Back), **postup@in.live** (Join), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), me@in.live (S), cafe+share@in.live (Share), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: registered-visit--link-post step 2 (if What's this cafe like?)
 4. **postup@in.live** · user: Could go to this one · action: taps the live postup · edge: tap: Join
    - The live postup. [FS] [M1043]
-   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - next site states: back (Back), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), postup+share@in.live (Share), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
    - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--full step 2 (if Found someone), registered-visit--report step 2 (if Found someone), desktop-browse step 2 (if Checking one postup)
 5. **joined@in.live** · user: Going to this one instead · action: taps Join · edge: tap: Join
    - You're joining. [FS] [M1024]
@@ -49,10 +49,10 @@ Player: /mockups/flows/registered-visit--link-ended.html
 - `registered-visit--joined-project`: branch out at step 5→1; merge in at —
 
 ## Screens
-1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=0#invite-ended)
-2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=0#quiet-feed)
-3. `#cafe` · auth=in live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=0#cafe)
-4. `#postup` · auth=in live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=0#postup)
-5. `#joined` · auth=in live=live — You're joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=0#joined)
+1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#invite-ended)
+2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#quiet-feed)
+3. `#cafe` · auth=in live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#cafe)
+4. `#postup` · auth=in live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#postup)
+5. `#joined` · auth=in live=live — You're joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#joined)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

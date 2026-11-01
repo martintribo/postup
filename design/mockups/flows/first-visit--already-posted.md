@@ -38,7 +38,7 @@ Player: /mockups/flows/first-visit--already-posted.html
    - enterable flows: first-visit--live-already-posted step 6 (if Forgot they're already live at Lot 1), registered-visit--already-posted step 3 (if Forgot they're already live at Lot 1)
 7. **live@in.none** · user: Checks on the postup they have · action: taps View your postup · edge: tap: View your postup
    - Their live postup. [M1039]
-   - next site states: back (Back), live+share@in.none (Share), post-edit@in.none (Edit), profile@in.none (J Jon On the way · 10 min), live+endlive@in.none (End postup), home@in.none.live (Home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), chat@in.none (Group chat), inbox@in.none (Inbox), project@in.none (Star Fox 64 mod), home@in.none.building (Home), projects@in.none (Projects)
+   - next site states: back (Back), post-edit@in.none (Edit), profile@in.none (J Jon On the way · 10 min), live+endlive@in.none (End postup), home@in.none.live (Home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), live+share@in.none (Share), chat@in.none (Group chat), inbox@in.none (Inbox), project@in.none (Star Fox 64 mod), home@in.none.building (Home), projects@in.none (Projects)
    - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), registered-visit--hosting-project step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 
 ## Connected flows [M1025]

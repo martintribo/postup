@@ -9,9 +9,10 @@ slots = [
   { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
+# Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", when = "phase>=1" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
   { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
   { id = "join", label = "Join", action = "replace", to = "postup", when = "live=live" },

@@ -14,7 +14,7 @@ Player: /mockups/flows/registered-visit--hosting-project.html
 ## Steps
 1. **live@in.live** · user: Live; wants more time · action: opens their live postup · edge: entry
    - +30 min extends. [FS]
-   - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), **project@in.live** (Star Fox 64 mod), projects@in.live (Projects)
+   - next site states: back (Back), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), live+share@in.live (Share), chat@in.live (Group chat), inbox@in.live (Inbox), **project@in.live** (Star Fox 64 mod), projects@in.live (Projects)
    - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), host-approve step 2 (if Deciding on the request)
 2. **project@in.live** · user: What's Maya making? · action: taps Star Fox 64 mod · edge: tap: Star Fox 64 mod
    - Project page. [FS] [M1044]

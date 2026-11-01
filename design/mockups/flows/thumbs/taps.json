@@ -71,11 +71,7 @@
  },
  "first-visit--ended-post-5": null,
  "first-visit--ended-post-6": null,
- "first-visit--ended-post-7": {
-  "label": "Invite friends",
-  "back": false
- },
- "first-visit--ended-post-8": null,
+ "first-visit--ended-post-7": null,
  "first-visit--link-ended-1": {
   "label": "See what's nearby",
   "back": false
@@ -112,11 +108,7 @@
  },
  "first-visit--link-post-5": null,
  "first-visit--link-post-6": null,
- "first-visit--link-post-7": {
-  "label": "Invite friends",
-  "back": false
- },
- "first-visit--link-post-8": null,
+ "first-visit--link-post-7": null,
  "first-visit--live-already-posted-1": {
   "label": "Post up",
   "back": false
@@ -150,11 +142,7 @@
  },
  "first-visit--live-post-4": null,
  "first-visit--live-post-5": null,
- "first-visit--live-post-6": {
-  "label": "Invite friends",
-  "back": false
- },
- "first-visit--live-post-7": null,
+ "first-visit--live-post-6": null,
  "first-visit--live-too-far-1": {
   "label": "Post up",
   "back": false
@@ -213,11 +201,7 @@
  },
  "first-visit--post-4": null,
  "first-visit--post-5": null,
- "first-visit--post-6": {
-  "label": "Invite friends",
-  "back": false
- },
- "first-visit--post-7": null,
+ "first-visit--post-6": null,
  "first-visit--too-far-1": {
   "label": "Post up",
   "back": false

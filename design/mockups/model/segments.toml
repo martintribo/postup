@@ -5,14 +5,13 @@
 # ---- posting ----
 [[segments]]
 id = "post-up-signin"
-note = "Newcomer: the Post up form from wherever they tapped Post up ({via}), pick a cafe, sign in, posted, invite friends. [M1043]"
+note = "Newcomer: the Post up form from wherever they tapped Post up ({via}), pick a cafe, sign in, posted. Invite friends (share) dropped: no share links in phase 0 [M1046]. [M1043]"
 steps = [
   { link = "{via}", act = "taps Post up", expect = "post@{auth}.{live}", thought = "Filling in the post", shows = "Nearest cafe prefilled. [FS] [F062]" },
   { link = "post:where", act = "taps Change", expect = "where@{auth}.{live}", thought = "Not at the nearest cafe", shows = "Change → cafe picker by distance. [F062] [R17]" },
   { link = "where:search-cafes", act = "searches", expect = "where-search@{auth}.{live}", thought = "Looking for the right cafe", shows = "Searches a cafe. [FS]" },
   { link = "where-search:post-up", act = "taps Post up 🔒", expect = "where-search+signin@{auth}.{live}", thought = "Ready; asked to sign in", shows = "Post up 🔒 → sign-in. [FS] [TK§1]" },
   { link = "signin:continue-with-apple", act = "signs in", expect = "posted@in.{live}", thought = "Live; wants company", shows = "Posted; link to copy. [FS]" },
-  { link = "posted:invite-friends", act = "taps Invite friends", expect = "posted+share@in.{live}", thought = "Wants friends to come too", shows = "Invite friends: share sheet. [drawn] [M1024]" },
 ]
 
 [[segments]]

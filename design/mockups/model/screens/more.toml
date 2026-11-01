@@ -4,10 +4,11 @@ title = "Sheet · More"
 kind = "sheet"
 group = "Sheets"
 host = "postup"  # page whose notes URL shows this sheet
+# Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "close", label = "", action = "close" },
   { id = "view-profile", label = "View profile", action = "replace", to = "profile" },
-  { id = "share", label = "Share", action = "swap", to = "share" },
+  { id = "share", label = "Share", action = "swap", to = "share", when = "phase>=1" },
   { id = "report", label = "Report", action = "replace", to = "report" },
   { id = "block", label = "Block", action = "swap", to = "block" },
   { id = "cancel", label = "Cancel", action = "close" },

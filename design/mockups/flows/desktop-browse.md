@@ -18,7 +18,7 @@ Player: /mockups/flows/desktop-browse.html
    - enterable flows: registered-visit step 1 (if Wants company now), registered-visit--already-posted step 1 (if Wants company now), registered-visit--cancelled step 1 (if Wants company now), registered-visit--ended step 1 (if Wants company now), registered-visit--full step 1 (if Wants company now), registered-visit--post step 1 (if Wants company now), registered-visit--report step 1 (if Wants company now), registered-visit--too-far step 1 (if Wants company now), registered-visit--follow-project step 1 (if Wants company now), catch-up step 1 (if What did I miss?)
 2. **postup@in.live** · user: Checking one postup · action: taps a live pin · edge: tap: M 2
    - Postup in the panel. [FS]
-   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), **post@in.live** (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - next site states: back (Back), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), **post@in.live** (Post up), me@in.live (S), postup+share@in.live (Share), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
    - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--full step 2 (if Found someone), registered-visit--link-ended step 4 (if Could go to this one), registered-visit--report step 2 (if Found someone)
 3. **post@in.live** · user: At a cafe, wants company · action: taps Post up · edge: tap: Post up
    - Post up with the nearest cafe prefilled. [FS] [F062]
@@ -26,8 +26,8 @@ Player: /mockups/flows/desktop-browse.html
    - enterable flows: registered-visit--already-posted step 2 (if At a cafe, wants company), registered-visit--ended-post step 3 (if At a cafe, wants company), registered-visit--link-post step 3 (if At a cafe, wants company), registered-visit--nobody-post step 2 (if At a cafe, wants company), registered-visit--post step 2 (if At a cafe, wants company), registered-visit--too-far step 2 (if At a cafe, wants company)
 4. **posted@in.live** · user: Live · action: taps Post up · edge: tap: Post up
    - Posted; link to copy. [FS]
-   - next site states: home@in.live.live (Close), posted+share@in.live (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), registered-visit--post step 3 (if Live)
+   - next site states: home@in.live.live (Close), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), posted+share@in.live (Invite friends), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
+   - enterable flows: registered-visit--post step 3 (if Live)
 
 ## Connected flows [M1025]
 - `registered-visit--already-posted`: branch out at step 1→1, step 3→2; merge in at step 3 (from its step 2)
@@ -35,10 +35,6 @@ Player: /mockups/flows/desktop-browse.html
 - `registered-visit--too-far`: branch out at step 1→1, step 3→2; merge in at step 3 (from its step 2)
 - `registered-visit--link-ended`: branch out at step 2→4; merge in at step 2 (from its step 4)
 - `registered-visit--nobody-post`: branch out at step 3→2; merge in at step 3 (from its step 2)
-- `first-visit--ended-post`: branch out at step 4→7; merge in at step 4 (from its step 7)
-- `first-visit--link-post`: branch out at step 4→7; merge in at step 4 (from its step 7)
-- `first-visit--live-post`: branch out at step 4→6; merge in at step 4 (from its step 6)
-- `first-visit--post`: branch out at step 4→6; merge in at step 4 (from its step 6)
 - `registered-visit--follow-project`: branch out at step 1→1; merge in at —
 - `catch-up`: branch out at step 1→1; merge in at —
 - `registered-visit`: branch out at step 2→2; merge in at —

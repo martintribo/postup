@@ -8,9 +8,10 @@ slots = [
   { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] },
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
+# Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", when = "phase>=1" },
   { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
   { id = "profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
   { id = "project", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },

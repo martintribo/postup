@@ -356,6 +356,7 @@ shows = "Posted, tied to the project. [FS]"
 # ---- shared links ----
 [[outcomes]]
 id = "link-live"
+phase = 1  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1044]
 label = "Joins from a shared link"
 at = 0
@@ -377,6 +378,7 @@ shows = "Joined. [FS] [M1024]"
 
 [[outcomes]]
 id = "link-post"
+phase = 1  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1044]
 situation = "rg-posting"
 label = "Posts up at that cafe"
@@ -398,12 +400,12 @@ live = "live"
 
 [[outcomes]]
 id = "link-project"
+phase = 2  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1044]
 situation = "rg-projects"
 label = "Follows the friend's project"
 from = "link-live"
 at = 1
-phase = 2  # projects are phase 2 [M1034]
 when = "Opens the project on the link and follows the maker. [M1043] [M1044]"
 
 [[outcomes.steps]]
@@ -419,6 +421,7 @@ live = "live"
 
 [[outcomes]]
 id = "link-ended"
+phase = 1  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1044]
 label = "Ended link, joins someone nearby"
 at = 0
@@ -450,6 +453,7 @@ shows = "You're joining. [FS] [M1024]"
 
 [[outcomes]]
 id = "ended-post"
+phase = 1  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1044]
 situation = "rg-posting"
 label = "Posts up instead"
@@ -464,12 +468,12 @@ live = "live"
 
 [[outcomes]]
 id = "ended-project"
+phase = 2  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1044]
 situation = "rg-projects"
 label = "Follows a maker"
 from = "link-ended"
 at = 2
-phase = 2  # projects are phase 2 [M1034]
 when = "Nearby shows what people are making; opens a project and follows the maker. [M1043] [M1044]"
 
 [[outcomes.steps]]
