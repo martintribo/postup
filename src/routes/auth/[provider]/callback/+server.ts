@@ -1,6 +1,6 @@
 import { error, redirect, type RequestEvent } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
-import { apple, google, mockEnabled, decodeIdToken, findOrCreateUser, claimAnonymous, type OAuthProfile } from '$lib/server/oauth';
+import { apple, github, githubProfile, google, mockEnabled, x, xProfile, decodeIdToken, findOrCreateUser, claimAnonymous, type OAuthProfile } from '$lib/server/oauth';
 
 async function finish(event: RequestEvent, profile: OAuthProfile) {
 	const userId = await findOrCreateUser(profile, event.locals.user?.id);
@@ -31,6 +31,19 @@ export async function GET(event: RequestEvent) {
 		const tokens = await g.validateAuthorizationCode(code, verifier);
 		const c = decodeIdToken(tokens.idToken()) as { sub: string; email?: string; name?: string; picture?: string };
 		return finish(event, { provider: 'google', providerUserId: c.sub, email: c.email, name: c.name, avatarUrl: c.picture });
+	}
+	if (provider === 'github') {
+		const g = github(event.url.origin);
+		const code = event.url.searchParams.get('code');
+		if (!g || !code) error(400, 'Bad request');
+		return finish(event, await githubProfile(g, code));
+	}
+	if (provider === 'x') {
+		const client = x(event.url.origin);
+		const code = event.url.searchParams.get('code');
+		const verifier = event.cookies.get('oauth_verifier');
+		if (!client || !code || !verifier) error(400, 'Bad request');
+		return finish(event, await xProfile(client, code, verifier));
 	}
 	if (provider === 'mock' && mockEnabled()) {
 		return finish(event, {

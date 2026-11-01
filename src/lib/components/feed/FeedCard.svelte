@@ -2,6 +2,7 @@
 	/** Mockup feed_card (#quiet-feed / #quiet-feed-b): photo or tinted tile, who · when · distance, what, tags, joined, Post up here. */
 	import { resolve } from '$app/paths';
 	import type { FeedItem } from '$lib/server/feed';
+	import { showProjects } from '$lib/features';
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
 	let { it }: { it: FeedItem & { when: string } } = $props();
@@ -11,7 +12,7 @@
 	const dist = $derived(it.kind === 'postup' && it.miles != null ? (it.miles < 0.1 ? 'here' : `${it.miles < 10 ? it.miles.toFixed(1) : Math.round(it.miles)} mi`) : '');
 	const profile = $derived(it.username ? resolve('/u/[username]', { username: it.username }) : null);
 	const cafeHref = $derived(it.kind === 'postup' && it.placeId ? resolve('/places/[id]', { id: String(it.placeId) }) : null);
-	const projHref = $derived(it.projectId ? resolve('/projects/[id]', { id: String(it.projectId) }) : null);
+	const projHref = $derived(showProjects() && it.projectId ? resolve('/projects/[id]', { id: String(it.projectId) }) : null);
 	const mediaHref = $derived(it.kind === 'update' ? projHref : (cafeHref ?? resolve('/postups/[id]', { id: String(it.id) })));
 </script>
 

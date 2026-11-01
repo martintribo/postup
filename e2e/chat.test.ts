@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import postgres from 'postgres';
 
 test('group chat: members talk live, strangers blocked, read-only after end, closed after window', async ({ page, browser }) => {
-	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_CHAT !== '1', 'needs mock + ff chat');
+	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_CHAT !== '1' || (process.env.PUBLIC_PHASE !== '1' && process.env.PUBLIC_PHASE !== '2'), 'needs mock + ff chat + phase 1 or 2');
 	const sql = postgres(process.env.DATABASE_URL!);
 	const t = Date.now();
 	await page.goto(`/auth/mock?id=co-${t}&name=Chat%20Owner`);

@@ -21,9 +21,10 @@
 
 		{#if data.providers.length}
 			<div class="mb-6"><SignInSheet providers={data.providers} next={data.next} reason="Sign in to post up or join" /></div>
-			<p class="text-center text-xs text-muted mb-4">or use your PostUp username</p>
+			{#if data.password}<p class="text-center text-xs text-muted mb-4">or use your PostUp username</p>{/if}
 		{/if}
 
+		{#if data.password}
 		<!-- Card -->
 		<div class="border border-line rounded-lg p-6 bg-surface">
 			<!-- Mode Toggle -->
@@ -108,5 +109,6 @@
 				<button type="button" onclick={() => mode = 'login'} class="text-brand hover:underline font-medium">Log in</button>
 			{/if}
 		</p>
+		{/if}
 	</div>
 </div>

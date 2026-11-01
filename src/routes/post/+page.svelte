@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { resolve } from '$app/paths';
 	import { enhance } from '$app/forms';
 	import { env } from '$env/dynamic/public';
 	import TopBar from '$lib/components/ui/TopBar.svelte';
@@ -42,6 +43,10 @@
 			const d = JSON.parse(sessionStorage.getItem(KEY) || 'null');
 			if (d) ({ spot, activity, projectId, until, join, when } = { ...{ spot, activity, projectId, until, join, when }, ...d });
 		} catch { /* no draft */ }
+		if (data.signedIn && !data.already && sessionStorage.getItem(KEY + '.pending') === '1') {
+			sessionStorage.removeItem(KEY + '.pending');
+			queueMicrotask(() => document.querySelector<HTMLFormElement>('form[data-testid=post-form]')?.requestSubmit());
+		}
 	});
 	function pick(s: Spot) { spot = s; picking = false; q = ''; }
 	async function saveEdit() {
@@ -62,20 +67,67 @@
 	}
 	let editErr = $state('');
 	function save() { sessionStorage.setItem(KEY, JSON.stringify({ spot, activity, projectId, until, join, when })); }
+	function readHere(): Promise<{ lat: number; lng: number } | { denied: true }> {
+		return new Promise((resolve) => {
+			if (!navigator.geolocation) return resolve({ denied: true });
+			navigator.geolocation.getCurrentPosition(
+				(pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+				() => resolve({ denied: true }),
+				{ enableHighAccuracy: true, timeout: 8000, maximumAge: 60_000 }
+			);
+		});
+	}
+	const blocked = $derived.by(() => {
+		const f = form as { already?: { id: number; place: string; until: string }; tooFar?: { miles: number | null; place: string; denied: boolean } } | null;
+		if (data.already) return { kind: 'already' as const, ...data.already };
+		if (f?.already) return { kind: 'already' as const, ...f.already };
+		if (f?.tooFar) return { kind: 'far' as const, ...f.tooFar };
+		return null;
+	});
 </script>
 
+{#if blocked?.kind === 'already'}
+	<div class="formscr" data-testid="post-already">
+		<TopBar title="Post up" />
+		<div class="pad done">
+			<div class="okc"><Icon name="clock" size={30} /></div>
+			<h1>You're already posted up</h1>
+			<p class="mu">{blocked.place} · till {clock(blocked.until)}<br />One live postup per account. It ends at the time you set.</p>
+			<a class="btn" href={resolve('/postups/[id]', { id: String(blocked.id) })}>View your postup</a>
+			<div class="lnks"><a class="lnk" href={resolve('/')}>Back to map</a></div>
+		</div>
+	</div>
+{:else if blocked?.kind === 'far'}
+	<div class="formscr" data-testid="post-far">
+		<TopBar title="Post up" />
+		<div class="pad done">
+			<div class="okc" style="background:#fdecec;color:#c0392b"><Icon name="pin" size={30} /></div>
+			<h1>You're too far away</h1>
+			<p class="mu">{blocked.denied ? "We need your location to check you're there. You can only post up at a place you're at right now." : `${blocked.place} looks about ${blocked.miles == null ? 'a ways' : blocked.miles < 10 ? blocked.miles.toFixed(1) : Math.round(blocked.miles)} mi from where you are. You can only post up at a place you're at right now.`}</p>
+			<a class="btn" href={resolve('/post')}>Pick a cafe near you</a>
+			<div class="lnks"><a class="lnk" href={resolve('/')}>Back to map</a></div>
+		</div>
+	</div>
+{:else}
 <form
 	class="formscr scr-post"
 	method="POST"
 	enctype="multipart/form-data"
 	data-testid="post-form"
-	use:enhance={({ cancel }) => {
+	use:enhance={async ({ cancel, formData }) => {
 		if (ed) { cancel(); saveEdit(); return; }
 		save();
 		if (!data.signedIn) {
 			cancel();
+			sessionStorage.setItem(KEY + '.pending', '1');
 			askSignIn({ title: 'Almost there', sub: data.attach ? 'Sign in to post up for this project.' : 'Sign in and your postup goes live.', next: '/post' + (data.attach ? `?project=${data.attach.id}` : '') });
 			return;
+		}
+		const here = await readHere();
+		if ('denied' in here) formData.set('hereDenied', '1');
+		else {
+			formData.set('hereLat', String(here.lat));
+			formData.set('hereLng', String(here.lng));
 		}
 		busy = true;
 		return async ({ result, update }) => {
@@ -108,11 +160,13 @@
 		{#if !data.attach}
 			<label for="wo">Working on</label>
 			<input id="wo" class="in" name="activity" bind:value={activity} maxlength="140" placeholder="Level editor for the mod" />
+			{#if data.projectsEnabled}
 			<div class="chips">
 				{#each data.mine as p (p.id)}<button type="button" class="chip" class:on={projectId === p.id} onclick={() => (projectId = p.id)}>{p.name}</button>{/each}
 				<a class="chip ad" href={data.signedIn ? '/projects/new?back=post' : '/login?next=%2Fprojects%2Fnew%3Fback%3Dpost'} onclick={save}><Icon name="plus" size={14} /> Project</a>
 				<button type="button" class="chip" class:on={projectId === null} onclick={() => (projectId = null)}>None</button>
 			</div>
+			{/if}
 		{:else}
 			<label>When</label>
 			<Seg name="when" bind:value={when} options={[{ v: 'now', label: 'Now' }, { v: 'earlier', label: 'I was here earlier' }]} />
@@ -123,9 +177,13 @@
 		<Seg name="until" bind:value={until} testid="until" options={[{ v: '1h', label: '1h' }, { v: '2h', label: '2h' }, { v: '3h', label: '3h' }, ...(data.attach ? [] : [{ v: 'at', label: clock(untilAt) }])]} />
 		<input type="hidden" name="untilAt" value={untilAt.toISOString()} />
 		{#if !data.attach}
+			{#if data.askEnabled}
 			<label>Who can join</label>
 			<Seg name="join" bind:value={join} options={[{ v: 'open', label: 'Anyone can join' }, { v: 'ask', label: 'Ask to join' }]} />
 			<p class="mu xs">{join === 'ask' ? "People ask first. Your cafe stays hidden until you say yes." : "You'll get an alert whenever someone joins."}</p>
+			{:else}
+			<p class="mu xs">Anyone can say they're coming. Joining means showing up in person.</p>
+			{/if}
 		{:else}
 			<p class="mu xs">I was here earlier adds it to the cafe's recent activity.</p>
 		{/if}
@@ -159,4 +217,5 @@
 			<p class="mu sm">Search for your cafe above and it's added for everyone.</p>
 		{/each}
 	</div>
+{/if}
 {/if}

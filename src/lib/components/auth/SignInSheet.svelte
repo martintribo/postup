@@ -5,7 +5,7 @@
 		next = '/',
 		reason = 'Sign in to continue'
 	}: { providers?: string[]; next?: string; reason?: string } = $props();
-	const label: Record<string, string> = { apple: 'Continue with Apple', google: 'Continue with Google', mock: 'Continue (dev mock)' };
+	const label: Record<string, string> = { apple: 'Continue with Apple', google: 'Continue with Google', x: 'Continue with X', github: 'Continue with GitHub', mock: 'Continue (dev sign-in)' };
 	const href = (p: string) => `/auth/${p}?next=${encodeURIComponent(next)}`;
 </script>
 

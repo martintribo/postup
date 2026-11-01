@@ -10,9 +10,7 @@ test('report a postup, admin hides it; block hides the poster and stops joining'
 	const mk = (activity: string) =>
 		page.request.post('/?/create', { headers: { 'content-type': 'application/x-www-form-urlencoded', origin }, data: new URLSearchParams({ activity, location: 'Bean Theory', latitude: '33.976', longitude: '-118.417', hours: '2' }).toString() });
 	await mk(`spam-${t}`);
-	await mk(`other-${t}`);
 	const [spam] = await sql`select id from post where activity=${'spam-' + t}`;
-	const [other] = await sql`select id from post where activity=${'other-' + t}`;
 
 	const vctx = await browser.newContext();
 	const v = await vctx.newPage();
@@ -35,6 +33,10 @@ test('report a postup, admin hides it; block hides the poster and stops joining'
 	await expect(a.locator('tr', { hasText: `post #${spam.id}` })).toHaveCount(0);
 	const [s2] = await sql`select status from post where id=${spam.id}`;
 	expect(s2.status).toBe('cancelled');
+
+	// One live postup per account: the second postup waits until the first is no longer live.
+	await mk(`other-${t}`);
+	const [other] = await sql`select id from post where activity=${'other-' + t}`;
 
 	// Non-admins get 404 on the admin page.
 	expect((await v.request.get(`${origin}/admin/reports`)).status()).toBe(404);

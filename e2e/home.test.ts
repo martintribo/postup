@@ -6,10 +6,12 @@ test('home has title and description', async ({ page }) => {
 	await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /cafe/);
 });
 
-test('projects page hides hidden projects', async ({ page }) => {
+test('phase 0 home has no projects tab and does not list hidden projects', async ({ page }) => {
 	await page.goto('/projects');
+	await expect(page).toHaveURL(/\/$/);
 	await expect(page.getByText('HIDDEN-E2E-PROJECT')).toHaveCount(0);
-	await expect(page.getByText('Visible Seed Project')).toBeVisible();
+	await expect(page.getByRole('link', { name: 'Projects' })).toHaveCount(0);
+	await expect(page.getByRole('link', { name: 'Inbox' })).toHaveCount(0);
 });
 
 test('theme override via ?theme=bold', async ({ page }) => {
@@ -30,6 +32,6 @@ test('all four styles apply tokens', async ({ page }) => {
 test('saved style persists across pages', async ({ page }) => {
 	await page.goto('/login');
 	await page.evaluate(() => localStorage.setItem('pu-theme', 'cozy'));
-	await page.goto('/projects');
+	await page.goto('/nearby');
 	await expect(page.locator('html')).toHaveAttribute('data-theme', 'cozy');
 });

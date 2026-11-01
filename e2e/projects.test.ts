@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 // Seeding flow: sign in, mint an agent token, agent proposes a project + update, owner accepts.
 test('agent-seeded project and update appear after the owner accepts', async ({ page, request }) => {
-	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_AGENT_API !== '1', 'needs mock oauth + agent_api');
+	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_AGENT_API !== '1' || process.env.PUBLIC_PHASE !== '2', 'needs mock oauth + agent_api + phase 2');
 	const uid = `seed-${Date.now()}`;
 	await page.goto(`/auth/mock?id=${uid}&name=Seeder&next=/projects`);
 	const tok = await page.request.post('/api/agent/tokens', { data: { scope: 'projects' } });

@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { getNearbyFeed } from '$lib/server/feed';
 import { listProjectCards, dayLabel } from '$lib/server/projects-view';
 import { config } from '$lib/config';
+import { showProjects } from '$lib/features';
 import { getUserLocation } from '$lib/server/location';
 import type { PageServerLoad } from './$types';
 
@@ -16,7 +17,7 @@ export const load: PageServerLoad = async (event) => {
 	// Mockup #quiet-feed: the photo feed runs while someone nearby is live. Nobody live (or nothing
 	// this week): fall back to projects in general, closest first, never an empty screen.
 	const anyLive = feed.items.some((i) => i.kind === 'postup' && i.live);
-	const projects = anyLive ? [] : (await listProjectCards('all', event.locals.user?.id, { lat, lng })).slice(0, 12).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
+	const projects = showProjects() && !anyLive ? (await listProjectCards('all', event.locals.user?.id, { lat, lng })).slice(0, 12).map((c) => ({ ...c, when: dayLabel(c.lastAt) })) : [];
 	// Sidebar (desktop): cafes with postups this week.
 	const week = (await db.execute(sql`
 		select pl.id, pl.name, count(*)::int as n,
@@ -29,6 +30,8 @@ export const load: PageServerLoad = async (event) => {
 		? ((await db.execute(sql`select pl.id, pl.name, ${miles(lat, lng)} as mi from place pl order by mi asc limit 2`)) as unknown as { id: number; name: string; mi: number }[])
 		: [];
 	const who = [...new Set(feed.items.flatMap((i) => (i.kind === 'postup' ? [i.who] : [])))].slice(0, 4);
-	const items = feed.items.map((i) => ({ ...i, when: i.kind === 'postup' && i.live ? 'Now' : dayLabel(i.at) }));
-	return { title: 'Nearby', items, weekCount: feed.weekCount, anyLive, projects, week: [...week], cafes: [...cafes], who, area: location.city || config.launchArea.name };
+	const items = feed.items
+		.filter((i) => showProjects() || i.kind === 'postup')
+		.map((i) => ({ ...i, when: i.kind === 'postup' && i.live ? 'Now' : dayLabel(i.at) }));
+	return { title: 'Nearby', items, weekCount: feed.weekCount, anyLive, projects, recent: !anyLive, week: [...week], cafes: [...cafes], who, area: location.city || config.launchArea.name };
 };

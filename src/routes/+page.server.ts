@@ -18,6 +18,9 @@ import { config } from '$lib/config';
 import { notification } from '$lib/server/db/schema';
 import { isNull } from 'drizzle-orm';
 import { liveCondition, computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
+import { postIdsHiddenByReports } from '$lib/server/safety';
+import { checkPostSpot, livePostupFor } from '$lib/server/post-guard';
+import { showBuilding, showProjects } from '$lib/features';
 
 const postSchema = z.object({
 	activity: z.string().min(1, 'Activity is required'),
@@ -43,7 +46,8 @@ async function getActivePosts(userLatitude: number, userLongitude: number, viewe
 		)
 		.orderBy(desc(post.createdAt));
 	const blocked = await blockedSet(viewerId);
-	return sanitizePosts(rows.filter((r) => !r.userId || !blocked.has(r.userId)), viewerId);
+	const hidden = await postIdsHiddenByReports();
+	return sanitizePosts(rows.filter((r) => !hidden.has(r.id) && (!r.userId || !blocked.has(r.userId))), viewerId);
 }
 
 export const load: PageServerLoad = async (event) => {
@@ -95,8 +99,20 @@ export const load: PageServerLoad = async (event) => {
 			and (3959 * acos(least(1, cos(radians(${lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${lng})) + sin(radians(${lat})) * sin(radians(pl.latitude))))) <= 25
 		group by pl.id, pl.name order by n desc limit 5`)) as unknown as { id: number; name: string; n: number; who: string[] }[];
 
-	const projectCards = (await listProjectCards('all', event.locals.user?.id, { lat, lng })).slice(0, 3).map((c) => ({ ...c, when: dayLabel(c.lastAt) }));
+	const projectCards = showProjects() ? (await listProjectCards('all', event.locals.user?.id, { lat, lng })).slice(0, 3).map((c) => ({ ...c, when: dayLabel(c.lastAt) })) : [];
+	const recent = posts.length
+		? []
+		: (await getNearbyFeed(lat, lng, 8, event.locals.user?.id)).items
+				.filter((i) => i.kind === 'postup')
+				.slice(0, 3)
+				.map((i) => ({ id: i.id, who: i.who, username: i.username, avatarUrl: i.avatarUrl, cafe: i.cafe, activity: i.activity }));
+	const starterCafes = posts.length
+		? []
+		: ((await db.execute(sql`select pl.id, pl.name, (3959 * acos(least(1, cos(radians(${lat})) * cos(radians(pl.latitude)) * cos(radians(pl.longitude) - radians(${lng})) + sin(radians(${lat})) * sin(radians(pl.latitude))))) as mi from place pl order by mi asc limit 3`)) as unknown as { id: number; name: string; mi: number }[]);
 	return {
+		building: showBuilding(),
+		recent,
+		starterCafes: [...starterCafes],
 		projectCards,
 		areaName: config.launchArea.name,
 		people,
@@ -196,6 +212,12 @@ export const actions: Actions = {
 			return fail(400, { form, posts });
 		}
 
+		const already = await livePostupFor(event.locals.user.id);
+		if (already) return fail(409, { message: `You're already posted up at ${already.place}`, already });
+		// Legacy create (tests) has no browser fix; the server guess is the best effort.
+		const spot = await checkPostSpot(event, { latitude: form.data.latitude, longitude: form.data.longitude }, new FormData());
+		if (!spot.ok) return fail(400, { message: spot.reason === 'denied' ? 'Allow location to post up where you are' : "You're too far away to post up there", form });
+
 		try {
 			// Reverse geocode to get neighborhood, locality, and district
 			const geocodeResult = await reverseGeocode(form.data.latitude, form.data.longitude);
@@ -215,7 +237,7 @@ export const actions: Actions = {
 				projectId: form.data.projectId ?? null,
 				startTime,
 				endsAt: computeEndsAt(startTime, form.data.hours),
-				name: event.locals.user!.username,
+				name: event.locals.user!.displayName || event.locals.user!.username,
 				activity: form.data.activity,
 				goals: form.data.goals || null,
 				location: form.data.location,

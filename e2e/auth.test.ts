@@ -35,9 +35,17 @@ test('mock OAuth sign-in creates a user and claims anonymous posts', async ({ pa
 });
 
 test('password login still works for existing accounts', async ({ page }) => {
-	const name = `pw${Date.now() % 1e8}`;
 	await page.goto('/login');
-	await page.getByRole('button', { name: /register|sign up|create/i }).first().click();
+	const register = page.getByRole('button', { name: /register|sign up|create/i });
+	if ((await register.count()) === 0) {
+		await expect(page.getByRole('link', { name: 'Continue with Apple' })).toBeVisible();
+		await expect(page.getByRole('link', { name: 'Continue with Google' })).toBeVisible();
+		await expect(page.getByRole('link', { name: 'Continue with X' })).toBeVisible();
+		await expect(page.getByRole('link', { name: 'Continue with GitHub' })).toBeVisible();
+		return;
+	}
+	const name = `pw${Date.now() % 1e8}`;
+	await register.first().click();
 	await page.locator('input[name=username]').fill(name);
 	await page.locator('input[name=password]').fill('secret123');
 	await page.locator('form[action*=register] button[type=submit], form button[type=submit]').last().click();

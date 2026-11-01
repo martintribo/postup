@@ -3,9 +3,12 @@
 	import Icon from '$lib/components/ui/Icon.svelte';
 	import Av from '$lib/components/ui/Av.svelte';
 	import { askSignIn } from '$lib/signin.svelte';
+	import { showProjects } from '$lib/features';
+	import { clock } from '$lib/time';
 	let { data } = $props();
 	const i = $derived(data.invite);
 	const first = $derived(i.who.split(' ')[0]);
+	const until = $derived(i.live ? clock(i.until) : i.until);
 </script>
 
 <div class="scr-invite" data-testid="invite">
@@ -13,8 +16,9 @@
 	<div class="pad done inv">
 		<div class="pair" class:dimmed={!i.live}><Av name={i.who} src={i.avatarUrl} size={72} /></div>
 		{#if i.live}
-			<h1>{first} is working at {i.where} till {i.until}. Join {first}?</h1>
-			<p>{#if i.projectName}<a class="tag" href="/projects/{i.projectId}?s=1">{i.projectName}</a>{:else}<span class="mu">“{i.activity}”</span>{/if}</p>
+			<h1>{first} is working at {i.where} till {until}. Join {first}?</h1>
+			<p>{#if showProjects() && i.projectName}<a class="tag" href="/projects/{i.projectId}?s=1">{i.projectName}</a>{:else}<span class="mu">“{i.activity}”</span>{/if}</p>
+			<p class="mu sm">Joining means you're coming in person. Say hi at the cafe.</p>
 			<a class="btn" href="/postups/{i.id}?{i.ask ? 'ask' : 'join'}=1" data-testid="invite-join" onclick={(e) => {
 				// Mockup #invite: signed out, Join opens the sign-in sheet over the invite; afterwards it carries on.
 				if (data.signedIn) return;

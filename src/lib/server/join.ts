@@ -4,6 +4,7 @@ import { joinRequest, user } from '$lib/server/db/schema';
 import { getPostup } from '$lib/server/postup-manage';
 import { notify } from '$lib/server/notify';
 import { isBlockedBetween } from '$lib/server/safety';
+import { showAskJoin } from '$lib/features';
 
 export class JoinError extends Error {
 	constructor(public status: number, msg: string) {
@@ -56,7 +57,7 @@ export async function requestJoin(postId: number, userId: string, reason?: strin
 	if (p.capacity && (await approvedCount(postId)) >= p.capacity) throw new JoinError(409, 'This postup is full');
 
 	const who = await nameOf(userId);
-	if (p.joinMode === 'ask') {
+	if (p.joinMode === 'ask' && showAskJoin()) {
 		const why = (reason ?? '').trim();
 		if (!why) throw new JoinError(400, 'Add a short note about why you want to join');
 		const [r] = await db.insert(joinRequest).values({ postId, userId, reason: why.slice(0, 280), status: 'pending' }).returning();

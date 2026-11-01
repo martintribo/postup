@@ -2,8 +2,9 @@ import { error } from '@sveltejs/kit';
 import { getPostup } from '$lib/server/postup-manage';
 import { myRequest, listRequests, approvedCount } from '$lib/server/join';
 import { config } from '$lib/config';
-import { isBlockedBetween } from '$lib/server/safety';
+import { isBlockedBetween, isPostHiddenByReports } from '$lib/server/safety';
 import { flag } from '$lib/flags';
+import { showAskJoin, showChat, showExtend, showLeave, showProjects, showShare } from '$lib/features';
 import { getUserLocation } from '$lib/server/location';
 import { isFollowing } from '$lib/server/profile';
 import { db } from '$lib/server/db';
@@ -20,10 +21,11 @@ export const load: PageServerLoad = async (event) => {
 	if (!p) error(404, 'This postup does not exist');
 	const isOwner = !!locals.user && locals.user.id === p.userId;
 	if (locals.user && p.userId && !isOwner && (await isBlockedBetween(locals.user.id, p.userId))) error(404, 'This postup does not exist');
+	if (!isOwner && (await isPostHiddenByReports(p.id))) error(404, 'This postup does not exist');
 	const mine = locals.user && !isOwner ? await myRequest(p.id, locals.user.id) : null;
 	const approved = mine?.status === 'approved';
 	// D2: in ask mode, non-approved viewers see the neighborhood, not the cafe.
-	const hideCafe = config.askHidesCafe && p.joinMode === 'ask' && !isOwner && !approved;
+	const hideCafe = showAskJoin() && config.askHidesCafe && p.joinMode === 'ask' && !isOwner && !approved;
 	const area = p.neighborhood || p.locality || 'nearby';
 	const view = {
 		...p,
@@ -51,8 +53,12 @@ export const load: PageServerLoad = async (event) => {
 		hideCafe,
 		isOwner,
 		joinEnabled: flag('join'),
-		chatEnabled: flag('chat'),
-		shareEnabled: flag('share_links'),
+		chatEnabled: showChat(),
+		shareEnabled: showShare(),
+		leaveEnabled: showLeave(),
+		extendEnabled: showExtend(),
+		askEnabled: showAskJoin(),
+		projectsEnabled: showProjects(),
 		signedIn: !!locals.user,
 		myRequest: mine ? { id: mine.id, status: mine.status } : null,
 		requests: isOwner ? all.filter((r) => r.status === 'pending').map((r) => ({ ...r, createdAt: r.createdAt.toISOString() })) : [],

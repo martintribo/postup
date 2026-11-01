@@ -7,6 +7,8 @@ import { computeEndsAt, upsertGooglePlace } from '$lib/server/postups';
 import { config } from '$lib/config';
 import { saveImage } from '$lib/server/uploads';
 import { getPostup } from '$lib/server/postup-manage';
+import { checkPostSpot, livePostupFor } from '$lib/server/post-guard';
+import { showAskJoin, showProjects } from '$lib/features';
 import type { Actions, PageServerLoad } from './$types';
 
 /** Post-up form (mockups #post, #where, #post-signin, #project-attach). Signed-out visitors can fill it; the sign-in sheet opens on submit. */
@@ -37,7 +39,21 @@ export const load: PageServerLoad = async (event) => {
 		if (!e || e.userId !== user.id || e.state !== 'live') redirect(303, `/postups/${eid}`);
 		edit = { id: e.id, activity: e.activity, placeId: e.placeId, placeName: e.placeName, location: e.location, latitude: e.latitude, longitude: e.longitude, projectId: e.projectId, joinMode: e.joinMode };
 	}
-	return { title: edit ? 'Edit postup' : 'Post up', edit, places, mine, attach, location, signedIn: !!user, defaultJoin: config.defaultJoinMode, placeId: Number(event.url.searchParams.get('place')) || null };
+	const already = user && !edit ? await livePostupFor(user.id) : null;
+	return {
+		title: edit ? 'Edit postup' : 'Post up',
+		edit,
+		places,
+		mine: showProjects() ? mine : [],
+		attach: showProjects() ? attach : null,
+		location,
+		signedIn: !!user,
+		defaultJoin: showAskJoin() ? config.defaultJoinMode : 'open',
+		askEnabled: showAskJoin(),
+		projectsEnabled: showProjects(),
+		placeId: Number(event.url.searchParams.get('place')) || null,
+		already
+	};
 };
 
 export const actions: Actions = {
@@ -45,16 +61,25 @@ export const actions: Actions = {
 		const user = event.locals.user;
 		if (!user) return fail(401, { message: 'Sign in to post up' });
 		const f = await event.request.formData();
+		const editing = Number(f.get('editId')) || 0;
+		if (!editing) {
+			const already = await livePostupFor(user.id);
+			if (already) return fail(409, { already });
+		}
 		const activity = String(f.get('activity') ?? '').trim();
 		const until = String(f.get('until') ?? '2h');
 		const when = String(f.get('when') ?? 'now');
-		const joinMode = f.get('join') === 'ask' ? 'ask' : 'open';
-		const projectId = Number(f.get('projectId')) || null;
+		const joinMode = showAskJoin() && f.get('join') === 'ask' ? 'ask' : 'open';
+		const projectId = showProjects() ? Number(f.get('projectId')) || null : null;
 		let placeId = Number(f.get('placeId')) || null;
 		const name = String(f.get('placeName') ?? '').trim();
 		const latitude = Number(f.get('latitude')), longitude = Number(f.get('longitude'));
 		const googlePlaceId = String(f.get('googlePlaceId') ?? '') || null;
 		if (!name || !Number.isFinite(latitude) || !Number.isFinite(longitude)) return fail(400, { message: 'Pick where you are' });
+		if (!editing) {
+			const spot = await checkPostSpot(event, { latitude, longitude }, f);
+			if (!spot.ok) return fail(400, { tooFar: { miles: spot.miles, place: name, denied: spot.reason === 'denied' } });
+		}
 		if (!activity && !projectId) return fail(400, { message: 'Say what you are working on' });
 		if (!placeId && googlePlaceId) placeId = await upsertGooglePlace({ googlePlaceId, name, latitude, longitude }, user.id);
 
@@ -83,7 +108,7 @@ export const actions: Actions = {
 		const [row] = await db
 			.insert(post)
 			.values({
-				userId: user.id, name: user.username, activity: activity || `Working on ${projName ?? 'a project'}`,
+				userId: user.id, name: user.displayName || user.username, activity: activity || `Working on ${projName ?? 'a project'}`,
 				location: name, latitude, longitude, hours, placeId, projectId, joinMode, photoUrl,
 				startTime: start, endsAt, status: earlier ? 'ended' : 'live',
 				neighborhood: geo.neighborhood, locality: geo.locality, district: geo.district, sessionId: event.locals.session?.id

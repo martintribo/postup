@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import { flag } from '$lib/flags';
+import { showLeave } from '$lib/features';
 import { requestJoin, leave, JoinError } from '$lib/server/join';
 import type { RequestHandler } from './$types';
 
@@ -21,7 +22,7 @@ export const POST: RequestHandler = ({ params, locals, request }) =>
 
 export const DELETE: RequestHandler = ({ params, locals }) =>
 	wrap(async () => {
-		if (!flag('join')) return json({ error: 'Not found' }, { status: 404 });
+		if (!flag('join') || !showLeave()) return json({ error: 'Not found' }, { status: 404 });
 		if (!locals.user) return json({ error: 'Sign in first' }, { status: 401 });
 		await leave(Number(params.id), locals.user.id);
 		return json({ ok: true });

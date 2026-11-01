@@ -55,6 +55,10 @@
 	const joinLine = $derived.by(() => {
 		const j = data.joiners;
 		const names = j.length === 0 ? '' : j.length === 1 ? `${j[0].name.split(' ')[0]} is joining` : `${j[0].name.split(' ')[0]} and ${j.length - 1} more are joining`;
+		if (!data.askEnabled) {
+			const base = `Let ${first} know you're coming, then say hi at the cafe.`;
+			return names ? `${names}. ${base}` : base;
+		}
 		const mode = p.joinMode === 'ask' ? `${first} approves who joins` : 'Anyone can join';
 		return names ? `${names} · ${mode}` : mode;
 	});
@@ -113,7 +117,8 @@
 			if (u.searchParams.get('join') === '1' && p.joinMode === 'open') join();
 			if (u.searchParams.get('ask') === '1' || (u.searchParams.get('join') === '1' && p.joinMode === 'ask')) sheet = 'ask';
 		}
-		if (u.searchParams.has('join') || u.searchParams.has('ask')) { const c = new URL(u); c.searchParams.delete('join'); c.searchParams.delete('ask'); replaceState(c, {}); }
+		if (data.signedIn && u.searchParams.get('block') === '1' && p.userId) sheet = 'block';
+		if (u.searchParams.has('join') || u.searchParams.has('ask') || u.searchParams.has('block')) { const c = new URL(u); c.searchParams.delete('join'); c.searchParams.delete('ask'); c.searchParams.delete('block'); replaceState(c, {}); }
 		return () => clearInterval(t);
 	});
 </script>
@@ -138,7 +143,7 @@
 		<div class="pad done" data-testid="posted">
 			<div class="okc"><Icon name="check" size={30} /></div>
 			<h1>You're posted up</h1>
-			<p class="mu">{cafe} · till {until}{#if p.projectName}<br /><a class="tag" href="/projects/{p.projectId}">{p.projectName}</a>{/if}</p>
+			<p class="mu">{cafe} · till {until}{#if data.projectsEnabled && p.projectName}<br /><a class="tag" href="/projects/{p.projectId}">{p.projectName}</a>{/if}</p>
 			{#if data.shareEnabled}
 				<div class="link"><span>{shareUrl.replace(/^https?:\/\//, '')}</span><button class="pill" onclick={copy}><Icon name="copy" size={14} /> {copied ? 'Copied' : 'Copy'}</button></div>
 				<button class="btn" onclick={share} data-testid="share"><Icon name="share" size={18} /> Invite friends</button>
@@ -173,15 +178,19 @@
 		<div class="pad" data-testid="you-are-live">
 			<div class="card livec">
 				<div class="ring" style="--p:{ring.toFixed(2)}"><b data-testid="ring-left">{leftText}</b><span class="xs mu">left</span></div>
-				<div class="lm"><b>{#if p.placeId}<a href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if}</b><span class="mu sm" data-testid="time-left">Till {until}</span>{#if p.projectName}<a class="tag" href="/projects/{p.projectId}">{p.projectName}</a>{/if}</div>
+				<div class="lm"><b>{#if p.placeId}<a href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if}</b><span class="mu sm" data-testid="time-left">Till {until}</span>{#if data.projectsEnabled && p.projectName}<a class="tag" href="/projects/{p.projectId}">{p.projectName}</a>{/if}</div>
 			</div>
 			<div class="row2">
-				<button class="btn sec" disabled={busy} onclick={() => act({ action: 'extend', minutes: 30 })}><Icon name="clock" size={16} /> +30 min</button>
+				{#if data.extendEnabled}<button class="btn sec" disabled={busy} onclick={() => act({ action: 'extend', minutes: 30 })}><Icon name="clock" size={16} /> +30 min</button>{/if}
 				<a class="btn sec" href="/post?edit={p.id}"><Icon name="edit" size={16} /> Edit</a>
 			</div>
+			{#if data.askEnabled}
 			<label class="lab" for="jm">Who can join</label>
 			<Seg name="jm" bind:value={joinMode} onchange={setMode} options={[{ v: 'open', label: 'Anyone can join' }, { v: 'ask', label: 'Ask to join' }]} />
-			{#if data.requests.length}
+			{:else}
+			<p class="mu sm">This postup ends at {until}. People join by showing up.</p>
+			{/if}
+			{#if data.askEnabled && data.requests.length}
 				<div class="sp-h"><h2>Requests</h2><span class="mu sm">{data.requests.length}</span></div>
 				<div data-testid="requests">
 				{#each data.requests as r (r.id)}
@@ -211,16 +220,16 @@
 			<p class="mu">{#if p.placeId}<a class="cl" href="/places/{p.placeId}">{cafe}</a>{:else}{cafe}{/if} · till {until}</p>
 			{#if data.chatEnabled}<a class="btn sec" href="/postups/{p.id}/chat" data-testid="open-chat"><Icon name="chat" size={18} /> Group chat</a>{/if}
 			<button class="btn" onclick={() => (sheet = 'dirs')} data-testid="directions"><Icon name="nav" size={18} /> Directions</button>
-			<p class="mu sm">{first}'s been told you're coming.</p>
-			<div class="lnks"><a class="lnk" href="/">Back to map</a>{#if p.placeId}<a class="lnk" href="/places/{p.placeId}">Cafe</a>{/if}{#if p.projectId}<a class="lnk" href="/projects/{p.projectId}">Project</a>{/if}<button class="lnk dg" onclick={() => (sheet = 'leave')}>Leave</button></div>
+			<p class="mu sm">You're coming in person. {first}'s been told. Say hi at the cafe.</p>
+			<div class="lnks"><a class="lnk" href="/">Back to map</a>{#if p.placeId}<a class="lnk" href="/places/{p.placeId}">Cafe</a>{/if}{#if data.projectsEnabled && p.projectId}<a class="lnk" href="/projects/{p.projectId}">Project</a>{/if}{#if data.leaveEnabled}<button class="lnk dg" onclick={() => (sheet = 'leave')}>Leave</button>{/if}</div>
 			{#if err}<p class="err" role="alert">{err}</p>{/if}
 		</div>
 	{:else if view === 'postup'}
 		<TopBar title="Postup">{#snippet right()}{@render moreBtns()}{/snippet}</TopBar>
 		<div class="pad">
 			{@render whoRow()}
-			<a class="card" href={p.projectId ? `/projects/${p.projectId}` : undefined}>
-				{#if p.projectName}<div class="ch"><span class="tag">{p.projectName}</span><span class="chv"><Icon name="chev" size={18} /></span></div>{/if}
+			<a class="card" href={data.projectsEnabled && p.projectId ? `/projects/${p.projectId}` : undefined}>
+				{#if data.projectsEnabled && p.projectName}<div class="ch"><span class="tag">{p.projectName}</span><span class="chv"><Icon name="chev" size={18} /></span></div>{/if}
 				<p>{p.goals || p.activity}</p>
 			</a>
 			<a class="lrow card" href={p.placeId ? `/places/${p.placeId}` : undefined}>
@@ -279,10 +288,8 @@
 			<h2>{first}</h2>
 			{#if p.username}<a class="lrow wr" href="/u/{p.username}"><span class="ixi"><Icon name="users" size={18} /></span><span class="lm">View profile</span></a>{/if}
 			{#if data.shareEnabled}<button class="lrow wr" onclick={share}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>{/if}
-			{#if data.signedIn}
-				<a class="lrow wr dg" href="/report?type=post&id={p.id}{p.userId ? `&uid=${p.userId}` : ''}&back={encodeURIComponent(`/postups/${p.id}`)}"><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></a>
-				{#if p.userId}<button class="lrow wr dg" onclick={() => (sheet = 'block')}><span class="ixi"><Icon name="ban" size={18} /></span><span class="lm">Block {first}</span></button>{/if}
-			{/if}
+			<a class="lrow wr dg" href="/report?type=post&id={p.id}{p.userId ? `&uid=${p.userId}` : ''}&back={encodeURIComponent(`/postups/${p.id}`)}" onclick={(e) => { if (data.signedIn) return; e.preventDefault(); askSignIn({ title: 'Report', sub: 'Sign in to send a report.', next: `/report?type=post&id=${p.id}${p.userId ? `&uid=${p.userId}` : ''}&back=${encodeURIComponent(`/postups/${p.id}`)}` }); }}><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></a>
+			{#if p.userId}<button class="lrow wr dg" onclick={() => { if (!data.signedIn) { askSignIn({ title: `Block ${first}`, sub: `Sign in to block ${first}.`, next: `/postups/${p.id}?block=1` }); return; } sheet = 'block'; }}><span class="ixi"><Icon name="ban" size={18} /></span><span class="lm">Block {first}</span></button>{/if}
 			<button class="tx" onclick={() => (sheet = '')}>Cancel</button>
 		{:else if sheet === 'block'}
 			<h2>Block {first}?</h2>

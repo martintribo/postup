@@ -1,5 +1,5 @@
 import { config } from '$lib/config';
-import { blockedSet } from '$lib/server/safety';
+import { blockedSet, postIdsHiddenByReports } from '$lib/server/safety';
 import { sql, and, eq, desc, gt, inArray } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { post, place, project, projectStatus, user, joinRequest } from '$lib/server/db/schema';
@@ -75,12 +75,14 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 	// D2: ask-to-join postups don't reveal the cafe before approval.
 	const hide = (p: { joinMode: string }) => config.askHidesCafe && p.joinMode === 'ask';
 	const blocked = await blockedSet(viewerId);
+	const hidden = await postIdsHiddenByReports();
+	const visiblePosts = posts.filter((p) => !hidden.has(p.id) && (!p.userId || !blocked.has(p.userId)));
 	const items: FeedItem[] = [
-		...posts.filter((p) => !p.userId || !blocked.has(p.userId)).map((p) => ({
+		...visiblePosts.map((p) => ({
 			kind: 'postup' as const,
 			id: p.id,
 			at: p.at.toISOString(),
-			who: p.displayName || p.name,
+			who: p.displayName || p.username || p.name,
 			username: p.username,
 			avatarUrl: p.avatarUrl,
 			miles: p.miles == null ? null : Number(p.miles),
@@ -97,7 +99,7 @@ export async function getNearbyFeed(lat: number, lng: number, limit = 30, viewer
 		...updates.map((u) => ({ kind: 'update' as const, id: u.id, at: u.at.toISOString(), projectId: u.projectId, projectName: u.projectName, title: u.title, body: stripImages(u.body) || u.body, who: u.who || u.username, username: u.username, avatarUrl: u.avatarUrl, photo: firstImage(u.body) ?? firstImage(u.projectDesc) }))
 	].sort((a, b) => b.at.localeCompare(a.at));
 
-	return { items: items.slice(0, limit), weekCount: posts.length };
+	return { items: items.slice(0, limit), weekCount: visiblePosts.length };
 }
 
 export function relTime(iso: string, now = Date.now()): string {

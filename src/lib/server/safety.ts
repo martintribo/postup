@@ -1,7 +1,17 @@
-import { and, eq, or } from 'drizzle-orm';
+import { and, eq, or, sql } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { block, report, post, message, project, user } from '$lib/server/db/schema';
 import { env } from '$env/dynamic/private';
+
+/** Several reports from different people hide a postup until those reports are reviewed. [M1039] */
+export function reportHideThreshold(): number {
+	const n = Number(env.REPORT_HIDE_THRESHOLD);
+	return Number.isInteger(n) && n >= 1 ? n : 3;
+}
+
+export function hidesPost(distinctReporters: number, threshold = reportHideThreshold()): boolean {
+	return distinctReporters >= threshold;
+}
 
 export const REPORT_REASONS = ['spam', 'harassment', 'inappropriate', 'fake', 'unsafe', 'not_public', 'other'] as const;
 export const TARGETS = ['user', 'post', 'message', 'project'] as const;
@@ -23,6 +33,21 @@ export async function blockUser(blockerId: string, blockedId: string) {
 }
 export async function unblockUser(blockerId: string, blockedId: string) {
 	await db.delete(block).where(and(eq(block.blockerId, blockerId), eq(block.blockedId, blockedId)));
+}
+
+/** Postups with enough open reports from different people. Hidden from everyone but the poster. */
+export async function postIdsHiddenByReports(): Promise<Set<number>> {
+	const rows = (await db.execute(sql`
+		select target_id from report
+		where target_type = 'post' and status = 'open'
+		group by target_id
+		having count(distinct reporter_id) >= ${reportHideThreshold()}
+	`)) as unknown as { target_id: string }[];
+	return new Set(rows.map((r) => Number(r.target_id)).filter((n) => Number.isInteger(n)));
+}
+
+export async function isPostHiddenByReports(postId: number): Promise<boolean> {
+	return (await postIdsHiddenByReports()).has(postId);
 }
 
 export async function fileReport(r: { reporterId: string; targetType: string; targetId: string; reason: string; details?: string }) {

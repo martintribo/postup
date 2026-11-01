@@ -1,5 +1,7 @@
 import { flag } from '$lib/flags';
-import { availableProviders } from '$lib/server/oauth';
+import { verifiedOnly } from '$lib/features';
+import { phase } from '$lib/phase';
+import { availableProviders, verifiedProviderIds } from '$lib/server/oauth';
 import { hash, verify } from '@node-rs/argon2';
 import { encodeBase32LowerCase } from '@oslojs/encoding';
 import { fail, redirect } from '@sveltejs/kit';
@@ -15,7 +17,8 @@ export const load: PageServerLoad = async (event) => {
 	}
 	return {
 		title: 'Sign in',
-		providers: flag('oauth') ? availableProviders(event.url.origin) : [],
+		providers: verifiedOnly() ? verifiedProviderIds() : flag('oauth') ? availableProviders(event.url.origin) : [],
+		password: phase() >= 1,
 		next: event.url.searchParams.get('next') || '/'
 	};
 };
@@ -29,6 +32,7 @@ const ARGON2_OPTIONS = {
 
 export const actions: Actions = {
 	login: async (event) => {
+		if (phase() < 1) return fail(403, { message: 'Sign in with Apple, Google, X, or GitHub.' });
 		const formData = await event.request.formData();
 		const username = formData.get('username');
 		const password = formData.get('password');
@@ -60,6 +64,7 @@ export const actions: Actions = {
 	},
 
 	register: async (event) => {
+		if (phase() < 1) return fail(403, { message: 'Sign in with Apple, Google, X, or GitHub.' });
 		const formData = await event.request.formData();
 		const username = formData.get('username');
 		const password = formData.get('password');

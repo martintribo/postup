@@ -10,6 +10,7 @@ import { place, placeReview, placeTag, post, user, project } from '$lib/server/d
 import { desc, eq, sql, and, inArray } from 'drizzle-orm';
 import { getUserLocation } from '$lib/server/location';
 import { firstImage } from '$lib/server/projects-view';
+import { postIdsHiddenByReports } from '$lib/server/safety';
 
 const reviewSchema = z.object({
 	rating: z.number().int().min(1).max(5),
@@ -51,7 +52,8 @@ export const load: PageServerLoad = async (event) => {
 		)
 		.orderBy(desc(post.createdAt));
 	// D2: ask-mode postups hidden from this cafe's page unless you're the poster or approved.
-	const activePosts = (await sanitizePosts(activePostsRaw, event.locals.user?.id)).filter((p) => !('cafeHidden' in p && p.cafeHidden));
+	const hiddenPosts = await postIdsHiddenByReports();
+	const activePosts = (await sanitizePosts(activePostsRaw, event.locals.user?.id)).filter((p) => !hiddenPosts.has(p.id) && !('cafeHidden' in p && p.cafeHidden));
 
 	// Compute aggregate stats
 	const totalRating = reviews.reduce((sum, r) => sum + r.rating, 0);

@@ -8,6 +8,7 @@
 	import Av from '$lib/components/ui/Av.svelte';
 	import Sheet from '$lib/components/sheets/Sheet.svelte';
 	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
+	import { showProjects, showShare } from '$lib/features';
 	import BlockSheet from '$lib/components/sheets/BlockSheet.svelte';
 	import { askSignIn } from '$lib/signin.svelte';
 	import { clock } from '$lib/time';
@@ -75,7 +76,7 @@
 			<h3 class="sh">Regular cafes</h3>
 			<div class="chips">{#each p.cafes as c (c.id)}<a class="chip" href="/places/{c.id}">{c.name}</a>{/each}</div>
 		{/if}
-		{#if p.projects.length}
+		{#if showProjects() && p.projects.length}
 			<h3 class="sh">Projects</h3>
 			<div class="grp">{#each p.projects as pr (pr.id)}<a class="lrow" href="/projects/{pr.id}"><span class="ci sm pj"><Icon name="folder" size={16} /></span><div class="lm"><b class="sm">{pr.name}</b><span class="l2">{updated(pr.updatedAt)}</span></div></a>{/each}</div>
 		{/if}
@@ -89,14 +90,14 @@
 </div>
 
 <Sheet bind:open={moreOpen} title={first} testid="more-sheet">
-	<button class="lrow wr" onclick={() => { moreOpen = false; shareOpen = true; }}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>
+	{#if showShare()}<button class="lrow wr" onclick={() => { moreOpen = false; shareOpen = true; }}><span class="ixi"><Icon name="share" size={18} /></span><span class="lm">Share</span></button>{/if}
 	{#if data.signedIn}
 		<a class="lrow wr dg" href="/report?type=user&id={p.id}&uid={p.id}&back={encodeURIComponent(`/u/${p.username}`)}"><span class="ixi"><Icon name="flag" size={18} /></span><span class="lm">Report</span></a>
 		<button class="lrow wr dg" onclick={() => { moreOpen = false; blockOpen = true; }}><span class="ixi"><Icon name="ban" size={18} /></span><span class="lm">Block {first}</span></button>
 	{/if}
 	<button class="tx" onclick={() => (moreOpen = false)}>Cancel</button>
 </Sheet>
-<ShareSheet bind:open={shareOpen} path="/u/{p.username}" text="{first} on PostUp" />
+{#if showShare()}<ShareSheet bind:open={shareOpen} path="/u/{p.username}" text="{first} on PostUp" />{/if}
 <BlockSheet bind:open={blockOpen} userId={p.id} name={p.name} />
 {#if data.isMe}
 	<Sheet bind:open={editOpen} title="Edit profile" testid="edit-sheet">

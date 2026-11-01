@@ -33,6 +33,7 @@
 	// Null until the user picks a mode or this visit locks the default. A later live postup must not flip the page.
 	let picked = $state<'live' | 'building' | null>(null);
 	const mode = $derived.by((): 'live' | 'building' => {
+		if (!data.building) return 'live';
 		if (picked) return picked;
 		const q = page.url.searchParams.get('mode');
 		if (q === 'live' || q === 'building') return q;
@@ -70,10 +71,12 @@
 </script>
 
 {#snippet modeSwitch(which: string)}
+	{#if data.building}
 	<div class="hsw hsw-{which}" role="tablist" aria-label="Home mode">
 		<button type="button" role="tab" aria-selected={mode === 'live'} class:on={mode === 'live'} onclick={() => setMode('live')}>Live</button>
 		<button type="button" role="tab" aria-selected={mode === 'building'} class:on={mode === 'building'} onclick={() => setMode('building')}>Building</button>
 	</div>
+	{/if}
 {/snippet}
 
 <form {@attach grabForm} method="POST" action="?/setLocation" use:enhance hidden>
@@ -159,17 +162,37 @@
 						<div class="lm">
 							<div class="l1"><b>{p.who.name}</b><span class="dot"></span><span class="ok">Live</span></div>
 							<div class="l2">{p.cafe} · till {p.till}</div>
-							{#if p.project}<span class="tag">{p.project}</span>{/if}
+							{#if data.building && p.project}<span class="tag">{p.project}</span>{/if}
 						</div>
 						<Icon name="chev" size={18} class="mu" />
 					</a>
 				{/each}
 			{:else}
-				<div class="hinv">
+				<div class="hinv" data-testid="empty-area">
 					<h2>Working somewhere today?</h2>
 					<p class="mu sm">Post up and people nearby will see you on the map.</p>
 					<a class="btn" href={resolve('/post')}><Icon name="plus" size={18} /> Post up</a>
 				</div>
+				{#if data.recent?.length}
+					<div class="sp-h"><h3>Recently nearby</h3></div>
+					{#each data.recent as r (r.id)}
+						<a class="lrow" href={r.username ? resolve('/u/[username]', { username: r.username }) : resolve('/postups/[id]', { id: String(r.id) })}>
+							<Av name={r.who} src={r.avatarUrl} size={44} />
+							<div class="lm"><div class="l1"><b>{r.who}</b></div><div class="l2">{r.cafe}</div></div>
+							<Icon name="chev" size={18} class="mu" />
+						</a>
+					{/each}
+				{/if}
+				{#if !data.week?.length && data.starterCafes?.length}
+					<div class="sp-h"><h3>Cafes</h3></div>
+					{#each data.starterCafes as c (c.id)}
+						<a class="lrow" href={resolve('/post') + `?place=${c.id}`}>
+							<span class="ci"><Icon name="coffee" size={20} /></span>
+							<div class="lm"><b>{c.name}</b><div class="l2">{Number(c.mi).toFixed(1)} mi</div></div>
+							<Icon name="chev" size={18} class="mu" />
+						</a>
+					{/each}
+				{/if}
 			{/if}
 			{#if data.week?.length}
 				<div class="sp-h" style="margin-top:12px"><h3>This week</h3></div>

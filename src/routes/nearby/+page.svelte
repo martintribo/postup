@@ -11,7 +11,7 @@
 	import FeedCard from '$lib/components/feed/FeedCard.svelte';
 	let { data } = $props();
 	const me = $derived(data.user ? { name: data.user.displayName || data.user.username, href: resolve('/u/[username]', { username: data.user.username }) } : null);
-	const empty = $derived(!data.anyLive && !data.projects.length);
+	const empty = $derived(!data.anyLive && !data.projects.length && !data.items.length);
 
 	// #offline: keep what we had on screen, show the banner and Retry.
 	let offline = $state(false);
@@ -44,9 +44,9 @@
 			<Welcome id="feed" text="Post up at a cafe. See who's working nearby." />
 		{/if}
 		{#if empty}
-			<!-- Mockup #empty-area, minus its map: no postups means no map (override F044/R1); Nearby never shows one. -->
-			<div class="sp-h"><h2>Be the first here</h2></div>
-			<p class="mu sm">No postups around {data.area} yet. Start one and people nearby will see it.</p>
+			<!-- One empty-area screen: be the first, then the closest cafes. -->
+			<div class="sp-h" data-testid="empty-area"><h2>Be the first here</h2></div>
+			<p class="mu sm">Post up at a cafe and people nearby will see you on the map.</p>
 			{#if data.cafes.length}
 				<div class="cafes">
 					{#each data.cafes as c (c.id)}
@@ -55,6 +55,10 @@
 				</div>
 			{/if}
 			<a class="btn lg" href="/post"><Icon name="plus" size={18} /> Post up</a>
+		{:else if !data.anyLive && !data.projects.length}
+			<div class="hero"><h1>Recently nearby</h1><p class="mu sm">People who posted up around {data.area}.</p></div>
+			<a class="btn lg" href="/post"><Icon name="plus" size={18} /> Post up</a>
+			{#each data.items as it (it.kind + it.id)}<FeedCard {it} />{/each}
 		{:else}
 			<div class="hero">
 				<h1>Good things happen at cafes</h1>

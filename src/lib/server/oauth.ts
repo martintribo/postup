@@ -1,11 +1,15 @@
-import { Apple, Google, generateCodeVerifier, generateState, decodeIdToken } from 'arctic';
+import { createHash } from 'node:crypto';
+import { Apple, GitHub, Google, generateCodeVerifier, generateState, decodeIdToken } from 'arctic';
 import { env } from '$env/dynamic/private';
 import { eq, and, isNull } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { encodeBase32LowerCase } from '@oslojs/encoding';
 
-export type Provider = 'google' | 'apple' | 'mock';
+export type Provider = 'google' | 'apple' | 'x' | 'github' | 'mock';
+
+/** Shown on the phase 0 sign-in sheet, in this order. [M1039] */
+export const VERIFIED_PROVIDERS = ['apple', 'google', 'x', 'github'] as const;
 
 export interface OAuthProfile {
 	provider: Provider;
@@ -22,6 +26,76 @@ function redirectUri(origin: string, p: Provider) {
 export function google(origin: string) {
 	if (!env.GOOGLE_CLIENT_ID || !env.GOOGLE_CLIENT_SECRET) return null;
 	return new Google(env.GOOGLE_CLIENT_ID, env.GOOGLE_CLIENT_SECRET, redirectUri(origin, 'google'));
+}
+
+export function github(origin: string) {
+	if (!env.GITHUB_CLIENT_ID || !env.GITHUB_CLIENT_SECRET) return null;
+	return new GitHub(env.GITHUB_CLIENT_ID, env.GITHUB_CLIENT_SECRET, redirectUri(origin, 'github'));
+}
+
+/** X (Twitter) OAuth 2.0. Arctic has no X client; this is the authorize URL plus PKCE. */
+export function x(origin: string) {
+	if (!env.X_CLIENT_ID || !env.X_CLIENT_SECRET) return null;
+	return { origin, clientId: env.X_CLIENT_ID, clientSecret: env.X_CLIENT_SECRET, redirectUri: redirectUri(origin, 'x') };
+}
+
+export function xAuthorizeURL(client: NonNullable<ReturnType<typeof x>>, state: string, verifier: string) {
+	const url = new URL('https://twitter.com/i/oauth2/authorize');
+	url.searchParams.set('response_type', 'code');
+	url.searchParams.set('client_id', client.clientId);
+	url.searchParams.set('redirect_uri', client.redirectUri);
+	url.searchParams.set('scope', 'users.read tweet.read');
+	url.searchParams.set('state', state);
+	url.searchParams.set('code_challenge', createHash('sha256').update(verifier).digest('base64url'));
+	url.searchParams.set('code_challenge_method', 'S256');
+	return url;
+}
+
+export async function xProfile(client: NonNullable<ReturnType<typeof x>>, code: string, verifier: string): Promise<OAuthProfile> {
+	const body = new URLSearchParams({
+		grant_type: 'authorization_code',
+		code,
+		redirect_uri: client.redirectUri,
+		code_verifier: verifier
+	});
+	const tokenRes = await fetch('https://api.x.com/2/oauth2/token', {
+		method: 'POST',
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded',
+			authorization: `Basic ${Buffer.from(`${client.clientId}:${client.clientSecret}`).toString('base64')}`
+		},
+		body
+	});
+	if (!tokenRes.ok) throw new Error('X sign-in failed');
+	const token = (await tokenRes.json()) as { access_token?: string };
+	if (!token.access_token) throw new Error('X sign-in failed');
+	const meRes = await fetch('https://api.x.com/2/users/me?user.fields=name,profile_image_url,username', {
+		headers: { authorization: `Bearer ${token.access_token}` }
+	});
+	if (!meRes.ok) throw new Error('X sign-in failed');
+	const me = (await meRes.json()) as { data?: { id?: string; name?: string; username?: string; profile_image_url?: string } };
+	if (!me.data?.id) throw new Error('X sign-in failed');
+	return { provider: 'x', providerUserId: me.data.id, name: me.data.name || me.data.username || null, avatarUrl: me.data.profile_image_url ?? null };
+}
+
+export async function githubProfile(client: NonNullable<ReturnType<typeof github>>, code: string): Promise<OAuthProfile> {
+	const tokens = await client.validateAuthorizationCode(code);
+	const res = await fetch('https://api.github.com/user', {
+		headers: { authorization: `Bearer ${tokens.accessToken()}`, accept: 'application/vnd.github+json', 'user-agent': 'postup' }
+	});
+	if (!res.ok) throw new Error('GitHub sign-in failed');
+	const u = (await res.json()) as { id?: number; name?: string | null; login?: string; avatar_url?: string };
+	if (!u.id) throw new Error('GitHub sign-in failed');
+	return { provider: 'github', providerUserId: String(u.id), name: u.name || u.login || null, avatarUrl: u.avatar_url ?? null };
+}
+
+/** Env vars still needed before this provider can complete sign-in. */
+export function missingProviderEnv(p: Provider): string[] {
+	if (p === 'google') return ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET'].filter((k) => !env[k]);
+	if (p === 'apple') return ['APPLE_CLIENT_ID', 'APPLE_TEAM_ID', 'APPLE_KEY_ID', 'APPLE_PRIVATE_KEY'].filter((k) => !env[k]);
+	if (p === 'github') return ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET'].filter((k) => !env[k]);
+	if (p === 'x') return ['X_CLIENT_ID', 'X_CLIENT_SECRET'].filter((k) => !env[k]);
+	return [];
 }
 
 export function apple(origin: string) {
@@ -42,6 +116,15 @@ export function availableProviders(origin: string): Provider[] {
 	const out: Provider[] = [];
 	if (apple(origin)) out.push('apple');
 	if (google(origin)) out.push('google');
+	if (x(origin)) out.push('x');
+	if (github(origin)) out.push('github');
+	if (mockEnabled()) out.push('mock');
+	return out;
+}
+
+/** Phase 0 always offers the four verified providers. Unconfigured ones explain which env vars are missing. */
+export function verifiedProviderIds(): Provider[] {
+	const out: Provider[] = [...VERIFIED_PROVIDERS];
 	if (mockEnabled()) out.push('mock');
 	return out;
 }

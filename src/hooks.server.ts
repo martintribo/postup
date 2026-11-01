@@ -1,9 +1,21 @@
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 import * as auth from '$lib/server/auth';
 import { flag } from '$lib/flags';
+import { phase } from '$lib/phase';
+
+/** Phase 0 keeps the later routes in the tree and sends people back to the map. */
+function phaseRedirect(pathname: string): string | null {
+	const ph = phase();
+	if (ph < 1 && (pathname === '/inbox' || pathname === '/activity' || /^\/postups\/[^/]+\/chat\/?$/.test(pathname))) return '/';
+	if (ph < 2 && (pathname === '/projects' || pathname.startsWith('/projects/'))) return '/';
+	return null;
+}
 
 const handleAuth: Handle = async ({ event, resolve }) => {
 	event.locals.agent = null;
+
+	const away = phaseRedirect(event.url.pathname);
+	if (away) redirect(303, away);
 
 	// Agent API (seeding projects from agents) stays dark until ff agent_api is on.
 	if ((event.url.pathname.startsWith('/api/agent/') || event.url.pathname.startsWith('/agent/')) && !flag('agent_api')) {

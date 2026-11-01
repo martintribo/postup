@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import postgres from 'postgres';
 
 test('shared postup and project links render previews and lead to join', async ({ page, browser }) => {
-	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_SHARE_LINKS !== '1', 'needs mock + share');
+	test.skip(process.env.OAUTH_MOCK !== '1' || process.env.PUBLIC_FF_SHARE_LINKS !== '1' || (process.env.PUBLIC_PHASE !== '1' && process.env.PUBLIC_PHASE !== '2'), 'needs mock + share + phase 1 or 2');
 	const sql = postgres(process.env.DATABASE_URL!);
 	const t = Date.now();
 	await page.goto(`/auth/mock?id=sh-${t}&name=Maya%20Share`);

@@ -1,5 +1,6 @@
 import { flag } from '$lib/flags';
-import { availableProviders } from '$lib/server/oauth';
+import { verifiedOnly } from '$lib/features';
+import { availableProviders, verifiedProviderIds } from '$lib/server/oauth';
 import { db } from '$lib/server/db';
 import { notification } from '$lib/server/db/schema';
 import { and, eq, isNull, sql } from 'drizzle-orm';
@@ -19,6 +20,6 @@ export const load: LayoutServerLoad = async (event) => {
 	return {
 		user,
 		unreadInbox: unread,
-		providers: flag('oauth') ? availableProviders(event.url.origin) : []
+		providers: verifiedOnly() ? verifiedProviderIds() : flag('oauth') ? availableProviders(event.url.origin) : []
 	};
 };

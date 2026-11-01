@@ -6,6 +6,7 @@
 	import GCard from '$lib/components/ui/GCard.svelte';
 	import MapPanel from '$lib/components/ui/MapPanel.svelte';
 	import ShareSheet from '$lib/components/sheets/ShareSheet.svelte';
+	import { showProjects, showShare } from '$lib/features';
 	import { clock } from '$lib/time';
 	import type { PageData } from './$types';
 	let { data }: { data: PageData } = $props();
@@ -19,7 +20,7 @@
 		{#if data.photo}<img src={data.photo.src} alt="" />{/if}
 		<div class="hg"></div>
 		<TopBar clear href="/">
-			{#snippet right()}<button class="ib fl" onclick={() => (shareOpen = true)} data-testid="share" aria-label="Share"><Icon name="share" size={20} /></button>{/snippet}
+			{#snippet right()}{#if showShare()}<button class="ib fl" onclick={() => (shareOpen = true)} data-testid="share" aria-label="Share"><Icon name="share" size={20} /></button>{/if}{/snippet}
 		</TopBar>
 		<div class="hi-t"><h1>{p.name}</h1><p><Icon name="pin" size={14} /> {dist}</p></div>
 		{#if data.photo?.who}<span class="fbadge tr"><Icon name="camera" size={12} /> {data.photo.who.split(' ')[0]}'s photo</span>{/if}
@@ -31,7 +32,7 @@
 				{#each data.hereNow as h (h.id)}
 					<a class="lrow" href="/postups/{h.id}">
 						<Av name={h.who} src={h.avatarUrl} size={44} />
-						<div class="lm"><div class="l1"><b>{h.who.split(' ')[0]}</b><span class="dot"></span><span class="ok">Live</span></div><div class="l2"><span class="cl">{h.cafe}</span> · till {clock(h.endsAt)}</div>{#if h.project}<span class="tag">{h.project}</span>{/if}</div>
+						<div class="lm"><div class="l1"><b>{h.who}</b><span class="dot"></span><span class="ok">Live</span></div><div class="l2"><span class="cl">{h.cafe}</span> · till {clock(h.endsAt)}</div>{#if showProjects() && h.project}<span class="tag">{h.project}</span>{/if}</div>
 						<span class="pill sm2">{h.ask ? 'Ask' : 'Join'}</span>
 					</a>
 				{/each}
@@ -44,4 +45,4 @@
 	</div>
 	<div class="cta"><a class="btn" href="/post?place={p.id}"><Icon name="plus" size={18} /> Post up here</a></div>
 </MapPanel>
-<ShareSheet bind:open={shareOpen} path="/places/{p.id}" text="Work from {p.name} on PostUp" />
+{#if showShare()}<ShareSheet bind:open={shareOpen} path="/places/{p.id}" text="Work from {p.name} on PostUp" />{/if}

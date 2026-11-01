@@ -1,10 +1,10 @@
 import { json } from '@sveltejs/kit';
-import { flag } from '$lib/flags';
+import { showChat } from '$lib/features';
 import { listMessages, sendMessage, ChatError } from '$lib/server/chat';
 import type { RequestHandler } from './$types';
 
 async function guard(locals: App.Locals, fn: (uid: string) => Promise<Response>) {
-	if (!flag('chat')) return json({ error: 'Not found' }, { status: 404 });
+	if (!showChat()) return json({ error: 'Not found' }, { status: 404 });
 	if (!locals.user) return json({ error: 'Sign in first' }, { status: 401 });
 	try {
 		return await fn(locals.user.id);
