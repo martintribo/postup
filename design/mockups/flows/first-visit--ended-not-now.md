@@ -24,10 +24,10 @@ Player: /mockups/flows/first-visit--ended-not-now.html
    - The cafe with who's live there. [FS] [M1043]
    - next site states: back (Back), cafe+share@out.live (Share), **postup@out.live** (Join), post@out.live (Post up here), home@out.live.live (Home), quiet-feed@out.live (Nearby), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory (Google card fails))
    - enterable flows: first-visit--link-ended step 3 (if Someone's at Bean Theory now), first-visit--link-post step 2 (if What's this cafe like?)
-4. **postup@out.live** · user: Could go to this one instead · action: taps the live postup · edge: tap: Join
-   - The live postup; Join shows 🔒. [FS] [M1043]
+4. **postup@out.live** · user: Could go to this one · action: taps the live postup · edge: tap: Join
+   - The live postup. [FS] [M1043]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), **postup+signin@out.live** (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Adding a new Corne), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--link-ended step 4 (if Could go to this one instead), first-visit--not-now step 2 (if What is she doing?)
+   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--link-ended step 4 (if Could go to this one), first-visit--not-now step 2 (if What is she doing?)
 5. **postup+signin@out.live** · user: Wants to join; asked to sign in · action: taps Join 🔒 · edge: tap: Join
    - Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]
    - next site states: **postup@out.live** (close), postup@in.live (Continue with Apple), joined@in.live (signs in → continues)
@@ -35,7 +35,7 @@ Player: /mockups/flows/first-visit--ended-not-now.html
 6. **postup@out.live** · user: Was only going for the friend · action: taps Not now · edge: tap: Not now
    - Back on the postup, still signed out. [drawn] [M1043]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), postup+signin@out.live (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Adding a new Corne), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--link-ended step 4 (if Could go to this one instead), first-visit--not-now step 2 (if What is she doing?)
+   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--link-ended step 4 (if Could go to this one), first-visit--not-now step 2 (if What is she doing?)
 
 ## Connected flows [M1025]
 - `first-visit`: branch out at step 4→2, step 5→5, step 6→2; merge in at step 4 (from its step 2), step 6 (from its step 2)
@@ -49,7 +49,7 @@ Player: /mockups/flows/first-visit--ended-not-now.html
 1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#invite-ended)
 2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#quiet-feed)
 3. `#cafe` · auth=out live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#cafe)
-4. `#postup` · auth=out live=live — The live postup; Join shows 🔒. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#postup)
+4. `#postup` · auth=out live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#postup)
 5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=0#postup)
 6. `#postup` · auth=out live=live — Back on the postup, still signed out. [drawn] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#postup)
 

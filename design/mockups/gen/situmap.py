@@ -3,7 +3,8 @@
 # flowmap.py. Both user types on one page, stacked as two rows: Newcomer, then Registered [M1038]. Writes flows/map.html (the old user-state machine is now flows/map-states.html). Respects the Phase toggle.
 import model as _MOD
 SITS,_=_MOD.load_situations()
-UT=[('newcomer','Newcomer','Signed out, never used PostUp'),('registered','Registered','Signed in, has used PostUp')]
+_UD=_MOD.load_users()  # user types are data (users.toml) [M1044]
+UT=[(u,d.get('label',u),d.get('sub','')) for u,d in _UD.items()]
 _TINT=['#e8f5ee','#e9f0fb','#fdf1e4','#f3ecfb','#fbeef1','#eaf6f6','#eef1f4','#f4f1e8']
 def _fbtn(f): return f'<a class="fb" data-ph="{"n" if f["phase"] is None else f["phase"]}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"])}{ocb(f)}<i>{len(f["steps"])} steps</i></a>'
 _lanes=''
@@ -18,7 +19,7 @@ for u,ut,usub in UT:
             inner+=f'<section class="sit" data-ph="{"n" if ph is None else ph}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
         if inner: cards+=f'<div class="grp" data-ph="{"n" if gph is None else gph}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
     nf=sum(1 for f in FLOWS_TOP if f['user']==u)
-    _lanes+=f'<div class="lane" id="{u}"><div class="root"><b>{ut}</b><span>{usub}</span><span class="cnt">{sum(1 for v in SITS.values() if v["user"]==u)} situations · {nf} flows</span>{'<a class="gl" href="graph.html#first-visit">First visit graph →</a>' if u=="newcomer" else ""}</div><div class="sits">{cards}</div></div>'
+    _lanes+=f'<div class="lane" id="{u}"><div class="root"><b>{ut}</b><span>{usub}</span><span class="cnt">{sum(1 for v in SITS.values() if v["user"]==u)} situations · {nf} flows</span>{f'<a class="gl" href="graph.html#{_UD[u]["main_flow"]}">{H.escape(_UD[u]["label"])} graph →</a>' if _UD.get(u,{}).get("main_flow") else ""}</div><div class="sits">{cards}</div></div>'
 SMCSS='''.lane[hidden]{display:none!important}.mb{position:sticky;top:0;z-index:5;background:rgba(244,243,239,.96);border-bottom:1px solid #e4e2dc;padding:9px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.mb b{font-size:16px}
 .ut{display:inline-flex;border:1px solid #d7d5cf;border-radius:99px;overflow:hidden}.ut a{padding:5px 14px;font:600 13px Inter,sans-serif;color:#33332f;text-decoration:none}.ut a.on{background:#232322;color:#fff}
 .lane{display:flex;gap:14px;align-items:flex-start;padding:14px 16px 18px;margin:0 auto;border-bottom:1px solid #e4e2dc;scroll-margin-top:56px;transition:background .6s}.lane.hl{background:#e3f4ea}#registered .root{background:#2f4f8a}.root{flex:none;width:170px;background:#0f7a4f;color:#fff;border-radius:16px;padding:14px;position:sticky;top:64px}

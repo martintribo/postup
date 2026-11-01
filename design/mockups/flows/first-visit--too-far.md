@@ -32,10 +32,10 @@ Player: /mockups/flows/first-visit--too-far.html
    - Post up 🔒 → sign-in. [FS] [TK§1]
    - next site states: where-search@out.none (close), where-search@in.none (Continue with Apple), posted@in.none (signs in → continues), post-already@in.none (signs in → continues (you already have a live postup)), **post-far@in.none** (signs in → continues (the place is too far from you))
    - enterable flows: first-visit--already-posted step 5 (if Ready; asked to sign in), first-visit--ended-post step 6 (if Ready; asked to sign in), first-visit--link-post step 6 (if Ready; asked to sign in), first-visit--live-already-posted step 5 (if Ready; asked to sign in), first-visit--live-post step 5 (if Ready; asked to sign in), first-visit--live-too-far step 5 (if Ready; asked to sign in), first-visit--post step 5 (if Ready; asked to sign in)
-6. **post-far@in.none** · user: The cafe they picked is 2 mi away · action: signs in · edge: tap: Continue with Apple (the place is too far from you)
+6. **post-far@in.none** · user: The cafe they picked is 2 mi away · action: posts · edge: tap: Continue with Apple (the place is too far from you)
    - You're too far away: you can only post up where you are. Best effort in the browser. [M1039]
    - next site states: back (Back), **where@in.none** (Pick a cafe near you), home@in.none.live (Back to map), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Back to map), projects@in.none (Projects)
-   - enterable flows: first-visit--live-too-far step 6 (if The cafe they picked is 2 mi away), returning-post--too-far step 2 (if Picked the cafe from yesterday by habit)
+   - enterable flows: first-visit--live-too-far step 6 (if The cafe they picked is 2 mi away), registered-visit--too-far step 3 (if The cafe they picked is 2 mi away)
 7. **where@in.none** · user: Picks the cafe they're actually at · action: taps Pick a cafe near you · edge: tap: Pick a cafe near you
    - Where are you? list, nearest first. [FS] [M1039]
    - next site states: back (Back), where-search@in.none (Search cafes), posted@in.none (Post up), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), project-new@in.none (Project), home@in.none.building (home), projects@in.none (Projects), post-already@in.none (Post up (you already have a live postup)), post-far@in.none (Post up (the place is too far from you))
@@ -47,7 +47,7 @@ Player: /mockups/flows/first-visit--too-far.html
 - `first-visit--link-post`: branch out at step 2→3, step 4→5, step 5→6; merge in at step 2 (from its step 3), step 4 (from its step 5), step 5 (from its step 6)
 - `first-visit--live-already-posted`: branch out at step 2→2, step 4→4, step 5→5; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5)
 - `first-visit--live-post`: branch out at step 2→2, step 4→4, step 5→5; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5)
-- `returning-post--too-far`: branch out at step 6→2; merge in at step 6 (from its step 2)
+- `registered-visit--too-far`: branch out at step 6→3; merge in at step 6 (from its step 3)
 - `first-visit--nobody`: branch out at step 1→1; merge in at —
 - `first-visit--nobody-project`: branch out at step 1→1; merge in at —
 - `first-visit--already-posted`: branch out at step 5→5; merge in at —

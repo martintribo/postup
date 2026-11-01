@@ -19,7 +19,7 @@ Player: /mockups/flows/first-visit--not-now.html
 2. **postup@out.live** · user: What is she doing? · action: taps Maya's live row · edge: tap: M Maya Live Bean Theory · till 4pm
    - Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), **profile@out.live** (M Maya Live · till 4pm), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), postup+signin@out.live (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Adding a new Corne), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one instead), first-visit--link-ended step 4 (if Could go to this one instead)
+   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one), first-visit--link-ended step 4 (if Could go to this one)
 3. **profile@out.live** · user: Who is behind it? · action: taps Maya · edge: tap: M Maya Live · till 4pm
    - Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025]
    - next site states: back (Back), profile+more@out.live (More), **postup@out.live** (Live at Bean Theory Till 4pm · Sta), profile+signin@out.live (Follow), cafe@out.live (Bean Theory), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Updated yesterday), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory (Google card fails))
@@ -27,7 +27,7 @@ Player: /mockups/flows/first-visit--not-now.html
 4. **postup@out.live** · user: She's live right now · action: taps Live at Bean Theory · edge: tap: Live at Bean Theory Till 4pm · Sta
    - Her live postup; Join shows 🔒. [FS] [M1024]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), **postup+signin@out.live** (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Adding a new Corne), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one instead), first-visit--link-ended step 4 (if Could go to this one instead)
+   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one), first-visit--link-ended step 4 (if Could go to this one)
 5. **postup+signin@out.live** · user: Wants to join; asked to sign in · action: taps Join 🔒 · edge: tap: Join
    - Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]
    - next site states: **postup@out.live** (close), postup@in.live (Continue with Apple), joined@in.live (signs in → continues)
@@ -35,7 +35,7 @@ Player: /mockups/flows/first-visit--not-now.html
 6. **postup@out.live** · user: Not ready to make an account · action: taps Not now · edge: tap: Not now
    - Back on the postup, still signed out; they can leave. [drawn] [M1025] [M1041]
    - next site states: back (Back), postup+share@out.live (Share), postup+more@out.live (More), profile@out.live (M Maya Live · till 4pm), cafe@out.live (Bean Theory 0.4 mi · 8 min walk), postup+signin@out.live (Join), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod Adding a new Corne), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one instead), first-visit--link-ended step 4 (if Could go to this one instead)
+   - enterable flows: first-visit step 2 (if What is she doing?), first-visit--ended-not-now step 4 (if Could go to this one), first-visit--link-ended step 4 (if Could go to this one)
 
 ## Connected flows [M1025]
 - `first-visit--link-ended`: branch out at step 2→4, step 5→5, step 6→4; merge in at step 2 (from its step 4), step 4 (from its step 4), step 6 (from its step 4)

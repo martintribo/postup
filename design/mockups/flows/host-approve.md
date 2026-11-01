@@ -19,27 +19,32 @@ Player: /mockups/flows/host-approve.html
 2. **live@in.live** · user: Deciding on the request · action: opens the request · edge: tap: D Dev asked to join your postup 2
    - Requests with reason: Approve / Decline. [FS] [F061]
    - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), **profile@in.live** (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
-   - enterable flows: returning-post step 3 (if Managing their postup), hosting step 1 (if Live; wants more time)
+   - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), registered-visit--hosting-project step 1 (if Live; wants more time)
 3. **profile@in.live** · user: Wants to check the asker first · action: taps the asker · edge: tap: D Dev · 2 min ago
    - Optionally checks the asker's profile first. [FS] [M1024]
    - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), cafe@in.live (Bean Theory), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Updated yesterday), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: none
+   - enterable flows: registered-visit--ended-project step 4 (if Who makes this?), registered-visit--follow-project step 4 (if Who makes this?), registered-visit--hosting-project step 3 (if Who makes this?), registered-visit--joined-project step 3 (if Who makes this?), registered-visit--link-project step 3 (if Who makes this?)
 4. **live@in.live** · user: Asker looks fine; back to my postup · action: taps Back · edge: back
    - Back on your live postup; the profile has no chat link (as in the app). [M1031-draft]
    - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), **chat@in.live** (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
-   - enterable flows: returning-post step 3 (if Managing their postup), hosting step 1 (if Live; wants more time)
+   - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), registered-visit--hosting-project step 1 (if Live; wants more time)
 5. **chat@in.live** · user: Approved; welcoming them · action: opens the group chat · edge: tap: Group chat
    - Approved people are in the chat. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
-   - enterable flows: chat step 2 (if Wants to sort out details in chat)
+   - enterable flows: registered-visit--joined-chat step 3 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
-- `returning-post`: branch out at step 2→3, step 4→3; merge in at step 2 (from its step 3), step 4 (from its step 3)
+- `registered-visit--post`: branch out at step 2→4, step 4→4; merge in at step 2 (from its step 4), step 4 (from its step 4)
+- `registered-visit--hosting-project`: branch out at step 2→1, step 3→3, step 4→1; merge in at step 3 (from its step 3)
 - `ask-join`: branch out at step 1→4; merge in at step 1 (from its step 4)
 - `following`: branch out at step 1→4; merge in at step 1 (from its step 4)
 - `catch-up`: branch out at step 1→3; merge in at step 1 (from its step 3)
-- `hosting`: branch out at step 2→1, step 4→1; merge in at —
-- `chat`: branch out at step 5→2; merge in at step 5 (from its step 2)
+- `registered-visit--hosting`: branch out at step 2→1, step 4→1; merge in at —
+- `registered-visit--ended-project`: branch out at step 3→4; merge in at step 3 (from its step 4)
+- `registered-visit--follow-project`: branch out at step 3→4; merge in at step 3 (from its step 4)
+- `registered-visit--joined-project`: branch out at step 3→3; merge in at step 3 (from its step 3)
+- `registered-visit--link-project`: branch out at step 3→3; merge in at step 3 (from its step 3)
+- `registered-visit--joined-chat`: branch out at step 5→3; merge in at step 5 (from its step 3)
 
 ## Screens
 1. `#activity` · auth=in live=live — Alert: "Ari asked to join". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#activity)

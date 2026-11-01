@@ -25,7 +25,7 @@ links = [
   { id = "pixel-garden", label = "Pixel Garden", action = "replace", to = "project", when = "live=live,tab=live,phase>=2" },  # phase 2 only [M1035]
   { id = "postup-ask-2", label = "T Tess Live · Ask to join Grindhou", action = "replace", to = "postup-ask", when = "live=live,tab=live,phase>=2" },  # phase 2 only [M1036]
   { id = "cafe-2", label = "Lantern Tea A D M 3 postups", action = "replace", to = "cafe" },
-  { id = "me", label = "S", action = "replace", to = "me", when = "tab=building" },
+  { id = "me", label = "S", action = "replace", to = "me", when = "tab=building,auth=in" },  # the avatar is signed-in only (.only-in), found by the auth-aware drift check [M1044]
   { id = "see-map", label = "See map", action = "swap", to = "home", sets = "tab=live", when = "live=live,tab=building,phase>=2" },  # phase 2 only [M1035]
   { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects", when = "tab=building,phase>=2" },  # phase 2 only [M1035]
   { id = "project", label = "Star Fox 64 mod M Maya · Yesterday", action = "replace", to = "project", when = "tab=building,phase>=2" },  # phase 2 only [M1035]

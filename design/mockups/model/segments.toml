@@ -1,0 +1,100 @@
+# Reusable step runs [M1043], shared by every flow [M1044]: a step { use = "<id>", var = "..." } becomes these steps with
+# {var} filled in. {auth} defaults to the flow's user type (users.toml); {live} and {via} come from the use step.
+# Segments may use segments. The validator rejects two flows or segments with the same run of steps (copied steps).
+
+# ---- posting ----
+[[segments]]
+id = "post-up-signin"
+note = "Newcomer: the Post up form from wherever they tapped Post up ({via}), pick a cafe, sign in, posted, invite friends. [M1043]"
+steps = [
+  { link = "{via}", act = "taps Post up", expect = "post@{auth}.{live}", thought = "Filling in the post", shows = "Nearest cafe prefilled. [FS] [F062]" },
+  { link = "post:where", act = "taps Change", expect = "where@{auth}.{live}", thought = "Not at the nearest cafe", shows = "Change → cafe picker by distance. [F062] [R17]" },
+  { link = "where:search-cafes", act = "searches", expect = "where-search@{auth}.{live}", thought = "Looking for the right cafe", shows = "Searches a cafe. [FS]" },
+  { link = "where-search:post-up", act = "taps Post up 🔒", expect = "where-search+signin@{auth}.{live}", thought = "Ready; asked to sign in", shows = "Post up 🔒 → sign-in. [FS] [TK§1]" },
+  { link = "signin:continue-with-apple", act = "signs in", expect = "posted@in.{live}", thought = "Live; wants company", shows = "Posted; link to copy. [FS]" },
+  { link = "posted:invite-friends", act = "taps Invite friends", expect = "posted+share@in.{live}", thought = "Wants friends to come too", shows = "Invite friends: share sheet. [drawn] [M1024]" },
+]
+
+[[segments]]
+id = "post-now"
+note = "Signed in: the Post up form from {via}, nearest cafe prefilled, Post up, posted. [M1044]"
+steps = [
+  { link = "{via}", act = "taps Post up", expect = "post@{auth}.{live}", thought = "At a cafe, wants company", shows = "Post up with the nearest cafe prefilled. [FS] [F062]" },
+  { link = "post:post-up", act = "taps Post up", expect = "posted@in.{live}", thought = "Live", shows = "Posted; link to copy. [FS]" },
+]
+
+[[segments]]
+id = "too-far"
+note = "Posting ({via} submits it) but the cafe is not where they are. [M1039] [M1043]"
+steps = [
+  { link = "{via}", condition = "too-far", act = "posts", expect = "post-far@in.{live}", thought = "The cafe they picked is 2 mi away", shows = "You're too far away: you can only post up where you are. Best effort in the browser. [M1039]" },
+  { link = "post-far:pick-nearby", act = "taps Pick a cafe near you", expect = "where@in.{live}", thought = "Picks the cafe they're actually at", shows = "Where are you? list, nearest first. [FS] [M1039]" },
+]
+
+[[segments]]
+id = "already-posted"
+note = "Posting ({via} submits it) with an account that already has a live postup. [M1039] [M1043]"
+steps = [
+  { link = "{via}", condition = "has-live-postup", act = "posts", expect = "post-already@in.{live}", thought = "Forgot they're already live at Lot 1", shows = "You're already posted up at Lot 1 Coffee, with View your postup. [M1039]" },
+  { link = "post-already:view", act = "taps View your postup", expect = "live@in.{live}", thought = "Checks on the postup they have", shows = "Their live postup. [M1039]" },
+]
+
+[[segments]]
+id = "host-extend"
+note = "Hosting: edit the postup (extend the end time), back to hosting. [M1024] [M1044]"
+steps = [
+  { link = "live:edit", act = "taps Edit", expect = "post-edit@in.live", thought = "Staying longer", shows = "Edit the postup: extend the end time. [FS] [M1024]" },
+  { link = "post-edit:back", act = "saves", expect = "live@in.live", thought = "Extended", shows = "Hosting page with the new end time. [FS]" },
+]
+
+[[segments]]
+id = "host-end"
+note = "Hosting: End postup, confirm. [M1024] [M1044]"
+steps = [
+  { link = "live:end-postup", act = "taps End postup", expect = "live+endlive@in.live", thought = "Heading out", shows = "End postup? confirm sheet. [FS]" },
+  { link = "endlive:end-now", act = "taps End now", expect = "me@in.live", thought = "Done for today", shows = "Ended; back on Me. [FS]" },
+]
+
+# ---- joining ----
+[[segments]]
+id = "join-signin"
+note = "Newcomer: Join 🔒 on a live postup, sign in, joined in one go. [M1043]"
+steps = [
+  { link = "postup:join", act = "taps Join 🔒", expect = "postup+signin@out.live", thought = "Wants to join; asked to sign in", shows = "Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]" },
+  { link = "signin:continue-with-apple", act = "signs in", expect = "joined@in.live", thought = "Signed in; committed", shows = "Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]" },
+]
+
+[[segments]]
+id = "nearby-cafe-postup"
+note = "From Nearby: a live postup's photo, the cafe, the live postup. [M1043] [M1044]"
+steps = [
+  { link = "quiet-feed:maya-s-photo", act = "taps a live postup's photo", expect = "cafe@{auth}.live", thought = "Someone's at Bean Theory now", shows = "The cafe with who's live there. [FS] [M1043]" },
+  { link = "cafe:join", act = "taps the live postup", expect = "postup@{auth}.live", thought = "Could go to this one", shows = "The live postup. [FS] [M1043]" },
+]
+
+# ---- projects ----
+[[segments]]
+id = "follow-maker-signin"
+note = "Newcomer, from a project page: the maker's profile, Follow 🔒, sign in, following. [M1042] [M1043]"
+steps = [
+  { link = "project:maya", act = "taps Maya", expect = "profile@{auth}.{live}", thought = "Who makes this?", shows = "Maya's profile with Follow. [FS] [M1042]" },
+  { link = "profile:follow", act = "taps Follow", expect = "profile+signin@{auth}.{live}", thought = "Wants to see what Maya makes next", shows = "Follow 🔒 opens the sign-in sheet. [FS] [M1025]" },
+  { link = "signin:continue-with-apple", advances = "following", act = "signs in", expect = "profile@in.{live}", thought = "Signed up; following Maya", shows = "Signed in and following Maya. [FS] [M1042]" },
+]
+
+[[segments]]
+id = "follow-maker"
+note = "Signed in, from a project page: the maker's profile, Follow. [M1044]"
+steps = [
+  { link = "project:maya", act = "taps Maya", expect = "profile@{auth}.{live}", thought = "Who makes this?", shows = "Maya's profile with Follow. [FS] [M1042]" },
+  { link = "profile:follow", advances = "project-active", act = "taps Follow", expect = "profile@{auth}.{live}", thought = "Wants to see what Maya makes next", shows = "Following Maya. [FS] [M1044]" },
+]
+
+[[segments]]
+id = "building-project"
+note = "Building mode on Home, a project, then follow its maker ({follow}: follow-maker-signin or follow-maker) (phase 2). [M1042] [M1043] [M1044]"
+steps = [
+  { link = "home:building", act = "taps Building", expect = "home@{auth}.{live}.building", thought = "What are people making?", shows = "What people are building: project cards. [M1018b] [M1018c]" },
+  { link = "home:project", act = "taps a project", expect = "project@{auth}.{live}", thought = "A Star Fox 64 mod, nice", shows = "Project page: updates and who's behind it. [FS] [M1042]" },
+  { use = "{follow}", live = "{live}" },
+]

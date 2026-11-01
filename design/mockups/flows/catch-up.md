@@ -15,11 +15,11 @@ Player: /mockups/flows/catch-up.html
 1. **home@in.live.live** · user: What did I miss? · action: comes back and opens / · edge: entry
    - Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft]
    - next site states: postup@in.live (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), **inbox@in.live** (Inbox), postup-ask@in.live (T), home@in.live.building (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: join step 1 (if Wants company now), join--cancelled step 1 (if Wants company now), join--ended step 1 (if Wants company now), join--full step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing)
+   - enterable flows: registered-visit step 1 (if Wants company now), registered-visit--already-posted step 1 (if Wants company now), registered-visit--cancelled step 1 (if Wants company now), registered-visit--ended step 1 (if Wants company now), registered-visit--full step 1 (if Wants company now), registered-visit--post step 1 (if Wants company now), registered-visit--report step 1 (if Wants company now), registered-visit--too-far step 1 (if Wants company now), registered-visit--follow-project step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing)
 2. **inbox@in.live** · user: Checks messages first · action: taps Inbox · edge: tap: Inbox
    - Chats: group chats, newest first, including an ended postup. [drawn] [M1031-draft]
    - next site states: chat@in.live (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), **activity@in.live** (Activity 2), projects@in.live (Projects)
-   - enterable flows: chat step 1 (if Wants to check messages)
+   - enterable flows: registered-visit--joined-chat step 2 (if Wants to check messages)
 3. **activity@in.live** · user: What else happened? · action: taps Activity · edge: tap: Activity 2
    - Activity: joins, requests, approvals, follows, messages. [drawn] [M1031-draft]
    - next site states: inbox@in.live (Chats), postup@in.live (Maya posted up at Bean Theory), live@in.live (D Dev asked to join your postup 2), chat@in.live (M Maya: Hey! Here till 4 — come sa), **postup-ask@in.live** (T Tess said yes to your request Ye), profile@in.live (A Ari followed you Mon), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), projects@in.live (Projects)
@@ -35,7 +35,7 @@ Player: /mockups/flows/catch-up.html
 6. **inbox@in.live** · user: Any replies? · action: taps Chats · edge: tap: Chats
    - Chats list. [drawn] [M1031-draft]
    - next site states: chat@in.live (Maya's postup · Bean Theory), **postup-ended@in.live** (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), activity@in.live (Activity 2), projects@in.live (Projects)
-   - enterable flows: chat step 1 (if Wants to check messages)
+   - enterable flows: registered-visit--joined-chat step 2 (if Wants to check messages)
 7. **postup-ended@in.live** · user: That one's over · action: taps Tess's ended postup · edge: tap: T Tess's postup Ended · Tue Tue
    - Ended postup: see what's nearby, follow. [drawn] [M1031-draft]
    - next site states: back (Back), postup-ended+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), me@in.live (S), **inbox@in.live** (Inbox), projects@in.live (Projects)
@@ -43,21 +43,26 @@ Player: /mockups/flows/catch-up.html
 8. **inbox@in.live** · user: Back to chats · action: taps Back · edge: back
    - Chats list. [drawn] [M1031-draft]
    - next site states: **chat@in.live** (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), activity@in.live (Activity 2), projects@in.live (Projects)
-   - enterable flows: chat step 1 (if Wants to check messages)
+   - enterable flows: registered-visit--joined-chat step 2 (if Wants to check messages)
 9. **chat@in.live** · user: Reads the replies · action: opens Maya's postup chat · edge: tap: M Maya's postup Maya: Grabbing ano
    - Group chat with the latest replies. [drawn] [M1031-draft]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
-   - enterable flows: chat step 2 (if Wants to sort out details in chat)
+   - enterable flows: registered-visit--joined-chat step 3 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
+- `registered-visit--joined-chat`: branch out at step 2→2, step 6→2, step 9→3; merge in at step 2 (from its step 2), step 6 (from its step 2), step 8 (from its step 2)
 - `ask-join`: branch out at step 3→4, step 4→1, step 5→4; merge in at step 3 (from its step 4), step 5 (from its step 4)
 - `following`: branch out at step 3→4, step 5→4; merge in at step 3 (from its step 4), step 5 (from its step 4)
-- `chat`: branch out at step 2→1, step 6→1, step 9→2; merge in at —
 - `host-approve`: branch out at step 3→1, step 5→1; merge in at —
-- `join`: branch out at step 1→1; merge in at —
-- `join--cancelled`: branch out at step 1→1; merge in at —
-- `join--ended`: branch out at step 1→1; merge in at —
-- `join--full`: branch out at step 1→1; merge in at —
+- `registered-visit`: branch out at step 1→1; merge in at —
+- `registered-visit--already-posted`: branch out at step 1→1; merge in at —
+- `registered-visit--cancelled`: branch out at step 1→1; merge in at —
+- `registered-visit--ended`: branch out at step 1→1; merge in at —
+- `registered-visit--full`: branch out at step 1→1; merge in at —
+- `registered-visit--post`: branch out at step 1→1; merge in at —
+- `registered-visit--report`: branch out at step 1→1; merge in at —
+- `registered-visit--too-far`: branch out at step 1→1; merge in at —
+- `registered-visit--follow-project`: branch out at step 1→1; merge in at —
 - `desktop-browse`: branch out at step 1→1; merge in at —
 
 ## Screens

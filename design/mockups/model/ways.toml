@@ -1,0 +1,45 @@
+# Ways in [M1044]: each written once; a flow's main entry (way = "...") or a start branch (an at = 0 outcome with way = "...")
+# picks one, and the sign-in state comes from the flow's user type (users.toml). holds = goals already reached on arrival.
+[[ways]]
+id = "home-live"
+label = "Someone live nearby"
+when = "Opens / and someone is live nearby. [M1018b] [M1041]"
+users = ["newcomer", "registered"]
+start = { screen = "home", live = "live", tab = "live", url = "/" }
+
+[[ways]]
+id = "home-none"
+label = "Nobody live nearby"
+when = "Opens / and nobody is live nearby. [M1032] [M1041]"
+users = ["newcomer", "registered"]
+start = { screen = "home", live = "none", tab = "live", url = "/" }
+
+[[ways]]
+id = "link-live"
+label = "Shared link, still live"
+when = "Opens a postup link a friend sent, and the postup is still live. [R39] [M1041]"
+users = ["newcomer", "registered"]
+start = { screen = "invite", live = "live", url = "/p/7xk2" }
+
+[[ways]]
+id = "link-ended"
+label = "Shared link, ended"
+when = "Opens a postup link a friend sent, but the postup has ended. [M1032] [M1041]"
+users = ["newcomer", "registered"]
+start = { screen = "invite-ended", live = "live", url = "/p/7xk2" }
+
+[[ways]]
+id = "hosting"
+label = "Already hosting"
+when = "Comes back to the site while their own postup is live. [M1044]"
+users = ["registered"]
+holds = ["posted-up"]
+start = { screen = "live", live = "live", url = "/live" }
+
+[[ways]]
+id = "joined"
+label = "Already joined"
+when = "Comes back to the site after joining someone's postup. [M1044]"
+users = ["registered"]
+holds = ["joined-postup"]
+start = { screen = "joined", live = "live", url = "/p/…" }

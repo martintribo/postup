@@ -1,5 +1,5 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 41 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 51 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
@@ -78,30 +78,16 @@ flowchart LR
   click F_invite_project href "invite-project.html"
   OFF -.-> F_loading_offline(["▶ Slow network and offline"])
   click F_loading_offline href "loading-offline.html"
-  RL -.-> F_join(["▶ Join someone live"])
-  click F_join href "join.html"
+  RL -.-> F_registered_visit(["▶ Registered visit"])
+  click F_registered_visit href "registered-visit.html"
   RL -.-> F_ask_join(["▶ Ask to join, then get approved (joiner side)"])
   click F_ask_join href "ask-join.html"
-  RL -.-> F_returning_post(["▶ Returning poster"])
-  click F_returning_post href "returning-post.html"
   RL -.-> F_desktop_browse(["▶ Desktop browse and post"])
   click F_desktop_browse href "desktop-browse.html"
-  RL -.-> F_safety(["▶ Report and block"])
-  click F_safety href "safety.html"
   HOST -.-> F_host_approve(["▶ Host approves a request"])
   click F_host_approve href "host-approve.html"
-  HOST -.-> F_hosting(["▶ Hosting live: extend, edit, end"])
-  click F_hosting href "hosting.html"
-  JN -.-> F_leave(["▶ Leave a postup you joined"])
-  click F_leave href "leave.html"
-  JN -.-> F_chat(["▶ Postup chat"])
-  click F_chat href "chat.html"
-  RN -.-> F_project_builder(["▶ Project builder: create, update, post up for it"])
-  click F_project_builder href "project-builder.html"
   RN -.-> F_following(["▶ Follow a person or project"])
   click F_following href "following.html"
-  RN -.-> F_empty_area(["▶ Nobody live nearby (signed in)"])
-  click F_empty_area href "empty-area.html"
   RET -.-> F_delete_account(["▶ Delete account"])
   click F_delete_account href "delete-account.html"
   RET -.-> F_settings_notify(["▶ Notification settings and sign out"])
@@ -114,18 +100,11 @@ flowchart LR
 - `first-visit` (Phase 0): from state "Curious about content · live now or past" when first visit: live, nobody, or a link [M1025]
 - `invite-project` (Phase 2 (MVP)): from state "Signed out · on a project link" [M1025]
 - `loading-offline` (Unphased): from state "Slow network or offline" [M1025]
-- `join` (Phase 0): from state "Signed in · someone live nearby" [M1025]
+- `registered-visit` (Phase 0): from state "Signed in · someone live nearby" when registered visit: live, nobody, a link, hosting or joined [M1044] [M1025]
 - `ask-join` (Phase 2 (MVP)): from state "Signed in · someone live nearby" [M1025]
-- `returning-post` (Phase 1): from state "Signed in · someone live nearby" [M1025]
 - `desktop-browse` (Unphased): from state "Signed in · someone live nearby" when on a laptop [M1025]
-- `safety` (Phase 0): from state "Signed in · someone live nearby" when someone feels off [M1025]
 - `host-approve` (Phase 2 (MVP)): from state "Signed in · hosting (live)" when gets a request [M1025]
-- `hosting` (Phase 1): from state "Signed in · hosting (live)" [M1025]
-- `leave` (Phase 1): from state "Signed in · joined a postup" when plans change [M1025]
-- `chat` (Phase 1): from state "Signed in · joined a postup" [M1025]
-- `project-builder` (Phase 2 (MVP)): from state "Signed in · nobody live" [M1025]
 - `following` (Unphased): from state "Signed in · nobody live" [M1025]
-- `empty-area` (Phase 0): from state "Signed in · nobody live" when area has no postups [M1025]
 - `delete-account` (Unphased): from state "Returning user · signed in" [M1025]
 - `settings-notify` (Unphased): from state "Returning user · signed in" [M1025]
 - `catch-up` (Unphased): from state "Returning user · signed in" when comes back later [M1025]

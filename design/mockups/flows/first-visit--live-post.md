@@ -35,7 +35,7 @@ Player: /mockups/flows/first-visit--live-post.html
 6. **posted@in.live** · user: Live; wants company · action: signs in · edge: tap: Continue with Apple
    - Posted; link to copy. [FS]
    - next site states: home@in.live.live (Close), **posted+share@in.live** (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
+   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--post step 6 (if Live; wants company), registered-visit--post step 3 (if Live)
 7. **posted+share@in.live** · user: Wants friends to come too · action: taps Invite friends · edge: tap: Invite friends
    - Invite friends: share sheet. [drawn] [M1024]
    - next site states: posted@in.live (close), post-already@in.live (close (you already have a live postup)), post-far@in.live (close (the place is too far from you))
@@ -45,7 +45,7 @@ Player: /mockups/flows/first-visit--live-post.html
 - `first-visit--post`: branch out at step 2→2, step 4→4, step 5→5, step 6→6; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5), step 6 (from its step 6)
 - `first-visit--already-posted`: branch out at step 2→2, step 4→4, step 5→5; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5)
 - `first-visit--too-far`: branch out at step 2→2, step 4→4, step 5→5; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5)
-- `returning-post`: branch out at step 6→2; merge in at step 6 (from its step 2)
+- `registered-visit--post`: branch out at step 6→3; merge in at step 6 (from its step 3)
 - `first-visit`: branch out at step 1→1; merge in at —
 - `first-visit--browse`: branch out at step 1→1; merge in at —
 - `first-visit--not-now`: branch out at step 1→1; merge in at —

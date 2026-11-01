@@ -92,7 +92,7 @@ for p,_ph in [(p,_ph) for p in PAGES for _ph in M.PHASES]:  # each phase version
         for l in ('live','none'):
             for m in (('live','building') if p=='home' and _ph>=2 else ('live',) if p=='home' else (None,)):
                 ch=rendered(p,a,l,m,_ph); cond=dict(auth=a,live=l,tab=m,phase=_ph)
-                html={(x[0],x[1],x[3] if x[0]=='open' else '') for tg,lab in HL.links(HL.TABNAV.sub('',ch),_IDS,_ph) for x in HL.acts(tg,lab,a,p,False) if x[1]!='index'}
+                html={(x[0],x[1],x[3] if x[0]=='open' else '') for tg,lab in HL.links(HL.TABNAV.sub('',ch),_IDS,_ph,a) for x in HL.acts(tg,lab,a,p,False) if x[1]!='index'}
                 mod=_mlinks(p,cond,False)
                 if html!=mod: _DRIFT.append(f'{p} phase {_ph} {a}.{l}{"."+m if m else ""}: HTML only {sorted(html-mod)} · model only {sorted(mod-html)}')
                 has=bool(HL.TABNAV.search(ch)); dec=any(x['kind']=='tab' for x in SC[p].get('slots',[]))

@@ -31,12 +31,12 @@ Player: /mockups/flows/ask-join.html
 5. **chat@in.live** · user: Now part of the group · action: opens the chat · edge: tap: M Maya: Hey! Here till 4 — come sa
    - Now in the postup chat. [F061] [F096]
    - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), chat+msg@in.live (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
-   - enterable flows: chat step 2 (if Wants to sort out details in chat)
+   - enterable flows: registered-visit--joined-chat step 3 (if Wants to sort out details in chat)
 
 ## Connected flows [M1025]
 - `catch-up`: branch out at step 1→4, step 4→3; merge in at step 1 (from its step 4), step 4 (from its step 3)
 - `following`: branch out at step 4→4; merge in at step 4 (from its step 4)
-- `chat`: branch out at step 5→2; merge in at step 5 (from its step 2)
+- `registered-visit--joined-chat`: branch out at step 5→3; merge in at step 5 (from its step 3)
 - `host-approve`: branch out at step 4→1; merge in at —
 
 ## Screens

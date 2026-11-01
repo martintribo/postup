@@ -18,7 +18,7 @@ Player: /mockups/flows/first-visit--follow-project.html
    - enterable flows: first-visit step 1 (if Curious what this is; sees people live), first-visit--browse step 1 (if Curious what this is; sees people live), first-visit--live-already-posted step 1 (if Curious what this is; sees people live), first-visit--live-post step 1 (if Curious what this is; sees people live), first-visit--live-too-far step 1 (if Curious what this is; sees people live), first-visit--not-now step 1 (if Curious what this is; sees people live)
 2. **home@out.live.building** · user: What are people making? · action: taps Building · edge: tap: Building
    - What people are building: project cards. [M1018b] [M1018c]
-   - next site states: cafe@out.live (Lantern Tea A D M 3 postups), me@out.live (S), post@out.live (Post up), quiet-feed@out.live (Nearby), inbox@out.live (Inbox), home@out.live.live (Live), projects@out.live (See all projects), **project@out.live** (Star Fox 64 mod M Maya · Yesterday), cafe-gfail@out.live (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: cafe@out.live (Lantern Tea A D M 3 postups), post@out.live (Post up), quiet-feed@out.live (Nearby), me@out.live (S), inbox@out.live (Inbox), home@out.live.live (Live), projects@out.live (See all projects), **project@out.live** (Star Fox 64 mod M Maya · Yesterday), cafe-gfail@out.live (Lantern Tea A D M 3 postups (Google card fails))
    - enterable flows: none
 3. **project@out.live** · user: A Star Fox 64 mod, nice · action: taps a project · edge: tap: Star Fox 64 mod M Maya · Yesterday
    - Project page: updates and who's behind it. [FS] [M1042]
@@ -35,12 +35,17 @@ Player: /mockups/flows/first-visit--follow-project.html
 6. **profile@in.live** · user: Signed up; following Maya · action: signs in · edge: tap: Continue with Apple
    - Signed in and following Maya. [FS] [M1042]
    - next site states: back (Back), profile+more@in.live (More), postup@in.live (Live at Bean Theory Till 4pm · Sta), cafe@in.live (Bean Theory), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Updated yesterday), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: host-approve step 3 (if Wants to check the asker first)
+   - enterable flows: registered-visit--ended-project step 4 (if Who makes this?), registered-visit--follow-project step 4 (if Who makes this?), registered-visit--hosting-project step 3 (if Who makes this?), registered-visit--joined-project step 3 (if Who makes this?), registered-visit--link-project step 3 (if Who makes this?), host-approve step 3 (if Wants to check the asker first)
 
 ## Connected flows [M1025]
 - `first-visit`: branch out at step 1→1, step 4→3; merge in at step 4 (from its step 3)
 - `first-visit--not-now`: branch out at step 1→1, step 4→3; merge in at step 4 (from its step 3)
 - `first-visit--nobody-project`: branch out at step 5→5; merge in at step 5 (from its step 5)
+- `registered-visit--ended-project`: branch out at step 6→4; merge in at step 6 (from its step 4)
+- `registered-visit--follow-project`: branch out at step 6→4; merge in at step 6 (from its step 4)
+- `registered-visit--hosting-project`: branch out at step 6→3; merge in at step 6 (from its step 3)
+- `registered-visit--joined-project`: branch out at step 6→3; merge in at step 6 (from its step 3)
+- `registered-visit--link-project`: branch out at step 6→3; merge in at step 6 (from its step 3)
 - `host-approve`: branch out at step 6→3; merge in at step 6 (from its step 3)
 - `first-visit--browse`: branch out at step 1→1; merge in at —
 - `first-visit--live-already-posted`: branch out at step 1→1; merge in at —

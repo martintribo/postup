@@ -23,14 +23,16 @@ Player: /mockups/flows/loading-offline.html
 3. **quiet-feed@in.live** · user: Back online · action: taps Retry · edge: tap: Retry
    - Retry succeeds. [FS]
    - next site states: me@in.live (S), quiet@in.live (quiet), post@in.live (Post up), cafe@in.live (Maya's photo), home@in.live.live (Home), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), **cafe-gfail@in.live** (Maya's photo (Google card fails))
-   - enterable flows: none
+   - enterable flows: registered-visit--ended-post step 2 (if Who else is around?), registered-visit--link-ended step 2 (if Who else is around?), registered-visit--ended-project step 2 (if Who else is around?)
 4. **cafe-gfail@in.live** · user: Checking a cafe; Google is down · action: taps a cafe · edge: tap: Maya's photo (Google card fails)
    - Google card failed: rest of cafe still works. [F060]
    - next site states: back (Back), cafe-gfail+share@in.live (Share), cafe@in.live (Bean Theory), postup@in.live (Join), cafe-gfail+dirs@in.live (Open in Maps), post@in.live (Post up here), home@in.live.live (Home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
    - enterable flows: none
 
 ## Connected flows [M1025]
-- none
+- `registered-visit--ended-post`: branch out at step 3→2; merge in at step 3 (from its step 2)
+- `registered-visit--link-ended`: branch out at step 3→2; merge in at step 3 (from its step 2)
+- `registered-visit--ended-project`: branch out at step 3→2; merge in at step 3 (from its step 2)
 
 ## Screens
 1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#loading)

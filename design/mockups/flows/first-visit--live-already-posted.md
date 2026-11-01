@@ -32,14 +32,14 @@ Player: /mockups/flows/first-visit--live-already-posted.html
    - Post up 🔒 → sign-in. [FS] [TK§1]
    - next site states: where-search@out.live (close), where-search@in.live (Continue with Apple), posted@in.live (signs in → continues), **post-already@in.live** (signs in → continues (you already have a live postup)), post-far@in.live (signs in → continues (the place is too far from you))
    - enterable flows: first-visit--already-posted step 5 (if Ready; asked to sign in), first-visit--ended-post step 6 (if Ready; asked to sign in), first-visit--link-post step 6 (if Ready; asked to sign in), first-visit--live-post step 5 (if Ready; asked to sign in), first-visit--live-too-far step 5 (if Ready; asked to sign in), first-visit--post step 5 (if Ready; asked to sign in), first-visit--too-far step 5 (if Ready; asked to sign in)
-6. **post-already@in.live** · user: Forgot they're already live at Lot 1 · action: signs in · edge: tap: Continue with Apple (you already have a live postup)
+6. **post-already@in.live** · user: Forgot they're already live at Lot 1 · action: posts · edge: tap: Continue with Apple (you already have a live postup)
    - You're already posted up at Lot 1 Coffee, with View your postup. [M1039]
    - next site states: back (Back), **live@in.live** (View your postup), home@in.live.live (Back to map), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
-   - enterable flows: first-visit--already-posted step 6 (if Forgot they're already live at Lot 1), returning-post--already-posted step 2 (if Forgot they're still live from earlier)
+   - enterable flows: first-visit--already-posted step 6 (if Forgot they're already live at Lot 1), registered-visit--already-posted step 3 (if Forgot they're already live at Lot 1)
 7. **live@in.live** · user: Checks on the postup they have · action: taps View your postup · edge: tap: View your postup
    - Their live postup. [M1039]
    - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
-   - enterable flows: returning-post step 3 (if Managing their postup), hosting step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
+   - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), registered-visit--hosting-project step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 
 ## Connected flows [M1025]
 - `first-visit--already-posted`: branch out at step 2→2, step 4→4, step 5→5, step 6→6; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5), step 6 (from its step 6)
@@ -47,7 +47,7 @@ Player: /mockups/flows/first-visit--live-already-posted.html
 - `first-visit--too-far`: branch out at step 2→2, step 4→4, step 5→5; merge in at step 2 (from its step 2), step 4 (from its step 4), step 5 (from its step 5)
 - `first-visit--ended-post`: branch out at step 5→6; merge in at step 2 (from its step 3)
 - `first-visit--link-post`: branch out at step 5→6; merge in at step 2 (from its step 3)
-- `returning-post`: branch out at step 7→3; merge in at step 7 (from its step 3)
+- `registered-visit--post`: branch out at step 7→4; merge in at step 7 (from its step 4)
 - `host-approve`: branch out at step 7→2; merge in at step 7 (from its step 2)
 - `first-visit`: branch out at step 1→1; merge in at —
 - `first-visit--browse`: branch out at step 1→1; merge in at —
@@ -55,8 +55,9 @@ Player: /mockups/flows/first-visit--live-already-posted.html
 - `first-visit--follow-project`: branch out at step 1→1; merge in at —
 - `first-visit--live-post`: branch out at step 5→5; merge in at —
 - `first-visit--live-too-far`: branch out at step 5→5; merge in at —
-- `hosting`: branch out at step 7→1; merge in at —
-- `returning-post--already-posted`: branch out at —; merge in at step 6 (from its step 2)
+- `registered-visit--hosting`: branch out at step 7→1; merge in at —
+- `registered-visit--hosting-project`: branch out at step 7→1; merge in at —
+- `registered-visit--already-posted`: branch out at —; merge in at step 6 (from its step 3)
 
 ## Screens
 1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=0#home)

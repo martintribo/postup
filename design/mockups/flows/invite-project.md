@@ -27,10 +27,14 @@ Player: /mockups/flows/invite-project.html
 4. **project@in.live** · user: Following · action: taps See updates · edge: tap: See updates
    - Following; live postups for the project shown. [FS] [M1024]
    - next site states: back (Back), project-new@in.live (New), profile@in.live (Maya), project-update@in.live (Update), project-attach@in.live (Post up), cafe@in.live (Bean Theory), postup@in.live (M Maya Bean Theory · till 4pm Live), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: none
+   - enterable flows: registered-visit--ended-project step 3 (if What's this?), registered-visit--follow-project step 3 (if A Star Fox 64 mod, nice), registered-visit--hosting-project step 2 (if What's Maya making?), registered-visit--joined-project step 2 (if What are they working on?), registered-visit--link-project step 2 (if So that's what Maya is working on)
 
 ## Connected flows [M1025]
-- none
+- `registered-visit--ended-project`: branch out at step 4→3; merge in at step 4 (from its step 3)
+- `registered-visit--follow-project`: branch out at step 4→3; merge in at step 4 (from its step 3)
+- `registered-visit--hosting-project`: branch out at step 4→2; merge in at step 4 (from its step 2)
+- `registered-visit--joined-project`: branch out at step 4→2; merge in at step 4 (from its step 2)
+- `registered-visit--link-project`: branch out at step 4→2; merge in at step 4 (from its step 2)
 
 ## Screens
 1. `#invite-project` · auth=out live=live — "Maya is building Star Fox 64 mod". [FS] [F067] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=2#invite-project)

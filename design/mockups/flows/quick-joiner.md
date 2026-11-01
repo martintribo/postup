@@ -1,2 +1,2 @@
 # quick-joiner (merged)
-Merged into [Join someone live](join.md). [M1032]
+Merged into [Registered visit](registered-visit.md). [M1032]

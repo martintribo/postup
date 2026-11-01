@@ -49,7 +49,9 @@ for f in FLOWS:
                 f['forks'].setdefault(a,[f['id']]).append(o['id']); break
 # goals [M1042]: per step milestone progress {goal: n reached in order}, and the path's typed result
 GOALS,_GSH,_=M.load_goals()
+USERS_D=M.load_users()  # user types: label, auth, main goal-tracked flow, milestones [M1044]
+GOALS_U={u:M.load_goals(user=u)[0] for u in USERS_D}
 for f in FLOWS:
     _st=_FL[f['id']]['steps']
-    f['prog'],_=M.progress(GOALS,[d['site'] for d in f['sx']],[x.get('advances') for x in _st])
+    f['prog'],_=M.progress(GOALS_U.get(f['user'],GOALS),[d['site'] for d in f['sx']],[x.get('advances') for x in _st],_FL[f['id']]['start'].get('holds') or ())
     f['result']=_FL[f['id']].get('result')

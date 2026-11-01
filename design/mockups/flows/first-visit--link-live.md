@@ -23,13 +23,15 @@ Player: /mockups/flows/first-visit--link-live.html
 3. **joined@in.live** · user: Signed in; going · action: signs in · edge: tap: Continue with Apple
    - Joined. [FS] [M1024]
    - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), joined+dirs@in.live (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
-   - enterable flows: join step 3 (if Decides to join), leave step 1 (if Plans changed)
+   - enterable flows: registered-visit step 3 (if Decides to join), registered-visit--joined step 1 (if Plans changed), registered-visit--joined-chat step 1 (if Plans changed), registered-visit--joined-project step 1 (if Plans changed)
 
 ## Connected flows [M1025]
-- `join`: branch out at step 3→3; merge in at step 3 (from its step 3)
+- `registered-visit`: branch out at step 3→3; merge in at step 3 (from its step 3)
 - `first-visit--link-post`: branch out at step 1→1; merge in at —
 - `first-visit--link-project`: branch out at step 1→1; merge in at —
-- `leave`: branch out at step 3→1; merge in at —
+- `registered-visit--joined`: branch out at step 3→1; merge in at —
+- `registered-visit--joined-chat`: branch out at step 3→1; merge in at —
+- `registered-visit--joined-project`: branch out at step 3→1; merge in at —
 
 ## Screens
 1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#invite)

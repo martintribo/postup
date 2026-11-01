@@ -34,17 +34,7 @@ shows = "Postup in the panel. [FS]"
 device = "desktop"
 
 [[steps]]
-link = "rail:post-up"
-act = "taps Post up"
-expect = "post@in.live"
-thought = "Wants to post too"
-shows = "Post up as a centered dialog. [FS]"
-device = "desktop"
-
-[[steps]]
-link = "post:post-up"
-act = "taps Post up"
-expect = "posted@in.live"
-thought = "Posted; now live for others"
-shows = "Posted. [FS]"
+use = "post-now"  # model/segments.toml [M1044]
+via = "rail:post-up"
+live = "live"
 device = "desktop"

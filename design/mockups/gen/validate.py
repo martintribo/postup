@@ -87,6 +87,7 @@ def parse_site(s):
     if not m: return None
     p,o,a,l,t=m.groups(); return dict(root=p,kids=[('sheet',o)] if o else [],auth=a,live=l,tab=(t or M.dmode(l)) if p=='home' else None)
 GAPS=[]; ENTERS=set()
+US=M.load_users(); WAYS=M.load_ways(); SEGS=M.load_segments()  # [M1044]
 for fid,f in fl.items():
     p=f['_file']
     if f.get('role') not in M.ROLES: err(p,'role =',f'invalid role {f.get("role")!r}')
@@ -186,7 +187,7 @@ for fid,f in fl.items():
     p=f['_file']
     if 'phase' in f and not _pint(f['phase']): err(p,'phase =',f'phase must be one of the phases 0, 1, 2, got {f["phase"]!r}')
     if f.get('user') not in M.USERS: err(p,'user =',f'user must be one of {sorted(M.USERS)}')
-    elif (f['user']=='newcomer')!=(f['start']['auth']=='out'): err(p,'user =',f'user {f["user"]!r} does not match start auth {f["start"]["auth"]!r}')
+    elif US.get(f['user'],{}).get('auth')!=f['start']['auth']: err(p,'user =',f'user {f["user"]!r} signs in as auth={US.get(f["user"],{}).get("auth")!r} (users.toml), but the flow starts auth={f["start"]["auth"]!r}')
 if not ERR:
     _SO=dict(gl.get('state_phases',{}))
     for s in sc.values(): _SO.update(s.get('state_phases',{}))
@@ -213,6 +214,7 @@ for fid,f in fl.items():
     elif SIT[si]['user']!=f.get('user'): err(f['_file'],'situation',f'flow {fid}: situation {si} is for {SIT[si]["user"]}, flow user is {f.get("user")}')
 # goals [M1042]: ordered milestone tracks; typed outcomes (goal reached / drop-off); first-visit-style flows must reach them
 GS,GSH,_gp=M.load_goals()
+GSU={u:M.load_goals(user=u)[0] for u in US}  # per user type: each goal's milestones that apply [M1044]
 MIDS={}
 if GS:
     for k,m in GSH.items():
@@ -237,6 +239,18 @@ if GS:
     for gid in list(GS):
         if gid in MIDS or gid in GSH: err(_gp,f'id = "{gid}"',f'goal id {gid} clashes with a milestone id')
     ALLM=set(MIDS)|set(GSH)
+    # user types [M1044]: milestones known, each used by some user type; every user type's track per goal has 2+ milestones
+    # and ends on the goal's own milestone; a shared milestone applies to all of a user's goals or none
+    _USED=set()
+    for u,ud in US.items():
+        for mid in ud.get('milestones',[]):
+            if mid not in ALLM: err(ud['_file'],f'id = "{u}"',f'user {u}: milestone {mid!r} is not in goals.toml')
+            _USED.add(mid)
+        for gid,g in GSU[u].items():
+            ids=[m['id'] for m in g['ms']]
+            if len(ids)<2: err(ud['_file'],f'id = "{u}"',f'user {u}: goal {gid} has fewer than two milestones for this user type')
+            elif ids[-1] in GSH: err(ud['_file'],f'id = "{u}"',f'user {u}: goal {gid} would end on the shared milestone {ids[-1]}')
+    for mid in sorted(ALLM-_USED): err(_gp,f'id = "{mid}"',f'milestone {mid}: no user type lists it in users.toml')
     HIT=set(); PROG={}
     if not ERR:
         for fid,f in fl.items():
@@ -244,13 +258,14 @@ if GS:
             for i,a_ in enumerate(advs):
                 if a_ and a_ not in ALLM: err(p,'advances',f'step {i+1}: advances {a_!r} is not a milestone in goals.toml',nth=0)
             keys=[k for k,_ in M.flow_states(sc,f)]
-            pr,_=M.progress(GS,keys,advs); PROG[fid]=pr
-            for k,a_ in zip(keys,advs): HIT|=M.step_hits(GS,k,a_)
+            _G=GSU.get(f.get('user'),GS)
+            pr,_=M.progress(_G,keys,advs,f['start'].get('holds') or ()); PROG[fid]=pr
+            for k,a_ in zip(keys,advs): HIT|=M.step_hits(_G,k,a_)
         for mid in sorted(ALLM-HIT): err(_gp,f'id = "{mid}"',f'milestone {mid}: no step of any flow reaches it (match its states or add advances = "{mid}")')
         # typed outcomes
         for fid,f in fl.items():
             if f.get('parent'): continue
-            fam=[fid]+[k for k,g in fl.items() if g.get('parent')==fid]
+            fam=[fid]+[k for k,g in fl.items() if g.get('parent')==fid]; GS_=GSU.get(f.get('user'),GS)
             res={k:fl[k].get('result') for k in fam}
             if not any(res.values()): 
                 if f.get('goals'): err(f['_file'],'goals =',f'flow {fid} tracks goals, so every path needs result = "goal:<goal>" or "drop:<milestone>"')
@@ -260,18 +275,18 @@ if GS:
                 if not r: err(f['_file'],ctx,f'{k}: some paths of {fid} are typed, so this one needs result = "goal:<goal>" or "drop:<milestone>"'); continue
                 kind,_,x=r.partition(':'); last=PROG[k][-1] if PROG.get(k) else {}
                 if kind=='goal':
-                    if x not in GS: err(f['_file'],ctx,f'{k}: unknown goal {x!r}'); continue
-                    if last.get(x,0)<len(GS[x]['ms']): err(f['_file'],ctx,f'{k}: says it reaches goal {x}, but it stops at milestone {last.get(x,0)}/{len(GS[x]["ms"])} ({GS[x]["ms"][last.get(x,0)]["id"]} not reached in order)')
+                    if x not in GS_: err(f['_file'],ctx,f'{k}: unknown goal {x!r}'); continue
+                    if last.get(x,0)<len(GS_[x]['ms']): err(f['_file'],ctx,f'{k}: says it reaches goal {x}, but it stops at milestone {last.get(x,0)}/{len(GS_[x]["ms"])} ({GS_[x]["ms"][last.get(x,0)]["id"]} not reached in order)')
                 elif kind=='drop':
                     if x not in ALLM: err(f['_file'],ctx,f'{k}: drop-off must name a milestone, got {x!r}'); continue
-                    lasts={g['ms'][last.get(gid,0)-1]['id'] for gid,g in GS.items() if last.get(gid,0)>0}
+                    lasts={g['ms'][last.get(gid,0)-1]['id'] for gid,g in GS_.items() if last.get(gid,0)>0}
                     if x not in lasts: err(f['_file'],ctx,f'{k}: drops off at {x}, but the furthest milestones it reaches are {sorted(lasts) or "none"}')
-                    if any(last.get(gid,0)>=len(g['ms']) for gid,g in GS.items()): err(f['_file'],ctx,f'{k}: typed as a drop-off but it reaches a goal')
+                    if any(last.get(gid,0)>=len(g['ms']) for gid,g in GS_.items()): err(f['_file'],ctx,f'{k}: typed as a drop-off but it reaches a goal')
                 else: err(f['_file'],ctx,f'{k}: result must be goal:<goal> or drop:<milestone>')
             if f.get('goals'):
                 fin={k:PROG[k][-1] for k in fam if PROG.get(k)}
-                if not any(v.get(g_,0)>=[m['id'] for m in GS[g_]['ms']].index('signed-up')+1 for v in fin.values() for g_ in GS): err(f['_file'],'goals =',f'flow {fid}: no path reaches signed-up')
-                for gid,g in GS.items():
+                if 'signed-up' in US.get(f.get('user'),{}).get('milestones',[]) and not any(v.get(g_,0)>=[m['id'] for m in GS_[g_]['ms']].index('signed-up')+1 for v in fin.values() for g_ in GS_): err(f['_file'],'goals =',f'flow {fid}: no path reaches signed-up')
+                for gid,g in GS_.items():
                     if not any(v.get(gid,0)>=len(g['ms']) and (fl[k].get('phase') if fl[k].get('phase') is not None else M.MAXPH)<=M.MAXPH for k,v in fin.items()):
                         GAPS.append(f'{rel(f["_file"])}:1: flow {fid}: no path reaches goal {gid} ({g["label"]}) in phase {M.MAXPH} or lower [M1042]')
                 # goal coverage per entry [M1043]: from the screens an entry's paths pass through, follow the real links (top
@@ -280,18 +295,79 @@ if GS:
                 ENT=M.goal_entries(fl,fid)
                 EXC={}
                 for x in f.get('goal_exceptions',[]):
-                    if x.get('entry') not in ENT or x.get('goal') not in GS: err(f['_file'],'[[goal_exceptions]]',f'goal exception: unknown entry {x.get("entry")!r} or goal {x.get("goal")!r} (entries: {sorted(ENT)})'); continue
+                    if x.get('entry') not in ENT or x.get('goal') not in GS_: err(f['_file'],'[[goal_exceptions]]',f'goal exception: unknown entry {x.get("entry")!r} or goal {x.get("goal")!r} (entries: {sorted(ENT)})'); continue
                     if not re.search(M.TAG,x.get('reason','')): err(f['_file'],'[[goal_exceptions]]',f'goal exception {x["entry"]}/{x["goal"]}: needs a source-tagged reason')
                     EXC[(x['entry'],x['goal'])]=x
                 for e,ks in ENT.items():
-                    for gid,g in GS.items():
-                        php=M.vp(g.get('phase')) if g.get('phase') is not None else M.flow_phase(f)
+                    for gid,g in GS_.items():
+                        php=M.entry_phase(fl,ks,g,f)
                         can=M.goal_reachable(sc,fl,ks,g,php)
                         has=any(fl[k].get('result')=='goal:'+gid and M.flow_phase(fl[k])<=max(php,M.flow_phase(fl[k]) if g.get('phase') is None else php) for k in ks)
                         if (e,gid) in EXC:
                             if has or not can: err(f['_file'],'[[goal_exceptions]]',f'goal exception {e}/{gid} is not needed (reachable={can}, has path={has}); remove it')
                             continue
                         if can and not has: err(f['_file'],'goals =',f'flow {fid}: entry {e!r} can reach goal {gid} ({g["label"]}) by real links in phase {php} (e.g. {can}), but no path from that entry reaches it; add a path (use a segment) or a [[goal_exceptions]] with a tagged reason')
+# main goal-tracked flow per user type [M1044]: exactly one flow with goals = true per user type, and it is users.toml main_flow
+for u,ud in US.items():
+    mains=[k for k,g in fl.items() if not g.get('parent') and g.get('goals') and g.get('user')==u]
+    if len(mains)!=1: err(ud['_file'],f'id = "{u}"',f'user {u}: needs exactly one main goal-tracked flow (goals = true), found {mains}')
+    if ud.get('main_flow') not in mains: err(ud['_file'],f'id = "{u}"',f'user {u}: main_flow = {ud.get("main_flow")!r} must be its goals = true flow {mains}')
+    if not ud.get('label') or not re.search(M.TAG,ud.get('note','')): err(ud['_file'],f'id = "{u}"',f'user {u}: needs label and a source-tagged note')
+for wid,w in WAYS.items():
+    if not re.search(M.TAG,w.get('when','')) or not w.get('label'): err(w['_file'],f'id = "{wid}"',f'way {wid}: needs label and a source-tagged when')
+    for u in w.get('users',[]):
+        if u not in US: err(w['_file'],f'id = "{wid}"',f'way {wid}: unknown user type {u!r}')
+    for gid in w.get('holds',[]):
+        if gid not in GS: err(w['_file'],f'id = "{wid}"',f'way {wid}: holds unknown goal {gid!r}')
+for fid,f in fl.items():
+    for wy in [f.get('way')]+[o.get('way') for o in f.get('outcomes',[])]:
+        if wy is None: continue
+        if wy not in WAYS: err(f['_file'],f'way = "{wy}"',f'flow {fid}: unknown way {wy!r} (model/ways.toml)')
+        elif f.get('user') not in WAYS[wy].get('users',[]): err(f['_file'],f'way = "{wy}"',f'flow {fid}: way {wy} is not for user type {f.get("user")}')
+for sid_,sg in SEGS.items():
+    if not re.search(M.TAG,sg.get('note','')): err(sg['_file'],f'id = "{sid_}"',f'segment {sid_}: needs a source-tagged note')
+# copied steps [M1044]: no two flows, outcomes or segments may share a run of 2+ identical steps. A use step is one token;
+# each segment is compared as written and as filled in by every use, so pasting a segment's steps somewhere is caught.
+def _tok(st): return ('use',st['use'],tuple(sorted((k,str(v)) for k,v in st.items() if k!='use'))) if 'use' in st else (st.get('link') or st.get('event') or 'arrive',st.get('condition'),st.get('expect'))
+_SRC={}
+for fid,f in fl.items():
+    if f.get('parent'): continue
+    for k,steps in (f.get('_raw') or {}).items(): _SRC[f'{fid}:{k}']=(f['_file'],[_tok(dict(x,expect=f"{x.get('expect')} ({f['start'].get('device','phone')})") if 'arrive' in x else x) for x in steps])  # same state on another device is not a copy
+_USES={}
+for fid,f in fl.items():
+    if f.get('parent'): continue
+    for k,steps in (f.get('_raw') or {}).items():
+        for x in steps:
+            if 'use' in x and x['use'] in SEGS: _USES.setdefault(x['use'],set()).add(tuple(sorted(dict({'auth':US.get(f.get('user'),{}).get('auth','out')},**{a:str(b) for a,b in x.items() if a!='use'}).items())))
+for sid_,sg in SEGS.items():
+    _SRC[f'segment {sid_}']=(sg['_file'],[_tok(x) for x in sg.get('steps',[])])
+    for vs in _USES.get(sid_,()):
+        vv=dict(vs); vv.setdefault('auth','?')
+        _SRC[f'segment {sid_} {vs}']=(sg['_file'],[_tok({a:M._fill(b,vv) for a,b in x.items()}) for x in sg.get('steps',[])])
+# a segment's steps are a pattern ({var} matches anything): concrete steps matching 2 in a row are a pasted copy of it
+def _pat(t): return tuple(re.compile('^'+re.sub(r'\\\{\w+\\\}','.+',re.escape(str(v)))+'$') for v in t)
+for sid_,sg in SEGS.items():
+    st_=[x for x in sg.get('steps',[])]
+    for i_ in range(len(st_)-1):
+        if 'use' in st_[i_] or 'use' in st_[i_+1]: continue
+        pa,pb=_pat(_tok(st_[i_])),_pat(_tok(st_[i_+1]))
+        for name,(pth,toks) in _SRC.items():
+            if name.startswith('segment '): continue
+            for j_ in range(len(toks)-1):
+                a_,b_=toks[j_],toks[j_+1]
+                if a_[0]=='use' or b_[0]=='use': continue
+                if all(p.match(str(v)) for p,v in zip(pa,a_)) and all(p.match(str(v)) for p,v in zip(pb,b_)):
+                    err(pth,'steps',f'copied steps: {name} repeats steps {i_+1}-{i_+2} of segment {sid_} ({a_[0]}, {b_[0]}); use = "{sid_}" instead')
+_runs={}
+for name,(pth,toks) in _SRC.items():
+    for i_ in range(len(toks)-1):
+        _runs.setdefault(tuple(toks[i_:i_+2]),[]).append((name,pth))
+_rep=set()
+for run,who in _runs.items():
+    names=sorted({n.split(' (')[0] if n.startswith('segment ') else n for n,_ in who})
+    base={n.split(' ')[1] if n.startswith('segment ') else n for n,_ in who}
+    if len(base)>1 and tuple(names) not in _rep:
+        _rep.add(tuple(names)); err(who[0][1],'steps',f'copied steps: {" and ".join(names)} share the run {[t[0] for t in run]}; put it in a segment (model/segments.toml) and use it')
 # orphans
 IN={t for s in sc.values() for l in s.get('links',[]) for t in [l.get('to')] if t and t!=s['id']}
 IN|={c for s in sc.values() for sl in s.get('slots',[]) for c in sl.get('accepts',[])}

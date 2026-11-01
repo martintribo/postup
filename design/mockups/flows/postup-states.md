@@ -1,2 +1,2 @@
 # postup-states (merged)
-Merged into [Join someone live → Postup ended](join--ended.md). [M1032]
+Merged into [Registered visit → Postup ended](registered-visit--ended.md). [M1032]

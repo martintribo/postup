@@ -11,7 +11,7 @@ slots = [
 ]
 links = [
   { id = "chats", label = "Chats", action = "replace", to = "inbox", when = "phase>=2" },
-  { id = "activity-2", label = "Activity 2", action = "replace", to = "activity", when = "phase>=2" },
+  { id = "activity-2", label = "Activity 2", action = "replace", to = "activity", when = "phase>=2,auth=in" },  # signed out has no activity: Martin, Oct 31 2026 [M1044]
   { id = "chat", label = "M Maya's postup Maya: Grabbing ano", action = "replace", to = "chat", when = "phase>=2" },
   { id = "chat-2", label = "S Your postup Jon: On the way 1:58", action = "replace", to = "chat", when = "phase>=2" },
   { id = "postup-ended", label = "T Tess's postup Ended · Tue Tue", action = "replace", to = "postup-ended", when = "phase>=2" },

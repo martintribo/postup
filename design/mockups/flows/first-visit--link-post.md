@@ -39,7 +39,7 @@ Player: /mockups/flows/first-visit--link-post.html
 7. **posted@in.live** · user: Live; wants company · action: signs in · edge: tap: Continue with Apple
    - Posted; link to copy. [FS]
    - next site states: home@in.live.live (Close), **posted+share@in.live** (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
+   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), registered-visit--post step 3 (if Live)
 8. **posted+share@in.live** · user: Wants friends to come too · action: taps Invite friends · edge: tap: Invite friends
    - Invite friends: share sheet. [drawn] [M1024]
    - next site states: posted@in.live (close), post-already@in.live (close (you already have a live postup)), post-far@in.live (close (the place is too far from you))
@@ -53,7 +53,7 @@ Player: /mockups/flows/first-visit--link-post.html
 - `first-visit--link-ended`: branch out at step 2→3; merge in at step 2 (from its step 3)
 - `first-visit--live-already-posted`: branch out at step 6→5; merge in at step 3 (from its step 2)
 - `first-visit--live-too-far`: branch out at step 6→5; merge in at step 3 (from its step 2)
-- `returning-post`: branch out at step 7→2; merge in at step 7 (from its step 2)
+- `registered-visit--post`: branch out at step 7→3; merge in at step 7 (from its step 3)
 - `first-visit--link-live`: branch out at step 1→1; merge in at —
 - `first-visit--link-project`: branch out at step 1→1; merge in at —
 - `first-visit--ended-post`: branch out at —; merge in at step 3 (from its step 3)

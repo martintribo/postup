@@ -13,70 +13,14 @@ aliases = ["look-around", "first-visit-live", "curious-browser", "stumbled"]  # 
 persona = "First-time visitor, signed out. Arrives at / (someone live nearby or not) or from a link a friend sent."
 goal = "Understand PostUp from the first screen, whatever the area looks like, then join someone, post up, or leave. [M1024] [M1032] [M1041]"
 intent = "Curious what this is; sees people live"
-entry = "Opens / and someone is live nearby. [M1018b] [M1041]"
 outcome = "Joined [M1041]"
 result = "goal:joined-postup"  # typed outcome [M1042]
 goals = true  # tracks the newcomer goals in model/goals.toml [M1042]
-start = { screen = "home", auth = "out", live = "live", tab = "live", device = "phone", url = "/" }
+way = "home-live"  # model/ways.toml [M1044]
 edge_cases = ["Switches to Building mode for the welcome line and projects: phase 2, since projects are phase 2. [M1034]", "Joins straight from Live now: taps a live row, Join 🔒, sign-in sheet, joined in one go (was Curious visitor joins someone live). [FS] [M1018] [M1024]", "Follows the maker instead of joining: Follow 🔒 → sign-in sheet → signed in and following (was Curious browser). [FS] [M1025]", "No idea what PostUp is: taps the first live person, then the cafe, to understand by example (was Stumbled on it). [FS] [M1025]", "Nobody live: Home opens in Building, so the flow starts at the projects (merged from the old first-visit-none flow). [M1018b] [M1025]", "Taps Post up in the tab bar from any entry: the Post up branches (Post up is in the tab bar, so every entry can post up). [M1025] [M1043]", "Not now on the sheet: stays signed out, nothing lost. [drawn] [M1025]", "Never empty or \"quiet\" copy when nothing is live. [F035] [R4]", "Nobody live: Home opens in Building, where the welcome line shows first. [M1018b] [drawn] [M1025]", "Dismisses the welcome (×): it should stay dismissed. [drawn] [unsourced]", "Leaves after the first screen: the value has to be clear without scrolling. [M1025]", "Not now on the sheet: stays on the postup, still signed out. [drawn] [M1024]", "Switches to Building to look at projects first. [M1018b] [M1024]"]
 success = ["No sign-in before an action. [FS]", "After sign-in the original action completes. [M1018] [M1024]", "Sees live and past content without signing in. [FS] [M1025]", "Sign-in asked only at an action (Follow). [FS] [TK§1]", "Knows what PostUp is from the first screen in either mode. [M1025]", "Reaches a live postup or a project in one tap, no sign-in. [FS] [M1025]"]
 decide = [
   "The ended share link (#invite-ended) is used in phase 0 now: links outlive postups, which end at their set time. Was phase 1. [M1041]",
-]
-
-# ---- reusable sub-paths [M1043]: written once, used from every entry with { use = "<id>", ... }; {live} and {via} fill in ----
-[[segments]]
-id = "post-up"
-note = "The Post up form from wherever they tapped Post up ({via}), to posted and inviting friends. [M1043]"
-steps = [
-  { link = "{via}", act = "taps Post up", expect = "post@out.{live}", thought = "Filling in the post", shows = "Nearest cafe prefilled. [FS] [F062]" },
-  { link = "post:where", act = "taps Change", expect = "where@out.{live}", thought = "Not at the nearest cafe", shows = "Change → cafe picker by distance. [F062] [R17]" },
-  { link = "where:search-cafes", act = "searches", expect = "where-search@out.{live}", thought = "Looking for the right cafe", shows = "Searches a cafe. [FS]" },
-  { link = "where-search:post-up", act = "taps Post up 🔒", expect = "where-search+signin@out.{live}", thought = "Ready; asked to sign in", shows = "Post up 🔒 → sign-in. [FS] [TK§1]" },
-  { link = "signin:continue-with-apple", act = "signs in", expect = "posted@in.{live}", thought = "Live; wants company", shows = "Posted; link to copy. [FS]" },
-  { link = "posted:invite-friends", act = "taps Invite friends", expect = "posted+share@in.{live}", thought = "Wants friends to come too", shows = "Invite friends: share sheet. [drawn] [M1024]" },
-]
-
-[[segments]]
-id = "too-far"
-note = "Signs in from the Post up form, but the cafe is not where they are. [M1039] [M1043]"
-steps = [
-  { link = "signin:continue-with-apple", condition = "too-far", act = "signs in", expect = "post-far@in.{live}", thought = "The cafe they picked is 2 mi away", shows = "You're too far away: you can only post up where you are. Best effort in the browser. [M1039]" },
-  { link = "post-far:pick-nearby", act = "taps Pick a cafe near you", expect = "where@in.{live}", thought = "Picks the cafe they're actually at", shows = "Where are you? list, nearest first. [FS] [M1039]" },
-]
-
-[[segments]]
-id = "already-posted"
-note = "Signs in from the Post up form with an account that already has a live postup. [M1039] [M1043]"
-steps = [
-  { link = "signin:continue-with-apple", condition = "has-live-postup", act = "signs in", expect = "post-already@in.{live}", thought = "Forgot they're already live at Lot 1", shows = "You're already posted up at Lot 1 Coffee, with View your postup. [M1039]" },
-  { link = "post-already:view", act = "taps View your postup", expect = "live@in.{live}", thought = "Checks on the postup they have", shows = "Their live postup. [M1039]" },
-]
-
-[[segments]]
-id = "join"
-note = "Join 🔒 on a live postup, sign in, joined in one go. [M1043]"
-steps = [
-  { link = "postup:join", act = "taps Join 🔒", expect = "postup+signin@out.live", thought = "Wants to join; asked to sign in", shows = "Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024]" },
-  { link = "signin:continue-with-apple", act = "signs in", expect = "joined@in.live", thought = "Signed in; committed", shows = "Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024]" },
-]
-
-[[segments]]
-id = "follow-maker"
-note = "From a project page: the maker's profile, Follow 🔒, sign in, following. [M1042] [M1043]"
-steps = [
-  { link = "project:maya", act = "taps Maya", expect = "profile@out.{live}", thought = "Who makes this?", shows = "Maya's profile with Follow. [FS] [M1042]" },
-  { link = "profile:follow", act = "taps Follow", expect = "profile+signin@out.{live}", thought = "Wants to see what Maya makes next", shows = "Follow 🔒 opens the sign-in sheet. [FS] [M1025]" },
-  { link = "signin:continue-with-apple", advances = "following", act = "signs in", expect = "profile@in.{live}", thought = "Signed up; following Maya", shows = "Signed in and following Maya. [FS] [M1042]" },
-]
-
-[[segments]]
-id = "building-project"
-note = "Building mode on Home, a project, then follow its maker (phase 2). [M1042] [M1043]"
-steps = [
-  { link = "home:building", act = "taps Building", expect = "home@out.{live}.building", thought = "What are people making?", shows = "What people are building: project cards. [M1018b] [M1018c]" },
-  { link = "home:project", act = "taps a project", expect = "project@out.{live}", thought = "A Star Fox 64 mod, nice", shows = "Project page: updates and who's behind it. [FS] [M1042]" },
-  { use = "follow-maker", live = "{live}" },
 ]
 
 [[steps]]
@@ -107,7 +51,7 @@ thought = "She's live right now"
 shows = "Her live postup; Join shows 🔒. [FS] [M1024]"
 
 [[steps]]
-use = "join"
+use = "join-signin"
 
 # ---- ways to go on from someone live nearby ----
 [[outcomes]]
@@ -147,7 +91,7 @@ situation = "nc-at-cafe"
 when = "People are live, but they're at a cafe themselves and tap Post up in the tab bar. [M1025] [M1043]"
 
 [[outcomes.steps]]
-use = "post-up"
+use = "post-up-signin"
 via = "tabbar:post-up"
 live = "live"
 
@@ -162,6 +106,7 @@ when = "Posting up with people live nearby, but the chosen cafe is not near them
 
 [[outcomes.steps]]
 use = "too-far"
+via = "signin:continue-with-apple"
 live = "live"
 
 [[outcomes]]
@@ -175,6 +120,7 @@ when = "Posting up with people live nearby, but their account already has a live
 
 [[outcomes.steps]]
 use = "already-posted"
+via = "signin:continue-with-apple"
 live = "live"
 
 # ---- phase 2: follows project content (the likeliest goal for a newcomer) ----
@@ -188,6 +134,7 @@ when = "More curious about what people are making than going somewhere now; foll
 
 [[outcomes.steps]]
 use = "building-project"
+follow = "follow-maker-signin"
 live = "live"
 
 # ---- start branch: nobody live nearby ----
@@ -196,8 +143,7 @@ id = "nobody"
 result = "drop:saw-post-invite"  # [M1042]
 label = "Looks at past postups"
 at = 0
-when = "Opens / and nobody is live nearby. [M1032] [M1041]"
-start = { screen = "home", auth = "out", live = "none", tab = "live", device = "phone", url = "/" }
+way = "home-none"  # [M1044]
 situation = "nc-nobody-live"
 aliases = ["empty-area-newcomer"]
 
@@ -239,7 +185,7 @@ situation = "nc-at-cafe"
 aliases = ["first-post"]
 
 [[outcomes.steps]]
-use = "post-up"
+use = "post-up-signin"
 via = "home:post-up"
 live = "none"
 
@@ -256,6 +202,7 @@ success = ["They can't post up somewhere they're not, and are sent to pick a caf
 
 [[outcomes.steps]]
 use = "too-far"
+via = "signin:continue-with-apple"
 live = "none"
 
 [[outcomes]]
@@ -271,6 +218,7 @@ success = ["One live postup per account; they land on a way to view the one they
 
 [[outcomes.steps]]
 use = "already-posted"
+via = "signin:continue-with-apple"
 live = "none"
 
 [[outcomes]]
@@ -284,6 +232,7 @@ when = "Nobody's live, so they look at what people are building and follow a mak
 
 [[outcomes.steps]]
 use = "building-project"
+follow = "follow-maker-signin"
 live = "none"
 
 # ---- start branches: opened a shared link ----
@@ -292,8 +241,7 @@ id = "link-live"
 result = "goal:joined-postup"  # [M1042]
 label = "Joined from a shared link"
 at = 0
-when = "Opens a postup link a friend sent, and the postup is still live. [R39] [M1041]"
-start = { screen = "invite", auth = "out", live = "live", device = "phone", url = "/p/7xk2" }
+way = "link-live"  # [M1044]
 situation = "nc-postup-link"
 aliases = ["invite-live"]
 
@@ -334,7 +282,7 @@ thought = "What's this cafe like?"
 shows = "The cafe page, with Post up here and the tab bar. [FS] [M1043]"
 
 [[outcomes.steps]]
-use = "post-up"
+use = "post-up-signin"
 via = "cafe:post-up-here"
 live = "live"
 
@@ -355,7 +303,7 @@ thought = "So that's what Maya is working on"
 shows = "Project page from the shared postup. [FS] [M1043]"
 
 [[outcomes.steps]]
-use = "follow-maker"
+use = "follow-maker-signin"
 live = "live"
 
 [[outcomes]]
@@ -363,8 +311,7 @@ id = "link-ended"
 result = "goal:joined-postup"  # [M1043]
 label = "Ended link, joins someone nearby"
 at = 0
-when = "Opens a postup link a friend sent, but the postup has ended; someone else is live nearby, so they join them from Nearby. [M1032] [M1041] [M1043]"
-start = { screen = "invite-ended", auth = "out", live = "live", device = "phone", url = "/p/7xk2" }
+way = "link-ended"  # [M1044]
 situation = "nc-postup-link"
 
 [[outcomes.steps]]
@@ -381,21 +328,10 @@ thought = "Who else is around?"
 shows = "Nearby list of postups. [FS] [M1041]"
 
 [[outcomes.steps]]
-link = "quiet-feed:maya-s-photo"
-act = "taps a live postup's photo"
-expect = "cafe@out.live"
-thought = "Someone's at Bean Theory now"
-shows = "The cafe with who's live there. [FS] [M1043]"
+use = "nearby-cafe-postup"
 
 [[outcomes.steps]]
-link = "cafe:join"
-act = "taps the live postup"
-expect = "postup@out.live"
-thought = "Could go to this one instead"
-shows = "The live postup; Join shows 🔒. [FS] [M1043]"
-
-[[outcomes.steps]]
-use = "join"
+use = "join-signin"
 
 [[outcomes]]
 id = "ended-not-now"
@@ -422,7 +358,7 @@ situation = "nc-at-cafe"
 when = "Missed the friend, so they post up themselves from Nearby. [M1043]"
 
 [[outcomes.steps]]
-use = "post-up"
+use = "post-up-signin"
 via = "quiet-feed:post-up"
 live = "live"
 
@@ -443,5 +379,5 @@ thought = "What's this?"
 shows = "Project page from Nearby. [FS] [M1043]"
 
 [[outcomes.steps]]
-use = "follow-maker"
+use = "follow-maker-signin"
 live = "live"

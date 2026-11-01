@@ -237,140 +237,221 @@
   "back": false
  },
  "first-visit--too-far-7": null,
- "join-1": {
+ "registered-visit-1": {
   "label": "M",
   "back": false
  },
- "join-2": {
+ "registered-visit-2": {
   "label": "Join",
   "back": false
  },
- "join-3": {
+ "registered-visit-3": {
   "label": "Directions",
   "back": false
  },
- "join-4": null,
- "join-5": null,
- "join--cancelled-1": {
-  "label": "M",
-  "back": false
- },
- "join--cancelled-2": {
-  "label": "Back",
-  "back": true
- },
- "join--cancelled-3": null,
- "join--ended-1": {
-  "label": "M",
-  "back": false
- },
- "join--ended-2": {
-  "label": "Back",
-  "back": true
- },
- "join--ended-3": null,
- "join--full-1": {
-  "label": "M",
-  "back": false
- },
- "join--full-2": {
-  "label": "Back",
-  "back": true
- },
- "join--full-3": null,
- "empty-area-1": null,
- "empty-area-2": {
-  "label": "M",
-  "back": false
- },
- "empty-area-3": {
-  "label": "Back",
-  "back": true
- },
- "empty-area-4": null,
- "returning-post-1": {
+ "registered-visit-4": null,
+ "registered-visit-5": null,
+ "registered-visit--already-posted-1": {
   "label": "Post up",
   "back": false
  },
- "returning-post-2": {
-  "label": "Manage postup",
-  "back": false
- },
- "returning-post-3": {
-  "label": "Home",
-  "back": false
- },
- "returning-post-4": null,
- "returning-post--already-posted-1": {
+ "registered-visit--already-posted-2": {
   "label": "Back",
   "back": true
  },
- "returning-post--already-posted-2": {
+ "registered-visit--already-posted-3": {
   "label": "View your postup",
   "back": false
  },
- "returning-post--already-posted-3": null,
- "returning-post--too-far-1": {
-  "label": "Back",
-  "back": true
- },
- "returning-post--too-far-2": {
-  "label": "Pick a cafe near you",
-  "back": false
- },
- "returning-post--too-far-3": null,
- "hosting-1": {
-  "label": "Edit",
-  "back": false
- },
- "hosting-2": {
-  "label": "Save",
-  "back": false
- },
- "hosting-3": {
-  "label": "End postup",
-  "back": false
- },
- "hosting-4": {
-  "label": "End now",
-  "back": false
- },
- "hosting-5": null,
- "chat-1": {
+ "registered-visit--already-posted-4": null,
+ "registered-visit--cancelled-1": {
   "label": "M",
   "back": false
  },
- "chat-2": {
+ "registered-visit--cancelled-2": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--cancelled-3": null,
+ "registered-visit--ended-1": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--ended-2": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--ended-3": null,
+ "registered-visit--ended-post-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "registered-visit--ended-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--ended-post-3": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--ended-post-4": null,
+ "registered-visit--full-1": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--full-2": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--full-3": null,
+ "registered-visit--hosting-1": {
+  "label": "Edit",
+  "back": false
+ },
+ "registered-visit--hosting-2": {
+  "label": "Save",
+  "back": false
+ },
+ "registered-visit--hosting-3": {
+  "label": "End postup",
+  "back": false
+ },
+ "registered-visit--hosting-4": {
+  "label": "End now",
+  "back": false
+ },
+ "registered-visit--hosting-5": null,
+ "registered-visit--joined-1": {
+  "label": "Leave",
+  "back": false
+ },
+ "registered-visit--joined-2": {
+  "label": "Leave",
+  "back": false
+ },
+ "registered-visit--joined-3": null,
+ "registered-visit--joined-chat-1": {
+  "label": "Inbox",
+  "back": false
+ },
+ "registered-visit--joined-chat-2": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--joined-chat-3": {
   "label": "Message options",
   "back": false
  },
- "chat-3": null,
- "safety-1": {
+ "registered-visit--joined-chat-4": null,
+ "registered-visit--link-ended-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "registered-visit--link-ended-2": {
+  "label": "Maya's photo",
+  "back": false
+ },
+ "registered-visit--link-ended-3": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--link-ended-4": {
+  "label": "Join",
+  "back": false
+ },
+ "registered-visit--link-ended-5": null,
+ "registered-visit--link-live-1": {
+  "label": "Join Maya",
+  "back": false
+ },
+ "registered-visit--link-live-2": null,
+ "registered-visit--link-post-1": {
+  "label": "Bean Theory · 0.4 mi",
+  "back": false
+ },
+ "registered-visit--link-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--link-post-3": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--link-post-4": null,
+ "registered-visit--nobody-1": null,
+ "registered-visit--nobody-2": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--nobody-3": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--nobody-4": null,
+ "registered-visit--nobody-post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--nobody-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--nobody-post-3": null,
+ "registered-visit--post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--post-3": {
+  "label": "Manage postup",
+  "back": false
+ },
+ "registered-visit--post-4": {
+  "label": "Home",
+  "back": false
+ },
+ "registered-visit--post-5": null,
+ "registered-visit--report-1": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--report-2": {
+  "label": "More",
+  "back": false
+ },
+ "registered-visit--report-3": {
   "label": "Report",
   "back": false
  },
- "safety-2": {
+ "registered-visit--report-4": {
   "label": "Send report",
   "back": false
  },
- "safety-3": {
+ "registered-visit--report-5": {
   "label": "Block Maya too",
   "back": false
  },
- "safety-4": {
+ "registered-visit--report-6": {
   "label": "Blocked people (Settings)",
   "back": false
  },
- "safety-5": null,
- "leave-1": {
-  "label": "Leave",
+ "registered-visit--report-7": null,
+ "registered-visit--too-far-1": {
+  "label": "Post up",
   "back": false
  },
- "leave-2": {
-  "label": "Leave",
+ "registered-visit--too-far-2": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--too-far-3": {
+  "label": "Pick a cafe near you",
   "back": false
  },
- "leave-3": null,
+ "registered-visit--too-far-4": null,
  "first-visit--ended-project-1": {
   "label": "See what's nearby",
   "back": false
@@ -427,6 +508,93 @@
  "first-visit--nobody-project-4": null,
  "first-visit--nobody-project-5": null,
  "first-visit--nobody-project-6": null,
+ "registered-visit--builds-project-1": {
+  "label": "Projects",
+  "back": false
+ },
+ "registered-visit--builds-project-2": {
+  "label": "New project",
+  "back": false
+ },
+ "registered-visit--builds-project-3": {
+  "label": "Create",
+  "back": false
+ },
+ "registered-visit--builds-project-4": {
+  "label": "Update",
+  "back": false
+ },
+ "registered-visit--builds-project-5": {
+  "label": "Post update",
+  "back": false
+ },
+ "registered-visit--builds-project-6": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--builds-project-7": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--builds-project-8": null,
+ "registered-visit--ended-project-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "registered-visit--ended-project-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "registered-visit--ended-project-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "registered-visit--ended-project-4": null,
+ "registered-visit--ended-project-5": null,
+ "registered-visit--follow-project-1": {
+  "label": "Home",
+  "back": false
+ },
+ "registered-visit--follow-project-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "registered-visit--follow-project-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "registered-visit--follow-project-4": null,
+ "registered-visit--follow-project-5": null,
+ "registered-visit--hosting-project-1": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "registered-visit--hosting-project-2": {
+  "label": "Maya",
+  "back": false
+ },
+ "registered-visit--hosting-project-3": null,
+ "registered-visit--hosting-project-4": null,
+ "registered-visit--joined-project-1": {
+  "label": "Project",
+  "back": false
+ },
+ "registered-visit--joined-project-2": {
+  "label": "Maya",
+  "back": false
+ },
+ "registered-visit--joined-project-3": null,
+ "registered-visit--joined-project-4": null,
+ "registered-visit--link-project-1": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "registered-visit--link-project-2": {
+  "label": "Maya",
+  "back": false
+ },
+ "registered-visit--link-project-3": null,
+ "registered-visit--link-project-4": null,
  "invite-project-1": null,
  "invite-project-2": null,
  "invite-project-3": {
@@ -465,31 +633,6 @@
   "back": false
  },
  "host-approve-5": null,
- "project-builder-1": {
-  "label": "New project",
-  "back": false
- },
- "project-builder-2": {
-  "label": "Create",
-  "back": false
- },
- "project-builder-3": {
-  "label": "Update",
-  "back": false
- },
- "project-builder-4": {
-  "label": "Post update",
-  "back": false
- },
- "project-builder-5": {
-  "label": "Post up",
-  "back": false
- },
- "project-builder-6": {
-  "label": "Post up",
-  "back": false
- },
- "project-builder-7": null,
  "following-1": {
   "label": "Star Fox 64 mod",
   "back": false

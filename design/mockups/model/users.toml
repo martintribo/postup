@@ -1,0 +1,20 @@
+# User types [M1044] (Martin, Oct 31 2026: user types are data). Each lists its sign-in state, its one main goal-tracked flow
+# (the graph opens it; the validator checks there is exactly one), and the goal milestones that apply to it. Goals and their
+# milestones are defined once in goals.toml; a user type's track for a goal is that goal's milestones filtered by this list.
+[[users]]
+id = "newcomer"
+label = "Newcomer"
+sub = "Signed out, never used PostUp"
+auth = "out"
+main_flow = "first-visit"
+note = "Has to sign up on the way to any goal, so signed-up is on every track. [M1042] [M1044]"
+milestones = ["signed-up", "saw-post-invite", "opened-form", "picked-place", "posted", "saw-postup", "opened-postup", "im-coming", "joined", "saw-projects", "opened-project", "tapped-follow", "following"]
+
+[[users]]
+id = "registered"
+label = "Registered"
+sub = "Signed in, has used PostUp"
+auth = "in"
+main_flow = "registered-visit"
+note = "Already signed in: no sign-up milestone, no sign-in sheets; posting keeps the prefilled nearest cafe, so no picked-place; following or posting a project both count. [M1044]"
+milestones = ["saw-post-invite", "opened-form", "posted", "saw-postup", "opened-postup", "joined", "saw-projects", "opened-project", "project-active"]

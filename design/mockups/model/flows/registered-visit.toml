@@ -1,0 +1,612 @@
+# Flow: Registered visit [M1044]. One goal-tracked flow for a signed-in user, the registered twin of First visit: every way a
+# registered user arrives (someone live, nobody live, a shared link live or ended, already hosting, already joined), then the
+# ways they go on. Folds join, returning-post, hosting, empty-area, leave, chat, safety and project-builder; their old URLs
+# redirect to the matching branch. Ways in: model/ways.toml; shared steps: model/segments.toml.
+id = "registered-visit"
+name = "Registered visit"
+role = "joiner"
+phase = 0  # smallest MVP [M1037]
+user = "registered"
+situation = "rg-wants-company"
+order = 2
+status = "draft"
+aliases = ["join", "quick-joiner", "cautious-joiner"]  # old flow ids; their pages redirect here
+persona = "Signed-in user. Arrives at / (someone live nearby or not), from a link a friend sent, or back while hosting or joined."
+goal = "Get to a postup, post up, or follow or post a project, from whichever way they arrive. [M1044]"
+intent = "Wants company now"
+outcome = "Joined [M1040]"
+result = "goal:joined-postup"  # [M1044]
+goals = true  # main goal-tracked flow for registered users (users.toml) [M1044]
+way = "home-live"  # model/ways.toml [M1044]
+edge_cases = [
+  "Optional check first (was Cautious joiner): from the postup, the project tag → project, the owner → profile, the cafe → cafe; Back returns each time. [FS] [F065] [M1024]",
+  "Compares with an Ask to join postup (Tess): phase 2, see Ask to join. [M1032]",
+  "Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]",
+  "Desktop: details open in the right panel and the map stays. [FS] [M1024]",
+  "Hosting: time runs out → ends automatically, chat stays 24h. [R31] [FS]",
+  "Chat closes 24h after the postup. [R31] [FS]",
+]
+success = ["Home → joined in 2 taps. [M1024]", "Home → live in 2 taps. [M1024]", "Join is one tap once decided. [TK§1] [M1024]", "No safety-tip screens; report and block quickly. [F059] [FS]"]
+decide = ["Chat retention (24h default). [R31] [FS]", "No ban system yet: who reviews reports? [TK§4]"]
+
+# Already joined people can tap Post up, and hosts can join someone else; neither is a goal from that way in for now.
+[[goal_exceptions]]
+entry = "joined"
+goal = "posted-up"
+reason = "Already joined someone's postup: posting up as well would mean two places at once; open question whether Post up should show while joined. [M1044]"
+
+[[goal_exceptions]]
+entry = "hosting"
+goal = "joined-postup"
+reason = "Hosting their own postup: joining someone else would leave their joiners waiting; open question whether Join should show while hosting. [M1044]"
+
+[[steps]]
+arrive = "arrives at /"
+expect = "home@in.live.live"
+thought = "Wants company now"
+shows = "Live now list. [M1018b] [M1024]"
+
+[[steps]]
+link = "home:postup"
+act = "taps a live row"
+expect = "postup@in.live"
+thought = "Found someone"
+shows = "Who, project, cafe, who else is joining. [FS] [M1024]"
+
+[[steps]]
+link = "postup:join"
+act = "taps Join"
+expect = "joined@in.live"
+thought = "Decides to join"
+shows = "You're joining; the poster is told. [FS] [M1024]"
+
+[[steps]]
+link = "joined:directions"
+act = "taps Directions"
+expect = "joined+dirs@in.live"
+thought = "Needs the route"
+shows = "Directions sheet: Apple / Google Maps. [FS] [M1024]"
+
+[[steps]]
+link = "dirs:cancel"
+act = "closes Directions"
+expect = "joined@in.live"
+thought = "Knows the way"
+shows = "Back on the joined screen. [M1031-draft]"
+
+# ---- the postup changes while they look ----
+[[outcomes]]
+id = "ended"
+result = "drop:opened-postup"  # [M1044]
+situation = "rg-postup-changes"
+label = "Postup ended"
+at = 2
+when = "The postup reaches its end time while they read it. [F060] [M1040]"
+aliases = ["postup-states", "join--ended"]
+
+[[outcomes.steps]]
+event = "postup-ends"
+act = "waits while reading"
+expect = "postup-ended@in.live"
+thought = "Too late for this one"
+shows = "Ended state replaces Join; points to who's live nearby. [F060] [M1024]"
+
+[[outcomes]]
+id = "cancelled"
+result = "drop:opened-postup"  # [M1044]
+situation = "rg-postup-changes"
+label = "Postup cancelled"
+at = 2
+when = "The host ends the postup early while they read it. [M1040]"
+aliases = ["join--cancelled"]
+
+[[outcomes.steps]]
+event = "postup-cancelled"
+act = "waits while reading"
+expect = "postup-cancelled@in.live"
+thought = "The host left"
+shows = "Cancelled state replaces Join. [FS] [M1040]"
+
+[[outcomes]]
+id = "full"
+result = "drop:opened-postup"  # [M1044]
+situation = "rg-postup-changes"
+label = "Postup full"
+at = 2
+phase = 1  # draft: a full postup needs a size limit, which phase 0 doesn't have [M1040]
+when = "The postup fills up while they read it. [M1040]"
+aliases = ["join--full"]
+
+[[outcomes.steps]]
+event = "postup-fills"
+act = "waits while reading"
+expect = "postup-full@in.live"
+thought = "No room left"
+shows = "Full state replaces Join. [FS] [M1040]"
+
+[[outcomes]]
+id = "report"
+result = "drop:opened-postup"  # [M1044]
+situation = "rg-unsafe"
+label = "Reports and blocks"
+at = 2
+when = "Uncomfortable with someone on the postup: More → Report, then Block. [F059] [M1044]"
+aliases = ["safety"]
+
+[[outcomes.steps]]
+link = "postup:more"
+act = "taps More"
+expect = "postup+more@in.live"
+thought = "Uncomfortable with someone"
+shows = "More: profile, share, report, block. [FS] [F059]"
+
+[[outcomes.steps]]
+link = "more:report"
+act = "taps Report"
+expect = "report@in.live"
+thought = "Wants to report"
+shows = "Reason + details. [F059] [drawn]"
+
+[[outcomes.steps]]
+link = "report:send-report"
+act = "sends the report"
+expect = "reported@in.live"
+thought = "Reported; still uneasy"
+shows = "Thanks; offer to block. [FS]"
+
+[[outcomes.steps]]
+link = "reported:block-maya-too"
+act = "taps Block too"
+expect = "reported+block@in.live"
+thought = "Wants them gone"
+shows = "Block: neither sees the other; they aren't told. [FS] [F059]"
+
+[[outcomes.steps]]
+link = "block:settings"
+act = "opens Settings"
+expect = "settings@in.live"
+thought = "Might undo later"
+shows = "Blocked people list to undo. [FS] [F065]"
+
+# ---- posts up instead (was Returning poster) ----
+[[outcomes]]
+id = "post"
+result = "goal:posted-up"  # [M1044]
+situation = "rg-posting"
+label = "Posts up"
+at = 1
+when = "At a cafe themselves: taps Post up in the tab bar, nearest cafe prefilled. [M1024] [M1044]"
+aliases = ["returning-post"]
+
+[[outcomes.steps]]
+use = "post-now"
+via = "tabbar:post-up"
+live = "live"
+
+[[outcomes.steps]]
+link = "posted:manage-postup"
+act = "opens their live postup"
+expect = "live@in.live"
+thought = "Managing their postup"
+shows = "You're live: time left, requests, chat. [FS] [F057]"
+
+[[outcomes.steps]]
+link = "tabbar:home"
+act = "goes Home"
+expect = "home@in.live.live"
+thought = "Checks they show up on Home"
+shows = "Your live state shows on home. [R22]"
+
+[[outcomes]]
+id = "too-far"
+result = "drop:opened-form"  # [M1044]
+situation = "rg-posting"
+label = "Too far away"
+from = "post"
+at = 2
+when = "The chosen cafe is not near where they are (location check). [M1039] [M1040]"
+aliases = ["returning-post--too-far"]
+
+[[outcomes.steps]]
+use = "too-far"
+via = "post:post-up"
+live = "live"
+
+[[outcomes]]
+id = "already-posted"
+result = "drop:opened-form"  # [M1044]
+situation = "rg-posting"
+label = "Already posted up"
+from = "post"
+at = 2
+when = "They already have a live postup (one per account). [M1039] [M1040]"
+aliases = ["returning-post--already-posted"]
+
+[[outcomes.steps]]
+use = "already-posted"
+via = "post:post-up"
+live = "live"
+
+[[outcomes]]
+id = "follow-project"
+result = "goal:project"  # [M1044]
+situation = "rg-projects"
+label = "Follows a maker"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "Curious what people are making: Building mode, a project, follows the maker. [M1044]"
+
+[[outcomes.steps]]
+use = "building-project"
+follow = "follow-maker"
+live = "live"
+
+# ---- nobody live nearby (was Nobody live nearby, signed in) ----
+[[outcomes]]
+id = "nobody"
+result = "drop:saw-post-invite"  # [M1044]
+label = "Looks at past postups"
+at = 0
+way = "home-none"
+situation = "rg-nobody-live"
+aliases = ["empty-area"]
+
+[[outcomes.steps]]
+arrive = "arrives at /"
+expect = "home@in.none.live"
+thought = "Nobody around right now"
+shows = "Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035]"
+
+[[outcomes.steps]]
+event = "empty-area"
+act = "area has no postups"
+expect = "empty-area@in.none"
+thought = "What happens around here?"
+shows = "Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032]"
+
+[[outcomes.steps]]
+link = "empty-area:maya"
+act = "taps Maya posted up at Bean Theory"
+expect = "profile@in.none"
+thought = "Who comes here?"
+shows = "Maya's profile: regular cafes, past postups. [FS] [M1032]"
+
+[[outcomes.steps]]
+link = "profile:back"
+act = "taps Back"
+expect = "empty-area@in.none"
+thought = "Back to the area"
+shows = "The empty-area screen again. [M1032]"
+
+[[outcomes]]
+id = "nobody-post"
+result = "goal:posted-up"  # [M1044]
+situation = "rg-posting"
+label = "Is the first today"
+from = "nobody"
+at = 1
+when = "Nobody's live, so they post up themselves. [M1032] [M1044]"
+
+[[outcomes.steps]]
+use = "post-now"
+via = "home:post-up"
+live = "none"
+
+[[outcomes]]
+id = "builds-project"
+result = "goal:project"  # [M1044]
+situation = "rg-projects"
+label = "Starts a project"
+from = "nobody"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "Nobody's live; works on their own project: create it, post an update, post up for it (was Project builder). [M1024] [M1044]"
+aliases = ["project-builder"]
+
+[[outcomes.steps]]
+link = "tabbar:projects"
+act = "opens Projects"
+expect = "projects@in.none"
+thought = "Wants a home for their project"
+shows = "Projects, \"+\". [FS]"
+
+[[outcomes.steps]]
+link = "projects:new-project"
+act = "taps New project"
+expect = "project-new@in.none"
+thought = "Starts a new project page"
+shows = "Cover, name, kind, one line. [FS] [drawn]"
+
+[[outcomes.steps]]
+link = "project-new:create"
+act = "taps Create"
+expect = "project@in.none"
+thought = "Project exists"
+shows = "New project page. [FS]"
+
+[[outcomes.steps]]
+link = "project:update"
+advances = "project-active"
+act = "taps Update"
+expect = "project-update@in.none"
+thought = "Sharing progress"
+shows = "Post an update with image. [FS] [R35]"
+
+[[outcomes.steps]]
+link = "project-update:back"
+act = "taps Back"
+expect = "project@in.none"
+thought = "Update can wait; post up first"
+shows = "Back on the project (Update has no Post up link, as in the app). [M1031-draft]"
+
+[[outcomes.steps]]
+link = "project:post-up-for-this"
+act = "taps Post up for this"
+expect = "project-attach@in.none"
+thought = "Working on it at a cafe"
+shows = "Post up for this project, now or earlier today. [FS]"
+
+[[outcomes.steps]]
+link = "project-attach:post-up"
+act = "taps Post up"
+expect = "posted@in.none"
+thought = "Live for the project"
+shows = "Posted, tied to the project. [FS]"
+
+# ---- shared links ----
+[[outcomes]]
+id = "link-live"
+result = "goal:joined-postup"  # [M1044]
+label = "Joins from a shared link"
+at = 0
+way = "link-live"
+situation = "rg-postup-link"
+
+[[outcomes.steps]]
+arrive = "opens the share link"
+expect = "invite@in.live"
+thought = "A friend sent this"
+shows = "Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39]"
+
+[[outcomes.steps]]
+link = "invite:join-maya"
+act = "taps Join"
+expect = "joined@in.live"
+thought = "Going"
+shows = "Joined. [FS] [M1024]"
+
+[[outcomes]]
+id = "link-post"
+result = "goal:posted-up"  # [M1044]
+situation = "rg-posting"
+label = "Posts up at that cafe"
+from = "link-live"
+at = 1
+when = "Can't join the friend, but is at a cafe: opens the cafe and taps Post up here. [M1043] [M1044]"
+
+[[outcomes.steps]]
+link = "invite:cafe"
+act = "taps Bean Theory"
+expect = "cafe@in.live"
+thought = "What's this cafe like?"
+shows = "The cafe page, with Post up here and the tab bar. [FS] [M1043]"
+
+[[outcomes.steps]]
+use = "post-now"
+via = "cafe:post-up-here"
+live = "live"
+
+[[outcomes]]
+id = "link-project"
+result = "goal:project"  # [M1044]
+situation = "rg-projects"
+label = "Follows the friend's project"
+from = "link-live"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "Opens the project on the link and follows the maker. [M1043] [M1044]"
+
+[[outcomes.steps]]
+link = "invite:star-fox-64-mod"
+act = "taps Star Fox 64 mod"
+expect = "project@in.live"
+thought = "So that's what Maya is working on"
+shows = "Project page from the shared postup. [FS] [M1043]"
+
+[[outcomes.steps]]
+use = "follow-maker"
+live = "live"
+
+[[outcomes]]
+id = "link-ended"
+result = "goal:joined-postup"  # [M1044]
+label = "Ended link, joins someone nearby"
+at = 0
+way = "link-ended"
+situation = "rg-postup-link"
+
+[[outcomes.steps]]
+arrive = "opens the share link"
+expect = "invite-ended@in.live"
+thought = "Too late for this one"
+shows = "This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032]"
+
+[[outcomes.steps]]
+link = "invite-ended:see-what-s-nearby"
+act = "taps See what's nearby"
+expect = "quiet-feed@in.live"
+thought = "Who else is around?"
+shows = "Nearby list of postups. [FS] [M1041]"
+
+[[outcomes.steps]]
+use = "nearby-cafe-postup"
+
+[[outcomes.steps]]
+link = "postup:join"
+act = "taps Join"
+expect = "joined@in.live"
+thought = "Going to this one instead"
+shows = "You're joining. [FS] [M1024]"
+
+[[outcomes]]
+id = "ended-post"
+result = "goal:posted-up"  # [M1044]
+situation = "rg-posting"
+label = "Posts up instead"
+from = "link-ended"
+at = 2
+when = "Missed the friend, so they post up from Nearby. [M1043] [M1044]"
+
+[[outcomes.steps]]
+use = "post-now"
+via = "quiet-feed:post-up"
+live = "live"
+
+[[outcomes]]
+id = "ended-project"
+result = "goal:project"  # [M1044]
+situation = "rg-projects"
+label = "Follows a maker"
+from = "link-ended"
+at = 2
+phase = 2  # projects are phase 2 [M1034]
+when = "Nearby shows what people are making; opens a project and follows the maker. [M1043] [M1044]"
+
+[[outcomes.steps]]
+link = "quiet-feed:star-fox-64-mod"
+act = "taps Star Fox 64 mod"
+expect = "project@in.live"
+thought = "What's this?"
+shows = "Project page from Nearby. [FS] [M1043]"
+
+[[outcomes.steps]]
+use = "follow-maker"
+live = "live"
+
+# ---- back while hosting (was Hosting live) ----
+[[outcomes]]
+id = "hosting"
+result = "goal:posted-up"  # already posted up on arrival (way holds it) [M1044]
+label = "Extends, then ends"
+at = 0
+way = "hosting"
+phase = 1  # MVP phase [M1031-draft]
+situation = "rg-hosting"
+aliases = ["hosting"]
+
+[[outcomes.steps]]
+arrive = "opens their live postup"
+expect = "live@in.live"
+thought = "Live; wants more time"
+shows = "+30 min extends. [FS]"
+
+[[outcomes.steps]]
+use = "host-extend"
+
+[[outcomes.steps]]
+use = "host-end"
+
+[[outcomes]]
+id = "hosting-project"
+result = "goal:project"  # follows the maker (already posted up on arrival) [M1044]
+situation = "rg-hosting"
+label = "Follows a maker while hosting"
+from = "hosting"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "Hosting and quiet: opens a project on their postup and follows its maker. [M1044]"
+
+[[outcomes.steps]]
+link = "live:star-fox-64-mod"
+act = "taps Star Fox 64 mod"
+expect = "project@in.live"
+thought = "What's Maya making?"
+shows = "Project page. [FS] [M1044]"
+
+[[outcomes.steps]]
+use = "follow-maker"
+live = "live"
+
+# ---- back after joining (was Leave a postup, Postup chat) ----
+[[outcomes]]
+id = "joined"
+result = "goal:joined-postup"  # already joined on arrival (way holds it) [M1044]
+label = "Leaves the postup"
+at = 0
+way = "joined"
+phase = 1  # MVP phase [M1031-draft]
+situation = "rg-after-joining"
+aliases = ["leave"]
+
+[[outcomes.steps]]
+arrive = "opens their joined postup"
+expect = "joined@in.live"
+thought = "Plans changed"
+shows = "Leave link. [drawn]"
+
+[[outcomes.steps]]
+link = "joined:leave"
+act = "taps Leave"
+expect = "joined+leave@in.live"
+thought = "Backing out politely"
+shows = "Confirm; poster alerted. [FS] [drawn]"
+
+[[outcomes.steps]]
+link = "leave:leave"
+act = "confirms Leave"
+expect = "postup@in.live"
+thought = "Out; back on the postup page"
+shows = "Back on the postup. [M1024]"
+
+[[outcomes]]
+id = "joined-chat"
+result = "goal:joined-postup"  # [M1044]
+situation = "rg-after-joining"
+label = "Chats with the group"
+from = "joined"
+at = 1
+phase = 1  # MVP phase [M1031-draft]
+when = "Wants to sort out details: Inbox → the postup chat. [F061] [M1044]"
+aliases = ["chat"]
+
+[[outcomes.steps]]
+link = "tabbar:inbox"
+act = "opens Inbox"
+expect = "inbox@in.live"
+thought = "Wants to check messages"
+shows = "Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033]"
+
+[[outcomes.steps]]
+link = "inbox:maya-chat"
+act = "opens a chat"
+expect = "chat@in.live"
+thought = "Wants to sort out details in chat"
+shows = "One chat per postup. [F061] [F096]"
+
+[[outcomes.steps]]
+link = "chat:message-options"
+act = "long-presses a message"
+expect = "chat+msg@in.live"
+thought = "Something off about a message"
+shows = "Long-press: copy, report, block sender. [F096] [FS]"
+
+[[outcomes]]
+id = "joined-project"
+result = "goal:project"  # [M1044]
+situation = "rg-projects"
+label = "Follows the host's project"
+from = "joined"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "Opens the project on the postup they joined and follows its maker. [M1044]"
+
+[[outcomes.steps]]
+link = "joined:project"
+act = "taps the project"
+expect = "project@in.live"
+thought = "What are they working on?"
+shows = "Project page. [FS] [M1044]"
+
+[[outcomes.steps]]
+use = "follow-maker"
+live = "live"

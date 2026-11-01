@@ -136,7 +136,7 @@ S['chat']=f'''{top("Maya's postup",f'<button class="ib" onclick="ov(\'more\')" a
 {msg('MK','Hey! Here till 4 — come say hi.','2:05pm')}{msg('JR','On my way, about 10 min.','2:09pm')}{msg('ME','See you soon!','2:11pm',True)}{msg('MK','Grabbing another coffee if anyone wants one ☕','2:20pm')}</div>
 <div class="cbar"><input class="in" placeholder="Message"><button class="btn sq" aria-label="Send">{I("send",18)}</button></div>'''
 def ihead(on):
-    return f'''{top("Inbox",'',back=False)}<div class="pad"><div class="seg lnkseg"><a href="#inbox" class="{"on" if on=="c" else ""}">Chats</a><a href="#activity" class="{"on" if on=="a" else ""}">Activity <i class="bdg2">2</i></a></div>'''
+    return f'''{top("Inbox",'',back=False)}<div class="pad"><div class="seg lnkseg"><a href="#inbox" class="{"on" if on=="c" else ""}">Chats</a><a href="#activity" class="only-in {"on" if on=="a" else ""}">Activity <i class="bdg2">2</i></a></div>'''
 S['inbox']=ihead('c')+f'''<div class="grp">
 <div class="lrow" onclick="go('chat')">{av('MK',44)}<div class="lm"><b>Maya's postup</b><div class="l2">Maya: Grabbing another coffee…</div></div><span class="xs mu">2:20</span></div>
 <div class="lrow" onclick="go('chat')">{av('ME',44)}<div class="lm"><b>Your postup</b><div class="l2">Jon: On the way</div></div><span class="xs mu">1:58</span></div>

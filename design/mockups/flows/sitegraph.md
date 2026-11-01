@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4158 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4156 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 
 Site events: postups end; someone goes live; alert arrives; comes back later; postup fills (on postup, postup-ask, joined, requested, invite, postup-full); postup is cancelled (on postup, postup-ask, joined, requested, invite, postup-full); postup ends (on postup, postup-ask, joined, requested, invite, postup-full); someone you follow posts up; network drops (on quiet-feed, loading, home). live = someone live nearby; a postup ending changes only its own page.
 
@@ -732,7 +732,7 @@ States: `chat@out.live`, `chat@out.none`, `chat@in.live`, `chat@in.none`
 
 ### Inbox (`inbox`)
 States: `inbox@out.live`, `inbox@out.none`, `inbox@in.live`, `inbox@in.none`
-- Activity 2 → `activity` [tap]
+- Activity 2 → `activity` [tap] — only in·live, in·none
 - Maya's postup · Bean Theory → `chat` [tap]
 - Your postup · Lot 1 Coffee → `chat` [tap]
 - M Maya's postup Maya: Grabbing ano → `chat` [tap]

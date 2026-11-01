@@ -18,7 +18,7 @@ Player: /mockups/flows/first-visit--nobody-project.html
    - enterable flows: first-visit--already-posted step 1 (if Nobody around right now), first-visit--nobody step 1 (if Nobody around right now), first-visit--post step 1 (if Nobody around right now), first-visit--too-far step 1 (if Nobody around right now)
 2. **home@out.none.building** · user: What are people making? · action: taps Building · edge: tap: Building
    - What people are building: project cards. [M1018b] [M1018c]
-   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), **project@out.none** (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), post@out.none (Post up), quiet-feed@out.none (Nearby), me@out.none (S), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), **project@out.none** (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
    - enterable flows: none
 3. **project@out.none** · user: A Star Fox 64 mod, nice · action: taps a project · edge: tap: Star Fox 64 mod M Maya · Yesterday
    - Project page: updates and who's behind it. [FS] [M1042]
@@ -35,14 +35,14 @@ Player: /mockups/flows/first-visit--nobody-project.html
 6. **profile@in.none** · user: Signed up; following Maya · action: signs in · edge: tap: Continue with Apple
    - Signed in and following Maya. [FS] [M1042]
    - next site states: back (Back), profile+more@in.none (More), cafe@in.none (Bean Theory), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), project@in.none (Star Fox 64 mod Updated yesterday), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Bean Theory (Google card fails))
-   - enterable flows: empty-area step 3 (if Who comes here?), following step 1 (if Likes someone's work)
+   - enterable flows: registered-visit--nobody step 3 (if Who comes here?), following step 1 (if Likes someone's work)
 
 ## Connected flows [M1025]
 - `first-visit--nobody`: branch out at step 1→1, step 4→3; merge in at step 4 (from its step 3)
 - `first-visit--ended-project`: branch out at step 5→5; merge in at step 5 (from its step 5)
 - `first-visit--follow-project`: branch out at step 5→5; merge in at step 5 (from its step 5)
 - `first-visit--link-project`: branch out at step 5→4; merge in at step 5 (from its step 4)
-- `empty-area`: branch out at step 6→3; merge in at step 6 (from its step 3)
+- `registered-visit--nobody`: branch out at step 6→3; merge in at step 6 (from its step 3)
 - `first-visit--already-posted`: branch out at step 1→1; merge in at —
 - `first-visit--post`: branch out at step 1→1; merge in at —
 - `first-visit--too-far`: branch out at step 1→1; merge in at —
