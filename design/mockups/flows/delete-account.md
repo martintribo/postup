@@ -14,11 +14,11 @@ Player: /mockups/flows/delete-account.html
 ## Steps
 1. **me@in.none** · user: Leaving PostUp · action: opens My profile · edge: entry
    - My profile → Settings. [FS]
-   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), inbox@in.none (Inbox), project-new@in.none (Tide Clock Updated Sun), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Lantern Tea (Google card fails))
+   - next site states: back (Back), **settings@in.none** (Settings), live@in.none (1:42 You're live at Bean Theory Ti), cafe@in.none (Lantern Tea), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), inbox@in.none (Inbox), project-new@in.none (Tide Clock Updated Sun), home@in.none.building (home), projects@in.none (Projects), cafe-gfail@in.none (Lantern Tea (Google card fails)), post-already@in.none (Post up (you already have a live postup))
    - enterable flows: none
 2. **settings@in.none** · user: Looking for the delete option · action: taps Settings · edge: tap: Settings
    - Account section. [FS] [F065]
-   - next site states: back (Back), home@out.none.live (Sign out), **settings+delacct@in.none** (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@out.none.building (Sign out), home@in.none.building (home), projects@in.none (Projects)
+   - next site states: back (Back), home@out.none.live (Sign out), **settings+delacct@in.none** (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@out.none.building (Sign out), home@in.none.building (home), projects@in.none (Projects), post-already@in.none (Post up (you already have a live postup))
    - enterable flows: settings-notify step 1 (if Tuning alerts)
 3. **settings+delacct@in.none** · user: Sure about it · action: taps Delete account · edge: tap: Delete account
    - Confirm; can't be undone. [FS] [drawn]
@@ -26,7 +26,7 @@ Player: /mockups/flows/delete-account.html
    - enterable flows: none
 4. **home@out.none.building** · user: Gone · action: confirms · edge: tap: Delete account
    - Signed out at Home. [M1024]
-   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), post-already@out.none (Post up (you already have a live postup))
    - enterable flows: none
 
 ## Connected flows [M1025]

@@ -14,11 +14,11 @@ Player: /mockups/flows/settings-notify.html
 ## Steps
 1. **settings@in.none** · user: Tuning alerts · action: opens Settings · edge: entry
    - Toggles; Sign out. [FS] [F065]
-   - next site states: back (Back), home@out.none.live (Sign out), settings+delacct@in.none (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), **home@out.none.building** (Sign out), home@in.none.building (home), projects@in.none (Projects)
+   - next site states: back (Back), home@out.none.live (Sign out), settings+delacct@in.none (Delete account), home@in.none.live (home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), **home@out.none.building** (Sign out), home@in.none.building (home), projects@in.none (Projects), post-already@in.none (Post up (you already have a live postup))
    - enterable flows: delete-account step 2 (if Looking for the delete option)
 2. **home@out.none.building** · user: Done for now · action: taps Sign out · edge: tap: Sign out
    - Signed out. [M1024]
-   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails))
+   - next site states: cafe@out.none (Lantern Tea A D M 3 postups), me@out.none (S), post@out.none (Post up), quiet-feed@out.none (Nearby), inbox@out.none (Inbox), home@out.none.live (Live), projects@out.none (See all projects), project@out.none (Star Fox 64 mod M Maya · Yesterday), empty-area@out.none (area has no postups), cafe-gfail@out.none (Lantern Tea A D M 3 postups (Google card fails)), post-already@out.none (Post up (you already have a live postup))
    - enterable flows: none
 
 ## Connected flows [M1025]

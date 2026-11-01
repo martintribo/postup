@@ -4,7 +4,7 @@
 import json as _j, html as _H
 SM_GROUPS=[('Home and browse','#e8f5ee',3,['home','quiet-feed','quiet-feed-b','quiet','home-overlay-alt','cafe']),
  ('Postup and join','#e9f0fb',5,['postup','postup-ask','ask','requested','joined','postup-full','postup-cancelled','postup-ended']),
- ('Post and host','#fdf1e4',4,['post','where','where-search','posted','live','post-edit']),
+ ('Post and host','#fdf1e4',4,['post','where','where-search','posted','live','post-edit','post-already','post-far']),
  ('Projects','#f3ecfb',3,['projects','project','project-new','project-update','project-attach']),
  ('Inbox and social','#fbeef1',4,['inbox','activity','chat','profile']),
  ('Profile and settings','#eef1f4',4,['me','settings','report','reported']),

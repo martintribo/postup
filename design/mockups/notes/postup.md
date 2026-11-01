@@ -33,6 +33,10 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Phase versions
 - Phase 1 version hides: project (phase-2 screens or Building mode). [M1035]
 
+## Trust (anti-trolling)
+- Every postup shows the poster's name and avatar; there is no anonymous posting. Posting and saying you're coming need a verified account (Google, Apple, X or GitHub); browsing stays open. [M1039]
+- Report and Block stay. Several reports from different people hide a postup until it's reviewed. [M1039]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

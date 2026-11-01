@@ -50,7 +50,7 @@ for k,v in VAR.items():
     elif b in DLG and k not in DLG: DLG.append(k)
 # Follow / create / update sign-in sheet (overlay)
 OVS+=ovs('signin',f'<h2 id="osi-t">Almost there</h2><p class="mu" id="osi-s">Sign in to continue.</p>'+
- re.search(r'<button class="sso ap".*?Continue with Google</button>',S['post-signin'],re.S).group(0).replace("signIn('posted')","signIn()")+'<button class="tx" onclick="ovx()">Not now</button>')
+ re.search(r'<button class="sso ap".*?Continue with GitHub</button>',S['post-signin'],re.S).group(0).replace("signIn('posted')","signIn()")+'<button class="tx" onclick="ovx()">Not now</button>')
 # index: Home page (/) first, 2x2 scenario matrix
 S['index']=S['index'].replace('<h3 class="sh">Style</h3>',
  '<a class="ixr homeix" href="#home"><span class="ixi">'+I("map",18)+'</span><span class="lm"><b>Home page (/)</b><span class="mu sm">What loads at postup.now/ · changes with the scenario</span></span>'+I("chev",18,"mu")+'</a>'

@@ -1,0 +1,25 @@
+# Screen: Already posted up. One live postup per account [M1039].
+id = "post-already"
+title = "Post up · already posted up"
+kind = "page"
+group = "Posting & hosting"
+slots = [
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "view", label = "View your postup", action = "replace", to = "live" },
+  { id = "map", label = "Back to map", action = "replace", to = "home" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Shown instead of the Post up form when you already have a live postup: \"You're already posted up at Lot 1 Coffee\", with View your postup. One live postup per account, so a troll can't flood the map. [M1039]",
+]
+
+[[notes]]
+section = "Scenarios"
+lines = [
+  "Signed in with a live postup only (data condition has-live-postup). Same with live nearby or none. [M1039]",
+]

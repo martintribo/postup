@@ -54,6 +54,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Was #attach-signin (over #project-attach): Scenarios
 - Signed in: no sheet; shows `#project-attach`. [FS] [M1018]
 
+## Sign-in options
+- Exactly four options in every phase: Continue with Apple, Google, X and GitHub. No email or password, so every account is tied to a verified identity. [M1039]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

@@ -1,6 +1,6 @@
 # PostUp mockups
 
-> Static mockups of the PostUp app (v1034): 41 screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
+> Static mockups of the PostUp app (v1034): 43 screens plus overlay sheets, four styles, phone and desktop. Each screen has implementation notes (purpose, behavior, links, states, copy, decisions with sources, and Overrides where a later decision beats the drawing). Read the notes with the screen.
 
 Mockup URL pattern: /mockups/?style=<fresh|cozy|night|bold>&device=<phone|desktop>&auth=<out|in>&live=<live|none>#<screen> (overlays: &ov=<sheet>)
 The home page (/) is #home, called Home, with two modes on one URL: Live and Building (?mode=live|building). #home-overlay-alt is an alternative, not chosen. #quiet is the old no-live home drawing; #quiet-feed / #quiet-feed-b are Nearby (/nearby). Project lists are headed "What people are building", sorted closest-first, showing the closest available even if none are local; never call them nearby unless they are (Martin, Oct 18).
@@ -54,6 +54,8 @@ The home page (/) is #home, called Home, with two modes on one URL: Live and Bui
 - [reported](notes/reported.md): Reported
 - [invite-project](notes/invite-project.md): Share link · project
 - [home-overlay-alt](notes/home-overlay-alt.md): Home overlay · alternative, not chosen
+- [post-already](notes/post-already.md): Post up · already posted up
+- [post-far](notes/post-far.md): Post up · too far away
 - [ov-block](notes/ov-block.md): Sheet · Block
 - [ov-delacct](notes/ov-delacct.md): Sheet · Delete account
 - [ov-dirs](notes/ov-dirs.md): Sheet · Directions
@@ -75,6 +77,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [first-post](flows/first-post.md): Came to post up: first post with sign-in (Phase 0, draft) · player: flows/first-post.html
 - [returning-post](flows/returning-post.md): Returning poster (Phase 1, draft) · player: flows/returning-post.html
 - [hosting](flows/hosting.md): Hosting live: extend, edit, end (Phase 1, draft) · player: flows/hosting.html
+- [too-far](flows/too-far.md): Post up from too far away (Phase 0, draft) · player: flows/too-far.html
 - [chat](flows/chat.md): Postup chat (Phase 1, draft) · player: flows/chat.html
 - [safety](flows/safety.md): Report and block (Phase 0, draft) · player: flows/safety.html
 - [leave](flows/leave.md): Leave a postup you joined (Phase 1, draft) · player: flows/leave.html
@@ -91,12 +94,12 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [catch-up](flows/catch-up.md): Catch up on what happened (Unphased, draft) · player: flows/catch-up.html
 
 ## Site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 40 pages + 9 sheets, 336 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 3878 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4326 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 - [Site graph: pages, site states, edges, design gaps](flows/sitegraph.md) · page: flows/site.html · data: flows/sitegraph.json
 - [Site states by screen](flows/states.html): every state each screen appears in (conditions, open slots, links in/out, flow steps), from model/
 - [Site map + states (split view)](flows/explore.html): click a screen on the map, see all its site states
 
 ## Flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 22 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.
 - [Flow map (Mermaid source + where each flow starts)](flows/map.md) · page: flows/map.html
 - [Flow map by situation](flows/map.html): per user type (#newcomer, #registered), situations with their flows; data model/situations.toml

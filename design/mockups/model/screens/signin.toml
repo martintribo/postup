@@ -8,6 +8,8 @@ links = [
   { id = "close", label = "", action = "close" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "close", sets = "auth=in", continue = true },
   { id = "continue-with-google", label = "Continue with Google", action = "close", sets = "auth=in", continue = true },
+  { id = "continue-with-x", label = "Continue with X", action = "close", sets = "auth=in", continue = true },
+  { id = "continue-with-github", label = "Continue with GitHub", action = "close", sets = "auth=in", continue = true },
   { id = "not-now", label = "Not now", action = "close" },
 ]
 
@@ -97,4 +99,10 @@ lines = [
 section = "Was #attach-signin (over #project-attach): Scenarios"
 lines = [
   "Signed in: no sheet; shows `#project-attach`. [FS] [M1018]",
+]
+
+[[notes]]
+section = "Sign-in options"
+lines = [
+  "Exactly four options in every phase: Continue with Apple, Google, X and GitHub. No email or password, so every account is tied to a verified identity. [M1039]",
 ]

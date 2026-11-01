@@ -17,6 +17,8 @@ links = [
   { id = "back-2", label = "", action = "back", when = "auth=out" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
   { id = "continue-with-google", label = "Continue with Google", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-x", label = "Continue with X", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
+  { id = "continue-with-github", label = "Continue with GitHub", action = "replace", to = "chat", sets = "auth=in", when = "auth=out" },
   { id = "back-3", label = "Not now", action = "back", when = "auth=out" },
 ]
 

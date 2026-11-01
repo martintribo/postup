@@ -34,3 +34,9 @@ section = "Open"
 lines = [
   "No user ban system yet. [TK§4]",
 ]
+
+[[notes]]
+section = "Trust (anti-trolling)"
+lines = [
+  "Several reports from different people hide the postup until it's reviewed. [M1039]",
+]

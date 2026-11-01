@@ -14,5 +14,7 @@ events = [
 ]
 conditions = [
   { id = "google-card-fails", label = "Google card fails", replaces = "cafe", with = "cafe-gfail" },
+  { id = "has-live-postup", label = "you already have a live postup", replaces = "post", with = "post-already" },  # one live postup per account [M1039]
+  { id = "too-far", label = "the place is too far from you", replaces = "posted", with = "post-far" },  # location check [M1039]
   { id = "empty-area", label = "area has no postups", on = ["home"], when = "live=none", action = "replace", to = "empty-area" },
 ]

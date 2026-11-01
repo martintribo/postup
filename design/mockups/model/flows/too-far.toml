@@ -1,0 +1,42 @@
+# Flow: Post up from too far away. Location check [M1039].
+id = "too-far"
+name = "Post up from too far away"
+role = "host"
+phase = 0  # smallest MVP: anti-trolling [M1039]
+user = "registered"
+situation = "rg-posting"
+order = 13
+status = "draft"
+persona = "Signed-in user who isn't at the cafe they pick."
+goal = "Try to post up at a far-away cafe and get sent back to pick a nearby one. [M1039]"
+intent = "Picks a cafe across town"
+start = { screen = "post", auth = "in", live = "none", device = "phone", url = "/" }
+edge_cases = [
+  "The check is best effort in the browser: location can be denied or faked. Denied location blocks posting with the same message. [M1039]",
+]
+success = [
+  "A friend can't post up as being somewhere they're not, at least without effort. [M1039]",
+]
+decide = [
+]
+
+[[steps]]
+arrive = "opens Post up"
+expect = "post@in.none"
+thought = "Wants to post at Stories Cafe"
+shows = "Post up form. [FS]"
+
+[[steps]]
+link = "post:post-up"
+condition = "too-far"
+act = "taps Post up"
+expect = "post-far@in.none"
+thought = "The cafe is 2 mi away"
+shows = "You're too far away: you can only post up where you are. [M1039]"
+
+[[steps]]
+link = "post-far:pick-nearby"
+act = "taps Pick a cafe near you"
+expect = "where@in.none"
+thought = "Picks the cafe they're actually at"
+shows = "Where are you? list, nearest first. [FS] [M1039]"

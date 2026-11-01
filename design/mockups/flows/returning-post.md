@@ -14,25 +14,26 @@ Player: /mockups/flows/returning-post.html
 ## Steps
 1. **post@in.live** · user: Regular; working at a cafe today · action: taps Post up · edge: entry
    - Last project and nearest cafe preselected; no 🔒. [FS] [M1024]
-   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), **posted@in.live** (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project-new@in.live (Project), projects@in.live (Projects)
-   - enterable flows: desktop-browse step 3 (if Wants to post too)
+   - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), **posted@in.live** (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project-new@in.live (Project), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup)), post-far@in.live (Post up (the place is too far from you))
+   - enterable flows: too-far step 1 (if Wants to post at Stories Cafe), desktop-browse step 3 (if Wants to post too)
 2. **posted@in.live** · user: Posted; now live for others · action: taps Post up · edge: tap: Post up
    - Posted. [FS]
-   - next site states: home@in.live.live (Close), posted+share@in.live (Invite friends), **live@in.live** (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
+   - next site states: home@in.live.live (Close), posted+share@in.live (Invite friends), **live@in.live** (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails)), post-already@in.live (Post up (you already have a live postup))
    - enterable flows: first-post step 6 (if Live; wants company)
 3. **live@in.live** · user: Managing their postup · action: opens their live postup · edge: tap: Manage postup
    - You're live: time left, requests, chat. [FS] [F057]
-   - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects)
+   - next site states: back (Back), live+share@in.live (Share), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), **home@in.live.live** (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup))
    - enterable flows: hosting step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 4. **home@in.live.live** · user: Checks they show up on Home · action: goes Home · edge: tap: Home
    - Your live state shows on home. [R22]
-   - next site states: postup@in.live (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), postup-ask@in.live (T), home@in.live.building (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails))
+   - next site states: postup@in.live (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), postup-ask@in.live (T), home@in.live.building (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails)), post-already@in.live (Post up (you already have a live postup))
    - enterable flows: join step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
 
 ## Connected flows [M1025]
 - `first-post`: branch out at step 2→6; merge in at step 2 (from its step 6)
 - `host-approve`: branch out at step 3→2; merge in at step 3 (from its step 2)
 - `desktop-browse`: branch out at step 4→1; merge in at step 1 (from its step 3)
+- `too-far`: branch out at step 1→1; merge in at —
 - `hosting`: branch out at step 3→1; merge in at —
 - `join`: branch out at step 4→1; merge in at —
 - `catch-up`: branch out at step 4→1; merge in at —
@@ -44,12 +45,9 @@ Player: /mockups/flows/returning-post.html
 4. `#home` · auth=in live=live mode=live — Your live state shows on home. [R22] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=1#home)
 
 ## Branches and edge cases
-- Already live: Post up opens #live instead of a second postup. [unsourced] [M1024]
+- Already live: Post up shows You're already posted up (#post-already) with View your postup; one live postup per account. [M1039]
 
 ## Success criteria
 - Home → live in 2 taps. [M1024]
-
-## Needs Martin's decision
-- Can someone have two postups at once? [unsourced]
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

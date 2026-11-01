@@ -18,7 +18,7 @@ EDGES=[('V0','IST','no idea'),('V0','ICU','curious'),('V0','IPO','wants to post'
  ('RL','HOST','posts up'),('RN','HOST','posts up'),('OFF','RET','back online')]
 BADGES=[('ICU','look-around','curious or no idea, joins'),('SN','empty-area-newcomer','nobody live'),('IPO','first-post',''),('SLK','invite-live',''),
  ('SPJ','invite-project',''),('OFF','loading-offline',''),('RL','join',''),('RL','ask-join',''),
- ('RL','returning-post',''),('RL','desktop-browse','on a laptop'),('RL','postup-states','postup fills or ends'),('RL','safety','someone feels off'),
+ ('RL','returning-post',''),('RL','too-far','too far from the cafe'),('RL','desktop-browse','on a laptop'),('RL','postup-states','postup fills or ends'),('RL','safety','someone feels off'),
  ('HOST','host-approve','gets a request'),('HOST','hosting',''),('JN','leave','plans change'),('JN','chat',''),
  ('RN','project-builder',''),('RN','following',''),('RN','empty-area','area has no postups'),('RET','delete-account',''),('RET','settings-notify',''),('RET','catch-up','comes back later')]
 FB={f['id']:f for f in FLOWS}

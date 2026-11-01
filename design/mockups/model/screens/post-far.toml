@@ -1,0 +1,25 @@
+# Screen: Too far away to post. Location check [M1039].
+id = "post-far"
+title = "Post up · too far away"
+kind = "page"
+group = "Posting & hosting"
+slots = [
+  { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
+]
+links = [
+  { id = "back", label = "Back", action = "back" },
+  { id = "pick-nearby", label = "Pick a cafe near you", action = "replace", to = "where" },
+  { id = "map", label = "Back to map", action = "replace", to = "home" },
+]
+
+[[notes]]
+section = "Purpose"
+lines = [
+  "Shown instead of going live when the chosen place is not near where you are: \"You're too far away\", with Pick a cafe near you. Posting only works for places near your real location. [M1039]",
+]
+
+[[notes]]
+section = "Behavior"
+lines = [
+  "The check is best effort in the browser: it uses the browser's location, which the user can deny or fake. If location is denied, posting is blocked with this screen's message rather than allowed. [M1039]",
+]

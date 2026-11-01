@@ -19,6 +19,9 @@ Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, T
 ## Open
 - No user ban system yet. [TK§4]
 
+## Trust (anti-trolling)
+- Several reports from different people hide the postup until it's reviewed. [M1039]
+
 ## Global rules (every screen)
 ### Home page (/)
 - **`/` is `#home`, called Home.** Two modes on the same URL, no redirect: **Live** (map + Live now) and **Building** (projects first). [M1018b]

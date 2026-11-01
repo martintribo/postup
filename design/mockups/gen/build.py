@@ -157,6 +157,9 @@ def signin(id,title,sub,to):
     return f'''<div class="dim" onclick="bk()"></div><div class="bs"><span class="grab"></span><h2>{title}</h2><p class="mu">{sub}</p>
 <button class="sso ap" onclick="go('{to}')"><svg width="18" height="18" viewBox="0 0 24 24" fill="#fff"><path d="M16.4 12.6c0-2.4 2-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-3 .9-3.8 2.3-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2-1.1 2.8-2.3.9-1.3 1.2-2.5 1.3-2.6-.1 0-2.5-.9-2.5-3.7zM14.1 5.5c.6-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg> Continue with Apple</button>
 <button class="sso" onclick="go('{to}')"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 9z"/><path fill="#EA4335" d="M12 5.9c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.7 9.3 5.9 12 5.9z"/></svg> Continue with Google</button>
+<button class="sso" onclick="go('{to}')"><svg width="16" height="16" viewBox="0 0 24 24"><path fill="#000" d="M17.8 3h3.1l-6.8 7.7L22 21h-6.2l-4.9-6.3L5.3 21H2.2l7.2-8.3L1.8 3h6.4l4.4 5.8zm-1.1 16.2h1.7L7.4 4.7H5.6z"/></svg> Continue with X</button>
+<button class="sso" onclick="go('{to}')"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#181717" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.6 9.6 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg> Continue with GitHub</button>
+<p class="xs mu" style="text-align:center;margin:2px 0 0">No email or password: sign in with an account you already have.</p>
 <button class="tx" onclick="bk()">Not now</button></div>'''
 S['post-signin']=S['post']+signin('post-signin','Almost there','Sign in and your postup goes live.','posted')
 
@@ -222,6 +225,7 @@ DESK=f'''<aside class="rail"><a class="rlogo" href="#home">{I("coffee",22)}</a>{
 exec(open('gen/more.py').read())
 exec(open('gen/scenarios.py').read())
 exec(open('gen/home.py').read())
+exec(open('gen/m1039.py').read())
 exec(open('gen/phasev.py').read())
 exec(open('gen/fold.py').read())
 exec(open('gen/notes.py').read())

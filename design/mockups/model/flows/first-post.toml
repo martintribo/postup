@@ -70,3 +70,26 @@ act = "taps Invite friends"
 expect = "posted+share@in.none"
 thought = "Wants friends to come too"
 shows = "Invite friends: share sheet. [drawn] [M1024]"
+
+[[steps]]
+link = "share:close"
+act = "closes the share sheet"
+expect = "posted@in.none"
+thought = "Done sharing"
+shows = "Back on You're posted up. [M1039]"
+
+[[steps]]
+link = "tabbar:post-up"
+condition = "has-live-postup"
+act = "taps Post up again"
+expect = "post-already@in.none"
+thought = "Tries to post a second one"
+shows = "You're already posted up at Lot 1 Coffee: one live postup per account. [M1039]"
+
+[[steps]]
+link = "post-already:view"
+act = "taps View your postup"
+expect = "live@in.none"
+thought = "Checks on their postup"
+shows = "Their live postup. [M1039]"
+

@@ -12,13 +12,12 @@ goal = "Post up with defaults, then see you're live. [M1024]"
 intent = "Regular; working at a cafe today"
 start = { screen = "post", auth = "in", live = "live", device = "phone", url = "/" }
 edge_cases = [
-  "Already live: Post up opens #live instead of a second postup. [unsourced] [M1024]",
+  "Already live: Post up shows You're already posted up (#post-already) with View your postup; one live postup per account. [M1039]",
 ]
 success = [
   "Home → live in 2 taps. [M1024]",
 ]
 decide = [
-  "Can someone have two postups at once? [unsourced]",
 ]
 
 [[steps]]

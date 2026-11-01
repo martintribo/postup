@@ -70,6 +70,12 @@
   "back": false
  },
  "first-post-7": null,
+ "first-post-8": null,
+ "first-post-9": {
+  "label": "View your postup",
+  "back": false
+ },
+ "first-post-10": null,
  "returning-post-1": {
   "label": "Post up",
   "back": false
@@ -100,6 +106,15 @@
   "back": false
  },
  "hosting-5": null,
+ "too-far-1": {
+  "label": "Back",
+  "back": true
+ },
+ "too-far-2": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "too-far-3": null,
  "chat-1": {
   "label": "M",
   "back": false
