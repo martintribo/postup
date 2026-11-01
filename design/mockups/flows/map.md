@@ -1,5 +1,5 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 28 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 31 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
@@ -72,14 +72,8 @@ flowchart LR
   RL -->|"posts up"| HOST
   RN -->|"posts up"| HOST
   OFF -->|"back online"| RET
-  ICU -.-> F_look_around(["▶ Newcomer looks around, then joins"])
-  click F_look_around href "look-around.html"
-  SN -.-> F_empty_area_newcomer(["▶ Nobody live nearby (newcomer)"])
-  click F_empty_area_newcomer href "empty-area-newcomer.html"
-  IPO -.-> F_first_post(["▶ Came to post up: first post with sign-in"])
-  click F_first_post href "first-post.html"
-  SLK -.-> F_invite_live(["▶ Share link to a live postup"])
-  click F_invite_live href "invite-live.html"
+  ICU -.-> F_first_visit(["▶ First visit"])
+  click F_first_visit href "first-visit.html"
   SPJ -.-> F_invite_project(["▶ Share link to a project"])
   click F_invite_project href "invite-project.html"
   OFF -.-> F_loading_offline(["▶ Slow network and offline"])
@@ -117,10 +111,7 @@ flowchart LR
 ```
 
 ## Where each flow starts
-- `look-around` (Phase 0): from state "Curious about content · live now or past" when curious or no idea, joins [M1025]
-- `empty-area-newcomer` (Phase 0): from state "Signed out · nobody live" when nobody live [M1025]
-- `first-post` (Phase 0): from state "Came to post up · wants to go live now" [M1025]
-- `invite-live` (Phase 0): from state "Signed out · on a live postup link" [M1025]
+- `first-visit` (Phase 0): from state "Curious about content · live now or past" when first visit: live, nobody, or a link [M1025]
 - `invite-project` (Phase 2 (MVP)): from state "Signed out · on a project link" [M1025]
 - `loading-offline` (Unphased): from state "Slow network or offline" [M1025]
 - `join` (Phase 0): from state "Signed in · someone live nearby" [M1025]

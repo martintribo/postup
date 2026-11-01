@@ -19,7 +19,7 @@ Player: /mockups/flows/returning-post--too-far.html
 2. **post-far@in.live** · user: Picked the cafe from yesterday by habit · action: taps Post up · edge: tap: Post up (the place is too far from you)
    - You're too far away. [M1039]
    - next site states: back (Back), **where@in.live** (Pick a cafe near you), home@in.live.live (Back to map), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
-   - enterable flows: first-post--too-far step 6 (if The cafe they picked is 2 mi away)
+   - enterable flows: first-visit--too-far step 6 (if The cafe they picked is 2 mi away)
 3. **where@in.live** · user: Picks today's cafe · action: taps Pick a cafe near you · edge: tap: Pick a cafe near you
    - Where are you? list, nearest first. [FS] [M1039]
    - next site states: back (Back), where-search@in.live (Search cafes), posted@in.live (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project-new@in.live (Project), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup)), post-far@in.live (Post up (the place is too far from you))
@@ -27,7 +27,7 @@ Player: /mockups/flows/returning-post--too-far.html
 
 ## Connected flows [M1025]
 - `desktop-browse`: branch out at step 1→3; merge in at step 1 (from its step 3)
-- `first-post--too-far`: branch out at step 2→6; merge in at step 2 (from its step 6)
+- `first-visit--too-far`: branch out at step 2→6; merge in at step 2 (from its step 6)
 - `returning-post`: branch out at step 1→1; merge in at —
 - `returning-post--already-posted`: branch out at step 1→1; merge in at —
 

@@ -1,29 +1,114 @@
 {
- "look-around-1": {
+ "first-visit-1": {
   "label": "M",
   "back": false
  },
- "look-around-2": {
+ "first-visit-2": {
   "label": "M",
   "back": false
  },
- "look-around-3": {
+ "first-visit-3": {
   "label": "Live at Bean Theory",
   "back": false
  },
- "look-around-4": null,
- "look-around-5": null,
- "look-around-6": null,
- "empty-area-newcomer-1": null,
- "empty-area-newcomer-2": {
+ "first-visit-4": null,
+ "first-visit-5": null,
+ "first-visit-6": null,
+ "first-visit--already-posted-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--already-posted-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--already-posted-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--already-posted-4": null,
+ "first-visit--already-posted-5": null,
+ "first-visit--already-posted-6": {
+  "label": "View your postup",
+  "back": false
+ },
+ "first-visit--already-posted-7": null,
+ "first-visit--browse-1": {
+  "label": "Nearby",
+  "back": false
+ },
+ "first-visit--browse-2": null,
+ "first-visit--link-ended-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--link-ended-2": null,
+ "first-visit--link-live-1": null,
+ "first-visit--link-live-2": null,
+ "first-visit--link-live-3": null,
+ "first-visit--nobody-1": null,
+ "first-visit--nobody-2": {
   "label": "M",
   "back": false
  },
- "empty-area-newcomer-3": {
+ "first-visit--nobody-3": {
   "label": "Back",
   "back": true
  },
- "empty-area-newcomer-4": null,
+ "first-visit--nobody-4": null,
+ "first-visit--not-now-1": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--not-now-2": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--not-now-3": {
+  "label": "Live at Bean Theory",
+  "back": false
+ },
+ "first-visit--not-now-4": null,
+ "first-visit--not-now-5": null,
+ "first-visit--not-now-6": null,
+ "first-visit--post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--post-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--post-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--post-4": null,
+ "first-visit--post-5": null,
+ "first-visit--post-6": {
+  "label": "Invite friends",
+  "back": false
+ },
+ "first-visit--post-7": null,
+ "first-visit--too-far-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--too-far-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--too-far-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--too-far-4": null,
+ "first-visit--too-far-5": null,
+ "first-visit--too-far-6": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "first-visit--too-far-7": null,
  "join-1": {
   "label": "M",
   "back": false
@@ -65,9 +150,6 @@
   "back": true
  },
  "join--full-3": null,
- "invite-live-1": null,
- "invite-live-2": null,
- "invite-live-3": null,
  "empty-area-1": null,
  "empty-area-2": {
   "label": "M",
@@ -78,63 +160,6 @@
   "back": true
  },
  "empty-area-4": null,
- "first-post-1": {
-  "label": "Post up",
-  "back": false
- },
- "first-post-2": {
-  "label": "Bean Theory",
-  "back": false
- },
- "first-post-3": {
-  "label": "tap",
-  "back": false
- },
- "first-post-4": null,
- "first-post-5": null,
- "first-post-6": {
-  "label": "Invite friends",
-  "back": false
- },
- "first-post-7": null,
- "first-post--already-posted-1": {
-  "label": "Post up",
-  "back": false
- },
- "first-post--already-posted-2": {
-  "label": "Bean Theory",
-  "back": false
- },
- "first-post--already-posted-3": {
-  "label": "tap",
-  "back": false
- },
- "first-post--already-posted-4": null,
- "first-post--already-posted-5": null,
- "first-post--already-posted-6": {
-  "label": "View your postup",
-  "back": false
- },
- "first-post--already-posted-7": null,
- "first-post--too-far-1": {
-  "label": "Post up",
-  "back": false
- },
- "first-post--too-far-2": {
-  "label": "Bean Theory",
-  "back": false
- },
- "first-post--too-far-3": {
-  "label": "tap",
-  "back": false
- },
- "first-post--too-far-4": null,
- "first-post--too-far-5": null,
- "first-post--too-far-6": {
-  "label": "Pick a cafe near you",
-  "back": false
- },
- "first-post--too-far-7": null,
  "returning-post-1": {
   "label": "Post up",
   "back": false

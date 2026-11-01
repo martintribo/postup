@@ -101,7 +101,7 @@ def esc(t): return re.sub(r'(\[[^\]]+\])',r'<span class="tg">\1</span>',H.escape
 FBR_WEAK=set()
 def _ptitle(sc): return NOTES[sc]['title'] if sc in NOTES else sc
 def _site_page(site): return site.split('@')[0].split('+')[0]
-ROLE={**{k:'host' for k in ['host-approve','hosting','first-post','returning-post','project-builder']},**{k:'account' for k in ['safety','delete-account','settings-notify']}}
+ROLE={**{k:'host' for k in ['host-approve','hosting','returning-post','project-builder']},**{k:'account' for k in ['safety','delete-account','settings-notify']}}
 def _role(fid): return ROLE.get(fid,'joiner')
 def branches_for(f,i):
     """Branch rows under step i (0-based): other flows that leave this site state differently, loops inside this flow, exits. [M1028]"""
@@ -176,8 +176,13 @@ def player(f):
     rows=[r for r in conn_rows(fid) if _role(r[0])==_role(fid)]
     CONN=('<h3>Connected flows</h3><div class="cfs">'+''.join(f'<a class="cfc" href="{h}.html">{H.escape(FBY[h]["name"])} <i>{len(v["out"])}↗ {len(v["inn"])}↘</i></a>' for h,v in rows)+'</div>') if rows else ''
     top=FBY[f['parent']] if f['parent'] else f
-    OUTH=('<div class="oh"><b>◇ '+str(len(f['outs']))+' outcomes</b>'+''.join(f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html'+(f'#{o["at"]+1}' if o['at'] else '')+f'" title="{H.escape(o["when"] or "The main path")}">{"Main: " if not o["at"] else "Outcome: "}{H.escape(olab(o))}{p1b(o["phase"]) if o["phase"]!=top["phase"] else ""}</a>' for o in f['outs'])+(f'<span class="meta">Branches after step '+', '.join(sorted({str(o["at"]) for o in f["outs"] if o["at"]}))+' · this page: '+H.escape(olab([o for o in f['outs'] if o['id']==fid][0]))+'</span>')+'</div>') if len(f['outs'])>1 else ''
-    OUTJ=json.dumps([dict(id=o['id'],l=olab(o),w=re.sub(r'\s*\[[^\]]+\]','',o['when']),at=o['at'],ph=o['phase']) for o in f['outs']])
+    OB={o['id']:o for o in f['outs']}
+    ents=[o for o in f['outs'] if o['entry']]
+    def chip(o,pre): return f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html'+(f'#{o["at"]+1}' if o['at'] else '')+f'" title="{H.escape(re.sub(r"\s*\[[^\]]+\]","",o["when"] or "The main path"))}">{pre}{H.escape(olab(o))}{p1b(o["phase"]) if o["phase"]!=top["phase"] else ""}</a>'
+    OUTH=('<div class="oh"><b>◇ '+str(len(f['outs']))+' outcomes</b>'+''.join(chip(o,'Main: ' if o['at'] is None else 'Outcome: ') for o in f['outs'])
+      +f' <a class="oc gr" href="graph.html#{top["id"]}">Graph view →</a></div>'
+      +(('<div class="oh"><b>⇢ '+str(len(ents))+' ways in</b>'+''.join(f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html#1" title="{H.escape(olab(o))}">{H.escape(re.sub(r"\s*\[[^\]]+\]","",o["entry"]))}</a>' for o in ents)+'</div>') if len(ents)>1 else '')) if len(f['outs'])>1 else ''
+    FORKS=json.dumps({a-1:[dict(id=x,l=olab(OB[x]),w=re.sub(r'\s*\[[^\]]+\]','',OB[x]['when']),main=OB[x]['at'] is None,on=x==fid) for x in xs] for a,xs in f['forks'].items()})
     sec=lambda h,k:(f'<h3>{h}</h3><ul>'+''.join(f'<li>{esc(b)}</li>' for b in f[k])+'</ul>') if f[k] else ''
     return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Flow · {H.escape(f['name'])} · PostUp mockups</title><style>{PCSS}{BRCSS}{DGCSS}{MVPCSS}{OCCSS}{OCPCSS}</style></head><body>
 <div class="top" style="padding:10px 16px 2px"><a href="index.html">← All flows</a> · <a href="../index.html#index">Mockups</a> · <a href="sitemap.html">Site map</a> &nbsp; <b style="font-size:16px">{H.escape(f['name'])}</b> <span class="pill{'' if f['pri']=='Phase 1' else ' nc'}">{f['pri']}</span><span class="pill{' dr' if f['status']=='draft' else ''}">{'Draft' if f['status']=='draft' else "Martin's example"}</span> {mvpc(fid)} <span class="meta">{MVPBAR0}</span>{OUTH}</div>
@@ -188,10 +193,9 @@ def player(f):
 <p class="meta"><b>Persona:</b> {H.escape(f['persona'])}<br><b>Start:</b> auth={s['auth']} · live={s['live']} · {dev} · entry <code>{H.escape(s['url'])}</code><br><b>Goal:</b> {esc(f['goal'])}</p>
 {CONN}{sec('Edge cases','branches')}{sec('Success','success')}{sec("Needs Martin's decision",'decide')}<p class="meta"><a href="{fid}.md">{fid}.md</a> · <a href="site.html">Site graph</a></p></div>
 <div class="stage"><iframe id="fr" class="{dev}" title="Mockup step"></iframe></div></div>
-<script>var OUT={OUTJ},ME="{fid}",MYAT={f['outcome_at'] or 0};
-function och(){{var b=document.getElementById("och"),h="";var ats={{}};OUT.forEach(function(o){{if(o.at)ats[o.at]=1}});Object.keys(ats).forEach(function(a){{a=+a;if(i!==a-1)return;if(MYAT&&a>MYAT)return;
- var c=OUT.filter(function(o){{return !o.at||o.at===a}});h+='<div class="ochh">◇ This flow branches here. Pick an outcome:</div>'+c.map(function(o){{var on=o.id===ME;return '<a class="ocx'+(on?' on':'')+'" href="'+o.id+'.html#'+(a+1)+'"><b>'+(o.at?'Outcome: ':'Main: ')+o.l+'</b>'+(o.w?'<span>'+o.w+'</span>':'')+'</a>'}}).join("")}});b.innerHTML=h;b.hidden=!h;
- document.querySelectorAll(".dn").forEach(function(l){{l.classList.toggle("fork",!!ats[+l.dataset.i+1]&&(!MYAT||+l.dataset.i+1<=MYAT))}})}}
+<script>var FORKS={FORKS};
+function och(){{var b=document.getElementById("och"),c=FORKS[i],h="";if(c){{h='<div class="ochh">◇ This flow branches here. Pick an outcome:</div>'+c.map(function(o){{return '<a class="ocx'+(o.on?' on':'')+'" href="'+o.id+'.html#'+(i+2)+'"><b>'+(o.main?'Main: ':'Outcome: ')+o.l+'</b>'+(o.w?'<span>'+o.w+'</span>':'')+'</a>'}}).join("")}}b.innerHTML=h;b.hidden=!h;
+ document.querySelectorAll(".dn").forEach(function(l){{l.classList.toggle("fork",!!FORKS[+l.dataset.i])}})}}
 var S={json.dumps(st)},i=0,fr=document.getElementById("fr"),y=0;fr.addEventListener("load",function(){{scrollTo(0,y);setTimeout(function(){{scrollTo(0,y)}},300)}});
 function un(s){{return s.replace(/&amp;/g,"&").replace(/&#x27;/g,"'").replace(/&quot;/g,'"')}}
 function step(n){{if(n<0||n>=S.length)return;i=n;y=scrollY;var x=S[i];fr.className=x.u.indexOf("device=desktop")>0?"desktop":"phone";if(window.fitpl)fitpl();fr.src=x.u.replace("#","&notes=0&fs="+i+"#");
@@ -242,6 +246,7 @@ exec(open('gen/states.py').read())
 exec(open('gen/sitemap.py').read())
 exec(open('gen/flowmap.py').read())
 exec(open('gen/situmap.py').read())
+exec(open('gen/graphview.py').read())
 # index + floating menu
 FIX=''.join(ix(f'flows/{f["id"]}.html',f['name'],f"{f['pri']}{' · draft' if f['status']=='draft' else ''} · {len(f['steps'])} steps",'spark') for f in FLOWS_TOP)
 S['index']=S['index'].replace('<h3 class="sh">Scenario</h3>',f'<h3 class="sh">Critical flows</h3><div class="grp"><a class="ixr" href="flows/index.html"><span class="ixi">{I("list",18)}</span><span class="lm"><b>All flows</b><span class="mu sm">Who arrives, in what situation, step by step</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/site.html"><span class="ixi">{I("list",18)}</span><span class="lm"><b>Site graph</b><span class="mu sm">Pages, site states and edges</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/explore.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site map + states</b><span class="mu sm">Click a screen on the map, see all its states beside it</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/states.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site states by screen</b><span class="mu sm">Every state a screen appears in, with links in and out</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/sitemap.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site map</b><span class="mu sm">Every page as a thumbnail, grouped by area, with links</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/map.html"><span class="ixi">{I("nav",18)}</span><span class="lm"><b>Flow map</b><span class="mu sm">How a first-time visitor reaches each flow</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/grid.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>All flows grid</b><span class="mu sm">Every step of every flow at once</span></span>{I("chev",18,"mu")}</a>{FIX}</div><h3 class="sh">Scenario</h3>',1)

@@ -36,5 +36,14 @@ for _id in sorted(_FL,key=lambda k:({0:0,1:0}.get(_FL[k].get('phase'),1),_FL[k].
 _FBY={f['id']:f for f in FLOWS}
 for f in FLOWS:
     top=f['parent'] or f['id']; p=_FBY[top]
-    f['outs']=[dict(id=top,label=_FL[top].get('outcome') or 'Done',when='',at=None,phase=p['phase'])]+[dict(id=g['id'],label=g['outcome'],when=g['outcome_when'],at=g['outcome_at'],phase=g['phase']) for g in sorted((g for g in FLOWS if g['parent']==top),key=lambda g:[o['id'] for o in _FL[top]['outcomes']].index(g['id'].split('--',1)[1]))]  # model order [M1040]
+    f['outs']=[dict(id=top,label=_FL[top].get('outcome') or 'Done',when='',at=None,phase=p['phase'],entry=_FL[top].get('entry',''))]+[dict(id=g['id'],label=g['outcome'],when=g['outcome_when'],at=g['outcome_at'],phase=g['phase'],entry=g['outcome_when'] if g['outcome_at']==0 else '') for g in sorted((g for g in FLOWS if g['parent']==top),key=lambda g:[o['id'] for o in _FL[top]['outcomes']].index(g['id'].split('--',1)[1]))]  # model order [M1040]
 FLOWS_TOP=[f for f in FLOWS if not f['parent']]
+# forks [M1041]: on each page, after step a (1-based), which ways on share this page's first a steps. {a: [out ids]}
+def _key(g,n): return [(d['site'],d['ref']) for d in g['sx'][:n]]
+for f in FLOWS:
+    f['forks']={}
+    for o in f['outs']:
+        g=_FBY[o['id']]
+        for a in range(1,min(len(f['sx']),len(g['sx']))):
+            if _key(g,a)==_key(f,a) and (g['sx'][a]['site'],g['sx'][a]['ref'])!=(f['sx'][a]['site'],f['sx'][a]['ref']):
+                f['forks'].setdefault(a,[f['id']]).append(o['id']); break

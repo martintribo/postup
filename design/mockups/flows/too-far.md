@@ -1,2 +1,2 @@
 # too-far (merged)
-Merged into [Came to post up: first post with sign-in → Too far away](first-post--too-far.md). [M1032]
+Merged into [First visit → Too far away](first-visit--too-far.md). [M1032]

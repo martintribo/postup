@@ -13,7 +13,7 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phas
 # versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
 PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
 def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
@@ -26,18 +26,22 @@ def load(root=ROOT):
     return sc,fl,ev,gl
 def expand_outcomes(f):
     """Flow outcomes [M1040]. A flow may end in more than one way: [[outcomes]] each have id, label, at (steps 1..at are shared
-    with the main path), when (what triggers it, source-tagged), optional phase and aliases, and [[outcomes.steps]] that follow.
-    Each outcome becomes a walkable flow '<flow>--<outcome>' (parent, outcome set) so validation, thumbs and the player reuse the
-    linear-flow machinery. The main path is the flow's own [[steps]], labelled by its 'outcome'."""
-    out={}
+    with the path it branches from), when (what triggers it, source-tagged), optional phase, situation and aliases, and
+    [[outcomes.steps]] that follow. Each outcome becomes a walkable flow '<flow>--<outcome>' (parent, outcome set).
+    Start branches [M1041]: at = 0 with its own start = {...} and an arrive first step (a different entry state).
+    Trees [M1041]: from = "<earlier outcome id>" branches off that outcome's path instead of the main path."""
+    out={}; paths={None:(f['steps'],f.get('start'))}
     for o in f.get('outcomes',[]):
         if not isinstance(o.get('id'),str) or not isinstance(o.get('at'),int) or not o.get('steps'): continue  # validate.py reports it
-        g={k:v for k,v in f.items() if k not in ('outcomes','aliases','outcome')}
-        g.update(id=f"{f['id']}--{o['id']}",name=f"{f['name']} → {o.get('label','')}",steps=f['steps'][:o['at']]+o['steps'],parent=f['id'],
-                 outcome=o.get('label',''),outcome_when=o.get('when',''),outcome_at=o['at'],aliases=o.get('aliases',[]),edge_cases=[],decide=[],
-                 success=o.get('success',[]))
+        if o.get('from') not in paths: continue  # validate.py reports it
+        bsteps,bstart=paths[o.get('from')]
+        g={k:v for k,v in f.items() if k not in ('outcomes','aliases','outcome','entry')}
+        g.update(id=f"{f['id']}--{o['id']}",name=f"{f['name']} → {o.get('label','')}",steps=bsteps[:o['at']]+o['steps'],parent=f['id'],
+                 outcome=o.get('label',''),outcome_when=o.get('when',''),outcome_at=o['at'],outcome_from=o.get('from'),aliases=o.get('aliases',[]),edge_cases=[],decide=[],
+                 success=o.get('success',[]),start=o['start'] if o['at']==0 and 'start' in o else bstart)
         if 'phase' in o: g['phase']=o['phase']
         if 'situation' in o: g['situation']=o['situation']
+        paths[o['id']]=(g['steps'],g['start'])
         out[g['id']]=g
     return out
 def parse_when(w):

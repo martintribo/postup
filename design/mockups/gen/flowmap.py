@@ -16,7 +16,7 @@ EDGES=[('V0','IST','no idea'),('V0','ICU','curious'),('V0','IPO','wants to post'
  ('JN','RET','postup ends or leaves'),('HOST','RET','ends postup'),('RET','RL','comes back · someone live'),('RET','RN','comes back · nobody live'),
  ('RL','JN','joins'),('RL','PEND','asks to join'),('PEND','JN','gets approved'),('PEND','RL','declined or cancels'),
  ('RL','HOST','posts up'),('RN','HOST','posts up'),('OFF','RET','back online')]
-BADGES=[('ICU','look-around','curious or no idea, joins'),('SN','empty-area-newcomer','nobody live'),('IPO','first-post',''),('SLK','invite-live',''),
+BADGES=[('ICU','first-visit','first visit: live, nobody, or a link'),
  ('SPJ','invite-project',''),('OFF','loading-offline',''),('RL','join',''),('RL','ask-join',''),
  ('RL','returning-post',''),('RL','desktop-browse','on a laptop'),('RL','safety','someone feels off'),
  ('HOST','host-approve','gets a request'),('HOST','hosting',''),('JN','leave','plans change'),('JN','chat',''),

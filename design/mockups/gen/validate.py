@@ -145,6 +145,7 @@ for fid,f in fl.items():
     p=f['_file']; os_=f.get('outcomes',[])
     if not os_: continue
     if not re.search(M.TAG,f.get('outcome','')): err(p,'outcome =',f'flow {fid} has outcomes, so it needs outcome = "<label of the main path> [tag]"')
+    if any(o.get('at')==0 for o in os_) and not re.search(M.TAG,f.get('entry','')): err(p,'outcome =',f'flow {fid} has start branches, so it needs entry = "<when the main path starts> [tag]"')
     seen=set()
     for k,o in enumerate(os_):
         ctx='[[outcomes]]'
@@ -153,12 +154,24 @@ for fid,f in fl.items():
         seen.add(o['id'])
         if not o.get('label') or re.search(M.TAG,o['label']): err(p,ctx,f'outcome {o["id"]}: needs a plain label (no tag)',nth=k)
         if not re.search(M.TAG,o.get('when','')): err(p,ctx,f'outcome {o["id"]}: when (what triggers it) needs a source tag',nth=k)
-        at=o.get('at')
-        if not isinstance(at,int) or isinstance(at,bool) or not 1<=at<len(f['steps']): err(p,ctx,f'outcome {o["id"]}: at must be a step number 1..{len(f["steps"])-1} of the main path (steps after it are replaced)',nth=k); continue
+        at=o.get('at'); fr=o.get('from')
+        if fr is not None and fr not in [x.get('id') for x in os_[:k]]: err(p,ctx,f'outcome {o["id"]}: from = {fr!r} must name an earlier outcome of this flow',nth=k); continue
+        base=(fl.get(f"{fid}--{fr}") or {}).get('steps') if fr else f['steps']
+        if base is None: err(p,ctx,f'outcome {o["id"]}: its from outcome {fr!r} is invalid',nth=k); continue
+        if not isinstance(at,int) or isinstance(at,bool) or not 0<=at<len(base): err(p,ctx,f'outcome {o["id"]}: at must be 0 (a start branch) or a step number 1..{len(base)-1} of the path it branches from',nth=k); continue
+        if at==0 and fr: err(p,ctx,f'outcome {o["id"]}: a start branch (at = 0) cannot also have from',nth=k)
         if not o.get('steps'): err(p,ctx,f'outcome {o["id"]}: needs [[outcomes.steps]]',nth=k); continue
-        b=o['steps'][0]; m=f['steps'][at]
-        if 'arrive' in b or not ('link' in b or 'event' in b): err(p,ctx,f'outcome {o["id"]}: its first step must be one link or event (one tap per step)',nth=k)
-        elif all(b.get(x)==m.get(x) for x in ('link','event','condition','expect')): err(p,ctx,f'outcome {o["id"]}: its first step is the same as main step {at+1}, so it is not a different outcome',nth=k)
+        b=o['steps'][0]
+        if at==0:  # start branch [M1041]: its own entry state, reached by arriving
+            st_=o.get('start') or {}
+            if not st_.get('screen') or st_.get('auth') not in M.DIMS['auth'] or st_.get('live') not in M.DIMS['live']: err(p,ctx,f'outcome {o["id"]}: a start branch needs start = {{ screen, auth, live, ... }}',nth=k)
+            elif st_==f['start'] or any((y.get('start')==st_ and y.get('at')==0) for y in os_[:k]): err(p,ctx,f'outcome {o["id"]}: start branch has the same start state as another entry; it is not a different entry',nth=k)
+            if 'arrive' not in b: err(p,ctx,f'outcome {o["id"]}: a start branch begins with an arrive step',nth=k)
+        else:
+            if 'start' in o: err(p,ctx,f'outcome {o["id"]}: only start branches (at = 0) have their own start',nth=k)
+            m=base[at]
+            if 'arrive' in b or not ('link' in b or 'event' in b): err(p,ctx,f'outcome {o["id"]}: its first step must be one link or event (one tap per step)',nth=k)
+            elif all(b.get(x)==m.get(x) for x in ('link','event','condition','expect')): err(p,ctx,f'outcome {o["id"]}: its first step is the same as step {at+1} of the path it branches from, so it is not a different outcome',nth=k)
         if 'phase' in o and (not _pint(o['phase']) or (f.get('phase') is not None and o['phase']<f['phase'])): err(p,ctx,f'outcome {o["id"]}: phase must be a phase no lower than the flow\'s',nth=k)
         for a_ in o.get('aliases',[]):
             if a_ in fl: err(p,ctx,f'outcome {o["id"]}: alias {a_} is still a flow',nth=k)

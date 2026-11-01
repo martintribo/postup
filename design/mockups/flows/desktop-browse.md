@@ -27,10 +27,10 @@ Player: /mockups/flows/desktop-browse.html
 4. **posted@in.live** · user: Posted; now live for others · action: taps Post up · edge: tap: Post up
    - Posted. [FS]
    - next site states: home@in.live.live (Close), posted+share@in.live (Invite friends), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
-   - enterable flows: first-post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
+   - enterable flows: first-visit--post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
 
 ## Connected flows [M1025]
-- `first-post`: branch out at step 4→6; merge in at step 4 (from its step 6)
+- `first-visit--post`: branch out at step 4→6; merge in at step 4 (from its step 6)
 - `catch-up`: branch out at step 1→1; merge in at —
 - `join`: branch out at step 2→2; merge in at —
 - `join--cancelled`: branch out at step 2→2; merge in at —
