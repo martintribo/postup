@@ -1,5 +1,5 @@
 # PostUp site graph
-Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4326 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
+Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4158 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]
 
 Site events: postups end; someone goes live; alert arrives; comes back later; postup fills (on postup, postup-ask, joined, requested, invite, postup-full); postup is cancelled (on postup, postup-ask, joined, requested, invite, postup-full); postup ends (on postup, postup-ask, joined, requested, invite, postup-full); someone you follow posts up; network drops (on quiet-feed, loading, home). live = someone live nearby; a postup ending changes only its own page.
 
@@ -40,7 +40,6 @@ States: `home@out.live.live`, `home@out.live.building`, `home@out.none.live`, `h
 - Live → `home` [mode]
 - Building → `home` [mode]
 - See map → `home` [mode] — only in·live·building, out·live·building
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Recent map · old no-live home (not /) (`quiet`)
 States: `quiet@out.live`, `quiet@out.none`, `quiet@in.live`, `quiet@in.none`
@@ -62,7 +61,6 @@ States: `quiet@out.live`, `quiet@out.none`, `quiet@in.live`, `quiet@in.none`
 - 1 this week (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
 - Bean Theory M J A 3 postups · Tue (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Nearby (/nearby) · photos (A) (`quiet-feed`)
 States: `quiet-feed@out.live`, `quiet-feed@out.none`, `quiet-feed@in.live`, `quiet-feed@in.none`
@@ -102,8 +100,6 @@ States: `quiet-feed@out.live`, `quiet-feed@out.none`, `quiet-feed@in.live`, `qui
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
-- Post up here (you already have a live postup) → `post-already` [cond] — only in·live, out·live
 
 ### Nearby (/nearby) · no photos (B) (`quiet-feed-b`)
 States: `quiet-feed-b@out.live`, `quiet-feed-b@out.none`, `quiet-feed-b@in.live`, `quiet-feed-b@in.none`
@@ -138,8 +134,6 @@ States: `quiet-feed-b@out.live`, `quiet-feed-b@out.none`, `quiet-feed-b@in.live`
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
-- Post up here (you already have a live postup) → `post-already` [cond] — only in·live, out·live
 
 ### Empty area (`empty-area`)
 States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `empty-area@in.none`
@@ -156,9 +150,6 @@ States: `empty-area@out.live`, `empty-area@out.none`, `empty-area@in.live`, `emp
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - cafe (Google card fails) → `cafe-gfail` [cond]
-- Stories Cafe 0.3 mi (you already have a live postup) → `post-already` [cond]
-- Lot 1 Coffee 0.6 mi (you already have a live postup) → `post-already` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Loading (`loading`)
 States: `loading@out.live`, `loading@out.none`, `loading@in.live`, `loading@in.none`
@@ -169,7 +160,6 @@ States: `loading@out.live`, `loading@out.none`, `loading@in.live`, `loading@in.n
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Offline (`offline`)
 States: `offline@out.live`, `offline@out.none`, `offline@in.live`, `offline@in.none`
@@ -204,8 +194,6 @@ States: `offline@out.live`, `offline@out.none`, `offline@in.live`, `offline@in.n
 - Bean Theory M J A 3 this week (Google card fails) → `cafe-gfail` [cond]
 - Grindhouse T 1 this week (Google card fails) → `cafe-gfail` [cond]
 - Lantern Tea A D 2 this week (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
-- Post up here (you already have a live postup) → `post-already` [cond]
 
 ### Home overlay · alternative, not chosen (`home-overlay-alt`)
 States: `home-overlay-alt@out.live`, `home-overlay-alt@out.none`, `home-overlay-alt@in.live`, `home-overlay-alt@in.none`
@@ -224,7 +212,6 @@ States: `home-overlay-alt@out.live`, `home-overlay-alt@out.none`, `home-overlay-
 - Nearby → `quiet-feed` [tap]
 - 3 this week (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ## Cafes & picking a place
 
@@ -246,8 +233,6 @@ States: `cafe@out.live`, `cafe@out.none`, `cafe@in.live`, `cafe@in.none`
 - Back → `Back` [back]
 - Share → `cafe+share` [sheet]
 - Bean Theory (Google card fails) → `cafe-gfail` [cond] — only in·live, out·live
-- Post up here (you already have a live postup) → `post-already` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `share` over this page: close → `cafe`; Messages → `cafe`; WhatsApp → `cafe`; Email → `cafe`; More → `cafe`; Cancel → `cafe`; close (Google card fails) → `cafe-gfail`; Messages (Google card fails) → `cafe-gfail`; WhatsApp (Google card fails) → `cafe-gfail`; Email (Google card fails) → `cafe-gfail`; More (Google card fails) → `cafe-gfail`; Cancel (Google card fails) → `cafe-gfail`
 
 ### Where are you? (`where`)
@@ -264,10 +249,10 @@ States: `where@out.live`, `where@out.none`, `where@in.live`, `where@in.none`
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Search cafes → `where-search` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
+- Post up (you already have a live postup) → `post-already` [cond] — only in·live, in·none
 - Post up (the place is too far from you) → `post-far` [cond] — only in·live, in·none
 - Post up → `where+signin` [sheet] — only out·live, out·none
-- sheet `signin` over this page: signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `where`; Not now → `where`; Continue with Apple → `where (signs in)`; Continue with Google → `where (signs in)`; Continue with X → `where (signs in)`; Continue with GitHub → `where (signs in)`
+- sheet `signin` over this page: signs in → continues (you already have a live postup) → `post-already (signs in)`; signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `where`; Not now → `where`; Continue with Apple → `where (signs in)`; Continue with Google → `where (signs in)`; Continue with X → `where (signs in)`; Continue with GitHub → `where (signs in)`
 
 ### Cafe search (`where-search`)
 States: `where-search@out.live`, `where-search@out.none`, `where-search@in.live`, `where-search@in.none`
@@ -283,10 +268,10 @@ States: `where-search@out.live`, `where-search@out.none`, `where-search@in.live`
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Search cafes → `where-search` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
+- Post up (you already have a live postup) → `post-already` [cond] — only in·live, in·none
 - Post up (the place is too far from you) → `post-far` [cond] — only in·live, in·none
 - Post up → `where-search+signin` [sheet] — only out·live, out·none
-- sheet `signin` over this page: signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `where-search`; Not now → `where-search`; Continue with Apple → `where-search (signs in)`; Continue with Google → `where-search (signs in)`; Continue with X → `where-search (signs in)`; Continue with GitHub → `where-search (signs in)`
+- sheet `signin` over this page: signs in → continues (you already have a live postup) → `post-already (signs in)`; signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `where-search`; Not now → `where-search`; Continue with Apple → `where-search (signs in)`; Continue with Google → `where-search (signs in)`; Continue with X → `where-search (signs in)`; Continue with GitHub → `where-search (signs in)`
 
 ### Cafe · Google card failed (`cafe-gfail`)
 States: `cafe-gfail@out.live`, `cafe-gfail@out.none`, `cafe-gfail@in.live`, `cafe-gfail@in.none`
@@ -309,8 +294,6 @@ States: `cafe-gfail@out.live`, `cafe-gfail@out.none`, `cafe-gfail@in.live`, `caf
 - Retry (Google card fails) → `cafe-gfail` [cond]
 - Open in Maps → `cafe-gfail+dirs` [sheet]
 - Share → `cafe-gfail+share` [sheet]
-- Post up here (you already have a live postup) → `post-already` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `dirs` over this page: close → `cafe-gfail`; Open in Apple Maps → `cafe-gfail`; Open in Google Maps → `cafe-gfail`; Cancel → `cafe-gfail`
 - sheet `share` over this page: close → `cafe-gfail`; Messages → `cafe-gfail`; WhatsApp → `cafe-gfail`; Email → `cafe-gfail`; More → `cafe-gfail`; Cancel → `cafe-gfail`
 
@@ -330,9 +313,9 @@ States: `post@out.live`, `post@out.none`, `post@in.live`, `post@in.none`
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Back → `Back` [back]
 - Post up → `post+signin` [sheet] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
+- Post up (you already have a live postup) → `post-already` [cond] — only in·live, in·none
 - Post up (the place is too far from you) → `post-far` [cond] — only in·live, in·none
-- sheet `signin` over this page: close → `post`; Not now → `post`; Continue with Apple → `post (signs in)`; Continue with Google → `post (signs in)`; Continue with X → `post (signs in)`; Continue with GitHub → `post (signs in)`; close (you already have a live postup) → `post-already`; Not now (you already have a live postup) → `post-already`; Continue with Apple (you already have a live postup) → `post-already (signs in)`; Continue with Google (you already have a live postup) → `post-already (signs in)`; Continue with X (you already have a live postup) → `post-already (signs in)`; Continue with GitHub (you already have a live postup) → `post-already (signs in)`; signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`
+- sheet `signin` over this page: close → `post`; Not now → `post`; Continue with Apple → `post (signs in)`; Continue with Google → `post (signs in)`; Continue with X → `post (signs in)`; Continue with GitHub → `post (signs in)`; signs in → continues (you already have a live postup) → `post-already (signs in)`; signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`
 
 ### You're posted up (`posted`)
 States: `posted@out.live`, `posted@out.none`, `posted@in.live`, `posted@in.none`
@@ -350,9 +333,8 @@ States: `posted@out.live`, `posted@out.none`, `posted@in.live`, `posted@in.none`
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Cafe (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Invite friends → `posted+share` [sheet]
-- sheet `share` over this page: close (the place is too far from you) → `post-far`; Messages (the place is too far from you) → `post-far`; WhatsApp (the place is too far from you) → `post-far`; Email (the place is too far from you) → `post-far`; More (the place is too far from you) → `post-far`; Cancel (the place is too far from you) → `post-far`; close → `posted`; Messages → `posted`; WhatsApp → `posted`; Email → `posted`; More → `posted`; Cancel → `posted`
+- sheet `share` over this page: close (you already have a live postup) → `post-already`; Messages (you already have a live postup) → `post-already`; WhatsApp (you already have a live postup) → `post-already`; Email (you already have a live postup) → `post-already`; More (you already have a live postup) → `post-already`; Cancel (you already have a live postup) → `post-already`; close (the place is too far from you) → `post-far`; Messages (the place is too far from you) → `post-far`; WhatsApp (the place is too far from you) → `post-far`; Email (the place is too far from you) → `post-far`; More (the place is too far from you) → `post-far`; Cancel (the place is too far from you) → `post-far`; close → `posted`; Messages → `posted`; WhatsApp → `posted`; Email → `posted`; More → `posted`; Cancel → `posted`
 
 ### Edit postup (`post-edit`)
 States: `post-edit@out.live`, `post-edit@out.none`, `post-edit@in.live`, `post-edit@in.none`
@@ -367,7 +349,6 @@ States: `post-edit@out.live`, `post-edit@out.none`, `post-edit@in.live`, `post-e
 - Nearby → `quiet-feed` [tap]
 - Bean Theory Nearest · 0.4 mi Chang → `where` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Continue with Apple → `post-edit (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `post-edit (signs in)` [sign-in] — only out·live, out·none
 - Continue with X → `post-edit (signs in)` [sign-in] — only out·live, out·none
@@ -394,7 +375,6 @@ States: `live@out.live`, `live@out.none`, `live@in.live`, `live@in.none`
 - Continue with GitHub → `live (signs in)` [sign-in] — only out·live, out·none
 - End postup → `live+endlive` [sheet]
 - Share → `live+share` [sheet]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `endlive` over this page: End now → `me`; close → `live`; Keep going → `live`
 - sheet `share` over this page: close → `live`; Messages → `live`; WhatsApp → `live`; Email → `live`; More → `live`; Cancel → `live`
 
@@ -410,7 +390,6 @@ States: `post-already@out.live`, `post-already@out.none`, `post-already@in.live`
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Post up · too far away (`post-far`)
 States: `post-far@out.live`, `post-far@out.none`, `post-far@in.live`, `post-far@in.none`
@@ -424,7 +403,6 @@ States: `post-far@out.live`, `post-far@out.none`, `post-far@in.live`, `post-far@
 - Nearby → `quiet-feed` [tap]
 - Pick a cafe near you → `where` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ## Postups & joining
 
@@ -443,7 +421,6 @@ States: `postup@out.live`, `postup@out.none`, `postup@in.live`, `postup@in.none`
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - Bean Theory 0.4 mi · 8 min walk (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `postup+more` [sheet]
 - Share → `postup+share` [sheet]
 - Join → `postup+signin` [sheet] — only out·live, out·none
@@ -471,7 +448,6 @@ States: `joined@out.live`, `joined@out.none`, `joined@in.live`, `joined@in.none`
 - Cafe (Google card fails) → `cafe-gfail` [cond]
 - Directions → `joined+dirs` [sheet]
 - Leave → `joined+leave` [sheet]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `dirs` over this page: close → `joined`; Open in Apple Maps → `joined`; Open in Google Maps → `joined`; Cancel → `joined`
 - sheet `leave` over this page: Leave → `postup`; close → `joined`; Stay → `joined`
 
@@ -490,7 +466,6 @@ States: `postup-ask@out.live`, `postup-ask@out.none`, `postup-ask@in.live`, `pos
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
 - Grindhouse 1.1 mi · 22 min walk (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `postup-ask+more` [sheet]
 - Share → `postup-ask+share` [sheet]
 - Ask to join → `postup-ask+signin` [sheet] — only out·live, out·none
@@ -518,7 +493,6 @@ States: `ask@out.live`, `ask@out.none`, `ask@in.live`, `ask@in.none`
 - Share → `ask+share` [sheet]
 - Ask to join → `ask+signin` [sheet] — only out·live, out·none
 - Grindhouse 1.1 mi · 22 min walk (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `ask`; Cancel → `ask`
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `ask`; Cancel → `ask`; Block → `ask+block`; Share → `ask+share`
 - sheet `share` over this page: close → `ask`; Messages → `ask`; WhatsApp → `ask`; Email → `ask`; More → `ask`; Cancel → `ask`
@@ -537,7 +511,6 @@ States: `requested@out.live`, `requested@out.none`, `requested@in.live`, `reques
 - Projects → `projects` [tap]
 - See who else is nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Postup ended (`postup-ended`)
 States: `postup-ended@out.live`, `postup-ended@out.none`, `postup-ended@in.live`, `postup-ended@in.none`
@@ -553,7 +526,6 @@ States: `postup-ended@out.live`, `postup-ended@out.none`, `postup-ended@in.live`
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `postup-ended+more` [sheet]
 - Follow Maya for next time → `postup-ended+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-ended`; Cancel → `postup-ended`
@@ -575,7 +547,6 @@ States: `postup-full@out.live`, `postup-full@out.none`, `postup-full@in.live`, `
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `postup-full+more` [sheet]
 - Follow Maya for next time → `postup-full+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-full`; Cancel → `postup-full`
@@ -597,7 +568,6 @@ States: `postup-cancelled@out.live`, `postup-cancelled@out.none`, `postup-cancel
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `postup-cancelled+more` [sheet]
 - Follow Maya for next time → `postup-cancelled+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `postup-cancelled`; Cancel → `postup-cancelled`
@@ -628,7 +598,6 @@ States: `project@out.live`, `project@out.none`, `project@in.live`, `project@in.n
 - Back → `Back` [back]
 - Bean Theory (Google card fails) → `cafe-gfail` [cond]
 - cafe (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Projects (`projects`)
 States: `projects@out.live`, `projects@out.none`, `projects@in.live`, `projects@in.none`
@@ -644,7 +613,6 @@ States: `projects@out.live`, `projects@out.none`, `projects@in.live`, `projects@
 - New project → `project-new` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### New project (`project-new`)
 States: `project-new@out.live`, `project-new@out.none`, `project-new@in.live`, `project-new@in.none`
@@ -657,7 +625,6 @@ States: `project-new@out.live`, `project-new@out.none`, `project-new@in.live`, `
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Create → `project-new+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `project (signs in)`; close → `project-new`; Not now → `project-new`; Continue with Apple → `project-new (signs in)`; Continue with Google → `project-new (signs in)`; Continue with X → `project-new (signs in)`; Continue with GitHub → `project-new (signs in)`
 
@@ -672,7 +639,6 @@ States: `project-update@out.live`, `project-update@out.none`, `project-update@in
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Post update → `project-update+signin` [sheet] — only out·live, out·none
 - sheet `signin` over this page: signs in → continues → `project (signs in)`; close → `project-update`; Not now → `project-update`; Continue with Apple → `project-update (signs in)`; Continue with Google → `project-update (signs in)`; Continue with X → `project-update (signs in)`; Continue with GitHub → `project-update (signs in)`
 
@@ -687,10 +653,10 @@ States: `project-attach@out.live`, `project-attach@out.none`, `project-attach@in
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
+- Post up (you already have a live postup) → `post-already` [cond] — only in·live, in·none
 - Post up (the place is too far from you) → `post-far` [cond] — only in·live, in·none
 - Post up → `project-attach+signin` [sheet] — only out·live, out·none
-- sheet `signin` over this page: signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `project-attach`; Not now → `project-attach`; Continue with Apple → `project-attach (signs in)`; Continue with Google → `project-attach (signs in)`; Continue with X → `project-attach (signs in)`; Continue with GitHub → `project-attach (signs in)`
+- sheet `signin` over this page: signs in → continues (you already have a live postup) → `post-already (signs in)`; signs in → continues (the place is too far from you) → `post-far (signs in)`; signs in → continues → `posted (signs in)`; close → `project-attach`; Not now → `project-attach`; Continue with Apple → `project-attach (signs in)`; Continue with Google → `project-attach (signs in)`; Continue with X → `project-attach (signs in)`; Continue with GitHub → `project-attach (signs in)`
 
 ## Share-link landings
 
@@ -708,7 +674,6 @@ States: `invite@out.live`, `invite@out.none`, `invite@in.live`, `invite@in.none`
 - Nearby → `quiet-feed` [tap]
 - Bean Theory · 0.4 mi (Google card fails) → `cafe-gfail` [cond]
 - Join Maya → `invite+signin` [sheet] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `signin` over this page: close → `invite`; Not now → `invite`; Continue with Apple → `invite (signs in)`; Continue with Google → `invite (signs in)`; Continue with X → `invite (signs in)`; Continue with GitHub → `invite (signs in)`; signs in → continues → `joined (signs in)`
 
 ### Share link · ended (`invite-ended`)
@@ -724,7 +689,6 @@ States: `invite-ended@out.live`, `invite-ended@out.none`, `invite-ended@in.live`
 - See what's nearby → `quiet-feed` [tap]
 - Nearby → `quiet-feed` [tap]
 - Follow Maya for next time → `invite-ended+signin` [sheet] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `signin` over this page: close → `invite-ended`; Not now → `invite-ended`; Continue with Apple → `invite-ended (signs in)`; Continue with Google → `invite-ended (signs in)`; Continue with X → `invite-ended (signs in)`; Continue with GitHub → `invite-ended (signs in)`
 
 ### Share link · project (`invite-project`)
@@ -740,7 +704,6 @@ States: `invite-project@out.live`, `invite-project@out.none`, `invite-project@in
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Follow → `invite-project+signin` [sheet] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `signin` over this page: close → `invite-project`; Not now → `invite-project`; Continue with Apple → `invite-project (signs in)`; Continue with Google → `invite-project (signs in)`; Continue with X → `invite-project (signs in)`; Continue with GitHub → `invite-project (signs in)`
 
 ## Inbox & people
@@ -762,7 +725,6 @@ States: `chat@out.live`, `chat@out.none`, `chat@in.live`, `chat@in.none`
 - Continue with GitHub → `chat (signs in)` [sign-in] — only out·live, out·none
 - More → `chat+more` [sheet]
 - Message options → `chat+msg` [sheet]
-- Post up (you already have a live postup) → `post-already` [cond]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `chat`; Cancel → `chat`
 - sheet `more` over this page: View profile → `profile`; Report → `report`; close → `chat`; Cancel → `chat`; Block → `chat+block`; Share → `chat+share`
 - sheet `msg` over this page: Report message → `report`; close → `chat`; Copy → `chat`; Cancel → `chat`; Block sender → `chat+block`
@@ -790,7 +752,6 @@ States: `inbox@out.live`, `inbox@out.none`, `inbox@in.live`, `inbox@in.none`
 - Continue with Google → `inbox (signs in)` [sign-in] — only out·live, out·none
 - Continue with X → `inbox (signs in)` [sign-in] — only out·live, out·none
 - Continue with GitHub → `inbox (signs in)` [sign-in] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Inbox · Activity (`activity`)
 States: `activity@out.live`, `activity@out.none`, `activity@in.live`, `activity@in.none`
@@ -814,7 +775,6 @@ States: `activity@out.live`, `activity@out.none`, `activity@in.live`, `activity@
 - Continue with Google → `activity (signs in)` [sign-in] — only out·live, out·none
 - Continue with X → `activity (signs in)` [sign-in] — only out·live, out·none
 - Continue with GitHub → `activity (signs in)` [sign-in] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Profile (`profile`)
 States: `profile@out.live`, `profile@out.none`, `profile@in.live`, `profile@in.none`
@@ -837,7 +797,6 @@ States: `profile@out.live`, `profile@out.none`, `profile@in.live`, `profile@in.n
 - Grindhouse (Google card fails) → `cafe-gfail` [cond]
 - Ship models imported Bean Theory · (Google card fails) → `cafe-gfail` [cond]
 - Level editor Lantern Tea · Oct 9 (Google card fails) → `cafe-gfail` [cond]
-- Post up (you already have a live postup) → `post-already` [cond]
 - More → `profile+more` [sheet]
 - Follow → `profile+signin` [sheet] — only out·live, out·none
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `profile`; Cancel → `profile`
@@ -871,7 +830,6 @@ States: `me@out.live`, `me@out.none`, `me@in.live`, `me@in.none`
 - Continue with Google → `me (signs in)` [sign-in] — only out·live, out·none
 - Continue with X → `me (signs in)` [sign-in] — only out·live, out·none
 - Continue with GitHub → `me (signs in)` [sign-in] — only out·live, out·none
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ## Account & safety
 
@@ -887,7 +845,6 @@ States: `settings@out.live`, `settings@out.none`, `settings@in.live`, `settings@
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Continue with Apple → `settings (signs in)` [sign-in] — only out·live, out·none
 - Continue with Google → `settings (signs in)` [sign-in] — only out·live, out·none
 - Continue with X → `settings (signs in)` [sign-in] — only out·live, out·none
@@ -906,7 +863,6 @@ States: `report@out.live`, `report@out.none`, `report@in.live`, `report@in.none`
 - Nearby → `quiet-feed` [tap]
 - Send report → `reported` [tap]
 - Back → `Back` [back]
-- Post up (you already have a live postup) → `post-already` [cond]
 
 ### Reported (`reported`)
 States: `reported@out.live`, `reported@out.none`, `reported@in.live`, `reported@in.none`
@@ -919,7 +875,6 @@ States: `reported@out.live`, `reported@out.none`, `reported@in.live`, `reported@
 - Post up → `post` [tap]
 - Projects → `projects` [tap]
 - Nearby → `quiet-feed` [tap]
-- Post up (you already have a live postup) → `post-already` [cond]
 - Block Maya too → `reported+block` [sheet]
 - sheet `block` over this page: Block → `home`; Blocked people (Settings) → `settings`; close → `reported`; Cancel → `reported`
 

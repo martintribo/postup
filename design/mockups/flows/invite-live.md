@@ -14,7 +14,7 @@ Player: /mockups/flows/invite-live.html
 ## Steps
 1. **invite@out.live** · user: A friend sent this; knows the context · action: opens the share link · edge: entry
    - Landing for the shared postup. [FS] [R39]
-   - next site states: **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails)), post-already@out.live (Post up (you already have a live postup))
+   - next site states: **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails))
    - enterable flows: none
 2. **invite+signin@out.live** · user: Wants to join the friend · action: taps Join 🔒 · edge: tap: Join Maya
    - Join → sign-in sheet. [FS] [M1024]
@@ -22,7 +22,7 @@ Player: /mockups/flows/invite-live.html
    - enterable flows: none
 3. **joined@in.live** · user: Signed in; going · action: signs in · edge: tap: Continue with Apple
    - Joined. [FS] [M1024]
-   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), joined+dirs@in.live (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails)), post-already@in.live (Post up (you already have a live postup))
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), joined+dirs@in.live (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: join step 3 (if Decides to join), leave step 1 (if Plans changed)
 
 ## Connected flows [M1025]

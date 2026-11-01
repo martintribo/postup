@@ -38,6 +38,33 @@
  },
  "join-4": null,
  "join-5": null,
+ "join--cancelled-1": {
+  "label": "M",
+  "back": false
+ },
+ "join--cancelled-2": {
+  "label": "Back",
+  "back": true
+ },
+ "join--cancelled-3": null,
+ "join--ended-1": {
+  "label": "M",
+  "back": false
+ },
+ "join--ended-2": {
+  "label": "Back",
+  "back": true
+ },
+ "join--ended-3": null,
+ "join--full-1": {
+  "label": "M",
+  "back": false
+ },
+ "join--full-2": {
+  "label": "Back",
+  "back": true
+ },
+ "join--full-3": null,
  "invite-live-1": null,
  "invite-live-2": null,
  "invite-live-3": null,
@@ -70,12 +97,44 @@
   "back": false
  },
  "first-post-7": null,
- "first-post-8": null,
- "first-post-9": {
+ "first-post--already-posted-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-post--already-posted-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-post--already-posted-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-post--already-posted-4": null,
+ "first-post--already-posted-5": null,
+ "first-post--already-posted-6": {
   "label": "View your postup",
   "back": false
  },
- "first-post-10": null,
+ "first-post--already-posted-7": null,
+ "first-post--too-far-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-post--too-far-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-post--too-far-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-post--too-far-4": null,
+ "first-post--too-far-5": null,
+ "first-post--too-far-6": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "first-post--too-far-7": null,
  "returning-post-1": {
   "label": "Post up",
   "back": false
@@ -89,6 +148,24 @@
   "back": false
  },
  "returning-post-4": null,
+ "returning-post--already-posted-1": {
+  "label": "Back",
+  "back": true
+ },
+ "returning-post--already-posted-2": {
+  "label": "View your postup",
+  "back": false
+ },
+ "returning-post--already-posted-3": null,
+ "returning-post--too-far-1": {
+  "label": "Back",
+  "back": true
+ },
+ "returning-post--too-far-2": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "returning-post--too-far-3": null,
  "hosting-1": {
   "label": "Edit",
   "back": false
@@ -106,15 +183,6 @@
   "back": false
  },
  "hosting-5": null,
- "too-far-1": {
-  "label": "Back",
-  "back": true
- },
- "too-far-2": {
-  "label": "Pick a cafe near you",
-  "back": false
- },
- "too-far-3": null,
  "chat-1": {
   "label": "M",
   "back": false
@@ -227,19 +295,6 @@
   "back": false
  },
  "following-5": null,
- "postup-states-1": {
-  "label": "Back",
-  "back": true
- },
- "postup-states-2": {
-  "label": "Back",
-  "back": true
- },
- "postup-states-3": {
-  "label": "Back",
-  "back": true
- },
- "postup-states-4": null,
  "loading-offline-1": null,
  "loading-offline-2": {
   "label": "Retry",

@@ -10,6 +10,7 @@ status = "draft"
 persona = "Signed-in regular."
 goal = "Post up with defaults, then see you're live. [M1024]"
 intent = "Regular; working at a cafe today"
+outcome = "Posted up [M1040]"
 start = { screen = "post", auth = "in", live = "live", device = "phone", url = "/" }
 edge_cases = [
   "Already live: Post up shows You're already posted up (#post-already) with View your postup; one live postup per account. [M1039]",
@@ -46,3 +47,47 @@ act = "goes Home"
 expect = "home@in.live.live"
 thought = "Checks they show up on Home"
 shows = "Your live state shows on home. [R22]"
+
+# Other ways this flow can end [M1040]: each branches off after step 1 (the Post up form).
+[[outcomes]]
+id = "too-far"
+label = "Too far away"
+at = 1
+when = "The chosen cafe is not near where they are (location check). [M1039] [M1040]"
+
+[[outcomes.steps]]
+link = "post:post-up"
+condition = "too-far"
+act = "taps Post up"
+expect = "post-far@in.live"
+thought = "Picked the cafe from yesterday by habit"
+shows = "You're too far away. [M1039]"
+
+[[outcomes.steps]]
+link = "post-far:pick-nearby"
+act = "taps Pick a cafe near you"
+expect = "where@in.live"
+thought = "Picks today's cafe"
+shows = "Where are you? list, nearest first. [FS] [M1039]"
+
+[[outcomes]]
+id = "already-posted"
+label = "Already posted up"
+at = 1
+when = "They already have a live postup (one per account). [M1039] [M1040]"
+
+[[outcomes.steps]]
+link = "post:post-up"
+condition = "has-live-postup"
+act = "taps Post up"
+expect = "post-already@in.live"
+thought = "Forgot they're still live from earlier"
+shows = "You're already posted up at Lot 1 Coffee. [M1039]"
+
+[[outcomes.steps]]
+link = "post-already:view"
+act = "taps View your postup"
+expect = "live@in.live"
+thought = "Ends or edits that one instead"
+shows = "Their live postup. [M1039]"
+

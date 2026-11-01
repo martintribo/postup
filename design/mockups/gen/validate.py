@@ -126,10 +126,10 @@ for fid,f in fl.items():
             if not ls: err(p,ctx,f'step {i+1}: no link {st["link"]}',nth=i); continue
             if st.get('condition') and st['condition'] not in EVIDS: err(p,ctx,f'step {i+1}: unknown condition {st["condition"]!r}',nth=i)
             n=None
+            if st.get('condition') and st['condition'] in REPL and not any(M.cond_link(cur,l,st['condition'])[1] is not l or M.cond_link(cur,l,st['condition'])[0] is not cur for l in ls): err(p,ctx,f'step {i+1}: condition {st["condition"]} swaps {REPL[st["condition"]][0]}, which link {st["link"]} does not lead to here',nth=i)
             for l in ls:
-                _c=REPL.get(st.get('condition'))
-                if _c and l.get('to')==_c[0]: l=dict(l,to=_c[1])  # data condition swaps the target screen [M1033]
-                n=M.resolve(sc,cur,l,own)
+                _cur,l=M.cond_link(cur,l,st.get('condition'))  # [M1033] [M1040]
+                n=M.resolve(sc,_cur,l,own)
                 if n: break
             if n is None: err(p,ctx,f'step {i+1}: link {st["link"]} not available in {M.key(cur)}',nth=i); continue
             if n=='back':
@@ -138,8 +138,31 @@ for fid,f in fl.items():
             else: cur=n; hist.append(n)
         else: err(p,ctx,f'step {i+1}: needs link, event or gap',nth=i); continue
         if st.get('expect') and M.key(cur)!=st['expect']: err(p,ctx,f'step {i+1}: derived {M.key(cur)} but expected {st["expect"]}',nth=i)
-# phases [M1031-draft]
 def _pint(v): return isinstance(v,int) and not isinstance(v,bool) and v in M.PHASES  # a known phase: 0, 1 or 2 [M1037]
+# outcomes [M1040]: each outcome is a labelled, source-tagged alternative ending that branches off the main path at a real step
+for fid,f in fl.items():
+    if f.get('parent'): continue
+    p=f['_file']; os_=f.get('outcomes',[])
+    if not os_: continue
+    if not re.search(M.TAG,f.get('outcome','')): err(p,'outcome =',f'flow {fid} has outcomes, so it needs outcome = "<label of the main path> [tag]"')
+    seen=set()
+    for k,o in enumerate(os_):
+        ctx='[[outcomes]]'
+        if not isinstance(o.get('id'),str) or not re.fullmatch(r'[a-z0-9-]+',o['id']): err(p,ctx,f'outcome {k+1}: id must be lowercase-dashed',nth=k); continue
+        if o['id'] in seen: err(p,ctx,f'outcome {o["id"]}: duplicate id',nth=k)
+        seen.add(o['id'])
+        if not o.get('label') or re.search(M.TAG,o['label']): err(p,ctx,f'outcome {o["id"]}: needs a plain label (no tag)',nth=k)
+        if not re.search(M.TAG,o.get('when','')): err(p,ctx,f'outcome {o["id"]}: when (what triggers it) needs a source tag',nth=k)
+        at=o.get('at')
+        if not isinstance(at,int) or isinstance(at,bool) or not 1<=at<len(f['steps']): err(p,ctx,f'outcome {o["id"]}: at must be a step number 1..{len(f["steps"])-1} of the main path (steps after it are replaced)',nth=k); continue
+        if not o.get('steps'): err(p,ctx,f'outcome {o["id"]}: needs [[outcomes.steps]]',nth=k); continue
+        b=o['steps'][0]; m=f['steps'][at]
+        if 'arrive' in b or not ('link' in b or 'event' in b): err(p,ctx,f'outcome {o["id"]}: its first step must be one link or event (one tap per step)',nth=k)
+        elif all(b.get(x)==m.get(x) for x in ('link','event','condition','expect')): err(p,ctx,f'outcome {o["id"]}: its first step is the same as main step {at+1}, so it is not a different outcome',nth=k)
+        if 'phase' in o and (not _pint(o['phase']) or (f.get('phase') is not None and o['phase']<f['phase'])): err(p,ctx,f'outcome {o["id"]}: phase must be a phase no lower than the flow\'s',nth=k)
+        for a_ in o.get('aliases',[]):
+            if a_ in fl: err(p,ctx,f'outcome {o["id"]}: alias {a_} is still a flow',nth=k)
+# phases [M1031-draft]
 for sid,s in sc.items():
     if 'phase' in s and not _pint(s['phase']): err(s['_file'],'phase =',f'phase must be one of the phases 0, 1, 2, got {s["phase"]!r}')
     for k,v in s.get('state_phases',{}).items():

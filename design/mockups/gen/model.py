@@ -13,16 +13,33 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phas
 # versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
 PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
 def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
         d=tomllib.load(open(p,'rb')); d['_file']=p; sc[d['id']]=d
     for p in sorted(glob.glob(f'{root}/flows/*.toml')):
         d=tomllib.load(open(p,'rb')); d['_file']=p; fl[d['id']]=d
+    for fid in list(fl): fl.update(expand_outcomes(fl[fid]))
     ev=tomllib.load(open(f'{root}/events.toml','rb')); ev['_file']=f'{root}/events.toml'
     gl=tomllib.load(open(f'{root}/global.toml','rb')); gl['_file']=f'{root}/global.toml'
     return sc,fl,ev,gl
+def expand_outcomes(f):
+    """Flow outcomes [M1040]. A flow may end in more than one way: [[outcomes]] each have id, label, at (steps 1..at are shared
+    with the main path), when (what triggers it, source-tagged), optional phase and aliases, and [[outcomes.steps]] that follow.
+    Each outcome becomes a walkable flow '<flow>--<outcome>' (parent, outcome set) so validation, thumbs and the player reuse the
+    linear-flow machinery. The main path is the flow's own [[steps]], labelled by its 'outcome'."""
+    out={}
+    for o in f.get('outcomes',[]):
+        if not isinstance(o.get('id'),str) or not isinstance(o.get('at'),int) or not o.get('steps'): continue  # validate.py reports it
+        g={k:v for k,v in f.items() if k not in ('outcomes','aliases','outcome')}
+        g.update(id=f"{f['id']}--{o['id']}",name=f"{f['name']} → {o.get('label','')}",steps=f['steps'][:o['at']]+o['steps'],parent=f['id'],
+                 outcome=o.get('label',''),outcome_when=o.get('when',''),outcome_at=o['at'],aliases=o.get('aliases',[]),edge_cases=[],decide=[],
+                 success=o.get('success',[]))
+        if 'phase' in o: g['phase']=o['phase']
+        if 'situation' in o: g['situation']=o['situation']
+        out[g['id']]=g
+    return out
 def parse_when(w):
     """'auth=out,live=none; auth=in' -> list of dicts (alternatives). '' -> [{}] (always).
     Phase may use >= or <= ('phase>=2' -> {'phase': '>=2'}); other keys use = only. [M1035]"""
@@ -120,6 +137,14 @@ def lineof(path,needle,nth=0):
 USERS={'newcomer','registered'}
 import tomllib as _tl, os as _os
 REPL={c['id']:(c['replaces'],c['with']) for c in _tl.load(open(_os.path.join(_os.path.dirname(_os.path.abspath(__file__)),'..','model','events.toml'),'rb'))['conditions'] if 'replaces' in c}
+def cond_link(cur,l,cond):
+    """A data condition swaps the target screen [M1033]: the link's own 'to', or the page a sheet continues to (signin's
+    continue=true goes to the page remembered by 'then') [M1040]."""
+    _c=REPL.get(cond)
+    if not _c: return cur,l
+    if l.get('to')==_c[0]: return cur,dict(l,to=_c[1])
+    if l.get('continue') and cur.get('cont')==_c[0]: return dict(cur,cont=_c[1]),l
+    return cur,l
 def flow_phase(f): return vp(f.get('phase'))  # the phase version a flow walks [M1035]
 def flow_states(sc,f):
     """Replay a flow; return the list of (state-key, screens on it) per step (assumes it validates)."""
@@ -130,9 +155,8 @@ def flow_states(sc,f):
         if i and 'link' in st:
             own,ls=find_link(sc,dict(cur,device=st.get('device') or s0.get('device','phone')),st['link']); n=None
             for l in ls or []:
-                _c=REPL.get(st.get('condition'))
-                if _c and l.get('to')==_c[0]: l=dict(l,to=_c[1])  # data condition swaps the target screen [M1033]
-                n=resolve(sc,cur,l,own)
+                _cur,l=cond_link(cur,l,st.get('condition'))
+                n=resolve(sc,_cur,l,own)
                 if n: break
             if n=='back': hist.pop(); cur=dict(hist[-1])
             elif n: cur=n; hist.append(n)

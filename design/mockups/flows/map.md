@@ -1,5 +1,5 @@
 # PostUp flow map
-Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 23 flows are reachable from the root.
+Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All 28 flows are reachable from the root.
 
 Page: /mockups/flows/map.html (grouped boxes, hand-placed) · grid: /mockups/flows/grid.html
 
@@ -90,12 +90,8 @@ flowchart LR
   click F_ask_join href "ask-join.html"
   RL -.-> F_returning_post(["▶ Returning poster"])
   click F_returning_post href "returning-post.html"
-  RL -.-> F_too_far(["▶ Post up from too far away"])
-  click F_too_far href "too-far.html"
   RL -.-> F_desktop_browse(["▶ Desktop browse and post"])
   click F_desktop_browse href "desktop-browse.html"
-  RL -.-> F_postup_states(["▶ Postup ends, fills or is cancelled while you look"])
-  click F_postup_states href "postup-states.html"
   RL -.-> F_safety(["▶ Report and block"])
   click F_safety href "safety.html"
   HOST -.-> F_host_approve(["▶ Host approves a request"])
@@ -130,9 +126,7 @@ flowchart LR
 - `join` (Phase 0): from state "Signed in · someone live nearby" [M1025]
 - `ask-join` (Phase 2 (MVP)): from state "Signed in · someone live nearby" [M1025]
 - `returning-post` (Phase 1): from state "Signed in · someone live nearby" [M1025]
-- `too-far` (Phase 0): from state "Signed in · someone live nearby" when too far from the cafe [M1025]
 - `desktop-browse` (Unphased): from state "Signed in · someone live nearby" when on a laptop [M1025]
-- `postup-states` (Unphased): from state "Signed in · someone live nearby" when postup fills or ends [M1025]
 - `safety` (Phase 0): from state "Signed in · someone live nearby" when someone feels off [M1025]
 - `host-approve` (Phase 2 (MVP)): from state "Signed in · hosting (live)" when gets a request [M1025]
 - `hosting` (Phase 1): from state "Signed in · hosting (live)" [M1025]

@@ -14,11 +14,11 @@ Player: /mockups/flows/chat.html
 ## Steps
 1. **inbox@in.live** · user: Wants to check messages · action: opens Inbox · edge: entry
    - Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033]
-   - next site states: **chat@in.live** (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), activity@in.live (Activity 2), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup))
+   - next site states: **chat@in.live** (Maya's postup · Bean Theory), postup-ended@in.live (Tess's postup · Grindhouse), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), activity@in.live (Activity 2), projects@in.live (Projects)
    - enterable flows: catch-up step 2 (if Checks messages first)
 2. **chat@in.live** · user: Wants to sort out details in chat · action: opens a chat · edge: tap: Maya's postup · Bean Theory
    - One chat per postup. [F061] [F096]
-   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup))
+   - next site states: back (Back), chat+more@in.live (More), postup@in.live (M J S Bean Theory · till 4pm · 3 p), **chat+msg@in.live** (Message options), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
    - enterable flows: none
 3. **chat+msg@in.live** · user: Something off about a message · action: long-presses a message · edge: tap: Message options
    - Long-press: copy, report, block sender. [F096] [FS]

@@ -10,6 +10,7 @@ status = "draft"
 persona = "First-time visitor already at a cafe who came to go live right now (signed out)."
 goal = "Go live in about ten seconds. [M1024]"
 intent = "Came to post up right now"
+outcome = "Posted up [M1040]"  # label of the main path
 start = { screen = "home", auth = "out", live = "none", tab = "live", device = "phone", url = "/" }
 edge_cases = [
   "Also covers a returning poster in phase 0: same steps, with the cafe and what you're working on prefilled. The separate Returning poster flow is phase 1. [M1037]",
@@ -71,25 +72,48 @@ expect = "posted+share@in.none"
 thought = "Wants friends to come too"
 shows = "Invite friends: share sheet. [drawn] [M1024]"
 
-[[steps]]
-link = "share:close"
-act = "closes the share sheet"
-expect = "posted@in.none"
-thought = "Done sharing"
-shows = "Back on You're posted up. [M1039]"
+# Other ways this flow can end [M1040]: each branches off after step 5 (sign-in sheet open, form filled).
+[[outcomes]]
+id = "too-far"
+label = "Too far away"
+at = 5
+when = "The chosen cafe is not near where they are (location check). [M1039] [M1040]"
+aliases = ["too-far"]  # was its own flow (registered); folded here [M1040]
+success = ["They can't post up somewhere they're not, and are sent to pick a cafe near them. [M1039]"]
 
-[[steps]]
-link = "tabbar:post-up"
+[[outcomes.steps]]
+link = "signin:continue-with-apple"
+condition = "too-far"
+act = "signs in"
+expect = "post-far@in.none"
+thought = "The cafe they picked is 2 mi away"
+shows = "You're too far away: you can only post up where you are. Best effort in the browser. [M1039]"
+
+[[outcomes.steps]]
+link = "post-far:pick-nearby"
+act = "taps Pick a cafe near you"
+expect = "where@in.none"
+thought = "Picks the cafe they're actually at"
+shows = "Where are you? list, nearest first. [FS] [M1039]"
+
+[[outcomes]]
+id = "already-posted"
+label = "Already posted up"
+at = 5
+when = "The account they sign in with already has a live postup (a returning poster signed out on this device). [M1039] [M1040]"
+success = ["One live postup per account; they land on a way to view the one they have. [M1039]"]
+
+[[outcomes.steps]]
+link = "signin:continue-with-apple"
 condition = "has-live-postup"
-act = "taps Post up again"
+act = "signs in"
 expect = "post-already@in.none"
-thought = "Tries to post a second one"
-shows = "You're already posted up at Lot 1 Coffee: one live postup per account. [M1039]"
+thought = "Forgot they're already live at Lot 1"
+shows = "You're already posted up at Lot 1 Coffee, with View your postup. [M1039]"
 
-[[steps]]
+[[outcomes.steps]]
 link = "post-already:view"
 act = "taps View your postup"
 expect = "live@in.none"
-thought = "Checks on their postup"
+thought = "Checks on the postup they have"
 shows = "Their live postup. [M1039]"
-

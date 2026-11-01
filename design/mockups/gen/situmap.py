@@ -5,19 +5,19 @@ import model as _MOD
 SITS,_=_MOD.load_situations()
 UT=[('newcomer','Newcomer','Signed out, never used PostUp'),('registered','Registered','Signed in, has used PostUp')]
 _TINT=['#e8f5ee','#e9f0fb','#fdf1e4','#f3ecfb','#fbeef1','#eaf6f6','#eef1f4','#f4f1e8']
-def _fbtn(f): return f'<a class="fb" data-ph="{"n" if f["phase"] is None else f["phase"]}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"])}<i>{len(f["steps"])} steps</i></a>'
+def _fbtn(f): return f'<a class="fb" data-ph="{"n" if f["phase"] is None else f["phase"]}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"])}{ocb(f)}<i>{len(f["steps"])} steps</i></a>'
 _lanes=''
 for u,ut,usub in UT:
     cards=''; n=0
     for gid,g in _MOD.load_situations.groups.items():
         inner=''; gph=None
         for sid,x in [(k,v) for k,v in SITS.items() if v['user']==u and v['group']==gid]:
-            fs=[f for f in FLOWS if f['situation']==sid]
+            fs=[f for f in FLOWS if f['situation']==sid and (not f['parent'] or FBY[f['parent']]['situation']!=sid)]  # an outcome listed under another situation shows there too [M1040]
             _ps=[p for p in [x.get('phase')]+[f['phase'] for f in fs] if p is not None]; ph=min(_ps) if _ps else None; gph=min([p for p in (gph,ph) if p is not None] or [None]) if (gph is not None or ph is not None) else None  # 0 is phase 0, None = unphased [M1037]
             btns=''.join(_fbtn(f) for f in fs) or '<span class="nof">No flow yet</span>'
             inner+=f'<section class="sit" data-ph="{"n" if ph is None else ph}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
         if inner: cards+=f'<div class="grp" data-ph="{"n" if gph is None else gph}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
-    nf=sum(1 for f in FLOWS if f['user']==u)
+    nf=sum(1 for f in FLOWS_TOP if f['user']==u)
     _lanes+=f'<div class="lane" id="{u}"><div class="root"><b>{ut}</b><span>{usub}</span><span class="cnt">{sum(1 for v in SITS.values() if v["user"]==u)} situations · {nf} flows</span></div><div class="sits">{cards}</div></div>'
 SMCSS='''.lane[hidden]{display:none!important}.mb{position:sticky;top:0;z-index:5;background:rgba(244,243,239,.96);border-bottom:1px solid #e4e2dc;padding:9px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.mb b{font-size:16px}
 .ut{display:inline-flex;border:1px solid #d7d5cf;border-radius:99px;overflow:hidden}.ut a{padding:5px 14px;font:600 13px Inter,sans-serif;color:#33332f;text-decoration:none}.ut a.on{background:#232322;color:#fff}

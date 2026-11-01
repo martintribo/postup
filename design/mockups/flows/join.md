@@ -14,15 +14,15 @@ Player: /mockups/flows/join.html
 ## Steps
 1. **home@in.live.live** · user: Wants company now · action: arrives at / · edge: entry
    - Live now list. [M1018b] [M1024]
-   - next site states: **postup@in.live** (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), postup-ask@in.live (T), home@in.live.building (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails)), post-already@in.live (Post up (you already have a live postup))
-   - enterable flows: desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
+   - next site states: **postup@in.live** (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), postup-ask@in.live (T), home@in.live.building (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails))
+   - enterable flows: join--cancelled step 1 (if Wants company now), join--ended step 1 (if Wants company now), join--full step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
 2. **postup@in.live** · user: Found someone · action: taps a live row · edge: tap: M 2
    - Who, project, cafe, who else is joining. [FS] [M1024]
-   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails)), post-already@in.live (Post up (you already have a live postup))
-   - enterable flows: desktop-browse step 2 (if Checking one postup)
+   - next site states: back (Back), postup+share@in.live (Share), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), **joined@in.live** (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
+   - enterable flows: join--cancelled step 2 (if Found someone), join--ended step 2 (if Found someone), join--full step 2 (if Found someone), desktop-browse step 2 (if Checking one postup)
 3. **joined@in.live** · user: Decides to join · action: taps Join · edge: tap: Join
    - You're joining; the poster is told. [FS] [M1024]
-   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **joined+dirs@in.live** (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails)), post-already@in.live (Post up (you already have a live postup))
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), **joined+dirs@in.live** (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: leave step 1 (if Plans changed)
 4. **joined+dirs@in.live** · user: Needs the route · action: taps Directions · edge: tap: Directions
    - Directions sheet: Apple / Google Maps. [FS] [M1024]
@@ -30,12 +30,15 @@ Player: /mockups/flows/join.html
    - enterable flows: none
 5. **joined@in.live** · user: Knows the way · action: closes Directions · edge: tap: Cancel
    - Back on the joined screen. [M1031-draft]
-   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), joined+dirs@in.live (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails)), post-already@in.live (Post up (you already have a live postup))
+   - next site states: home@in.live.live (Close), cafe@in.live (Bean Theory), joined+dirs@in.live (Directions), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), chat@in.live (Group chat), joined+leave@in.live (Leave), inbox@in.live (Inbox), project@in.live (Project), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
    - enterable flows: leave step 1 (if Plans changed)
 
 ## Connected flows [M1025]
 - `leave`: branch out at step 3→1, step 5→1; merge in at —
 - `catch-up`: branch out at step 1→1; merge in at —
+- `join--cancelled`: branch out at step 2→2; merge in at —
+- `join--ended`: branch out at step 2→2; merge in at —
+- `join--full`: branch out at step 2→2; merge in at —
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ## Screens
@@ -51,7 +54,6 @@ Player: /mockups/flows/join.html
 - Compares with an Ask to join postup (Tess): phase 2, see Ask to join. [M1032]
 - Joined by mistake: Leave sheet, poster is alerted (see Leave a postup). [FS] [M1024]
 - Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]
-- The postup ends while they're reading: Join is replaced by the ended state (#postup-ended). [F060] [M1024]
 - Desktop: details open in the right panel and the map stays. [FS] [M1024]
 
 ## Success criteria

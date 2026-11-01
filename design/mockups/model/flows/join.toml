@@ -11,6 +11,7 @@ aliases = ["quick-joiner", "cautious-joiner"]  # old flow ids; their pages redir
 persona = "Registered user, signed in, who wants company now."
 goal = "Join a live postup and get there; checking the person first is optional. [M1024] [M1032]"
 intent = "Wants company now"
+outcome = "Joined [M1040]"
 start = { screen = "home", auth = "in", live = "live", tab = "live", device = "phone", url = "/" }
 edge_cases = [
   "Phase 0: no group chat; joining means you're coming in person. The chat step moved to the Chat flow (phase 1). [M1037]",
@@ -18,7 +19,6 @@ edge_cases = [
   "Compares with an Ask to join postup (Tess): phase 2, see Ask to join. [M1032]",
   "Joined by mistake: Leave sheet, poster is alerted (see Leave a postup). [FS] [M1024]",
   "Every detail page has Back that returns to the list it came from, with the list scroll kept. [F013] [M1024]",
-  "The postup ends while they're reading: Join is replaced by the ended state (#postup-ended). [F060] [M1024]",
   "Desktop: details open in the right panel and the map stays. [FS] [M1024]",
 ]
 success = [
@@ -58,3 +58,49 @@ act = "closes Directions"
 expect = "joined@in.live"
 thought = "Knows the way"
 shows = "Back on the joined screen. [M1031-draft]"
+
+# Other ways this flow can end [M1040]: the postup changes while they read it (step 2). Was the flow postup-states.
+[[outcomes]]
+id = "ended"
+situation = "rg-postup-changes"  # also listed under A postup changes while you look [M1040]
+label = "Postup ended"
+at = 2
+when = "The postup reaches its end time while they read it. [F060] [M1040]"
+aliases = ["postup-states"]
+
+[[outcomes.steps]]
+event = "postup-ends"
+act = "waits while reading"
+expect = "postup-ended@in.live"
+thought = "Too late for this one"
+shows = "Ended state replaces Join; points to who's live nearby. [F060] [M1024]"
+
+[[outcomes]]
+id = "cancelled"
+situation = "rg-postup-changes"  # also listed under A postup changes while you look [M1040]
+label = "Postup cancelled"
+at = 2
+when = "The host ends the postup early while they read it. [M1040]"
+
+[[outcomes.steps]]
+event = "postup-cancelled"
+act = "waits while reading"
+expect = "postup-cancelled@in.live"
+thought = "The host left"
+shows = "Cancelled state replaces Join. [FS] [M1040]"
+
+[[outcomes]]
+id = "full"
+situation = "rg-postup-changes"  # also listed under A postup changes while you look [M1040]
+label = "Postup full"
+at = 2
+phase = 1  # draft: a full postup needs a size limit, which phase 0 doesn't have [M1040]
+when = "The postup fills up while they read it. [M1040]"
+
+[[outcomes.steps]]
+event = "postup-fills"
+act = "waits while reading"
+expect = "postup-full@in.live"
+thought = "No room left"
+shows = "Full state replaces Join. [FS] [M1040]"
+

@@ -14,50 +14,38 @@ Player: /mockups/flows/first-post.html
 ## Steps
 1. **home@out.none.live** · user: Came to post up right now · action: arrives at / · edge: entry
    - Taps Post up. [M1018b]
-   - next site states: cafe@out.none (cafe), quiet@out.none (Locate), **post@out.none** (Post up), quiet-feed@out.none (Nearby), me@out.none (S), inbox@out.none (Inbox), home@out.none.building (Building), projects@out.none (Projects), empty-area@out.none (area has no postups), cafe-gfail@out.none (cafe (Google card fails)), post-already@out.none (Post up (you already have a live postup))
-   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now)
+   - next site states: cafe@out.none (cafe), quiet@out.none (Locate), **post@out.none** (Post up), quiet-feed@out.none (Nearby), me@out.none (S), inbox@out.none (Inbox), home@out.none.building (Building), projects@out.none (Projects), empty-area@out.none (area has no postups), cafe-gfail@out.none (cafe (Google card fails))
+   - enterable flows: empty-area-newcomer step 1 (if Nobody around right now), first-post--already-posted step 1 (if Came to post up right now), first-post--too-far step 1 (if Came to post up right now)
 2. **post@out.none** · user: Filling in the post · action: taps Post up · edge: tap: Post up
    - Nearest cafe prefilled. [FS] [F062]
-   - next site states: back (Back), **where@out.none** (Bean Theory Nearest · 0.4 mi Chang), post+signin@out.none (Post up), home@out.none.live (home), quiet-feed@out.none (Nearby), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects), post-already@out.none (Post up (you already have a live postup))
-   - enterable flows: none
+   - next site states: back (Back), **where@out.none** (Bean Theory Nearest · 0.4 mi Chang), post+signin@out.none (Post up), home@out.none.live (home), quiet-feed@out.none (Nearby), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects)
+   - enterable flows: first-post--already-posted step 2 (if Filling in the post), first-post--too-far step 2 (if Filling in the post)
 3. **where@out.none** · user: Not at the nearest cafe · action: taps Change · edge: tap: Bean Theory Nearest · 0.4 mi Chang
    - Change → cafe picker by distance. [F062] [R17]
-   - next site states: back (Back), where+signin@out.none (Post up), **where-search@out.none** (Search cafes), home@out.none.live (home), quiet-feed@out.none (Nearby), post@out.none (Post up), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects), post-already@out.none (Post up (you already have a live postup))
-   - enterable flows: none
+   - next site states: back (Back), where+signin@out.none (Post up), **where-search@out.none** (Search cafes), home@out.none.live (home), quiet-feed@out.none (Nearby), post@out.none (Post up), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects)
+   - enterable flows: first-post--already-posted step 3 (if Not at the nearest cafe), first-post--too-far step 3 (if Not at the nearest cafe)
 4. **where-search@out.none** · user: Looking for the right cafe · action: searches · edge: tap: Search cafes
    - Searches a cafe. [FS]
-   - next site states: back (Back), where@out.none (Bean Theory Nearest · 0.4 mi Chang), **where-search+signin@out.none** (Post up), home@out.none.live (home), quiet-feed@out.none (Nearby), post@out.none (Post up), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects), post-already@out.none (Post up (you already have a live postup))
-   - enterable flows: none
+   - next site states: back (Back), where@out.none (Bean Theory Nearest · 0.4 mi Chang), **where-search+signin@out.none** (Post up), home@out.none.live (home), quiet-feed@out.none (Nearby), post@out.none (Post up), me@out.none (S), inbox@out.none (Inbox), project-new@out.none (Project), home@out.none.building (home), projects@out.none (Projects)
+   - enterable flows: first-post--already-posted step 4 (if Looking for the right cafe), first-post--too-far step 4 (if Looking for the right cafe)
 5. **where-search+signin@out.none** · user: Ready; asked to sign in · action: taps Post up 🔒 · edge: tap: Post up
    - Post up 🔒 → sign-in. [FS] [TK§1]
-   - next site states: where-search@out.none (close), where-search@in.none (Continue with Apple), **posted@in.none** (signs in → continues), post-far@in.none (signs in → continues (the place is too far from you))
-   - enterable flows: none
+   - next site states: where-search@out.none (close), where-search@in.none (Continue with Apple), **posted@in.none** (signs in → continues), post-already@in.none (signs in → continues (you already have a live postup)), post-far@in.none (signs in → continues (the place is too far from you))
+   - enterable flows: first-post--already-posted step 5 (if Ready; asked to sign in), first-post--too-far step 5 (if Ready; asked to sign in)
 6. **posted@in.none** · user: Live; wants company · action: signs in · edge: tap: Continue with Apple
    - Posted; link to copy. [FS]
-   - next site states: home@in.none.live (Close), **posted+share@in.none** (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails)), post-already@in.none (Post up (you already have a live postup))
+   - next site states: home@in.none.live (Close), **posted+share@in.none** (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
    - enterable flows: returning-post step 2 (if Posted; now live for others)
 7. **posted+share@in.none** · user: Wants friends to come too · action: taps Invite friends · edge: tap: Invite friends
    - Invite friends: share sheet. [drawn] [M1024]
-   - next site states: **posted@in.none** (close), post-far@in.none (close (the place is too far from you))
+   - next site states: posted@in.none (close), post-already@in.none (close (you already have a live postup)), post-far@in.none (close (the place is too far from you))
    - enterable flows: none
-8. **posted@in.none** · user: Done sharing · action: closes the share sheet · edge: tap: close
-   - Back on You're posted up. [M1039]
-   - next site states: home@in.none.live (Close), posted+share@in.none (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails)), **post-already@in.none** (Post up (you already have a live postup))
-   - enterable flows: returning-post step 2 (if Posted; now live for others)
-9. **post-already@in.none** · user: Tries to post a second one · action: taps Post up again · edge: tap: Post up (Google card fails)
-   - You're already posted up at Lot 1 Coffee: one live postup per account. [M1039]
-   - next site states: back (Back), **live@in.none** (View your postup), home@in.none.live (Back to map), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Back to map), projects@in.none (Projects)
-   - enterable flows: none
-10. **live@in.none** · user: Checks on their postup · action: taps View your postup · edge: tap: View your postup
-   - Their live postup. [M1039]
-   - next site states: back (Back), live+share@in.none (Share), post-edit@in.none (Edit), profile@in.none (J Jon On the way · 10 min), live+endlive@in.none (End postup), home@in.none.live (Home), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), chat@in.none (Group chat), inbox@in.none (Inbox), project@in.none (Star Fox 64 mod), home@in.none.building (Home), projects@in.none (Projects), post-already@in.none (Post up (you already have a live postup))
-   - enterable flows: returning-post step 3 (if Managing their postup), hosting step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 
 ## Connected flows [M1025]
-- `returning-post`: branch out at step 6→2, step 8→2, step 10→3; merge in at step 6 (from its step 2), step 8 (from its step 2), step 10 (from its step 3)
-- `host-approve`: branch out at step 10→2; merge in at step 10 (from its step 2)
+- `returning-post`: branch out at step 6→2; merge in at step 6 (from its step 2)
 - `empty-area-newcomer`: branch out at step 1→1; merge in at —
-- `hosting`: branch out at step 10→1; merge in at —
+- `first-post--already-posted`: branch out at step 5→5; merge in at —
+- `first-post--too-far`: branch out at step 5→5; merge in at —
 
 ## Screens
 1. `#home` · auth=out live=none mode=live — Taps Post up. [M1018b] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=0#home)
@@ -67,9 +55,6 @@ Player: /mockups/flows/first-post.html
 5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=0#where-search)
 6. `#posted` · auth=in live=none — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#posted)
 7. `#posted` + sheet `share` · auth=in live=none — Invite friends: share sheet. [drawn] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=share&ph=0#posted)
-8. `#posted` · auth=in live=none — Back on You're posted up. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#posted)
-9. `#post-already` · auth=in live=none — You're already posted up at Lot 1 Coffee: one live postup per account. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#post-already)
-10. `#live` · auth=in live=none — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=0#live)
 
 ## Branches and edge cases
 - Also covers a returning poster in phase 0: same steps, with the cafe and what you're working on prefilled. The separate Returning poster flow is phase 1. [M1037]

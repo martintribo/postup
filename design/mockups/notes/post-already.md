@@ -8,10 +8,10 @@ Scenario: ?auth=out|in&live=live|none (default out + live); see the Scenarios se
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing.
 
 ## Purpose
-- Shown instead of the Post up form when you already have a live postup: "You're already posted up at Lot 1 Coffee", with View your postup. One live postup per account, so a troll can't flood the map. [M1039]
+- Shown when you tap Post up (or finish signing in to post) while you already have a live postup: "You're already posted up at Lot 1 Coffee", with View your postup. One live postup per account, so a troll can't flood the map. [M1039]
 
 ## Scenarios
-- Signed in with a live postup only (data condition has-live-postup). Same with live nearby or none. [M1039]
+- Signed in with a live postup only (data condition has-live-postup swaps You're posted up for this) [M1040]. Same with live nearby or none. [M1039]
 
 ## Global rules (every screen)
 ### Home page (/)
