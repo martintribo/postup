@@ -274,6 +274,24 @@ if GS:
                 for gid,g in GS.items():
                     if not any(v.get(gid,0)>=len(g['ms']) and (fl[k].get('phase') if fl[k].get('phase') is not None else M.MAXPH)<=M.MAXPH for k,v in fin.items()):
                         GAPS.append(f'{rel(f["_file"])}:1: flow {fid}: no path reaches goal {gid} ({g["label"]}) in phase {M.MAXPH} or lower [M1042]')
+                # goal coverage per entry [M1043]: from the screens an entry's paths pass through, follow the real links (top
+                # screen + tab bar) in the flow's phase (a phased goal: in its phase). If a goal's screens are reachable, some
+                # path from that entry must reach the goal, unless [[goal_exceptions]] declares it with a source-tagged reason.
+                ENT=M.goal_entries(fl,fid)
+                EXC={}
+                for x in f.get('goal_exceptions',[]):
+                    if x.get('entry') not in ENT or x.get('goal') not in GS: err(f['_file'],'[[goal_exceptions]]',f'goal exception: unknown entry {x.get("entry")!r} or goal {x.get("goal")!r} (entries: {sorted(ENT)})'); continue
+                    if not re.search(M.TAG,x.get('reason','')): err(f['_file'],'[[goal_exceptions]]',f'goal exception {x["entry"]}/{x["goal"]}: needs a source-tagged reason')
+                    EXC[(x['entry'],x['goal'])]=x
+                for e,ks in ENT.items():
+                    for gid,g in GS.items():
+                        php=M.vp(g.get('phase')) if g.get('phase') is not None else M.flow_phase(f)
+                        can=M.goal_reachable(sc,fl,ks,g,php)
+                        has=any(fl[k].get('result')=='goal:'+gid and M.flow_phase(fl[k])<=max(php,M.flow_phase(fl[k]) if g.get('phase') is None else php) for k in ks)
+                        if (e,gid) in EXC:
+                            if has or not can: err(f['_file'],'[[goal_exceptions]]',f'goal exception {e}/{gid} is not needed (reachable={can}, has path={has}); remove it')
+                            continue
+                        if can and not has: err(f['_file'],'goals =',f'flow {fid}: entry {e!r} can reach goal {gid} ({g["label"]}) by real links in phase {php} (e.g. {can}), but no path from that entry reaches it; add a path (use a segment) or a [[goal_exceptions]] with a tagged reason')
 # orphans
 IN={t for s in sc.values() for l in s.get('links',[]) for t in [l.get('to')] if t and t!=s['id']}
 IN|={c for s in sc.values() for sl in s.get('slots',[]) for c in sl.get('accepts',[])}

@@ -38,14 +38,142 @@
   "back": false
  },
  "first-visit--browse-2": null,
+ "first-visit--ended-not-now-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--ended-not-now-2": {
+  "label": "Maya's photo",
+  "back": false
+ },
+ "first-visit--ended-not-now-3": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--ended-not-now-4": null,
+ "first-visit--ended-not-now-5": null,
+ "first-visit--ended-not-now-6": null,
+ "first-visit--ended-post-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--ended-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--ended-post-3": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--ended-post-4": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--ended-post-5": null,
+ "first-visit--ended-post-6": null,
+ "first-visit--ended-post-7": {
+  "label": "Invite friends",
+  "back": false
+ },
+ "first-visit--ended-post-8": null,
  "first-visit--link-ended-1": {
   "label": "See what's nearby",
   "back": false
  },
- "first-visit--link-ended-2": null,
+ "first-visit--link-ended-2": {
+  "label": "Maya's photo",
+  "back": false
+ },
+ "first-visit--link-ended-3": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--link-ended-4": null,
+ "first-visit--link-ended-5": null,
+ "first-visit--link-ended-6": null,
  "first-visit--link-live-1": null,
  "first-visit--link-live-2": null,
  "first-visit--link-live-3": null,
+ "first-visit--link-post-1": {
+  "label": "Bean Theory · 0.4 mi",
+  "back": false
+ },
+ "first-visit--link-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--link-post-3": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--link-post-4": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--link-post-5": null,
+ "first-visit--link-post-6": null,
+ "first-visit--link-post-7": {
+  "label": "Invite friends",
+  "back": false
+ },
+ "first-visit--link-post-8": null,
+ "first-visit--live-already-posted-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--live-already-posted-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--live-already-posted-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--live-already-posted-4": null,
+ "first-visit--live-already-posted-5": null,
+ "first-visit--live-already-posted-6": {
+  "label": "View your postup",
+  "back": false
+ },
+ "first-visit--live-already-posted-7": null,
+ "first-visit--live-post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--live-post-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--live-post-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--live-post-4": null,
+ "first-visit--live-post-5": null,
+ "first-visit--live-post-6": {
+  "label": "Invite friends",
+  "back": false
+ },
+ "first-visit--live-post-7": null,
+ "first-visit--live-too-far-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--live-too-far-2": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--live-too-far-3": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--live-too-far-4": null,
+ "first-visit--live-too-far-5": null,
+ "first-visit--live-too-far-6": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "first-visit--live-too-far-7": null,
  "first-visit--nobody-1": null,
  "first-visit--nobody-2": {
   "label": "M",
@@ -243,6 +371,21 @@
   "back": false
  },
  "leave-3": null,
+ "first-visit--ended-project-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--ended-project-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "first-visit--ended-project-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "first-visit--ended-project-4": null,
+ "first-visit--ended-project-5": null,
+ "first-visit--ended-project-6": null,
  "first-visit--follow-project-1": {
   "label": "Home",
   "back": false
@@ -258,6 +401,32 @@
  "first-visit--follow-project-4": null,
  "first-visit--follow-project-5": null,
  "first-visit--follow-project-6": null,
+ "first-visit--link-project-1": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "first-visit--link-project-2": {
+  "label": "Maya",
+  "back": false
+ },
+ "first-visit--link-project-3": null,
+ "first-visit--link-project-4": null,
+ "first-visit--link-project-5": null,
+ "first-visit--nobody-project-1": {
+  "label": "Home",
+  "back": false
+ },
+ "first-visit--nobody-project-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "first-visit--nobody-project-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "first-visit--nobody-project-4": null,
+ "first-visit--nobody-project-5": null,
+ "first-visit--nobody-project-6": null,
  "invite-project-1": null,
  "invite-project-2": null,
  "invite-project-3": {

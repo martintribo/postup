@@ -1,16 +1,22 @@
 # One-screen flow graph (Martin, Oct 31 2026 [M1041]): every way into a flow (start branches) on the left, every way out
+import model as _MD  # [M1043]
 # (outcomes) on the right, screen states as nodes with phone thumbnails and taps as labelled edges. Works for any flow with
 # outcomes: flows/graph.html#<flow id>. Laid out in the browser (left to right by distance from an entry); zoom, pan, fit;
 # details hide when zoomed out; click a node to open the player at that step; follows the Phase toggle. exec'd by flows.py.
 def _gclean(t): return re.sub(r'\s*\[[^\]]+\]','',t or '')
 GDATA={}
 for f in FLOWS_TOP:
-    ps=[]
+    ps=[]; _ent=_MD.goal_entries(_FL,f['id']); _eof={k:e for e,ks in _ent.items() for k in ks}
     for o in f['outs']:
         g=FBY[o['id']]
-        ps.append(dict(id=g['id'],l=_gclean(olab(o)),e=_gclean(o['entry']),ph=o['phase'],r=g['result'] or '',pr=g['prog'],
+        ps.append(dict(id=g['id'],l=_gclean(olab(o)),e=_gclean(o['entry']),ph=o['phase'],r=g['result'] or '',en=_eof.get(g['id'],'main'),pr=g['prog'],
             st=[dict(s=d['site'],h=_gclean(d['how']).replace('tap: ','').replace('entry',''),a=d['act'],t=_ptitle(_site_page(d['site']))+(' + '+parse_site(d['site'])['ov'] if parse_site(d['site'])['ov'] else '')) for d in g['sx']]))
-    GDATA[f['id']]=dict(n=f['name'],u=f['user'],ph=f['phase'],p=ps)
+    cov={}
+    if _FL[f['id']].get('goals'):  # goal-by-entry coverage [M1043]: can = goal screens reachable by real links from that entry
+        _exc={(x.get('entry'),x.get('goal')):_gclean(x.get('reason','')) for x in _FL[f['id']].get('goal_exceptions',[])}
+        for e,ks in _ent.items():
+            cov[e]={gid:dict(can=bool(_MD.goal_reachable(_SC,_FL,ks,g,_MD.vp(g.get('phase')) if g.get('phase') is not None else _MD.flow_phase(_FL[f['id']]))),ex=_exc.get((e,gid),'')) for gid,g in GOALS.items()}
+    GDATA[f['id']]=dict(n=f['name'],u=f['user'],ph=f['phase'],p=ps,cov=cov)
 GMETA=[dict(id=k,l=g['label'],c=g['color'],ph=g.get('phase'),lk=_gclean(g.get('likely','')),ms=[dict(id=m['id'],l=m.get('label',m['id'])) for m in g['ms']]) for k,g in GOALS.items()]  # [M1042]
 _GOPTS=''.join(f'<option value="{f["id"]}">{H.escape(f["name"])}{" · "+str(len(f["outs"]))+" outcomes" if len(f["outs"])>1 else ""}</option>' for f in FLOWS_TOP)
 GCSS2='''*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font:13px/1.35 Inter,system-ui,sans-serif;color:#232322;background:#f4f3ef}a{color:#0f7a4f}
@@ -27,6 +33,8 @@ GCSS2='''*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;
 .ou a.dr{background:#eceae4;border-color:#d7d5cf;color:#55544f}.ou a.gl{background:#dff3e8;border-color:#10a364;color:#0b5e3c}.ou a small{display:block;font-weight:500;font-size:10px;opacity:.85}
 path.g{fill:none;stroke-width:3.4;opacity:.85}.dim path.e,.dim .el{opacity:.25}.gf button{border-width:2px}.gf button.on{color:#fff}
 #sum{position:absolute;right:10px;bottom:10px;z-index:6;width:330px;max-height:calc(100% - 20px);overflow:auto;background:#fff;border:1px solid #e4e2dc;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:10px 12px;font-size:12px}
+#sum table.cg{border-collapse:collapse;width:100%;font-size:11px;margin:2px 0 4px}#sum .cg th,#sum .cg td{border:1px solid #eceae4;padding:3px 4px;text-align:center}#sum .cg td:first-child{text-align:left;color:#3b3a36;max-width:130px}
+#sum .cg .ok{background:#dff3e8;color:#0b5e3c;font-weight:700}#sum .cg .gap{background:#fde2e0;color:#b42318;font-weight:700}#sum .cg .na{color:#9a9890}#sum .cg .ex{background:#fff4d6;color:#8a5a00}
 #sum h4{margin:8px 0 2px;font-size:12.5px}#sum h4 i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}#sum p{margin:2px 0;color:#55544f}#sum ul{margin:2px 0 4px;padding-left:16px}#sum .x{float:right;border:0;background:none;cursor:pointer;font-size:14px}#sum.min>*:not(.hd){display:none}
 .lo .el,.lo .nk,.lo .gs{display:none}@media(max-width:700px){#sum{width:auto;left:8px;max-height:38%}}.lo2 .nt{display:none}.lg{font-size:11px;color:#6b6b67}.lg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin:0 3px 0 8px}
 @media(max-width:700px){.gb{gap:5px;padding:6px 8px}.gb .lg,.gb .hd{display:none}}'''
@@ -55,12 +63,17 @@ function build(){var id=location.hash.slice(1);if(!D[id])id=Object.keys(D).filte
  order.forEach(function(k){var n=N[k];h+='<div class="nd" style="left:'+n.x+"px;top:"+n.y+'px" data-go="'+n.go+'" title="'+esc(n.k)+'" role="link" tabindex="0"><img loading="lazy" src="'+n.img+'" alt=""><div class="nt">'+esc(n.t)+'</div><div class="nk">'+esc(n.k)+"</div>"+badges(n)+
   (n.en.length?'<div class="en">'+n.en.map(function(x){return'<a href="'+x.go+'">⇢ '+esc(x.l)+"</a>"}).join("")+"</div>":"")+(n.ou.length?'<div class="ou">'+n.ou.map(function(x){var g=x.r.indexOf("goal:")===0?GB(x.r.slice(5)):null;return g?'<a class="gl" href="'+x.go+'" style="border-color:'+g.c+'">✓ '+esc(g.l)+'<small>'+esc(x.l)+'</small></a>':'<a class="dr" href="'+x.go+'">✕ Drop-off: '+esc(x.l)+(x.r?'<small>at '+esc(mlab(x.r.slice(5)))+'</small>':'')+'</a>'}).join("")+"</div>":"")+"</div>"});
  document.getElementById("cv").classList.toggle("dim",GF!=="all");document.getElementById("cv").innerHTML='<svg width="'+W+'" height="'+HH+'"><defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#7fa392"/></marker></defs>'+sv+"</svg>"+h+lb;
- document.getElementById("cnt").textContent=ps.filter(function(p){return p.e}).length+" ways in · "+ps.length+" outcomes · "+order.length+" screen states";document.title="Graph · "+D[id].n+" · PostUp mockups";summary(ps);legend();fit()}
+ document.getElementById("cnt").textContent=ps.filter(function(p){return p.e}).length+" ways in · "+ps.length+" outcomes · "+order.length+" screen states";document.title="Graph · "+D[id].n+" · PostUp mockups";summary(ps,D[id].cov);legend();fit()}
 function badges(n){var h="";GM.forEach(function(g){if(!gvis(g)||(GF!=="all"&&GF!==g.id))return;var p=(n.pr||{})[g.id]||0;if(p>0)h+='<span style="background:'+g.c+'" title="'+esc(g.ms.slice(0,p).map(function(m){return m.l}).join(" → "))+'">'+p+"/"+g.ms.length+" "+esc(g.l)+"</span>"});return h?'<div class="gs">'+h+"</div>":""}
 function legend(){document.getElementById("gf").innerHTML='<button class="'+(GF==="all"?"on":"")+'" style="'+(GF==="all"?"background:#232322;color:#fff":"")+'" onclick="setGF(\'all\')">All goals</button>'+GM.filter(gvis).map(function(g){var on=GF===g.id;return'<button class="'+(on?"on":"")+'" style="border-color:'+g.c+";"+(on?"background:"+g.c:"color:"+g.c)+'" onclick="setGF(\''+g.id+'\')">'+esc(g.l)+"</button>"}).join("")}
 function setGF(g){GF=g;build()}
-function summary(ps){var h='<div class="hd"><b>Goals on this flow</b><button class="x" onclick="this.closest(\'#sum\').classList.toggle(\'min\')">▾</button></div>',drops={};
- ps.forEach(function(p){if(p.r.indexOf("drop:")===0){var m=p.r.slice(5);(drops[m]=drops[m]||[]).push(p.l)}});
+function grid(ps,cov){var es=Object.keys(cov||{});if(!es.length)return"";var gs=GM.filter(gvis),lab={};ps.forEach(function(p){if(p.e&&!lab[p.en])lab[p.en]=p.e});
+ var h='<table class="cg"><tr><th>Entry</th>'+gs.map(function(g){return'<th style="color:'+g.c+'">'+esc(g.l)+"</th>"}).join("")+"</tr>";
+ es.forEach(function(e){if(!ps.some(function(p){return p.en===e}))return;h+='<tr><td>'+esc(lab[e]||e)+"</td>"+gs.map(function(g){var n=ps.filter(function(p){return p.en===e&&p.r==="goal:"+g.id}).length,c=cov[e][g.id];
+  return n?'<td class="ok" title="'+n+' path(s) from this entry reach '+esc(g.l)+'">✓'+(n>1?" "+n:"")+"</td>":c.ex?'<td class="ex" title="'+esc(c.ex)+'">exception</td>':c.can?'<td class="gap" title="Reachable by links, but no path: a gap">✕ gap</td>':'<td class="na" title="Not reachable from this entry by any link">n/a</td>'}).join("")+"</tr>"});
+ return'<p style="margin-top:6px"><b>Goal by entry</b></p>'+h+"</table>"}
+function summary(ps,cov){var h='<div class="hd"><b>Goals on this flow</b><button class="x" onclick="this.closest(\'#sum\').classList.toggle(\'min\')">▾</button></div>'+grid(ps,cov),drops={};
+ ps.forEach(function(p){if(p.r.indexOf("drop:")===0){var m=p.r.slice(5);(drops[m]=drops[m]||[]);if(drops[m].indexOf(p.l)<0)drops[m].push(p.l)}});
  GM.forEach(function(g){if(!gvis(g))return;var reach=ps.filter(function(p){return p.r==="goal:"+g.id});var ids=g.ms.map(function(m){return m.id});
   var dd=Object.keys(drops).filter(function(m){return ids.indexOf(m)>=0}).sort(function(a,b){return drops[b].length-drops[a].length});
   h+='<h4><i style="background:'+g.c+'"></i>'+esc(g.l)+": "+reach.length+(reach.length===1?" path reaches it":" paths reach it")+"</h4>"+(reach.length?"<p>"+reach.map(function(p){return esc(p.l)}).join(" · ")+"</p>":'<p style="color:#c0392b">No path reaches it in this phase.</p>')+(g.lk?"<p><i>"+esc(g.lk)+"</i></p>":"")+

@@ -12,7 +12,7 @@ label = "Post up"
 color = "#10a364"
 likely = "Least likely on a first visit: needs them to be at a cafe now and willing to host. [M1042]"
 milestones = [
-  { id = "saw-post-invite", label = "Saw a way to post up", states = ["home@*.none.live", "empty-area@*"], note = "Nobody live: Home and the empty area invite them to be the first. [M1032] [M1042]" },
+  { id = "saw-post-invite", label = "Saw Post up", states = ["home@out.*", "empty-area@out.*", "quiet-feed@out.*", "quiet-feed-b@out.*", "cafe@out.*", "projects@out.*", "project@out.*"], note = "Post up is in the tab bar on every signed-out page that has one (Home, Nearby, the empty area, a cafe, projects); nobody live, Home also invites them to be the first. Was only the nobody-live Home [M1042]. [M1032] [M1043]" },
   { id = "opened-form", label = "Opened Post up", states = ["post@*"], note = "The Post up form. [FS] [M1042]" },
   { id = "picked-place", label = "Picked a place", states = ["where@*", "where-search@*"], note = "Where are you? list or search. [FS] [M1042]" },
   { id = "signed-up" },
@@ -39,7 +39,7 @@ color = "#7c3aed"
 phase = 2  # projects are phase 2 [M1034]
 likely = "Most likely: following project content, since it doesn't need them to go anywhere now. [M1042]"
 milestones = [
-  { id = "saw-projects", label = "Saw projects", states = ["home@*.building", "projects@*"], note = "Building mode or the projects list. [M1018b] [M1042]" },
+  { id = "saw-projects", label = "Saw projects", states = ["home@*.building", "projects@*", "invite@*", "quiet-feed@*.live", "cafe@*"], note = "Building mode or the projects list; in phase 2 a shared postup, Nearby and a cafe also show the maker's project. [M1018b] [M1042] [M1043]" },
   { id = "opened-project", label = "Opened a project", states = ["project@*"], note = "A project page. [FS] [M1042]" },
   { id = "tapped-follow", label = "Tapped Follow", states = ["profile+signin@out.*"], note = "Follow on the maker's profile opens the sign-in sheet. [FS] [M1042]" },
   { id = "signed-up" },

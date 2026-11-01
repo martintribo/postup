@@ -15,7 +15,7 @@ Player: /mockups/flows/first-visit--link-live.html
 1. **invite@out.live** · user: A friend sent this; knows the context · action: opens the share link · edge: entry
    - Landing for the shared postup. [FS] [R39]
    - next site states: **invite+signin@out.live** (Join Maya), cafe@out.live (Bean Theory · 0.4 mi), home@out.live.live (home), quiet-feed@out.live (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Bean Theory · 0.4 mi (Google card fails))
-   - enterable flows: none
+   - enterable flows: first-visit--link-post step 1 (if A friend sent this; knows the context), first-visit--link-project step 1 (if A friend sent this; knows the context)
 2. **invite+signin@out.live** · user: Wants to join the friend · action: taps Join 🔒 · edge: tap: Join Maya
    - Join → sign-in sheet. [FS] [M1024]
    - next site states: invite@out.live (close), invite@in.live (Continue with Apple), **joined@in.live** (signs in → continues)
@@ -27,6 +27,8 @@ Player: /mockups/flows/first-visit--link-live.html
 
 ## Connected flows [M1025]
 - `join`: branch out at step 3→3; merge in at step 3 (from its step 3)
+- `first-visit--link-post`: branch out at step 1→1; merge in at —
+- `first-visit--link-project`: branch out at step 1→1; merge in at —
 - `leave`: branch out at step 3→1; merge in at —
 
 ## Screens

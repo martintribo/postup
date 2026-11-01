@@ -13,17 +13,80 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phas
 # versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
 PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
 def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042|M1043)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
         d=tomllib.load(open(p,'rb')); d['_file']=p; sc[d['id']]=d
     for p in sorted(glob.glob(f'{root}/flows/*.toml')):
         d=tomllib.load(open(p,'rb')); d['_file']=p; fl[d['id']]=d
+    for fid in list(fl): expand_segments(fl[fid])
     for fid in list(fl): fl.update(expand_outcomes(fl[fid]))
     ev=tomllib.load(open(f'{root}/events.toml','rb')); ev['_file']=f'{root}/events.toml'
     gl=tomllib.load(open(f'{root}/global.toml','rb')); gl['_file']=f'{root}/global.toml'
     return sc,fl,ev,gl
+def _fill(v,vars_):
+    if isinstance(v,str):
+        for k,x in vars_.items(): v=v.replace('{'+k+'}',str(x))
+    return v
+def expand_segments(f):
+    """Reusable step runs [M1043]. A flow may declare [[segments]] (id, note, steps); a step { use = "<segment>", live = "none" }
+    is replaced by that segment's steps, with {name} placeholders in their strings filled from the use step's other keys.
+    So one sub-path (e.g. the Post up form) is written once and reached from every entry, without copied steps."""
+    segs={g.get('id'):g for g in f.get('segments',[])}
+    def ex(steps,d=0):
+        out=[]
+        for st in steps:
+            if 'use' in st and st['use'] in segs and d<5:  # segments may use segments [M1043]
+                vars_={k:v for k,v in st.items() if k!='use'}
+                out+=[dict(x,_seg=x.get('_seg',st['use'])) for x in ex([{k:_fill(v,vars_) for k,v in s2.items()} for s2 in segs[st['use']].get('steps',[])],d+1)]
+            else: out.append(st)
+        return out
+    f['steps']=ex(f.get('steps',[]))
+    for o in f.get('outcomes',[]):
+        if 'steps' in o: o['steps']=ex(o['steps'])
+def reach(sc,seeds,phase,limit=4000):
+    """Every site-state key reachable from the seed states by real links (top screen + tab bar/rail chrome) [M1043]."""
+    seen={}; q=[]
+    for k in seeds:
+        st=dict(parse_key(k),device='phone',phase=phase,cont=None)
+        if st['root']=='home': st['tab']=st['tab'] if phase>=2 or st['tab']=='live' else 'live'
+        q.append(st)
+    while q and len(seen)<limit:
+        cur=q.pop(); k=key(cur)
+        if k in seen: continue
+        seen[k]=cur
+        for own,l in available(sc,cur):
+            try: n=resolve(sc,cur,l,own)
+            except Exception: n=None
+            if n and n!='back' and key(n) not in seen: q.append(n)
+    return set(seen)
+def goal_target(g):
+    """State patterns that show a goal is reachable: the last milestone of the goal that has screen states [M1043]."""
+    for m in reversed(g['ms']):
+        if m.get('states') and not m.get('_shared'): return m['states']
+    return []
+def goal_entries(fl,fid):
+    """Entry -> path ids of a flow: 'main' (the flow's own start) and each start branch (at = 0); a from-branch belongs to the
+    entry its chain starts at [M1043]."""
+    ent={'main':[fid]}
+    for k,g in fl.items():
+        if g.get('parent')!=fid: continue
+        o=g
+        while o.get('outcome_from'): o=fl[f"{fid}--{o['outcome_from']}"]
+        ent.setdefault(o['outcome'] and (o['id'].split('--',1)[1] if o.get('outcome_at')==0 else 'main'),[]).append(k)
+    return ent
+def goal_reachable(sc,fl,ks,g,phase):
+    """First goal-target state reachable by real links from the signed-out states those paths pass through, or None [M1043]."""
+    import fnmatch
+    seeds={k for kk in ks if M_phase_ok(fl[kk],phase) for k,_ in flow_states(sc,fl[kk]) if '@out.' in k}
+    R=sorted(reach(sc,seeds,phase)); hit=None
+    for m in g['ms']:  # every milestone with its own screens must be reachable (not just the last one) [M1043]
+        if m.get('_shared') or not m.get('states'): continue
+        hit=next((r for r in R if any(fnmatch.fnmatchcase(r,p) for p in m['states'])),None)
+        if not hit: return None
+    return hit
+def M_phase_ok(f,phase): return flow_phase(f)<=phase
 def expand_outcomes(f):
     """Flow outcomes [M1040]. A flow may end in more than one way: [[outcomes]] each have id, label, at (steps 1..at are shared
     with the path it branches from), when (what triggers it, source-tagged), optional phase, situation and aliases, and
@@ -203,7 +266,7 @@ def load_goals(root=ROOT):
     d=tomllib.load(open(p,'rb')); sh={m['id']:m for m in d.get('shared',[])}
     gs={}
     for g in d.get('goals',[]):
-        g=dict(g); g['ms']=[dict(sh.get(m['id'],{}),**m) if m.get('id') in sh and len(m)==1 else m for m in g.get('milestones',[])]; gs[g['id']]=g
+        g=dict(g); g['ms']=[dict(sh.get(m['id'],{}),_shared=True,**m) if m.get('id') in sh and len(m)==1 else m for m in g.get('milestones',[])]; gs[g['id']]=g
     return gs,sh,p
 def step_hits(gs,key,adv=None):
     """Milestone ids this step reaches."""

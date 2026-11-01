@@ -39,10 +39,13 @@ Player: /mockups/flows/project-builder.html
 7. **posted@in.none** · user: Live for the project · action: taps Post up · edge: tap: Post up
    - Posted, tied to the project. [FS]
    - next site states: home@in.none.live (Close), posted+share@in.none (Invite friends), live@in.none (Manage postup), cafe@in.none (Cafe), quiet-feed@in.none (Nearby), post@in.none (Post up), me@in.none (S), inbox@in.none (Inbox), home@in.none.building (Close), project@in.none (Star Fox 64 mod), projects@in.none (Projects), cafe-gfail@in.none (Cafe (Google card fails))
-   - enterable flows: first-visit--post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
+   - enterable flows: first-visit--ended-post step 7 (if Live; wants company), first-visit--link-post step 7 (if Live; wants company), first-visit--live-post step 6 (if Live; wants company), first-visit--post step 6 (if Live; wants company), returning-post step 2 (if Posted; now live for others)
 
 ## Connected flows [M1025]
 - `following`: branch out at step 1→3, step 3→2, step 5→2; merge in at step 1 (from its step 3), step 3 (from its step 2), step 5 (from its step 2)
+- `first-visit--ended-post`: branch out at step 7→7; merge in at step 7 (from its step 7)
+- `first-visit--link-post`: branch out at step 7→7; merge in at step 7 (from its step 7)
+- `first-visit--live-post`: branch out at step 7→6; merge in at step 7 (from its step 6)
 - `first-visit--post`: branch out at step 7→6; merge in at step 7 (from its step 6)
 - `returning-post`: branch out at step 7→2; merge in at step 7 (from its step 2)
 
