@@ -47,3 +47,9 @@ for f in FLOWS:
         for a in range(1,min(len(f['sx']),len(g['sx']))):
             if _key(g,a)==_key(f,a) and (g['sx'][a]['site'],g['sx'][a]['ref'])!=(f['sx'][a]['site'],f['sx'][a]['ref']):
                 f['forks'].setdefault(a,[f['id']]).append(o['id']); break
+# goals [M1042]: per step milestone progress {goal: n reached in order}, and the path's typed result
+GOALS,_GSH,_=M.load_goals()
+for f in FLOWS:
+    _st=_FL[f['id']]['steps']
+    f['prog'],_=M.progress(GOALS,[d['site'] for d in f['sx']],[x.get('advances') for x in _st])
+    f['result']=_FL[f['id']].get('result')

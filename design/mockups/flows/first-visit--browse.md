@@ -15,7 +15,7 @@ Player: /mockups/flows/first-visit--browse.html
 1. **home@out.live.live** · user: Curious what this is; sees people live · action: arrives at / · edge: entry
    - Home in Live mode: map + Live now. [M1018b] [M1025]
    - next site states: postup@out.live (M 2), cafe@out.live (cafe), quiet@out.live (Locate), **quiet-feed@out.live** (Nearby), post@out.live (Post up), me@out.live (S), inbox@out.live (Inbox), postup-ask@out.live (T), home@out.live.building (Building), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (cafe (Google card fails))
-   - enterable flows: first-visit step 1 (if Curious what this is; sees people live), first-visit--not-now step 1 (if Curious what this is; sees people live)
+   - enterable flows: first-visit step 1 (if Curious what this is; sees people live), first-visit--not-now step 1 (if Curious what this is; sees people live), first-visit--follow-project step 1 (if Curious what this is; sees people live)
 2. **quiet-feed@out.live** · user: Wants to see everyone around · action: taps Nearby · edge: tap: Nearby
    - Nearby list of postups. [FS] [M1041]
    - next site states: me@out.live (S), quiet@out.live (quiet), post@out.live (Post up), cafe@out.live (Maya's photo), home@out.live.live (Home), inbox@out.live (Inbox), project@out.live (Star Fox 64 mod), projects@out.live (Projects), cafe-gfail@out.live (Maya's photo (Google card fails))
@@ -24,6 +24,7 @@ Player: /mockups/flows/first-visit--browse.html
 ## Connected flows [M1025]
 - `first-visit`: branch out at step 1→1; merge in at —
 - `first-visit--not-now`: branch out at step 1→1; merge in at —
+- `first-visit--follow-project`: branch out at step 1→1; merge in at —
 
 ## Screens
 1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=0#home)

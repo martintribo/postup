@@ -1,0 +1,47 @@
+# Goals a newcomer can reach, as ordered milestone tracks [M1042]. Martin, Oct 31 2026: what matters is that people sign up and
+# then post up, join a postup, or follow/post project content; most newcomers are likelier to follow projects than to go somewhere.
+# Milestones are tied to screen states (fnmatch patterns on site-state ids, e.g. "postup+signin@out.*") and/or to flow steps
+# that say advances = "<milestone>". signed-up is shared by every goal. Checked by gen/validate.py.
+shared = [
+  { id = "signed-up", label = "Signed up", states = ["*@in.*"], note = "Any signed-in state after starting signed out. [M1042]" },
+]
+
+[[goals]]
+id = "posted-up"
+label = "Post up"
+color = "#10a364"
+likely = "Least likely on a first visit: needs them to be at a cafe now and willing to host. [M1042]"
+milestones = [
+  { id = "saw-post-invite", label = "Saw a way to post up", states = ["home@*.none.live", "empty-area@*"], note = "Nobody live: Home and the empty area invite them to be the first. [M1032] [M1042]" },
+  { id = "opened-form", label = "Opened Post up", states = ["post@*"], note = "The Post up form. [FS] [M1042]" },
+  { id = "picked-place", label = "Picked a place", states = ["where@*", "where-search@*"], note = "Where are you? list or search. [FS] [M1042]" },
+  { id = "signed-up" },
+  { id = "posted", label = "Posted up", states = ["posted@in.*"], note = "You're posted up. [FS] [M1042]" },
+]
+
+[[goals]]
+id = "joined-postup"
+label = "Join"
+color = "#2563eb"
+likely = "Likely only when someone is live nearby and they're flexible enough to go now. [M1042]"
+milestones = [
+  { id = "saw-postup", label = "Saw a live postup", states = ["home@*.live.live", "quiet-feed@*.live", "quiet-feed-b@*.live", "invite@*"], note = "Live now on Home, Nearby, or a shared link. [FS] [M1042]" },
+  { id = "opened-postup", label = "Opened it", states = ["postup@*", "invite@*"], note = "The postup page or its share landing. [FS] [M1042]" },
+  { id = "im-coming", label = "Said I'm coming", states = ["postup+signin@out.*", "invite+signin@out.*"], note = "Tapped Join; the sign-in sheet opens. [FS] [M1042]" },
+  { id = "signed-up" },
+  { id = "joined", label = "Joined", states = ["joined@in.*"], note = "You're joining. [FS] [M1042]" },
+]
+
+[[goals]]
+id = "project"
+label = "Project"
+color = "#7c3aed"
+phase = 2  # projects are phase 2 [M1034]
+likely = "Most likely: following project content, since it doesn't need them to go anywhere now. [M1042]"
+milestones = [
+  { id = "saw-projects", label = "Saw projects", states = ["home@*.building", "projects@*"], note = "Building mode or the projects list. [M1018b] [M1042]" },
+  { id = "opened-project", label = "Opened a project", states = ["project@*"], note = "A project page. [FS] [M1042]" },
+  { id = "tapped-follow", label = "Tapped Follow", states = ["profile+signin@out.*"], note = "Follow on the maker's profile opens the sign-in sheet. [FS] [M1042]" },
+  { id = "signed-up" },
+  { id = "following", label = "Following", note = "Reached by a step that says advances = \"following\" (signed in from Follow). Posting a project would also count. [M1042]" },
+]

@@ -211,6 +211,69 @@ for fid,f in fl.items():
     si=f.get('situation')
     if si not in SIT: err(f['_file'],'situation' if si else 'user =',f'flow {fid}: situation {si!r} is not in situations.toml')
     elif SIT[si]['user']!=f.get('user'): err(f['_file'],'situation',f'flow {fid}: situation {si} is for {SIT[si]["user"]}, flow user is {f.get("user")}')
+# goals [M1042]: ordered milestone tracks; typed outcomes (goal reached / drop-off); first-visit-style flows must reach them
+GS,GSH,_gp=M.load_goals()
+MIDS={}
+if GS:
+    for k,m in GSH.items():
+        if not re.search(M.TAG,m.get('note','')) or not m.get('label'): err(_gp,f'id = "{k}"',f'shared milestone {k}: needs label and a source-tagged note')
+    for gid,g in GS.items():
+        ctx=f'id = "{gid}"'
+        if not re.fullmatch(r'#[0-9a-fA-F]{6}',g.get('color','')): err(_gp,ctx,f'goal {gid}: color must be #rrggbb')
+        if not g.get('label'): err(_gp,ctx,f'goal {gid}: needs a label')
+        if 'likely' in g and not re.search(M.TAG,g['likely']): err(_gp,ctx,f'goal {gid}: likely note needs a source tag')
+        if 'phase' in g and not _pint(g['phase']): err(_gp,ctx,f'goal {gid}: phase must be 0, 1 or 2')
+        ids=[m.get('id') for m in g['ms']]
+        if len(ids)<2: err(_gp,ctx,f'goal {gid}: needs at least two milestones')
+        if len(set(ids))!=len(ids): err(_gp,ctx,f'goal {gid}: milestone ids must be unique')
+        for sid_ in GSH:
+            if ids.count(sid_)!=1: err(_gp,ctx,f'goal {gid}: must list the shared milestone {sid_} exactly once')
+        if ids and ids[-1] in GSH: err(_gp,ctx,f'goal {gid}: its final milestone must be its own, not shared')
+        for m in g['ms']:
+            if m.get('id') in GSH: continue
+            if m.get('id') in MIDS: err(_gp,f'id = "{m.get("id")}"',f'milestone {m.get("id")}: used by goals {MIDS[m["id"]]} and {gid}; only shared milestones may repeat')
+            MIDS[m.get('id')]=gid
+            if not m.get('label') or not re.search(M.TAG,m.get('note','')): err(_gp,f'id = "{m.get("id")}"',f'milestone {m.get("id")}: needs label and a source-tagged note')
+    for gid in list(GS):
+        if gid in MIDS or gid in GSH: err(_gp,f'id = "{gid}"',f'goal id {gid} clashes with a milestone id')
+    ALLM=set(MIDS)|set(GSH)
+    HIT=set(); PROG={}
+    if not ERR:
+        for fid,f in fl.items():
+            p=f['_file']; advs=[st.get('advances') for st in f['steps']]
+            for i,a_ in enumerate(advs):
+                if a_ and a_ not in ALLM: err(p,'advances',f'step {i+1}: advances {a_!r} is not a milestone in goals.toml',nth=0)
+            keys=[k for k,_ in M.flow_states(sc,f)]
+            pr,_=M.progress(GS,keys,advs); PROG[fid]=pr
+            for k,a_ in zip(keys,advs): HIT|=M.step_hits(GS,k,a_)
+        for mid in sorted(ALLM-HIT): err(_gp,f'id = "{mid}"',f'milestone {mid}: no step of any flow reaches it (match its states or add advances = "{mid}")')
+        # typed outcomes
+        for fid,f in fl.items():
+            if f.get('parent'): continue
+            fam=[fid]+[k for k,g in fl.items() if g.get('parent')==fid]
+            res={k:fl[k].get('result') for k in fam}
+            if not any(res.values()): 
+                if f.get('goals'): err(f['_file'],'goals =',f'flow {fid} tracks goals, so every path needs result = "goal:<goal>" or "drop:<milestone>"')
+                continue
+            for k,r in res.items():
+                ctx='result' if k==fid else f'id = "{k.split("--",1)[1]}"'
+                if not r: err(f['_file'],ctx,f'{k}: some paths of {fid} are typed, so this one needs result = "goal:<goal>" or "drop:<milestone>"'); continue
+                kind,_,x=r.partition(':'); last=PROG[k][-1] if PROG.get(k) else {}
+                if kind=='goal':
+                    if x not in GS: err(f['_file'],ctx,f'{k}: unknown goal {x!r}'); continue
+                    if last.get(x,0)<len(GS[x]['ms']): err(f['_file'],ctx,f'{k}: says it reaches goal {x}, but it stops at milestone {last.get(x,0)}/{len(GS[x]["ms"])} ({GS[x]["ms"][last.get(x,0)]["id"]} not reached in order)')
+                elif kind=='drop':
+                    if x not in ALLM: err(f['_file'],ctx,f'{k}: drop-off must name a milestone, got {x!r}'); continue
+                    lasts={g['ms'][last.get(gid,0)-1]['id'] for gid,g in GS.items() if last.get(gid,0)>0}
+                    if x not in lasts: err(f['_file'],ctx,f'{k}: drops off at {x}, but the furthest milestones it reaches are {sorted(lasts) or "none"}')
+                    if any(last.get(gid,0)>=len(g['ms']) for gid,g in GS.items()): err(f['_file'],ctx,f'{k}: typed as a drop-off but it reaches a goal')
+                else: err(f['_file'],ctx,f'{k}: result must be goal:<goal> or drop:<milestone>')
+            if f.get('goals'):
+                fin={k:PROG[k][-1] for k in fam if PROG.get(k)}
+                if not any(v.get(g_,0)>=[m['id'] for m in GS[g_]['ms']].index('signed-up')+1 for v in fin.values() for g_ in GS): err(f['_file'],'goals =',f'flow {fid}: no path reaches signed-up')
+                for gid,g in GS.items():
+                    if not any(v.get(gid,0)>=len(g['ms']) and (fl[k].get('phase') if fl[k].get('phase') is not None else M.MAXPH)<=M.MAXPH for k,v in fin.items()):
+                        GAPS.append(f'{rel(f["_file"])}:1: flow {fid}: no path reaches goal {gid} ({g["label"]}) in phase {M.MAXPH} or lower [M1042]')
 # orphans
 IN={t for s in sc.values() for l in s.get('links',[]) for t in [l.get('to')] if t and t!=s['id']}
 IN|={c for s in sc.values() for sl in s.get('slots',[]) for c in sl.get('accepts',[])}

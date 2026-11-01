@@ -243,6 +243,21 @@
   "back": false
  },
  "leave-3": null,
+ "first-visit--follow-project-1": {
+  "label": "Home",
+  "back": false
+ },
+ "first-visit--follow-project-2": {
+  "label": "Star Fox 64 mod",
+  "back": false
+ },
+ "first-visit--follow-project-3": {
+  "label": "Maya",
+  "back": false
+ },
+ "first-visit--follow-project-4": null,
+ "first-visit--follow-project-5": null,
+ "first-visit--follow-project-6": null,
  "invite-project-1": null,
  "invite-project-2": null,
  "invite-project-3": {

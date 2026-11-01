@@ -13,7 +13,7 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phas
 # versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
 PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
 def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042)\]'
 def load(root=ROOT):
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
@@ -39,6 +39,7 @@ def expand_outcomes(f):
         g.update(id=f"{f['id']}--{o['id']}",name=f"{f['name']} → {o.get('label','')}",steps=bsteps[:o['at']]+o['steps'],parent=f['id'],
                  outcome=o.get('label',''),outcome_when=o.get('when',''),outcome_at=o['at'],outcome_from=o.get('from'),aliases=o.get('aliases',[]),edge_cases=[],decide=[],
                  success=o.get('success',[]),start=o['start'] if o['at']==0 and 'start' in o else bstart)
+        g['result']=o.get('result')  # typed outcome [M1042]
         if 'phase' in o: g['phase']=o['phase']
         if 'situation' in o: g['situation']=o['situation']
         paths[o['id']]=(g['steps'],g['start'])
@@ -192,3 +193,34 @@ def load_situations(root=ROOT):
     d=tomllib.load(open(p,'rb')) if os.path.exists(p) else {'situations':[]}
     load_situations.groups={g['id']:g for g in sorted(d.get('groups',[]),key=lambda g:g.get('order',99))}
     return {x['id']:x for x in d['situations']},p
+# Goals [M1042]: ordered milestone tracks (model/goals.toml). A step reaches a milestone when its site state matches one of
+# the milestone's state patterns, or the step says advances = "<milestone>". Progress on a goal = how many of its milestones
+# were reached in order so far.
+import fnmatch as _fn
+def load_goals(root=ROOT):
+    p=f'{root}/goals.toml'
+    if not os.path.exists(p): return {},{},p
+    d=tomllib.load(open(p,'rb')); sh={m['id']:m for m in d.get('shared',[])}
+    gs={}
+    for g in d.get('goals',[]):
+        g=dict(g); g['ms']=[dict(sh.get(m['id'],{}),**m) if m.get('id') in sh and len(m)==1 else m for m in g.get('milestones',[])]; gs[g['id']]=g
+    return gs,sh,p
+def step_hits(gs,key,adv=None):
+    """Milestone ids this step reaches."""
+    out=set()
+    for g in gs.values():
+        for m in g['ms']:
+            if any(_fn.fnmatchcase(key,pt) for pt in m.get('states',[])) or (adv and m.get('id')==adv): out.add(m['id'])
+    return out
+def progress(gs,keys,advs):
+    """keys/advs: per step. Returns per step {goal: milestones reached in order} and the skipped-order notes."""
+    p={g:0 for g in gs}; out=[]; skips=[]
+    for i,(k,a) in enumerate(zip(keys,advs)):
+        h=step_hits(gs,k,a)
+        for gid,g in gs.items():
+            ids=[m['id'] for m in g['ms']]
+            while p[gid]<len(ids) and ids[p[gid]] in h: p[gid]+=1
+            for j,mid in enumerate(ids):
+                if mid in h and j>p[gid] and mid!='signed-up': skips.append((i,gid,mid,ids[p[gid]]))
+        out.append(dict(p))
+    return out,skips

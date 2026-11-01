@@ -15,6 +15,8 @@ goal = "Understand PostUp from the first screen, whatever the area looks like, t
 intent = "Curious what this is; sees people live"
 entry = "Opens / and someone is live nearby. [M1018b] [M1041]"
 outcome = "Joined [M1041]"
+result = "goal:joined-postup"  # typed outcome [M1042]
+goals = true  # tracks the newcomer goals in model/goals.toml [M1042]
 start = { screen = "home", auth = "out", live = "live", tab = "live", device = "phone", url = "/" }
 edge_cases = ["Switches to Building mode for the welcome line and projects: phase 2, since projects are phase 2. [M1034]", "Joins straight from Live now: taps a live row, Join 🔒, sign-in sheet, joined in one go (was Curious visitor joins someone live). [FS] [M1018] [M1024]", "Follows the maker instead of joining: Follow 🔒 → sign-in sheet → signed in and following (was Curious browser). [FS] [M1025]", "No idea what PostUp is: taps the first live person, then the cafe, to understand by example (was Stumbled on it). [FS] [M1025]", "Nobody live: Home opens in Building, so the flow starts at the projects (merged from the old first-visit-none flow). [M1018b] [M1025]", "Taps Post up instead: see Came to post up. [M1025]", "Not now on the sheet: stays signed out, nothing lost. [drawn] [M1025]", "Never empty or \"quiet\" copy when nothing is live. [F035] [R4]", "Nobody live: Home opens in Building, where the welcome line shows first. [M1018b] [drawn] [M1025]", "Dismisses the welcome (×): it should stay dismissed. [drawn] [unsourced]", "Leaves after the first screen: the value has to be clear without scrolling. [M1025]", "Not now on the sheet: stays on the postup, still signed out. [drawn] [M1024]", "Switches to Building to look at projects first. [M1018b] [M1024]"]
 success = ["No sign-in before an action. [FS]", "After sign-in the original action completes. [M1018] [M1024]", "Sees live and past content without signing in. [FS] [M1025]", "Sign-in asked only at an action (Follow). [FS] [TK§1]", "Knows what PostUp is from the first screen in either mode. [M1025]", "Reaches a live postup or a project in one tap, no sign-in. [FS] [M1025]"]
@@ -66,6 +68,7 @@ shows = "Signed in and joined in one go; the join is not lost. [FS] [M1018] [M10
 # ---- ways to go on from someone live nearby ----
 [[outcomes]]
 id = "not-now"
+result = "drop:im-coming"  # [M1042]
 label = "Leaves without signing in"
 at = 5
 when = "Taps Not now on the sign-in sheet; stays signed out, nothing lost. [drawn] [M1041]"
@@ -79,6 +82,7 @@ shows = "Back on the postup, still signed out; they can leave. [drawn] [M1025] [
 
 [[outcomes]]
 id = "browse"
+result = "drop:saw-postup"  # [M1042]
 label = "Browses Nearby"
 at = 1
 when = "Wants a list of who's around instead of the map. [M1041]"
@@ -90,9 +94,55 @@ expect = "quiet-feed@out.live"
 thought = "Wants to see everyone around"
 shows = "Nearby list of postups. [FS] [M1041]"
 
+# ---- phase 2: follows project content (the likeliest goal for a newcomer) ----
+[[outcomes]]
+id = "follow-project"
+result = "goal:project"  # [M1042]
+label = "Follows a maker"
+at = 1
+phase = 2  # projects are phase 2 [M1034]
+when = "More curious about what people are making than going somewhere now; follows the maker from a project. [M1042]"
+
+[[outcomes.steps]]
+link = "home:building"
+act = "taps Building"
+expect = "home@out.live.building"
+thought = "What are people making?"
+shows = "What people are building: project cards. [M1018b] [M1018c]"
+
+[[outcomes.steps]]
+link = "home:project"
+act = "taps a project"
+expect = "project@out.live"
+thought = "A Star Fox 64 mod, nice"
+shows = "Project page: updates and who's behind it. [FS] [M1042]"
+
+[[outcomes.steps]]
+link = "project:maya"
+act = "taps Maya"
+expect = "profile@out.live"
+thought = "Who makes this?"
+shows = "Maya's profile with Follow. [FS] [M1042]"
+
+[[outcomes.steps]]
+link = "profile:follow"
+act = "taps Follow"
+expect = "profile+signin@out.live"
+thought = "Wants to see what Maya makes next"
+shows = "Follow 🔒 opens the sign-in sheet. [FS] [M1025]"
+
+[[outcomes.steps]]
+link = "signin:continue-with-apple"
+advances = "following"
+act = "signs in"
+expect = "profile@in.live"
+thought = "Signed up; following Maya"
+shows = "Signed in and following Maya. [FS] [M1042]"
+
 # ---- start branch: nobody live nearby ----
 [[outcomes]]
 id = "nobody"
+result = "drop:saw-post-invite"  # [M1042]
 label = "Looks at past postups"
 at = 0
 when = "Opens / and nobody is live nearby. [M1032] [M1041]"
@@ -129,6 +179,7 @@ shows = "The empty-area screen again. [M1032]"
 
 [[outcomes]]
 id = "post"
+result = "goal:posted-up"  # [M1042]
 label = "Posted up"
 from = "nobody"
 at = 1
@@ -180,6 +231,7 @@ shows = "Invite friends: share sheet. [drawn] [M1024]"
 
 [[outcomes]]
 id = "too-far"
+result = "drop:signed-up"  # [M1042]
 label = "Too far away"
 from = "post"
 at = 5
@@ -205,6 +257,7 @@ shows = "Where are you? list, nearest first. [FS] [M1039]"
 
 [[outcomes]]
 id = "already-posted"
+result = "drop:signed-up"  # [M1042]
 aliases = ["first-post--already-posted"]
 situation = "nc-at-cafe"
 label = "Already posted up"
@@ -231,6 +284,7 @@ shows = "Their live postup. [M1039]"
 # ---- start branches: opened a shared link ----
 [[outcomes]]
 id = "link-live"
+result = "goal:joined-postup"  # [M1042]
 label = "Joined from a shared link"
 at = 0
 when = "Opens a postup link a friend sent, and the postup is still live. [R39] [M1041]"
@@ -260,6 +314,7 @@ shows = "Joined. [FS] [M1024]"
 
 [[outcomes]]
 id = "link-ended"
+result = "drop:saw-postup"  # [M1042]
 label = "Ended link, browses Nearby"
 at = 0
 when = "Opens a postup link a friend sent, but the postup has ended. [M1032] [M1041]"
