@@ -30,3 +30,6 @@ vite.config.ts.timestamp-*
 storybook-static
 certs/
 static/uploads/import/
+
+# Goal-reachability validation run outputs (keep config; ignore runs)
+design/mockups/validation/runs/

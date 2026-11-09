@@ -1,0 +1,17 @@
+# Default scope for the "Can users complete their goals?" validation workflow.
+# Optional /workflow args override these fields. Skips use stable layered paths:
+#   user
+#   user/way
+#   user/way/phN
+#   user/way/phN/goal
+# Example: skip = ["newcomer/home-none", "registered/hosting/ph0"]
+
+users = ["newcomer", "registered"]
+phases = [0, 2]
+# ways = []   # omit = all ways in model/ways.toml that apply to each user
+# goals = []  # omit = all goals tracked for each user type
+# spread_path = "validation/runs/YYYYMMDD-HHMMSS/spread.json"  # optional saved spread
+
+# [[skips]]
+# path = "newcomer/link-live"
+# reason = "Share-link ways reviewed separately this week"
