@@ -1,0 +1,12 @@
+# TLC / TLA+ toolbox debris (rerun artifacts)
+tla/out/
+**/*.toolbox/
+**/states/
+**/*.dot
+**/tlc.out
+**/sany.out
+**/*_TTrace*
+**/*.class
+__pycache__/
+**/__pycache__/
+*.pyc

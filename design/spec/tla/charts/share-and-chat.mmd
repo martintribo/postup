@@ -1,0 +1,37 @@
+---
+title: "Postup lifecycle"
+---
+stateDiagram-v2
+  s0: visiting / live
+  s1: hosting / live
+  s2: visiting / ended
+  s3: visiting / cancelled
+  s4: visiting / full
+  s5: hosting / cancelled
+  s6: hosting / ended
+  s7: hosting / full
+  s8: joined / live
+  s9: joined / cancelled
+  s10: joined / ended
+  s11: joined / full
+  [*] --> s0
+  [*] --> s1
+  [*] --> s2
+  s0 --> s3: it is cancelled
+  s0 --> s2: time runs out
+  s0 --> s4: it fills up
+  s0 --> s8: you join
+  s1 --> s5: it is cancelled
+  s1 --> s6: the host ends it now or time runs out
+  s1 --> s7: it fills up
+  s4 --> s3: it is cancelled
+  s4 --> s2: time runs out
+  s7 --> s5: it is cancelled
+  s7 --> s6: the host ends it now or time runs out
+  s8 --> s0: you leave
+  s8 --> s9: it is cancelled
+  s8 --> s10: time runs out
+  s8 --> s11: it fills up
+  s11 --> s4: you leave
+  s11 --> s9: it is cancelled
+  s11 --> s10: time runs out

@@ -1,0 +1,124 @@
+# A release plan talks about features completed to a degree, not about
+# phases. The runner finds the earliest phase that delivers the required
+# sub-features and checks the listed invariants against the model
+# restricted to that phase's delivered set.
+
+title = "MVP release (lifecycle prototype)"
+description = """
+What has to hold for the postup lifecycle as the current mock phases
+roll out. Items name a required sub-feature set and the invariants that
+must hold when those features (and everything else that phase already
+delivers) are in the model.
+"""
+
+[[item]]
+id = "join-and-close"
+label = "People can post, join, and the postup always ends"
+requires = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+]
+invariants = [
+  "TypeOK",
+  "NoJoinWhenClosed",
+  "WayOutToEnded",
+  "AskOnlyWhenDelivered",
+  "FullOnlyWhenFillsDelivered",
+]
+rationale = """
+The first release already lets someone post, lets someone else join, and
+lets the host end now or wait for time to run out. A live postup must
+always have a way out to ended (or cancelled). Situations that belong to
+later features (asking to join, filling up) must not appear yet.
+"""
+
+[[item]]
+id = "share-leave-and-fill"
+label = "Shared links, leaving early, and a size limit"
+requires = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+  "lifecycle-leave",
+  "lifecycle-extend",
+  "lifecycle-fills",
+  "lifecycle-share-link-live",
+  "lifecycle-share-link-ended",
+]
+invariants = [
+  "TypeOK",
+  "NoJoinWhenClosed",
+  "EndedLinkNeverLive",
+  "WayOutToEnded",
+  "FullOnlyWhenFillsDelivered",
+  "JoinerCanLeaveNow",
+]
+rationale = """
+Once a postup can be shared as a link, has a size limit, and lets a
+joiner leave, three more rules kick in: an ended link never looks live,
+you cannot join a full postup, and a joiner on a still-open postup can
+leave. The host can also add 30 minutes while it is still live.
+"""
+
+[[item]]
+id = "ask-to-join"
+label = "Host-approved join"
+requires = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+  "lifecycle-leave",
+  "lifecycle-extend",
+  "lifecycle-fills",
+  "lifecycle-share-link-live",
+  "lifecycle-share-link-ended",
+  "lifecycle-ask-to-join",
+]
+invariants = [
+  "TypeOK",
+  "NoJoinWhenClosed",
+  "EndedLinkNeverLive",
+  "WayOutToEnded",
+  "AskOnlyWhenDelivered",
+  "FullOnlyWhenFillsDelivered",
+  "JoinerCanLeaveNow",
+]
+rationale = """
+The later release adds postups where the host approves joiners. The
+'asked to join' situation may only appear when that feature is
+delivered, and a request cannot turn into a join once the postup is
+full or already ended.
+"""
+
+# DEMO only — not a product claim. This item is supposed to fail, to show
+# that a plan check is readable when a required rule does not hold at the
+# earliest phase that has the listed features.
+[[item]]
+id = "demo-leave-too-early"
+label = "DEMO (expected to fail): a joiner can leave in the first release"
+demo = true
+expected = "fail"
+requires = [
+  "lifecycle-join",
+]
+invariants = [
+  "TypeOK",
+  "JoinerCanLeaveNow",
+]
+rationale = """
+DEMO, not a claim about what Martin asked for. This item requires only
+'join' and then checks that a joiner can leave now. The earliest phase
+that delivers join is post-and-join, and leave is intentionally not in
+that phase [M1037]. The runner should report a readable failure of
+JoinerCanLeaveNow, which is the point of the demo.
+"""

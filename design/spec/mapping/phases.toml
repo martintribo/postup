@@ -1,0 +1,213 @@
+# Which postup-lifecycle sub-features each current phase delivers.
+# Evidence is taken from the mock model (screens, links, events, ways)
+# and from notes / HTML that the model does not yet encode as a link.
+# The check script fails if a cited screen, link, event, or way is missing,
+# or if it is not available in that phase (since/until).
+
+# Stable ids. Phases are the current model ids (aliases still work in the app).
+# This file does not change phases.toml semantics.
+
+[[phase]]
+id = "post-and-join"
+delivers = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+]
+
+[[phase]]
+id = "share-and-chat"
+delivers = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+  "lifecycle-leave",
+  "lifecycle-extend",
+  "lifecycle-fills",
+  "lifecycle-share-link-live",
+  "lifecycle-share-link-ended",
+]
+
+[[phase]]
+id = "projects"
+delivers = [
+  "lifecycle-view-live",
+  "lifecycle-join",
+  "lifecycle-host",
+  "lifecycle-end-now",
+  "lifecycle-time-runs-out",
+  "lifecycle-cancelled-view",
+  "lifecycle-leave",
+  "lifecycle-extend",
+  "lifecycle-fills",
+  "lifecycle-share-link-live",
+  "lifecycle-share-link-ended",
+  "lifecycle-ask-to-join",
+]
+
+# Evidence used by check_mapping.py. kind is screen | link | event | way | note.
+# A "note" kind is documented only (no model id to resolve) and must name its source.
+# "must_be_available" is the earliest phase in which every cited model item must exist.
+
+[[feature]]
+id = "lifecycle-view-live"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "screen"
+id = "postup"
+source = "design/mockups/model/screens/postup.toml"
+
+[[feature]]
+id = "lifecycle-join"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "link"
+id = "postup:join"
+source = "design/mockups/model/screens/postup.toml"
+
+[[feature]]
+id = "lifecycle-host"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "screen"
+id = "posted"
+source = "design/mockups/model/screens/posted.toml"
+[[feature.item]]
+kind = "screen"
+id = "live"
+source = "design/mockups/model/screens/live.toml"
+[[feature.item]]
+kind = "way"
+id = "hosting"
+source = "design/mockups/model/ways.toml"
+
+[[feature]]
+id = "lifecycle-end-now"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "screen"
+id = "endlive"
+source = "design/mockups/model/screens/endlive.toml"
+[[feature.item]]
+kind = "link"
+id = "live:end-postup"
+source = "design/mockups/model/screens/live.toml"
+[[feature.item]]
+kind = "link"
+id = "endlive:end-now"
+source = "design/mockups/model/screens/endlive.toml"
+
+[[feature]]
+id = "lifecycle-time-runs-out"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "event"
+id = "postup-ends"
+source = "design/mockups/model/events.toml"
+[[feature.item]]
+kind = "screen"
+id = "postup-ended"
+source = "design/mockups/model/screens/postup-ended.toml"
+
+[[feature]]
+id = "lifecycle-cancelled-view"
+must_be_available = "post-and-join"
+[[feature.item]]
+kind = "event"
+id = "postup-cancelled"
+source = "design/mockups/model/events.toml"
+[[feature.item]]
+kind = "screen"
+id = "postup-cancelled"
+source = "design/mockups/model/screens/postup-cancelled.toml"
+
+[[feature]]
+id = "lifecycle-leave"
+must_be_available = "share-and-chat"
+[[feature.item]]
+kind = "screen"
+id = "leave"
+source = "design/mockups/model/screens/leave.toml"
+[[feature.item]]
+kind = "link"
+id = "joined:leave"
+source = "design/mockups/model/screens/joined.toml"
+[[feature.item]]
+kind = "link"
+id = "leave:leave"
+source = "design/mockups/model/screens/leave.toml"
+
+[[feature]]
+id = "lifecycle-extend"
+must_be_available = "share-and-chat"
+[[feature.item]]
+kind = "note"
+id = "extend-plus-30"
+source = "design/mockups/gen/phasev.py and live.toml notes [M1037]"
+note = "Drawn and phase-gated in HTML; no model link yet."
+
+[[feature]]
+id = "lifecycle-fills"
+must_be_available = "share-and-chat"
+[[feature.item]]
+kind = "event"
+id = "postup-fills"
+source = "design/mockups/model/events.toml"
+[[feature.item]]
+kind = "screen"
+id = "postup-full"
+source = "design/mockups/model/screens/postup-full.toml"
+
+[[feature]]
+id = "lifecycle-share-link-live"
+must_be_available = "share-and-chat"
+[[feature.item]]
+kind = "way"
+id = "link-live"
+source = "design/mockups/model/ways.toml"
+[[feature.item]]
+kind = "screen"
+id = "invite"
+source = "design/mockups/model/screens/invite.toml"
+[[feature.item]]
+kind = "screen"
+id = "share"
+source = "design/mockups/model/screens/share.toml"
+
+[[feature]]
+id = "lifecycle-share-link-ended"
+must_be_available = "share-and-chat"
+[[feature.item]]
+kind = "way"
+id = "link-ended"
+source = "design/mockups/model/ways.toml"
+[[feature.item]]
+kind = "screen"
+id = "invite-ended"
+source = "design/mockups/model/screens/invite-ended.toml"
+
+[[feature]]
+id = "lifecycle-ask-to-join"
+must_be_available = "projects"
+[[feature.item]]
+kind = "screen"
+id = "postup-ask"
+source = "design/mockups/model/screens/postup-ask.toml"
+[[feature.item]]
+kind = "screen"
+id = "requested"
+source = "design/mockups/model/screens/requested.toml"
+[[feature.item]]
+kind = "screen"
+id = "ask"
+source = "design/mockups/model/screens/ask.toml"
+[[feature.item]]
+kind = "link"
+id = "postup-ask:ask-to-join"
+source = "design/mockups/model/screens/postup-ask.toml"
