@@ -8,7 +8,7 @@ host = "postup"  # page whose notes URL shows this sheet
 links = [
   { id = "close", label = "", action = "close" },
   { id = "view-profile", label = "View profile", action = "replace", to = "profile" },
-  { id = "share", label = "Share", action = "swap", to = "share", since = "pre-mvp" },
+  { id = "share", label = "Share", action = "swap", to = "share", since = "share-and-chat" },
   { id = "report", label = "Report", action = "replace", to = "report" },
   { id = "block", label = "Block", action = "swap", to = "block" },
   { id = "cancel", label = "Cancel", action = "close" },

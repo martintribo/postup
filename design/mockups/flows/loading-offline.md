@@ -35,10 +35,10 @@ Player: /mockups/flows/loading-offline.html
 - `registered-visit--ended-project`: branch out at step 3→2; merge in at step 3 (from its step 2)
 
 ## Screens
-1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#loading)
-2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#offline)
-3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#quiet-feed)
-4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#cafe-gfail)
+1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#loading)
+2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#offline)
+3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#quiet-feed)
+4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#cafe-gfail)
 
 ## Branches and edge cases
 - First visit while offline: nothing cached (fails in the build today). [unsourced]

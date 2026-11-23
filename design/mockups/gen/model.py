@@ -12,7 +12,7 @@ DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building')}
 # View phase [M1035] [M1047-draft]: a dimension like auth, but not part of the state id. Phase ids and order
 # live in model/phases.toml. An item may set since= / until= (inclusive phase ids); untagged = every phase.
 # A flow is walked in its `since` phase if set, otherwise the latest phase. The "All" UI view renders the latest phase.
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042|M1043|M1044|M1045|M1046|M1047-draft|M1047)\]'
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042|M1043|M1044|M1045|M1046|M1047-draft|M1047|M1048)\]'
 
 # ---- phases.toml [M1047-draft] ----
 PHASES=[]; PBY={}; PIDS=[]; LATEST=None; PEXCEPT=[]; PHASES_FILE=None; ALIAS={}

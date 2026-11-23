@@ -1,6 +1,6 @@
 # Screen: Postup full. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "postup-full"
-since = "pre-mvp"  # size limit is pre-mvp+ [M1040] [M1047-draft]
+since = "share-and-chat"  # size limit is pre-mvp+ [M1040] [M1047-draft]
 title = "Postup full"
 kind = "page"
 group = "Postups & joining"

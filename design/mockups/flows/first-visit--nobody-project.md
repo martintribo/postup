@@ -1,5 +1,5 @@
 # Flow: First visit → Follows a maker (`first-visit--nobody-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--nobody-project.html
 
 ## Persona
@@ -49,11 +49,11 @@ Player: /mockups/flows/first-visit--nobody-project.html
 - `following`: branch out at step 6→1; merge in at —
 
 ## Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=mvp#home)
-2. `#home` · auth=out live=none mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
-3. `#project` · auth=out live=none — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=mvp#project)
-4. `#profile` · auth=out live=none — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=mvp#profile)
-5. `#profile` + sheet `signin` · auth=out live=none — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=mvp#profile)
-6. `#profile` · auth=in live=none — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#profile)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=projects#home)
+2. `#home` · auth=out live=none mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=projects#home)
+3. `#project` · auth=out live=none — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=projects#project)
+4. `#profile` · auth=out live=none — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=projects#profile)
+5. `#profile` + sheet `signin` · auth=out live=none — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=projects#profile)
+6. `#profile` · auth=in live=none — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#profile)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

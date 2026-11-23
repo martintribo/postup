@@ -3,15 +3,13 @@
    data-ph is a space-separated list of phase ids the item is available in, or "all".
    Choice lives in localStorage "pu-ph1": "all" or a phase id. Legacy values 0/p0/1/2 still resolve. */
 (function(){
-  var C=window.PU_PHASES||{ids:["smallest","pre-mvp","mvp"],latest:"mvp",labels:{},badges:{"smallest":"0","pre-mvp":"1","mvp":"2"},aliases:{"0":"smallest","p0":"smallest","ph0":"smallest","1":"pre-mvp","2":"mvp"}};
+  var C=window.PU_PHASES||{ids:["post-and-join","share-and-chat","projects"],latest:"projects",labels:{"post-and-join":"Phase 0: Post & join","share-and-chat":"Phase 1: Share & chat","projects":"Phase 2: Projects"},badges:{"post-and-join":"0","share-and-chat":"1","projects":"2"},aliases:{"0":"post-and-join","p0":"post-and-join","ph0":"post-and-join","smallest":"post-and-join","1":"share-and-chat","p1":"share-and-chat","ph1":"share-and-chat","pre-mvp":"share-and-chat","2":"projects","p2":"projects","ph2":"projects","mvp":"projects"}};
   var K="pu-ph1",h=document.documentElement;
   function resolve(v){ if(!v||v==="0"||v==="all"||v==="latest") return "all"; return (C.aliases&&C.aliases[v])||v; }
   function v(){ try{ return resolve(localStorage.getItem(K)); }catch(e){ return "all"; } }
   function label(o){
     if(o==="all") return "Phase: all";
-    var i=(C.ids||[]).indexOf(o), lab=(C.labels&&C.labels[o])||o;
-    if(i<=0) return "Phase: "+lab;
-    return "Phase: ≤"+((C.badges&&C.badges[o])||lab);
+    return (C.labels&&C.labels[o])||o;
   }
   function ap(){
     var o=v();

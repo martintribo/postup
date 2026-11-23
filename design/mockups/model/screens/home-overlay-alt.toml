@@ -11,10 +11,10 @@ slots = [
 links = [
   { id = "3-this-week", label = "3 this week", action = "replace", to = "cafe" },
   { id = "cafe", label = "", action = "replace", to = "cafe" },
-  { id = "project", label = "Star Fox 64 mod Maya · Corneria II", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
-  { id = "project-2", label = "Pixel Garden Tess · New crop sprit", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
-  { id = "project-3", label = "Bus Stop Zine Jon · Page 12 inked", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
-  { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects", since = "mvp" },  # phase 2 only [M1035]
+  { id = "project", label = "Star Fox 64 mod Maya · Corneria II", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
+  { id = "project-2", label = "Pixel Garden Tess · New crop sprit", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
+  { id = "project-3", label = "Bus Stop Zine Jon · Page 12 inked", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
+  { id = "see-all-projects", label = "See all projects", action = "replace", to = "projects", since = "projects" },  # phase 2 only [M1035]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 

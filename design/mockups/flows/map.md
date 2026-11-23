@@ -97,13 +97,13 @@ flowchart LR
 ```
 
 ## Where each flow starts
-- `first-visit` (Phase 0 (smallest)): from state "Curious about content · live now or past" when first visit: live, nobody, or a link [M1025]
-- `invite-project` (Phase 2 (MVP)): from state "Signed out · on a project link" [M1025]
+- `first-visit` (Phase 0: Post & join): from state "Curious about content · live now or past" when first visit: live, nobody, or a link [M1025]
+- `invite-project` (Phase 2: Projects): from state "Signed out · on a project link" [M1025]
 - `loading-offline` (All phases): from state "Slow network or offline" [M1025]
-- `registered-visit` (Phase 0 (smallest)): from state "Signed in · someone live nearby" when registered visit: live, nobody, a link, hosting or joined [M1044] [M1025]
-- `ask-join` (Phase 2 (MVP)): from state "Signed in · someone live nearby" [M1025]
+- `registered-visit` (Phase 0: Post & join): from state "Signed in · someone live nearby" when registered visit: live, nobody, a link, hosting or joined [M1044] [M1025]
+- `ask-join` (Phase 2: Projects): from state "Signed in · someone live nearby" [M1025]
 - `desktop-browse` (All phases): from state "Signed in · someone live nearby" when on a laptop [M1025]
-- `host-approve` (Phase 2 (MVP)): from state "Signed in · hosting (live)" when gets a request [M1025]
+- `host-approve` (Phase 2: Projects): from state "Signed in · hosting (live)" when gets a request [M1025]
 - `following` (All phases): from state "Signed in · nobody live" [M1025]
 - `delete-account` (All phases): from state "Returning user · signed in" [M1025]
 - `settings-notify` (All phases): from state "Returning user · signed in" [M1025]

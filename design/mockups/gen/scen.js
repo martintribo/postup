@@ -5,7 +5,7 @@ a=q.get("auth")||A||"out";l=q.get("live")||L||"live";if(a!=="in")a="out";if(l!==
 /* the chosen variant takes the base id (so #id CSS applies); the base steps aside as <id>--base */
 /* view phase [M1047-draft]: ?ph= wins (id or alias 0/1/2), else the Phase toggle. "all" renders the latest phase. */
 function vph(){
-  var h=document.documentElement,C=window.PU_PHASES||{ids:["smallest","pre-mvp","mvp"],latest:"mvp",aliases:{"0":"smallest","p0":"smallest","ph0":"smallest","1":"pre-mvp","p1":"pre-mvp","ph1":"pre-mvp","2":"mvp","p2":"mvp","ph2":"mvp"}};
+  var h=document.documentElement,C=window.PU_PHASES||{ids:["post-and-join","share-and-chat","projects"],latest:"projects",aliases:{"0":"post-and-join","p0":"post-and-join","ph0":"post-and-join","smallest":"post-and-join","1":"share-and-chat","p1":"share-and-chat","ph1":"share-and-chat","pre-mvp":"share-and-chat","2":"projects","p2":"projects","ph2":"projects","mvp":"projects"}};
   var q=new URLSearchParams(location.search).get("ph"), raw=null;
   if(q!==null&&q!=="") raw=q; else { try{ raw=localStorage.getItem("pu-ph1"); }catch(e){} }
   var v;
@@ -18,7 +18,7 @@ var ALIAS={"inbox-one":"inbox"};
 function setVph(v){try{localStorage.setItem("pu-ph1",v)}catch(e){}var u=new URL(location.href);u.searchParams.delete("ph");history.replaceState(null,"",u);vph();phUI();show()}
 function phUI(){
   /* Resolve the toggle highlight from pu-ph1 without depending on phase.js (that's flows-only). "0" means All. [M1047-draft] */
-  var C=window.PU_PHASES||{ids:["smallest","pre-mvp","mvp"],aliases:{"0":"smallest","p0":"smallest","ph0":"smallest","1":"pre-mvp","p1":"pre-mvp","ph1":"pre-mvp","2":"mvp","p2":"mvp","ph2":"mvp"}};
+  var C=window.PU_PHASES||{ids:["post-and-join","share-and-chat","projects"],aliases:{"0":"post-and-join","p0":"post-and-join","ph0":"post-and-join","smallest":"post-and-join","1":"share-and-chat","p1":"share-and-chat","ph1":"share-and-chat","pre-mvp":"share-and-chat","2":"projects","p2":"projects","ph2":"projects","mvp":"projects"}};
   var raw=null;try{raw=localStorage.getItem("pu-ph1")}catch(e){}
   var v;
   if(raw===null||raw===""||raw==="0"||raw==="all"||raw==="latest") v="all";
@@ -26,7 +26,7 @@ function phUI(){
   document.querySelectorAll("[data-vp]").forEach(function(b){b.classList.toggle("on",b.dataset.vp===v)})
 }
 document.addEventListener("DOMContentLoaded",phUI);
-function homeMode(){var h=document.documentElement,C=window.PU_PHASES||{latest:"mvp"};if(vph()!==(C.latest||"mvp"))return"live";if(!h.dataset.hmode){var q=new URLSearchParams(location.search).get("mode");if(q==="live"||q==="building")h.dataset.hmode=q}return h.dataset.hmode||(scen().l==="live"?"live":"building")}
+function homeMode(){var h=document.documentElement,C=window.PU_PHASES||{latest:"projects"};if(vph()!==(C.latest||"projects"))return"live";if(!h.dataset.hmode){var q=new URLSearchParams(location.search).get("mode");if(q==="live"||q==="building")h.dataset.hmode=q}return h.dataset.hmode||(scen().l==="live"?"live":"building")}
 function setHome(m){document.documentElement.dataset.hmode=m;var u=new URL(location.href);u.searchParams.set("mode",m);history.replaceState(null,"",u);show();if(window.nupd)nupd();if(window.pmUI)pmUI()}
 function vid(id){var s=scen(),c=[id+"--"+s.a+"-"+s.l,id+"--"+s.l,id+"--"+s.a],pick=null;
 document.querySelectorAll(".scr[data-v]").forEach(function(e){e.id=e.dataset.v});

@@ -5,7 +5,7 @@
 id = "registered-visit"
 name = "Registered visit"
 role = "joiner"
-since = "smallest"  # smallest MVP [M1037]
+since = "post-and-join"  # smallest MVP [M1037]
 user = "registered"
 situation = "rg-wants-company"
 order = 2
@@ -113,7 +113,7 @@ result = "drop:opened-postup"  # [M1044]
 situation = "rg-postup-changes"
 label = "Postup full"
 at = 2
-since = "pre-mvp"  # draft: a full postup needs a size limit, which phase 0 doesn't have [M1040]
+since = "share-and-chat"  # draft: a full postup needs a size limit, which phase 0 doesn't have [M1040]
 when = "The postup fills up while they read it. [M1040]"
 aliases = ["join--full"]
 
@@ -233,7 +233,7 @@ result = "goal:project"  # [M1044]
 situation = "rg-projects"
 label = "Follows a maker"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "Curious what people are making: Building mode, a project, follows the maker. [M1044]"
 
 [[outcomes.steps]]
@@ -299,7 +299,7 @@ situation = "rg-projects"
 label = "Starts a project"
 from = "nobody"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "Nobody's live; works on their own project: create it, post an update, post up for it (was Project builder). [M1024] [M1044]"
 aliases = ["project-builder"]
 
@@ -356,7 +356,7 @@ shows = "Posted, tied to the project. [FS]"
 # ---- shared links ----
 [[outcomes]]
 id = "link-live"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1044]
 label = "Joins from a shared link"
 at = 0
@@ -378,7 +378,7 @@ shows = "Joined. [FS] [M1024]"
 
 [[outcomes]]
 id = "link-post"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1044]
 situation = "rg-posting"
 label = "Posts up at that cafe"
@@ -400,7 +400,7 @@ live = "live"
 
 [[outcomes]]
 id = "link-project"
-since = "mvp"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
+since = "projects"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1044]
 situation = "rg-projects"
 label = "Follows the friend's project"
@@ -421,7 +421,7 @@ live = "live"
 
 [[outcomes]]
 id = "link-ended"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1044]
 label = "Ended link, joins someone nearby"
 at = 0
@@ -453,7 +453,7 @@ shows = "You're joining. [FS] [M1024]"
 
 [[outcomes]]
 id = "ended-post"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1044]
 situation = "rg-posting"
 label = "Posts up instead"
@@ -468,7 +468,7 @@ live = "live"
 
 [[outcomes]]
 id = "ended-project"
-since = "mvp"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
+since = "projects"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1044]
 situation = "rg-projects"
 label = "Follows a maker"
@@ -494,7 +494,7 @@ result = "goal:posted-up"  # already posted up on arrival (way holds it) [M1044]
 label = "Extends, then ends"
 at = 0
 way = "hosting"
-since = "pre-mvp"  # MVP phase [M1031-draft]
+since = "share-and-chat"  # MVP phase [M1031-draft]
 situation = "rg-hosting"
 aliases = ["hosting"]
 
@@ -517,7 +517,7 @@ situation = "rg-hosting"
 label = "Follows a maker while hosting"
 from = "hosting"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "Hosting and quiet: opens a project on their postup and follows its maker. [M1044]"
 
 [[outcomes.steps]]
@@ -538,7 +538,7 @@ result = "goal:joined-postup"  # already joined on arrival (way holds it) [M1044
 label = "Leaves the postup"
 at = 0
 way = "joined"
-since = "pre-mvp"  # MVP phase [M1031-draft]
+since = "share-and-chat"  # MVP phase [M1031-draft]
 situation = "rg-after-joining"
 aliases = ["leave"]
 
@@ -569,7 +569,7 @@ situation = "rg-after-joining"
 label = "Chats with the group"
 from = "joined"
 at = 1
-since = "pre-mvp"  # MVP phase [M1031-draft]
+since = "share-and-chat"  # MVP phase [M1031-draft]
 when = "Wants to sort out details: Inbox → the postup chat. [F061] [M1044]"
 aliases = ["chat"]
 
@@ -601,7 +601,7 @@ situation = "rg-projects"
 label = "Follows the host's project"
 from = "joined"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "Opens the project on the postup they joined and follows its maker. [M1044]"
 
 [[outcomes.steps]]

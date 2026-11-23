@@ -6,8 +6,14 @@ import re, json
 import sys as _s; _s.path.insert(0,'gen'); import model as _PM
 _SC,_FL,_EV,_GL=_PM.load()
 _FIRST=_PM.PIDS[0]
-_MVP='mvp' if 'mvp' in _PM.PBY else _PM.LATEST
-_PRE='pre-mvp' if 'pre-mvp' in _PM.PBY else (_PM.PIDS[1] if len(_PM.PIDS)>1 else _PM.LATEST)
+def _rid(*cands):
+    for c in cands:
+        try: return _PM.pid(c)
+        except (ValueError, TypeError): pass
+    return _PM.LATEST
+# Latest / prior phase, resolved via current ids or the old aliases [M1048]
+_MVP=_rid('projects','mvp')
+_PRE=_rid('share-and-chat','pre-mvp')
 
 def _cls_for_target(toid):
     s=_SC.get(toid)
@@ -68,7 +74,7 @@ for k in ('quiet-feed--none','quiet-feed-b--none'):
 
 # Postup: "working on" card stays through pre-mvp without the project tag
 _c=re.search(r'<div class="since-%s card" onclick="go\(\'project\'\)"><div class="ch"><span class="tag">(.*?)</span>(.*?)</div><p>(.*?)</p></div>'%re.escape(_MVP), S['postup'], re.S)
-# After auto-mark the project card should already be since-mvp; fall back to old p2only / unclassed card
+# After auto-mark the project card should already be since-<latest>; fall back to an unclassed card
 if not _c:
     _c=re.search(r'<div class="(?:since-[\w-]+ )?card" onclick="go\(\'project\'\)"><div class="ch"><span class="tag">(.*?)</span>(.*?)</div><p>(.*?)</p></div>', S['postup'], re.S)
 assert _c, 'postup card'
@@ -80,10 +86,9 @@ for k in [k for k in S if k=='postup' or k.startswith('postup--') or k.startswit
 _btns='<button data-vp="all" onclick="setVph(\'all\')">All (latest)</button>'+''.join(
     f'<button data-vp="{ph["id"]}" onclick="setVph(\'{ph["id"]}\')">{ph.get("badge") or ph["id"]} ({(ph.get("label") or ph["id"]).split("(")[-1].rstrip(")") if "(" in (ph.get("label") or "") else ph["id"]})</button>'
     for ph in _PM.PHASES)
-# Simpler labels: "0 (smallest)", "≤1 (pre-MVP)", "≤2 (MVP)" matching today's wording for the three current phases
 def _btn_label(ph, i):
     lab=ph.get('label') or ph['id']
-    # "Phase 0 (smallest)" -> "0 (smallest)" [M1047-draft]
+    # "Phase 0: Post & join" -> "0: Post & join" [M1048]
     return lab.replace('Phase ', '', 1)
 _btns='<button data-vp="all" onclick="setVph(\'all\')">All (latest)</button>'+''.join(
     f'<button data-vp="{ph["id"]}" onclick="setVph(\'{ph["id"]}\')">{_btn_label(ph,i)}</button>'

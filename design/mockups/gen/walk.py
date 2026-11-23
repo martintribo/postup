@@ -98,5 +98,10 @@ for k,v in WALK.items():
     if '/' in k:
         for N in v['n']: N['h']={g:m for g,m in N['h'].items() if m}
         open(f'flows/walk/{k.replace("/","-")}.json','w').write(json.dumps(_wstrip(v),ensure_ascii=False,separators=(',',':')))
+    import os
+    want={k.replace("/","-")+'.json' for k in WALK if '/' in k}
+    for name in os.listdir('flows/walk'):
+        if name.endswith('.json') and name not in want:
+            os.remove(os.path.join('flows/walk', name))
 print('walk',{k:len(v['n']) for k,v in WALK.items() if '/' in k},'states;',len(set(WALK_WARN)),'dead ends')
 exec(open('gen/walkpage.py').read())

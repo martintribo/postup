@@ -1,5 +1,5 @@
 # Flow: Ask to join, then get approved (joiner side) (`ask-join`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/ask-join.html
 
 ## Persona
@@ -40,11 +40,11 @@ Player: /mockups/flows/ask-join.html
 - `host-approve`: branch out at step 4→1; merge in at —
 
 ## Screens
-1. `#postup-ask` · auth=in live=live — "Tess approves who joins". [FS] [F055] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup-ask)
-2. `#ask` · auth=in live=live — Short reason. [F061] [F095] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#ask)
-3. `#requested` · auth=in live=live — Request sent; can cancel. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#requested)
-4. `#activity` · auth=in live=live — Activity: "Tess said yes". [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-5. `#chat` · auth=in live=live — Now in the postup chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#chat)
+1. `#postup-ask` · auth=in live=live — "Tess approves who joins". [FS] [F055] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#postup-ask)
+2. `#ask` · auth=in live=live — Short reason. [F061] [F095] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#ask)
+3. `#requested` · auth=in live=live — Request sent; can cancel. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#requested)
+4. `#activity` · auth=in live=live — Activity: "Tess said yes". [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+5. `#chat` · auth=in live=live — Now in the postup chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#chat)
 
 ## Branches and edge cases
 - Signed out: Ask to join → #ask-signin → #ask. [FS]

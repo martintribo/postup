@@ -140,7 +140,7 @@ function setup(cb){var q=parseHash();U=META._users.indexOf(q.user)>=0?q.user:MET
  load(U,PH,function(d){G=d;dists();var ws=G.w;W=(ws.filter(function(w){return w.id===q.way&&w.ok})[0]||ws.filter(function(w){return w.ok})[0]).id;
   var cut=replay(q.path?q.path.split(",").filter(Boolean):[]);POS=q.at!=null&&q.at!==""?Math.min(+q.at,TR.length-1):TR.length-1;
   $("#us").innerHTML=META._users.map(function(u){return'<button data-u="'+u+'" class="'+(u===U?"on":"")+'" title="'+esc(META[u].sub)+'">'+esc(META[u].l)+"</button>"}).join("");
-  $("#ps").innerHTML=META._phases.map(function(p){var b=(META._phase_badges&&META._phase_badges[p]!=null)?META._phase_badges[p]:p;return'<button data-p="'+p+'" class="'+(p===PH?"on":"")+'">Phase '+b+"</button>"}).join("");
+  $("#ps").innerHTML=META._phases.map(function(p){var lab=(META._phase_labels&&META._phase_labels[p])||("Phase "+((META._phase_badges&&META._phase_badges[p]!=null)?META._phase_badges[p]:p));return'<button data-p="'+p+'" class="'+(p===PH?"on":"")+'">'+lab+"</button>"}).join("");
   $("#ws").innerHTML=ws.map(function(w){return'<option value="'+w.id+'"'+(w.id===W?" selected":"")+(w.ok?"":" disabled")+' title="'+esc(plain(w.w))+'">'+esc(w.l)+(w.ok?"":" (later phase)")+"</option>"}).join("");
   document.title="Walkthrough · "+META[U].l+" · "+way().l+" · PostUp mockups";if(cut)toast("Path cut at step "+(cut+1)+": that tap isn't available in phase "+PH+".");render();if(cb)cb()})}
 function nav(o){var q=parseHash();Object.keys(o).forEach(function(k){q[k]=o[k]});if(o.user||o.way)delete q.path,delete q.at;if(!("path" in o)&&o.user)delete q.path;

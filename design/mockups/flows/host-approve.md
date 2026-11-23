@@ -1,5 +1,5 @@
 # Flow: Host approves a request (`host-approve`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/host-approve.html
 
 ## Persona
@@ -47,11 +47,11 @@ Player: /mockups/flows/host-approve.html
 - `registered-visit--joined-chat`: branch out at step 5→3; merge in at step 5 (from its step 3)
 
 ## Screens
-1. `#activity` · auth=in live=live — Alert: "Ari asked to join". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-2. `#live` · auth=in live=live — Requests with reason: Approve / Decline. [FS] [F061] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
-3. `#profile` · auth=in live=live — Optionally checks the asker's profile first. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-4. `#live` · auth=in live=live — Back on your live postup; the profile has no chat link (as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
-5. `#chat` · auth=in live=live — Approved people are in the chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#chat)
+1. `#activity` · auth=in live=live — Alert: "Ari asked to join". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+2. `#live` · auth=in live=live — Requests with reason: Approve / Decline. [FS] [F061] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#live)
+3. `#profile` · auth=in live=live — Optionally checks the asker's profile first. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+4. `#live` · auth=in live=live — Back on your live postup; the profile has no chat link (as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#live)
+5. `#chat` · auth=in live=live — Approved people are in the chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#chat)
 
 ## Branches and edge cases
 - Decline: joiner is told politely. [F095] [unsourced]

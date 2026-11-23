@@ -26,8 +26,8 @@ Player: /mockups/flows/settings-notify.html
 - `first-visit--nobody-project`: branch out at step 2→2; merge in at step 2 (from its step 2)
 
 ## Screens
-1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#settings)
-2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
+1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#settings)
+2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=projects#home)
 
 ## Success criteria
 - Toggles actually change alerts. [M1024]

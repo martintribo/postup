@@ -1,51 +1,51 @@
 # PostUp critical flows
 Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certain situation and goes through a scenario step by step. Each step names the screen and the scenario params (auth, live, Home mode, sheet). Flows marked Draft were inferred from the screen notes; confirm with Martin.
 
-- [first-visit](first-visit.md) · Phase 0 (smallest) · First visit
-- [first-visit--already-posted](first-visit--already-posted.md) · Phase 0 (smallest) · First visit → Already posted up
-- [first-visit--browse](first-visit--browse.md) · Phase 0 (smallest) · First visit → Browses Nearby
-- [first-visit--live-already-posted](first-visit--live-already-posted.md) · Phase 0 (smallest) · First visit → Already posted up
-- [first-visit--live-post](first-visit--live-post.md) · Phase 0 (smallest) · First visit → Posts up instead
-- [first-visit--live-too-far](first-visit--live-too-far.md) · Phase 0 (smallest) · First visit → Too far away
-- [first-visit--nobody](first-visit--nobody.md) · Phase 0 (smallest) · First visit → Looks at past postups
-- [first-visit--not-now](first-visit--not-now.md) · Phase 0 (smallest) · First visit → Leaves without signing in
-- [first-visit--post](first-visit--post.md) · Phase 0 (smallest) · First visit → Posted up
-- [first-visit--too-far](first-visit--too-far.md) · Phase 0 (smallest) · First visit → Too far away
-- [registered-visit](registered-visit.md) · Phase 0 (smallest) · Registered visit
-- [registered-visit--already-posted](registered-visit--already-posted.md) · Phase 0 (smallest) · Registered visit → Already posted up
-- [registered-visit--cancelled](registered-visit--cancelled.md) · Phase 0 (smallest) · Registered visit → Postup cancelled
-- [registered-visit--ended](registered-visit--ended.md) · Phase 0 (smallest) · Registered visit → Postup ended
-- [registered-visit--nobody](registered-visit--nobody.md) · Phase 0 (smallest) · Registered visit → Looks at past postups
-- [registered-visit--nobody-post](registered-visit--nobody-post.md) · Phase 0 (smallest) · Registered visit → Is the first today
-- [registered-visit--post](registered-visit--post.md) · Phase 0 (smallest) · Registered visit → Posts up
-- [registered-visit--report](registered-visit--report.md) · Phase 0 (smallest) · Registered visit → Reports and blocks
-- [registered-visit--too-far](registered-visit--too-far.md) · Phase 0 (smallest) · Registered visit → Too far away
-- [first-visit--ended-not-now](first-visit--ended-not-now.md) · Phase 1 (pre-MVP) · First visit → Ended link, leaves without signing in
-- [first-visit--ended-post](first-visit--ended-post.md) · Phase 1 (pre-MVP) · First visit → Posts up instead
-- [first-visit--link-ended](first-visit--link-ended.md) · Phase 1 (pre-MVP) · First visit → Ended link, joins someone nearby
-- [first-visit--link-live](first-visit--link-live.md) · Phase 1 (pre-MVP) · First visit → Joined from a shared link
-- [first-visit--link-post](first-visit--link-post.md) · Phase 1 (pre-MVP) · First visit → Posts up at that cafe
-- [registered-visit--ended-post](registered-visit--ended-post.md) · Phase 1 (pre-MVP) · Registered visit → Posts up instead
-- [registered-visit--full](registered-visit--full.md) · Phase 1 (pre-MVP) · Registered visit → Postup full
-- [registered-visit--hosting](registered-visit--hosting.md) · Phase 1 (pre-MVP) · Registered visit → Extends, then ends
-- [registered-visit--joined](registered-visit--joined.md) · Phase 1 (pre-MVP) · Registered visit → Leaves the postup
-- [registered-visit--joined-chat](registered-visit--joined-chat.md) · Phase 1 (pre-MVP) · Registered visit → Chats with the group
-- [registered-visit--link-ended](registered-visit--link-ended.md) · Phase 1 (pre-MVP) · Registered visit → Ended link, joins someone nearby
-- [registered-visit--link-live](registered-visit--link-live.md) · Phase 1 (pre-MVP) · Registered visit → Joins from a shared link
-- [registered-visit--link-post](registered-visit--link-post.md) · Phase 1 (pre-MVP) · Registered visit → Posts up at that cafe
-- [first-visit--ended-project](first-visit--ended-project.md) · Phase 2 (MVP) · First visit → Follows a maker
-- [first-visit--follow-project](first-visit--follow-project.md) · Phase 2 (MVP) · First visit → Follows a maker
-- [first-visit--link-project](first-visit--link-project.md) · Phase 2 (MVP) · First visit → Follows the friend's project
-- [first-visit--nobody-project](first-visit--nobody-project.md) · Phase 2 (MVP) · First visit → Follows a maker
-- [registered-visit--builds-project](registered-visit--builds-project.md) · Phase 2 (MVP) · Registered visit → Starts a project
-- [registered-visit--ended-project](registered-visit--ended-project.md) · Phase 2 (MVP) · Registered visit → Follows a maker
-- [registered-visit--follow-project](registered-visit--follow-project.md) · Phase 2 (MVP) · Registered visit → Follows a maker
-- [registered-visit--hosting-project](registered-visit--hosting-project.md) · Phase 2 (MVP) · Registered visit → Follows a maker while hosting
-- [registered-visit--joined-project](registered-visit--joined-project.md) · Phase 2 (MVP) · Registered visit → Follows the host's project
-- [registered-visit--link-project](registered-visit--link-project.md) · Phase 2 (MVP) · Registered visit → Follows the friend's project
-- [invite-project](invite-project.md) · Phase 2 (MVP) · Share link to a project
-- [ask-join](ask-join.md) · Phase 2 (MVP) · Ask to join, then get approved (joiner side)
-- [host-approve](host-approve.md) · Phase 2 (MVP) · Host approves a request
+- [first-visit](first-visit.md) · Phase 0: Post & join · First visit
+- [first-visit--already-posted](first-visit--already-posted.md) · Phase 0: Post & join · First visit → Already posted up
+- [first-visit--browse](first-visit--browse.md) · Phase 0: Post & join · First visit → Browses Nearby
+- [first-visit--live-already-posted](first-visit--live-already-posted.md) · Phase 0: Post & join · First visit → Already posted up
+- [first-visit--live-post](first-visit--live-post.md) · Phase 0: Post & join · First visit → Posts up instead
+- [first-visit--live-too-far](first-visit--live-too-far.md) · Phase 0: Post & join · First visit → Too far away
+- [first-visit--nobody](first-visit--nobody.md) · Phase 0: Post & join · First visit → Looks at past postups
+- [first-visit--not-now](first-visit--not-now.md) · Phase 0: Post & join · First visit → Leaves without signing in
+- [first-visit--post](first-visit--post.md) · Phase 0: Post & join · First visit → Posted up
+- [first-visit--too-far](first-visit--too-far.md) · Phase 0: Post & join · First visit → Too far away
+- [registered-visit](registered-visit.md) · Phase 0: Post & join · Registered visit
+- [registered-visit--already-posted](registered-visit--already-posted.md) · Phase 0: Post & join · Registered visit → Already posted up
+- [registered-visit--cancelled](registered-visit--cancelled.md) · Phase 0: Post & join · Registered visit → Postup cancelled
+- [registered-visit--ended](registered-visit--ended.md) · Phase 0: Post & join · Registered visit → Postup ended
+- [registered-visit--nobody](registered-visit--nobody.md) · Phase 0: Post & join · Registered visit → Looks at past postups
+- [registered-visit--nobody-post](registered-visit--nobody-post.md) · Phase 0: Post & join · Registered visit → Is the first today
+- [registered-visit--post](registered-visit--post.md) · Phase 0: Post & join · Registered visit → Posts up
+- [registered-visit--report](registered-visit--report.md) · Phase 0: Post & join · Registered visit → Reports and blocks
+- [registered-visit--too-far](registered-visit--too-far.md) · Phase 0: Post & join · Registered visit → Too far away
+- [first-visit--ended-not-now](first-visit--ended-not-now.md) · Phase 1: Share & chat · First visit → Ended link, leaves without signing in
+- [first-visit--ended-post](first-visit--ended-post.md) · Phase 1: Share & chat · First visit → Posts up instead
+- [first-visit--link-ended](first-visit--link-ended.md) · Phase 1: Share & chat · First visit → Ended link, joins someone nearby
+- [first-visit--link-live](first-visit--link-live.md) · Phase 1: Share & chat · First visit → Joined from a shared link
+- [first-visit--link-post](first-visit--link-post.md) · Phase 1: Share & chat · First visit → Posts up at that cafe
+- [registered-visit--ended-post](registered-visit--ended-post.md) · Phase 1: Share & chat · Registered visit → Posts up instead
+- [registered-visit--full](registered-visit--full.md) · Phase 1: Share & chat · Registered visit → Postup full
+- [registered-visit--hosting](registered-visit--hosting.md) · Phase 1: Share & chat · Registered visit → Extends, then ends
+- [registered-visit--joined](registered-visit--joined.md) · Phase 1: Share & chat · Registered visit → Leaves the postup
+- [registered-visit--joined-chat](registered-visit--joined-chat.md) · Phase 1: Share & chat · Registered visit → Chats with the group
+- [registered-visit--link-ended](registered-visit--link-ended.md) · Phase 1: Share & chat · Registered visit → Ended link, joins someone nearby
+- [registered-visit--link-live](registered-visit--link-live.md) · Phase 1: Share & chat · Registered visit → Joins from a shared link
+- [registered-visit--link-post](registered-visit--link-post.md) · Phase 1: Share & chat · Registered visit → Posts up at that cafe
+- [first-visit--ended-project](first-visit--ended-project.md) · Phase 2: Projects · First visit → Follows a maker
+- [first-visit--follow-project](first-visit--follow-project.md) · Phase 2: Projects · First visit → Follows a maker
+- [first-visit--link-project](first-visit--link-project.md) · Phase 2: Projects · First visit → Follows the friend's project
+- [first-visit--nobody-project](first-visit--nobody-project.md) · Phase 2: Projects · First visit → Follows a maker
+- [registered-visit--builds-project](registered-visit--builds-project.md) · Phase 2: Projects · Registered visit → Starts a project
+- [registered-visit--ended-project](registered-visit--ended-project.md) · Phase 2: Projects · Registered visit → Follows a maker
+- [registered-visit--follow-project](registered-visit--follow-project.md) · Phase 2: Projects · Registered visit → Follows a maker
+- [registered-visit--hosting-project](registered-visit--hosting-project.md) · Phase 2: Projects · Registered visit → Follows a maker while hosting
+- [registered-visit--joined-project](registered-visit--joined-project.md) · Phase 2: Projects · Registered visit → Follows the host's project
+- [registered-visit--link-project](registered-visit--link-project.md) · Phase 2: Projects · Registered visit → Follows the friend's project
+- [invite-project](invite-project.md) · Phase 2: Projects · Share link to a project
+- [ask-join](ask-join.md) · Phase 2: Projects · Ask to join, then get approved (joiner side)
+- [host-approve](host-approve.md) · Phase 2: Projects · Host approves a request
 - [following](following.md) · All phases · Follow a person or project
 - [loading-offline](loading-offline.md) · All phases · Slow network and offline
 - [delete-account](delete-account.md) · All phases · Delete account
@@ -54,7 +54,7 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [catch-up](catch-up.md) · All phases · Catch up on what happened
 
 ## Flow: First visit (`first-visit`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit.html
 
 ### Persona
@@ -109,12 +109,12 @@ Player: /mockups/flows/first-visit.html
 - `registered-visit--joined-project`: branch out at step 6→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=out live=live — Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#postup)
-3. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#profile)
-4. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#postup)
-5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=smallest#postup)
-6. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#joined)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=out live=live — Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#postup)
+3. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#profile)
+4. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#postup)
+5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=post-and-join#postup)
+6. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#joined)
 
 ### Branches and edge cases
 - Switches to Building mode for the welcome line and projects: phase 2, since projects are phase 2. [M1034]
@@ -145,7 +145,7 @@ Player: /mockups/flows/first-visit.html
 ---
 
 ## Flow: First visit → Already posted up (`first-visit--already-posted`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--already-posted.html
 
 ### Persona
@@ -204,13 +204,13 @@ Player: /mockups/flows/first-visit--already-posted.html
 - `registered-visit--hosting-project`: branch out at step 7→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#post)
-3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where)
-4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=smallest#where-search)
-6. `#post-already` · auth=in live=none — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#post-already)
-7. `#live` · auth=in live=none — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#live)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#post)
+3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where)
+4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=post-and-join#where-search)
+6. `#post-already` · auth=in live=none — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#post-already)
+7. `#live` · auth=in live=none — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#live)
 
 ### Success criteria
 - One live postup per account; they land on a way to view the one they have. [M1039]
@@ -218,7 +218,7 @@ Player: /mockups/flows/first-visit--already-posted.html
 ---
 
 ## Flow: First visit → Browses Nearby (`first-visit--browse`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--browse.html
 
 ### Persona
@@ -253,13 +253,13 @@ Player: /mockups/flows/first-visit--browse.html
 - `first-visit--follow-project`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#quiet-feed)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#quiet-feed)
 
 ---
 
 ## Flow: First visit → Already posted up (`first-visit--live-already-posted`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--live-already-posted.html
 
 ### Persona
@@ -320,18 +320,18 @@ Player: /mockups/flows/first-visit--live-already-posted.html
 - `registered-visit--already-posted`: branch out at —; merge in at step 6 (from its step 3)
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#post)
-3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where)
-4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=smallest#where-search)
-6. `#post-already` · auth=in live=live — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post-already)
-7. `#live` · auth=in live=live — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#live)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#post)
+3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where)
+4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=post-and-join#where-search)
+6. `#post-already` · auth=in live=live — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post-already)
+7. `#live` · auth=in live=live — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#live)
 
 ---
 
 ## Flow: First visit → Posts up instead (`first-visit--live-post`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--live-post.html
 
 ### Persona
@@ -384,17 +384,17 @@ Player: /mockups/flows/first-visit--live-post.html
 - `first-visit--link-post`: branch out at —; merge in at step 2 (from its step 3)
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#post)
-3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where)
-4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=smallest#where-search)
-6. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#posted)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#post)
+3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where)
+4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=post-and-join#where-search)
+6. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#posted)
 
 ---
 
 ## Flow: First visit → Too far away (`first-visit--live-too-far`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--live-too-far.html
 
 ### Persona
@@ -451,18 +451,18 @@ Player: /mockups/flows/first-visit--live-too-far.html
 - `registered-visit--too-far`: branch out at —; merge in at step 6 (from its step 3)
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#post)
-3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where)
-4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=smallest#where-search)
-6. `#post-far` · auth=in live=live — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post-far)
-7. `#where` · auth=in live=live — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#where)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#post)
+3. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where)
+4. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=post-and-join#where-search)
+6. `#post-far` · auth=in live=live — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post-far)
+7. `#where` · auth=in live=live — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#where)
 
 ---
 
 ## Flow: First visit → Looks at past postups (`first-visit--nobody`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--nobody.html
 
 ### Persona
@@ -499,15 +499,15 @@ Player: /mockups/flows/first-visit--nobody.html
 - `first-visit--too-far`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=smallest#home)
-2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#empty-area)
-3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#profile)
-4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#empty-area)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=post-and-join#home)
+2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#empty-area)
+3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#profile)
+4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#empty-area)
 
 ---
 
 ## Flow: First visit → Leaves without signing in (`first-visit--not-now`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--not-now.html
 
 ### Persona
@@ -558,17 +558,17 @@ Player: /mockups/flows/first-visit--not-now.html
 - `first-visit--live-too-far`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=out live=live — Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#postup)
-3. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#profile)
-4. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#postup)
-5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=smallest#postup)
-6. `#postup` · auth=out live=live — Back on the postup, still signed out; they can leave. [drawn] [M1025] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#postup)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=out live=live — Her live postup: who, cafe, till when; Join shows 🔒. Projects are phase 2, so the newcomer learns by example from a live postup. [FS] [M1024] [M1034] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#postup)
+3. `#profile` · auth=out live=live — Maker's profile: past postups, regular cafes, live now. [FS] [F065] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#profile)
+4. `#postup` · auth=out live=live — Her live postup; Join shows 🔒. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#postup)
+5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=post-and-join#postup)
+6. `#postup` · auth=out live=live — Back on the postup, still signed out; they can leave. [drawn] [M1025] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=post-and-join#postup)
 
 ---
 
 ## Flow: First visit → Posted up (`first-visit--post`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--post.html
 
 ### Persona
@@ -619,17 +619,17 @@ Player: /mockups/flows/first-visit--post.html
 - `first-visit--too-far`: branch out at step 5→5; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#post)
-3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where)
-4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=smallest#where-search)
-6. `#posted` · auth=in live=none — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#posted)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#post)
+3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where)
+4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=post-and-join#where-search)
+6. `#posted` · auth=in live=none — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#posted)
 
 ---
 
 ## Flow: First visit → Too far away (`first-visit--too-far`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--too-far.html
 
 ### Persona
@@ -684,13 +684,13 @@ Player: /mockups/flows/first-visit--too-far.html
 - `first-visit--post`: branch out at step 5→5; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=smallest#home)
-2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#post)
-3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where)
-4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#where-search)
-5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=smallest#where-search)
-6. `#post-far` · auth=in live=none — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#post-far)
-7. `#where` · auth=in live=none — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#where)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=post-and-join#home)
+2. `#post` · auth=out live=none — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#post)
+3. `#where` · auth=out live=none — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where)
+4. `#where-search` · auth=out live=none — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=post-and-join#where-search)
+5. `#where-search` + sheet `signin` · auth=out live=none — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=post-and-join#where-search)
+6. `#post-far` · auth=in live=none — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#post-far)
+7. `#where` · auth=in live=none — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#where)
 
 ### Success criteria
 - They can't post up somewhere they're not, and are sent to pick a cafe near them. [M1039]
@@ -698,7 +698,7 @@ Player: /mockups/flows/first-visit--too-far.html
 ---
 
 ## Flow: Registered visit (`registered-visit`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit.html
 
 ### Persona
@@ -749,11 +749,11 @@ Player: /mockups/flows/registered-visit.html
 - `registered-visit--link-ended`: branch out at —; merge in at step 2 (from its step 4)
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup)
-3. `#joined` · auth=in live=live — You're joining; the poster is told. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#joined)
-4. `#joined` + sheet `dirs` · auth=in live=live — Directions sheet: Apple / Google Maps. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=dirs&ph=smallest#joined)
-5. `#joined` · auth=in live=live — Back on the joined screen. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#joined)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup)
+3. `#joined` · auth=in live=live — You're joining; the poster is told. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#joined)
+4. `#joined` + sheet `dirs` · auth=in live=live — Directions sheet: Apple / Google Maps. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=dirs&ph=post-and-join#joined)
+5. `#joined` · auth=in live=live — Back on the joined screen. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#joined)
 
 ### Branches and edge cases
 - Optional check first (was Cautious joiner): from the postup, the project tag → project, the owner → profile, the cafe → cafe; Back returns each time. [FS] [F065] [M1024]
@@ -776,7 +776,7 @@ Player: /mockups/flows/registered-visit.html
 ---
 
 ## Flow: Registered visit → Already posted up (`registered-visit--already-posted`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--already-posted.html
 
 ### Persona
@@ -827,15 +827,15 @@ Player: /mockups/flows/registered-visit--already-posted.html
 - `first-visit--live-already-posted`: branch out at —; merge in at step 3 (from its step 6)
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post)
-3. `#post-already` · auth=in live=live — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post-already)
-4. `#live` · auth=in live=live — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#live)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post)
+3. `#post-already` · auth=in live=live — You're already posted up at Lot 1 Coffee, with View your postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post-already)
+4. `#live` · auth=in live=live — Their live postup. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#live)
 
 ---
 
 ## Flow: Registered visit → Postup cancelled (`registered-visit--cancelled`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--cancelled.html
 
 ### Persona
@@ -875,14 +875,14 @@ Player: /mockups/flows/registered-visit--cancelled.html
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup)
-3. `#postup-cancelled` · auth=in live=live — Cancelled state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup-cancelled)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup)
+3. `#postup-cancelled` · auth=in live=live — Cancelled state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup-cancelled)
 
 ---
 
 ## Flow: Registered visit → Postup ended (`registered-visit--ended`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--ended.html
 
 ### Persona
@@ -922,14 +922,14 @@ Player: /mockups/flows/registered-visit--ended.html
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup)
-3. `#postup-ended` · auth=in live=live — Ended state replaces Join; points to who's live nearby. [F060] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup-ended)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup)
+3. `#postup-ended` · auth=in live=live — Ended state replaces Join; points to who's live nearby. [F060] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup-ended)
 
 ---
 
 ## Flow: Registered visit → Looks at past postups (`registered-visit--nobody`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--nobody.html
 
 ### Persona
@@ -965,15 +965,15 @@ Player: /mockups/flows/registered-visit--nobody.html
 - `following`: branch out at step 3→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=smallest#home)
-2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#empty-area)
-3. `#profile` · auth=in live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#profile)
-4. `#empty-area` · auth=in live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#empty-area)
+1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=post-and-join#home)
+2. `#empty-area` · auth=in live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#empty-area)
+3. `#profile` · auth=in live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#profile)
+4. `#empty-area` · auth=in live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#empty-area)
 
 ---
 
 ## Flow: Registered visit → Is the first today (`registered-visit--nobody-post`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--nobody-post.html
 
 ### Persona
@@ -1010,14 +1010,14 @@ Player: /mockups/flows/registered-visit--nobody-post.html
 - `registered-visit--builds-project`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=smallest#home)
-2. `#post` · auth=in live=none — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#post)
-3. `#posted` · auth=in live=none — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=smallest#posted)
+1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=post-and-join#home)
+2. `#post` · auth=in live=none — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#post)
+3. `#posted` · auth=in live=none — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=post-and-join#posted)
 
 ---
 
 ## Flow: Registered visit → Posts up (`registered-visit--post`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--post.html
 
 ### Persona
@@ -1070,16 +1070,16 @@ Player: /mockups/flows/registered-visit--post.html
 - `registered-visit--link-post`: branch out at —; merge in at step 2 (from its step 3)
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post)
-3. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#posted)
-4. `#live` · auth=in live=live — You're live: time left, requests, chat. [FS] [F057] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#live)
-5. `#home` · auth=in live=live mode=live — Your live state shows on home. [R22] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post)
+3. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#posted)
+4. `#live` · auth=in live=live — You're live: time left, requests, chat. [FS] [F057] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#live)
+5. `#home` · auth=in live=live mode=live — Your live state shows on home. [R22] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
 
 ---
 
 ## Flow: Registered visit → Reports and blocks (`registered-visit--report`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--report.html
 
 ### Persona
@@ -1137,18 +1137,18 @@ Player: /mockups/flows/registered-visit--report.html
 - `settings-notify`: branch out at step 7→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup)
-3. `#postup` + sheet `more` · auth=in live=live — More: profile, share, report, block. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=more&ph=smallest#postup)
-4. `#report` · auth=in live=live — Reason + details. [F059] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#report)
-5. `#reported` · auth=in live=live — Thanks; offer to block. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#reported)
-6. `#reported` + sheet `block` · auth=in live=live — Block: neither sees the other; they aren't told. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=block&ph=smallest#reported)
-7. `#settings` · auth=in live=live — Blocked people list to undo. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#settings)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup)
+3. `#postup` + sheet `more` · auth=in live=live — More: profile, share, report, block. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=more&ph=post-and-join#postup)
+4. `#report` · auth=in live=live — Reason + details. [F059] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#report)
+5. `#reported` · auth=in live=live — Thanks; offer to block. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#reported)
+6. `#reported` + sheet `block` · auth=in live=live — Block: neither sees the other; they aren't told. [FS] [F059] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=block&ph=post-and-join#reported)
+7. `#settings` · auth=in live=live — Blocked people list to undo. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#settings)
 
 ---
 
 ## Flow: Registered visit → Too far away (`registered-visit--too-far`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--too-far.html
 
 ### Persona
@@ -1196,15 +1196,15 @@ Player: /mockups/flows/registered-visit--too-far.html
 - `first-visit--live-too-far`: branch out at —; merge in at step 3 (from its step 6)
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post)
-3. `#post-far` · auth=in live=live — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#post-far)
-4. `#where` · auth=in live=live — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#where)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post)
+3. `#post-far` · auth=in live=live — You're too far away: you can only post up where you are. Best effort in the browser. [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#post-far)
+4. `#where` · auth=in live=live — Where are you? list, nearest first. [FS] [M1039] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#where)
 
 ---
 
 ## Flow: First visit → Ended link, leaves without signing in (`first-visit--ended-not-now`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--ended-not-now.html
 
 ### Persona
@@ -1251,17 +1251,17 @@ Player: /mockups/flows/first-visit--ended-not-now.html
 - `first-visit--ended-project`: branch out at step 2→2; merge in at —
 
 ### Screens
-1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#invite-ended)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#quiet-feed)
-3. `#cafe` · auth=out live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#cafe)
-4. `#postup` · auth=out live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#postup)
-5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=pre-mvp#postup)
-6. `#postup` · auth=out live=live — Back on the postup, still signed out. [drawn] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#postup)
+1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#invite-ended)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#quiet-feed)
+3. `#cafe` · auth=out live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#cafe)
+4. `#postup` · auth=out live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#postup)
+5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=share-and-chat#postup)
+6. `#postup` · auth=out live=live — Back on the postup, still signed out. [drawn] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#postup)
 
 ---
 
 ## Flow: First visit → Posts up instead (`first-visit--ended-post`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--ended-post.html
 
 ### Persona
@@ -1317,18 +1317,18 @@ Player: /mockups/flows/first-visit--ended-post.html
 - `first-visit--link-post`: branch out at —; merge in at step 3 (from its step 3)
 
 ### Screens
-1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#invite-ended)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#quiet-feed)
-3. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#post)
-4. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#where)
-5. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#where-search)
-6. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=pre-mvp#where-search)
-7. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#posted)
+1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#invite-ended)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#quiet-feed)
+3. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#post)
+4. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#where)
+5. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#where-search)
+6. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=share-and-chat#where-search)
+7. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#posted)
 
 ---
 
 ## Flow: First visit → Ended link, joins someone nearby (`first-visit--link-ended`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--link-ended.html
 
 ### Persona
@@ -1379,17 +1379,17 @@ Player: /mockups/flows/first-visit--link-ended.html
 - `registered-visit--joined-project`: branch out at step 6→1; merge in at —
 
 ### Screens
-1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#invite-ended)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#quiet-feed)
-3. `#cafe` · auth=out live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#cafe)
-4. `#postup` · auth=out live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#postup)
-5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=pre-mvp#postup)
-6. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
+1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#invite-ended)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#quiet-feed)
+3. `#cafe` · auth=out live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#cafe)
+4. `#postup` · auth=out live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#postup)
+5. `#postup` + sheet `signin` · auth=out live=live — Join → sign-in sheet (Apple / Google). [FS] [TK§1] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=share-and-chat#postup)
+6. `#joined` · auth=in live=live — Signed in and joined in one go; the join is not lost. [FS] [M1018] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
 
 ---
 
 ## Flow: First visit → Joined from a shared link (`first-visit--link-live`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--link-live.html
 
 ### Persona
@@ -1424,14 +1424,14 @@ Player: /mockups/flows/first-visit--link-live.html
 - `registered-visit--joined-project`: branch out at step 3→1; merge in at —
 
 ### Screens
-1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#invite)
-2. `#invite` + sheet `signin` · auth=out live=live — Join → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=pre-mvp#invite)
-3. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
+1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#invite)
+2. `#invite` + sheet `signin` · auth=out live=live — Join → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=share-and-chat#invite)
+3. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
 
 ---
 
 ## Flow: First visit → Posts up at that cafe (`first-visit--link-post`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--link-post.html
 
 ### Persona
@@ -1488,18 +1488,18 @@ Player: /mockups/flows/first-visit--link-post.html
 - `first-visit--ended-post`: branch out at —; merge in at step 3 (from its step 3)
 
 ### Screens
-1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#invite)
-2. `#cafe` · auth=out live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#cafe)
-3. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#post)
-4. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#where)
-5. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=pre-mvp#where-search)
-6. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=pre-mvp#where-search)
-7. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#posted)
+1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#invite)
+2. `#cafe` · auth=out live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#cafe)
+3. `#post` · auth=out live=live — Nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#post)
+4. `#where` · auth=out live=live — Change → cafe picker by distance. [F062] [R17] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#where)
+5. `#where-search` · auth=out live=live — Searches a cafe. [FS] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=share-and-chat#where-search)
+6. `#where-search` + sheet `signin` · auth=out live=live — Post up 🔒 → sign-in. [FS] [TK§1] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=share-and-chat#where-search)
+7. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#posted)
 
 ---
 
 ## Flow: Registered visit → Posts up instead (`registered-visit--ended-post`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--ended-post.html
 
 ### Persona
@@ -1541,15 +1541,15 @@ Player: /mockups/flows/registered-visit--ended-post.html
 - `desktop-browse`: branch out at —; merge in at step 3 (from its step 3)
 
 ### Screens
-1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#invite-ended)
-2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#quiet-feed)
-3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#post)
-4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#posted)
+1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#invite-ended)
+2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#quiet-feed)
+3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#post)
+4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#posted)
 
 ---
 
 ## Flow: Registered visit → Postup full (`registered-visit--full`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--full.html
 
 ### Persona
@@ -1589,14 +1589,14 @@ Player: /mockups/flows/registered-visit--full.html
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=pre-mvp#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup)
-3. `#postup-full` · auth=in live=live — Full state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup-full)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=share-and-chat#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#postup)
+3. `#postup-full` · auth=in live=live — Full state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#postup-full)
 
 ---
 
 ## Flow: Registered visit → Extends, then ends (`registered-visit--hosting`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--hosting.html
 
 ### Persona
@@ -1637,16 +1637,16 @@ Player: /mockups/flows/registered-visit--hosting.html
 - `delete-account`: branch out at step 5→1; merge in at —
 
 ### Screens
-1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#live)
-2. `#post-edit` · auth=in live=live — Edit the postup: extend the end time. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#post-edit)
-3. `#live` · auth=in live=live — Hosting page with the new end time. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#live)
-4. `#live` + sheet `endlive` · auth=in live=live — End postup? confirm sheet. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=endlive&ph=pre-mvp#live)
-5. `#me` · auth=in live=live — Ended; back on Me. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#me)
+1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#live)
+2. `#post-edit` · auth=in live=live — Edit the postup: extend the end time. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#post-edit)
+3. `#live` · auth=in live=live — Hosting page with the new end time. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#live)
+4. `#live` + sheet `endlive` · auth=in live=live — End postup? confirm sheet. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=endlive&ph=share-and-chat#live)
+5. `#me` · auth=in live=live — Ended; back on Me. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#me)
 
 ---
 
 ## Flow: Registered visit → Leaves the postup (`registered-visit--joined`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--joined.html
 
 ### Persona
@@ -1684,14 +1684,14 @@ Player: /mockups/flows/registered-visit--joined.html
 - `registered-visit--joined-project`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
-2. `#joined` + sheet `leave` · auth=in live=live — Confirm; poster alerted. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=leave&ph=pre-mvp#joined)
-3. `#postup` · auth=in live=live — Back on the postup. [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
+2. `#joined` + sheet `leave` · auth=in live=live — Confirm; poster alerted. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=leave&ph=share-and-chat#joined)
+3. `#postup` · auth=in live=live — Back on the postup. [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#postup)
 
 ---
 
 ## Flow: Registered visit → Chats with the group (`registered-visit--joined-chat`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--joined-chat.html
 
 ### Persona
@@ -1728,15 +1728,15 @@ Player: /mockups/flows/registered-visit--joined-chat.html
 - `registered-visit--joined-project`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
-2. `#inbox` · auth=in live=live — Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#inbox)
-3. `#chat` · auth=in live=live — One chat per postup. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#chat)
-4. `#chat` + sheet `msg` · auth=in live=live — Long-press: copy, report, block sender. [F096] [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=msg&ph=pre-mvp#chat)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
+2. `#inbox` · auth=in live=live — Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#inbox)
+3. `#chat` · auth=in live=live — One chat per postup. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#chat)
+4. `#chat` + sheet `msg` · auth=in live=live — Long-press: copy, report, block sender. [F096] [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=msg&ph=share-and-chat#chat)
 
 ---
 
 ## Flow: Registered visit → Ended link, joins someone nearby (`registered-visit--link-ended`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-ended.html
 
 ### Persona
@@ -1786,16 +1786,16 @@ Player: /mockups/flows/registered-visit--link-ended.html
 - `registered-visit--joined-project`: branch out at step 5→1; merge in at —
 
 ### Screens
-1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#invite-ended)
-2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#quiet-feed)
-3. `#cafe` · auth=in live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#cafe)
-4. `#postup` · auth=in live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup)
-5. `#joined` · auth=in live=live — You're joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
+1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#invite-ended)
+2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#quiet-feed)
+3. `#cafe` · auth=in live=live — The cafe with who's live there. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#cafe)
+4. `#postup` · auth=in live=live — The live postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#postup)
+5. `#joined` · auth=in live=live — You're joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
 
 ---
 
 ## Flow: Registered visit → Joins from a shared link (`registered-visit--link-live`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-live.html
 
 ### Persona
@@ -1826,13 +1826,13 @@ Player: /mockups/flows/registered-visit--link-live.html
 - `registered-visit--joined-project`: branch out at step 2→1; merge in at —
 
 ### Screens
-1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#invite)
-2. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
+1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#invite)
+2. `#joined` · auth=in live=live — Joined. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
 
 ---
 
 ## Flow: Registered visit → Posts up at that cafe (`registered-visit--link-post`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-post.html
 
 ### Persona
@@ -1874,15 +1874,15 @@ Player: /mockups/flows/registered-visit--link-post.html
 - `desktop-browse`: branch out at —; merge in at step 3 (from its step 3)
 
 ### Screens
-1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#invite)
-2. `#cafe` · auth=in live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#cafe)
-3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#post)
-4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#posted)
+1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#invite)
+2. `#cafe` · auth=in live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#cafe)
+3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#post)
+4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#posted)
 
 ---
 
 ## Flow: First visit → Follows a maker (`first-visit--ended-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--ended-project.html
 
 ### Persona
@@ -1937,17 +1937,17 @@ Player: /mockups/flows/first-visit--ended-project.html
 - `first-visit--link-project`: branch out at —; merge in at step 3 (from its step 2)
 
 ### Screens
-1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#invite-ended)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#quiet-feed)
-3. `#project` · auth=out live=live — Project page from Nearby. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#project)
-4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#profile)
-5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=mvp#profile)
-6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#invite-ended` · auth=out live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#invite-ended)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#quiet-feed)
+3. `#project` · auth=out live=live — Project page from Nearby. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#project)
+4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#profile)
+5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=projects#profile)
+6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: First visit → Follows a maker (`first-visit--follow-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--follow-project.html
 
 ### Persona
@@ -2003,17 +2003,17 @@ Player: /mockups/flows/first-visit--follow-project.html
 - `first-visit--link-project`: branch out at —; merge in at step 3 (from its step 2)
 
 ### Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=mvp#home)
-2. `#home` · auth=out live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building&ph=mvp#home)
-3. `#project` · auth=out live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#project)
-4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#profile)
-5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=mvp#profile)
-6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=projects#home)
+2. `#home` · auth=out live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building&ph=projects#home)
+3. `#project` · auth=out live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#project)
+4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#profile)
+5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=projects#profile)
+6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: First visit → Follows the friend's project (`first-visit--link-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--link-project.html
 
 ### Persona
@@ -2063,16 +2063,16 @@ Player: /mockups/flows/first-visit--link-project.html
 - `first-visit--follow-project`: branch out at —; merge in at step 2 (from its step 3)
 
 ### Screens
-1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#invite)
-2. `#project` · auth=out live=live — Project page from the shared postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#project)
-3. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#profile)
-4. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=mvp#profile)
-5. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#invite` · auth=out live=live — Landing for the shared postup. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#invite)
+2. `#project` · auth=out live=live — Project page from the shared postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#project)
+3. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#profile)
+4. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=projects#profile)
+5. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: First visit → Follows a maker (`first-visit--nobody-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--nobody-project.html
 
 ### Persona
@@ -2122,17 +2122,17 @@ Player: /mockups/flows/first-visit--nobody-project.html
 - `following`: branch out at step 6→1; merge in at —
 
 ### Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=mvp#home)
-2. `#home` · auth=out live=none mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
-3. `#project` · auth=out live=none — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=mvp#project)
-4. `#profile` · auth=out live=none — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=mvp#profile)
-5. `#profile` + sheet `signin` · auth=out live=none — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=mvp#profile)
-6. `#profile` · auth=in live=none — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#profile)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=projects#home)
+2. `#home` · auth=out live=none mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=projects#home)
+3. `#project` · auth=out live=none — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=projects#project)
+4. `#profile` · auth=out live=none — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=projects#profile)
+5. `#profile` + sheet `signin` · auth=out live=none — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=none&ov=signin&ph=projects#profile)
+6. `#profile` · auth=in live=none — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#profile)
 
 ---
 
 ## Flow: Registered visit → Starts a project (`registered-visit--builds-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--builds-project.html
 
 ### Persona
@@ -2185,19 +2185,19 @@ Player: /mockups/flows/registered-visit--builds-project.html
 - `registered-visit--nobody-post`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=mvp#home)
-2. `#projects` · auth=in live=none — Projects, "+". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#projects)
-3. `#project-new` · auth=in live=none — Cover, name, kind, one line. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project-new)
-4. `#project` · auth=in live=none — New project page. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project)
-5. `#project-update` · auth=in live=none — Post an update with image. [FS] [R35] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project-update)
-6. `#project` · auth=in live=none — Back on the project (Update has no Post up link, as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project)
-7. `#project-attach` · auth=in live=none — Post up for this project, now or earlier today. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project-attach)
-8. `#posted` · auth=in live=none — Posted, tied to the project. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#posted)
+1. `#home` · auth=in live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=in&live=none&mode=live&ph=projects#home)
+2. `#projects` · auth=in live=none — Projects, "+". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#projects)
+3. `#project-new` · auth=in live=none — Cover, name, kind, one line. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project-new)
+4. `#project` · auth=in live=none — New project page. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project)
+5. `#project-update` · auth=in live=none — Post an update with image. [FS] [R35] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project-update)
+6. `#project` · auth=in live=none — Back on the project (Update has no Post up link, as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project)
+7. `#project-attach` · auth=in live=none — Post up for this project, now or earlier today. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project-attach)
+8. `#posted` · auth=in live=none — Posted, tied to the project. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#posted)
 
 ---
 
 ## Flow: Registered visit → Follows a maker (`registered-visit--ended-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--ended-project.html
 
 ### Persona
@@ -2242,16 +2242,16 @@ Player: /mockups/flows/registered-visit--ended-project.html
 - `registered-visit--link-ended`: branch out at step 2→2; merge in at —
 
 ### Screens
-1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#invite-ended)
-2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#quiet-feed)
-3. `#project` · auth=in live=live — Project page from Nearby. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
-4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#invite-ended` · auth=in live=live — This postup ended; See what's nearby, Follow Maya for next time, Go to Home. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#invite-ended)
+2. `#quiet-feed` · auth=in live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#quiet-feed)
+3. `#project` · auth=in live=live — Project page from Nearby. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
+4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: Registered visit → Follows a maker (`registered-visit--follow-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--follow-project.html
 
 ### Persona
@@ -2303,16 +2303,16 @@ Player: /mockups/flows/registered-visit--follow-project.html
 - `catch-up`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=mvp#home)
-2. `#home` · auth=in live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=building&ph=mvp#home)
-3. `#project` · auth=in live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
-4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=projects#home)
+2. `#home` · auth=in live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=building&ph=projects#home)
+3. `#project` · auth=in live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
+4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: Registered visit → Follows a maker while hosting (`registered-visit--hosting-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--hosting-project.html
 
 ### Persona
@@ -2352,15 +2352,15 @@ Player: /mockups/flows/registered-visit--hosting-project.html
 - `registered-visit--hosting`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
-2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
-3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#live)
+2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
+3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: Registered visit → Follows the host's project (`registered-visit--joined-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--joined-project.html
 
 ### Persona
@@ -2401,15 +2401,15 @@ Player: /mockups/flows/registered-visit--joined-project.html
 - `registered-visit--joined-chat`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#joined)
-2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
-3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#joined)
+2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
+3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: Registered visit → Follows the friend's project (`registered-visit--link-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-project.html
 
 ### Persona
@@ -2449,15 +2449,15 @@ Player: /mockups/flows/registered-visit--link-project.html
 - `registered-visit--link-post`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#invite)
-2. `#project` · auth=in live=live — Project page from the shared postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
-3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#invite)
+2. `#project` · auth=in live=live — Project page from the shared postup. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
+3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
 
 ---
 
 ## Flow: Share link to a project (`invite-project`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/invite-project.html
 
 ### Persona
@@ -2495,10 +2495,10 @@ Player: /mockups/flows/invite-project.html
 - `registered-visit--link-project`: branch out at step 4→2; merge in at step 4 (from its step 2)
 
 ### Screens
-1. `#invite-project` · auth=out live=live — "Maya is building Star Fox 64 mod". [FS] [F067] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#invite-project)
-2. `#invite-project` + sheet `signin` · auth=out live=live — Follow 🔒 → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=mvp#invite-project)
-3. `#invite-project` · auth=in live=live — Sign-in returns to the same page, now following (Follow has no continuation). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#invite-project)
-4. `#project` · auth=in live=live — Following; live postups for the project shown. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
+1. `#invite-project` · auth=out live=live — "Maya is building Star Fox 64 mod". [FS] [F067] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=projects#invite-project)
+2. `#invite-project` + sheet `signin` · auth=out live=live — Follow 🔒 → sign-in sheet. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=projects#invite-project)
+3. `#invite-project` · auth=in live=live — Sign-in returns to the same page, now following (Follow has no continuation). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#invite-project)
+4. `#project` · auth=in live=live — Following; live postups for the project shown. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#project)
 
 ### Branches and edge cases
 - Project owner is live now: join from the project. [FS] [M1024]
@@ -2509,7 +2509,7 @@ Player: /mockups/flows/invite-project.html
 ---
 
 ## Flow: Ask to join, then get approved (joiner side) (`ask-join`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/ask-join.html
 
 ### Persona
@@ -2550,11 +2550,11 @@ Player: /mockups/flows/ask-join.html
 - `host-approve`: branch out at step 4→1; merge in at —
 
 ### Screens
-1. `#postup-ask` · auth=in live=live — "Tess approves who joins". [FS] [F055] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup-ask)
-2. `#ask` · auth=in live=live — Short reason. [F061] [F095] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#ask)
-3. `#requested` · auth=in live=live — Request sent; can cancel. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#requested)
-4. `#activity` · auth=in live=live — Activity: "Tess said yes". [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-5. `#chat` · auth=in live=live — Now in the postup chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#chat)
+1. `#postup-ask` · auth=in live=live — "Tess approves who joins". [FS] [F055] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#postup-ask)
+2. `#ask` · auth=in live=live — Short reason. [F061] [F095] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#ask)
+3. `#requested` · auth=in live=live — Request sent; can cancel. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#requested)
+4. `#activity` · auth=in live=live — Activity: "Tess said yes". [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+5. `#chat` · auth=in live=live — Now in the postup chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#chat)
 
 ### Branches and edge cases
 - Signed out: Ask to join → #ask-signin → #ask. [FS]
@@ -2571,7 +2571,7 @@ Player: /mockups/flows/ask-join.html
 ---
 
 ## Flow: Host approves a request (`host-approve`)
-Priority: **Phase 2 (MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 2: Projects** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/host-approve.html
 
 ### Persona
@@ -2619,11 +2619,11 @@ Player: /mockups/flows/host-approve.html
 - `registered-visit--joined-chat`: branch out at step 5→3; merge in at step 5 (from its step 3)
 
 ### Screens
-1. `#activity` · auth=in live=live — Alert: "Ari asked to join". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-2. `#live` · auth=in live=live — Requests with reason: Approve / Decline. [FS] [F061] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
-3. `#profile` · auth=in live=live — Optionally checks the asker's profile first. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
-4. `#live` · auth=in live=live — Back on your live postup; the profile has no chat link (as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
-5. `#chat` · auth=in live=live — Approved people are in the chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#chat)
+1. `#activity` · auth=in live=live — Alert: "Ari asked to join". [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+2. `#live` · auth=in live=live — Requests with reason: Approve / Decline. [FS] [F061] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#live)
+3. `#profile` · auth=in live=live — Optionally checks the asker's profile first. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#profile)
+4. `#live` · auth=in live=live — Back on your live postup; the profile has no chat link (as in the app). [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#live)
+5. `#chat` · auth=in live=live — Approved people are in the chat. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#chat)
 
 ### Branches and edge cases
 - Decline: joiner is told politely. [F095] [unsourced]
@@ -2684,11 +2684,11 @@ Player: /mockups/flows/following.html
 - `host-approve`: branch out at step 4→1; merge in at —
 
 ### Screens
-1. `#profile` · auth=in live=none — Follow → Following. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#profile)
-2. `#project` · auth=in live=none — Profile has no tab bar (as in the app), so: project first, then the Projects tab. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project)
-3. `#projects` · auth=in live=none — Projects → Following filter. [FS] [R32] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#projects)
-4. `#activity` · auth=in live=live — Later: "Maya posted up" alert. [FS] [M1024] Event "someone you follow posts up": the alert lands in Activity and Nearby now has someone live. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-5. `#postup` · auth=in live=live — Opens and joins. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup)
+1. `#profile` · auth=in live=none — Follow → Following. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#profile)
+2. `#project` · auth=in live=none — Profile has no tab bar (as in the app), so: project first, then the Projects tab. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#project)
+3. `#projects` · auth=in live=none — Projects → Following filter. [FS] [R32] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#projects)
+4. `#activity` · auth=in live=live — Later: "Maya posted up" alert. [FS] [M1024] Event "someone you follow posts up": the alert lands in Activity and Nearby now has someone live. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+5. `#postup` · auth=in live=live — Opens and joins. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#postup)
 
 ### Branches and edge cases
 - Signed out: Follow → sign-in sheet. [FS]
@@ -2738,10 +2738,10 @@ Player: /mockups/flows/loading-offline.html
 - `registered-visit--ended-project`: branch out at step 3→2; merge in at step 3 (from its step 2)
 
 ### Screens
-1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#loading)
-2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#offline)
-3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#quiet-feed)
-4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#cafe-gfail)
+1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#loading)
+2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#offline)
+3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#quiet-feed)
+4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#cafe-gfail)
 
 ### Branches and edge cases
 - First visit while offline: nothing cached (fails in the build today). [unsourced]
@@ -2790,10 +2790,10 @@ Player: /mockups/flows/delete-account.html
 - `settings-notify`: branch out at step 2→1; merge in at —
 
 ### Screens
-1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#me)
-2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#settings)
-3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct&ph=mvp#settings)
-4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
+1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#me)
+2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#settings)
+3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct&ph=projects#settings)
+4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=projects#home)
 
 ### Branches and edge cases
 - Deleting while live: postup ends and joiners are alerted? [unsourced]
@@ -2854,10 +2854,10 @@ Player: /mockups/flows/desktop-browse.html
 - `registered-visit--link-post`: branch out at —; merge in at step 3 (from its step 3)
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Map with 440px panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&mode=live&ph=mvp#home)
-2. `#postup` · auth=in live=live — Postup in the panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#postup)
-3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#post)
-4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#posted)
+1. `#home` · auth=in live=live mode=live — Map with 440px panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&mode=live&ph=projects#home)
+2. `#postup` · auth=in live=live — Postup in the panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#postup)
+3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#post)
+4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#posted)
 
 ### Success criteria
 - Rail and tab bar have the same items. [F064] [R12]
@@ -2892,8 +2892,8 @@ Player: /mockups/flows/settings-notify.html
 - `first-visit--nobody-project`: branch out at step 2→2; merge in at step 2 (from its step 2)
 
 ### Screens
-1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#settings)
-2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
+1. `#settings` · auth=in live=none — Toggles; Sign out. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=projects#settings)
+2. `#home` · auth=out live=none mode=building — Signed out. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=projects#home)
 
 ### Success criteria
 - Toggles actually change alerts. [M1024]
@@ -2971,15 +2971,15 @@ Player: /mockups/flows/catch-up.html
 - `desktop-browse`: branch out at step 1→1; merge in at —
 
 ### Screens
-1. `#home` · auth=in live=live mode=live — Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=mvp#home)
-2. `#inbox` · auth=in live=live — Chats: group chats, newest first, including an ended postup. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#inbox)
-3. `#activity` · auth=in live=live — Activity: joins, requests, approvals, follows, messages. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-4. `#postup-ask` · auth=in live=live — Tess's postup. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup-ask)
-5. `#activity` · auth=in live=live — Activity again. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
-6. `#inbox` · auth=in live=live — Chats list. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#inbox)
-7. `#postup-ended` · auth=in live=live — Ended postup: see what's nearby, follow. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup-ended)
-8. `#inbox` · auth=in live=live — Chats list. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#inbox)
-9. `#chat` · auth=in live=live — Group chat with the latest replies. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#chat)
+1. `#home` · auth=in live=live mode=live — Home in Live mode; Inbox tab shows an unread dot. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=projects#home)
+2. `#inbox` · auth=in live=live — Chats: group chats, newest first, including an ended postup. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#inbox)
+3. `#activity` · auth=in live=live — Activity: joins, requests, approvals, follows, messages. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+4. `#postup-ask` · auth=in live=live — Tess's postup. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#postup-ask)
+5. `#activity` · auth=in live=live — Activity again. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#activity)
+6. `#inbox` · auth=in live=live — Chats list. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#inbox)
+7. `#postup-ended` · auth=in live=live — Ended postup: see what's nearby, follow. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#postup-ended)
+8. `#inbox` · auth=in live=live — Chats list. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#inbox)
+9. `#chat` · auth=in live=live — Group chat with the latest replies. [drawn] [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=projects#chat)
 
 ### Branches and edge cases
 - Nothing happened while away: Activity and Chats need a positive empty state, never "quiet". [F035] [M1031-draft]

@@ -7,8 +7,8 @@ links = [
   { id = "home", label = "", action = "replace", to = "home" },
   { id = "home-2", label = "Home", action = "replace", to = "home" },
   { id = "nearby", label = "Nearby", action = "replace", to = "quiet-feed" },
-  { id = "projects", label = "Projects", action = "replace", to = "projects", since = "mvp" },  # phase 2 only [M1035]
-  { id = "inbox", label = "Inbox", action = "replace", to = "inbox", since = "pre-mvp" },  # no Inbox in phase 0 [M1037]
+  { id = "projects", label = "Projects", action = "replace", to = "projects", since = "projects" },  # phase 2 only [M1035]
+  { id = "inbox", label = "Inbox", action = "replace", to = "inbox", since = "share-and-chat" },  # no Inbox in phase 0 [M1037]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
   { id = "me", label = "S", action = "replace", to = "me" },
 ]

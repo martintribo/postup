@@ -1,7 +1,7 @@
 # Screen: Share link · live postup. Model [M1030]; phase 2 [M1031-draft]: short link ids, variants map, chrome slots.
 id = "invite"
 title = "Share link · live postup"
-since = "pre-mvp"  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 kind = "page"
 group = "Share-link landings"
 entry = true
@@ -10,7 +10,7 @@ slots = [
   { name = "rail", kind = "panel", device = "desktop", accepts = ["rail"] },
 ]
 links = [
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
   { id = "join-maya", label = "Join Maya", action = "open", to = "signin", slot = "sheet", then = "joined", when = "auth=out" },
   { id = "cafe", label = "Bean Theory · 0.4 mi", action = "replace", to = "cafe" },
   { id = "join-maya", label = "Join Maya", action = "replace", to = "joined", when = "auth=in" },

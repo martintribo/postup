@@ -46,10 +46,10 @@ Player: /mockups/flows/desktop-browse.html
 - `registered-visit--link-post`: branch out at —; merge in at step 3 (from its step 3)
 
 ## Screens
-1. `#home` · auth=in live=live mode=live — Map with 440px panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&mode=live&ph=mvp#home)
-2. `#postup` · auth=in live=live — Postup in the panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#postup)
-3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#post)
-4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=mvp#posted)
+1. `#home` · auth=in live=live mode=live — Map with 440px panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&mode=live&ph=projects#home)
+2. `#postup` · auth=in live=live — Postup in the panel. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#postup)
+3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#post)
+4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=desktop&auth=in&live=live&ph=projects#posted)
 
 ## Success criteria
 - Rail and tab bar have the same items. [F064] [R12]

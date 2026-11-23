@@ -14,7 +14,7 @@ links = [
   { id = "list", label = "List", action = "replace", to = "quiet-feed" },
   { id = "see-all", label = "See all", action = "replace", to = "quiet-feed" },
   { id = "cafe-2", label = "Bean Theory M J A 3 postups · Tue", action = "replace", to = "cafe" },
-  { id = "project", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
+  { id = "project", label = "Star Fox 64 mod New level yesterda", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
   { id = "post-up", label = "Post up", action = "replace", to = "post" },
 ]
 

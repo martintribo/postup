@@ -2,7 +2,7 @@
 id = "leave"
 title = "Sheet · Leave"
 kind = "sheet"
-since = "pre-mvp"  # leaving early is cut from phase 0 [M1037]
+since = "share-and-chat"  # leaving early is cut from phase 0 [M1037]
 group = "Sheets"
 host = "joined"  # page whose notes URL shows this sheet
 links = [

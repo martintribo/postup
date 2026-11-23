@@ -4,7 +4,7 @@
 id = "first-visit"
 name = "First visit"
 role = "joiner"
-since = "smallest"  # smallest MVP [M1037]
+since = "post-and-join"  # smallest MVP [M1037]
 user = "newcomer"
 situation = "nc-looking"
 order = 1
@@ -129,7 +129,7 @@ id = "follow-project"
 result = "goal:project"  # [M1042]
 label = "Follows a maker"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "More curious about what people are making than going somewhere now; follows the maker from a project. [M1042]"
 
 [[outcomes.steps]]
@@ -227,7 +227,7 @@ result = "goal:project"  # [M1043]
 label = "Follows a maker"
 from = "nobody"
 at = 1
-since = "mvp"  # projects are phase 2 [M1034]
+since = "projects"  # projects are phase 2 [M1034]
 when = "Nobody's live, so they look at what people are building and follow a maker. [M1018b] [M1043]"
 
 [[outcomes.steps]]
@@ -238,7 +238,7 @@ live = "none"
 # ---- start branches: opened a shared link ----
 [[outcomes]]
 id = "link-live"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1042]
 label = "Joined from a shared link"
 at = 0
@@ -268,7 +268,7 @@ shows = "Joined. [FS] [M1024]"
 
 [[outcomes]]
 id = "link-post"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1043]
 label = "Posts up at that cafe"
 from = "link-live"
@@ -290,7 +290,7 @@ live = "live"
 
 [[outcomes]]
 id = "link-project"
-since = "mvp"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
+since = "projects"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1043]
 label = "Follows the friend's project"
 from = "link-live"
@@ -310,7 +310,7 @@ live = "live"
 
 [[outcomes]]
 id = "link-ended"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:joined-postup"  # [M1043]
 label = "Ended link, joins someone nearby"
 at = 0
@@ -338,7 +338,7 @@ use = "join-signin"
 
 [[outcomes]]
 id = "ended-not-now"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "drop:im-coming"  # [M1043]
 label = "Ended link, leaves without signing in"
 from = "link-ended"
@@ -354,7 +354,7 @@ shows = "Back on the postup, still signed out. [drawn] [M1043]"
 
 [[outcomes]]
 id = "ended-post"
-since = "pre-mvp"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
+since = "share-and-chat"  # shared links are phase 1+ (Martin, Nov 1 2026) [M1046]
 result = "goal:posted-up"  # [M1043]
 label = "Posts up instead"
 from = "link-ended"
@@ -369,7 +369,7 @@ live = "live"
 
 [[outcomes]]
 id = "ended-project"
-since = "mvp"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
+since = "projects"  # projects are phase 2 [M1034]; shared links phase 1+ [M1046]
 result = "goal:project"  # [M1043]
 label = "Follows a maker"
 from = "link-ended"

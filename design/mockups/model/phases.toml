@@ -1,4 +1,4 @@
-# Ordered mockup phases [M1047-draft].
+# Ordered mockup phases [M1047] [M1048].
 # The order of [[phases]] blocks is the order of the product. Ids are stable
 # strings; insert a new block to add a chunk without renaming existing ids.
 # An item (screen, way, goal, flow, outcome, link, event) may name
@@ -8,24 +8,34 @@
 # The "All" view in the mockup UI lists every item and renders the latest
 # phase (the last block in this file). [M1047-draft]
 #
+# Ids are named for the scope each phase adds [M1048] (Martin, Nov 22 2026):
+#   post-and-join, share-and-chat, projects.
+# Numeric aliases 0/1/2 (and p0/ph0, p1/ph1, p2/ph2) still resolve, as do the
+# previous ids smallest / pre-mvp / mvp, so saved URLs, localStorage and skip
+# lists keep working.
+# The phase id `projects` is also a screen id. Those are different namespaces:
+# the screen is #projects; the phase uses prefixed classes and attributes
+# (since-projects, data-vph, data-vp, data-ph, html.ph-projects), never a bare
+# id="projects" meaning the phase.
+#
 # A newly inserted phase that omits deliverable or rules inherits those
 # of the previous phase. An empty add/hide/replace means "same as previous."
 
 [[phases]]
-id = "smallest"
-label = "Phase 0 (smallest)"
+id = "post-and-join"
+label = "Phase 0: Post & join"
 badge = "0"
-aliases = ["0", "ph0", "p0"]
+aliases = ["0", "ph0", "p0", "smallest"]
 add = []
 hide = []
 replace = []
 deliverable = { goals = ["posted-up", "joined-postup"], rules = ["no-share", "no-inbox", "no-chat", "no-leave", "no-projects", "no-ask-to-join", "no-building-mode", "no-size-limit"] }
 
 [[phases]]
-id = "pre-mvp"
-label = "Phase 1 (pre-MVP)"
+id = "share-and-chat"
+label = "Phase 1: Share & chat"
 badge = "1"
-aliases = ["1", "ph1", "p1"]
+aliases = ["1", "ph1", "p1", "pre-mvp"]
 add = ["share", "inbox", "chat", "leave", "invite", "invite-ended", "postup-full", "link-live", "link-ended", "postup-fills"]
 hide = []
 replace = [
@@ -34,10 +44,10 @@ replace = [
 deliverable = { goals = ["posted-up", "joined-postup"], rules = ["no-projects", "no-ask-to-join", "no-building-mode"] }
 
 [[phases]]
-id = "mvp"
-label = "Phase 2 (MVP)"
+id = "projects"
+label = "Phase 2: Projects"
 badge = "2"
-aliases = ["2", "ph2", "p2"]
+aliases = ["2", "ph2", "p2", "mvp"]
 add = ["activity", "ask", "invite-project", "postup-ask", "project", "project-attach", "project-new", "project-update", "projects", "requested", "ask-join", "host-approve", "alert-arrives", "followed-goes-live"]
 hide = []
 replace = [
@@ -48,17 +58,17 @@ replace = [
 ]
 deliverable = { goals = ["posted-up", "joined-postup", "project"], rules = [] }
 
-# Ways available in the smallest phase whose documented stories start later.
+# Ways available in the post-and-join phase whose documented stories start later.
 # The way itself is valid (you can already be hosting or joined); the path
-# "Extends, then ends" / "Leaves the postup" needs pre-mvp UI. [M1047-draft]
+# "Extends, then ends" / "Leaves the postup" needs share-and-chat UI. [M1047-draft]
 [[exceptions]]
 check = "way-path-in-phase"
 item = "hosting"
-since = "smallest"
-reason = "The already-hosting way is valid in any phase (a live host can return). The modeled path is Extends, then ends, which needs extend and leave from pre-mvp, so earlier phases have the way but not that path. The posted-up goal is already held on arrival. [M1047-draft] [M1037] [M1044]"
+since = "post-and-join"
+reason = "The already-hosting way is valid in any phase (a live host can return). The modeled path is Extends, then ends, which needs extend and leave from share-and-chat, so earlier phases have the way but not that path. The posted-up goal is already held on arrival. [M1047-draft] [M1037] [M1044]"
 
 [[exceptions]]
 check = "way-path-in-phase"
 item = "joined"
-since = "smallest"
-reason = "The already-joined way is valid in any phase (a joiner can return). The modeled path is Leaves the postup, which needs leave from pre-mvp, so earlier phases have the way but not that path. The joined-postup goal is already held on arrival. [M1047-draft] [M1037] [M1044]"
+since = "post-and-join"
+reason = "The already-joined way is valid in any phase (a joiner can return). The modeled path is Leaves the postup, which needs leave from share-and-chat, so earlier phases have the way but not that path. The joined-postup goal is already held on arrival. [M1047-draft] [M1037] [M1044]"

@@ -1,5 +1,5 @@
 # Flow: Registered visit → Leaves the postup (`registered-visit--joined`)
-Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1: Share & chat** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--joined.html
 
 ## Persona
@@ -37,8 +37,8 @@ Player: /mockups/flows/registered-visit--joined.html
 - `registered-visit--joined-project`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
-2. `#joined` + sheet `leave` · auth=in live=live — Confirm; poster alerted. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=leave&ph=pre-mvp#joined)
-3. `#postup` · auth=in live=live — Back on the postup. [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#joined)
+2. `#joined` + sheet `leave` · auth=in live=live — Confirm; poster alerted. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=leave&ph=share-and-chat#joined)
+3. `#postup` · auth=in live=live — Back on the postup. [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=share-and-chat#postup)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

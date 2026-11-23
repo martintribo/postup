@@ -12,9 +12,9 @@ slots = [
 # Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", since = "pre-mvp" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", since = "share-and-chat" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe", when = "live=live" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", since = "projects" },  # phase 2 only [M1035]
   { id = "join", label = "Join", action = "replace", to = "postup", when = "live=live" },
   { id = "postup", label = "M Maya Live Bean Theory · till 4pm", action = "replace", to = "postup", when = "live=live" },
   { id = "postup-2", label = "J Jon Live Bean Theory · till 5pm", action = "replace", to = "postup", when = "live=live" },

@@ -1,5 +1,5 @@
 # Flow: Registered visit → Postup ended (`registered-visit--ended`)
-Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0: Post & join** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--ended.html
 
 ## Persona
@@ -39,8 +39,8 @@ Player: /mockups/flows/registered-visit--ended.html
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ## Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=smallest#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup)
-3. `#postup-ended` · auth=in live=live — Ended state replaces Join; points to who's live nearby. [F060] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=smallest#postup-ended)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=post-and-join#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup)
+3. `#postup-ended` · auth=in live=live — Ended state replaces Join; points to who's live nearby. [F060] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=post-and-join#postup-ended)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

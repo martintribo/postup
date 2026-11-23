@@ -158,7 +158,7 @@ S['activity']=ihead('a')+'<div class="grp">'+act('MK','<b>Maya</b> posted up at 
 # Inbox has two phase versions [M1035]: phase 1 = one list (was #inbox-one, [M1033]); phase 2 = Chats | Activity tabs.
 _TOP=top("Inbox",'',back=False); _NV=nav("i")
 assert S['inbox'].startswith(_TOP) and S['inbox'].endswith(_NV) and S['inbox-one'].startswith(_TOP) and S['inbox-one'].endswith(_NV)
-S['inbox']=_TOP+'<div class="until-pre-mvp">'+S['inbox-one'][len(_TOP):-len(_NV)]+'</div><div class="since-mvp">'+S['inbox'][len(_TOP):-len(_NV)]+'</div>'+_NV
+S['inbox']=_TOP+'<div class="until-share-and-chat">'+S['inbox-one'][len(_TOP):-len(_NV)]+'</div><div class="since-projects">'+S['inbox'][len(_TOP):-len(_NV)]+'</div>'+_NV
 del S['inbox-one']
 # ---------- profiles ----------
 def ppast(d,c,w): return f'<div class="lrow" onclick="go(\'cafe\')"><span class="ci sm">{I("coffee",16)}</span><div class="lm"><b class="sm">{w}</b><span class="l2">{c} · {d}</span></div></div>'
@@ -174,7 +174,7 @@ def prof(k,me):
     return f'''{top("",right)}<div class="pad prof">{live}
 <div class="phd">{av(k,88)}<h1>{n}</h1><p class="mu">{bio}</p><p class="mu sm">{"8" if me else "12"} postups · since Sep</p>{act}</div>
 <h3 class="sh">Regular cafes</h3><div class="chips"><button class="chip" onclick="go('cafe')">{"Lantern Tea" if me else "Bean Theory"}</button><button class="chip" onclick="go('cafe')">Grindhouse</button></div>
-<div class="since-mvp"><h3 class="sh">Projects</h3><div class="grp">{projs}</div></div>
+<div class="since-projects"><h3 class="sh">Projects</h3><div class="grp">{projs}</div></div>
 <h3 class="sh">Past postups</h3><div class="grp">{ppast("Mon","Bean Theory","Ship models imported")}{ppast("Oct 9","Lantern Tea","Level editor")}</div></div>'''
 S['profile']=prof('MK',False); S['me']=prof('ME',True)
 def tgl(t,on=True): return f'<label class="lrow tgr"><span class="lm sm">{t}</span><input type="checkbox" class="tg" {"checked" if on else ""}></label>'

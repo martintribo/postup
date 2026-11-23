@@ -2,7 +2,7 @@
 id = "postup-ask"
 title = "Postup · ask to join"
 kind = "page"
-since = "mvp"  # ask to join / approval is phase 2 (MVP), not phase 1 [M1032]
+since = "projects"  # ask to join / approval is phase 2 (MVP), not phase 1 [M1032]
 group = "Postups & joining"
 slots = [
   { name = "sheet", kind = "sheet", accepts = ["block", "more", "share", "signin"] },
@@ -11,7 +11,7 @@ slots = [
 # Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", since = "pre-mvp" },
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", since = "share-and-chat" },
   { id = "more", label = "More", action = "open", to = "more", slot = "sheet" },
   { id = "profile", label = "T Tess Live · till 3pm", action = "replace", to = "profile" },
   { id = "project", label = "Pixel Garden Drawing crop sprites.", action = "replace", to = "project" },

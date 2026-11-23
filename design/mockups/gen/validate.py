@@ -383,7 +383,7 @@ if '--no-index' not in sys.argv:
         L.append(f'- `{sid}` ({s["kind"]}, {s.get("group","")}, {_phs(s)}) {s["title"]} · {len(s.get("links",[]))} links{sl}{" · entry" if s.get("entry") else ""} → screens/{sid}.toml')
     L+=['','## Flows']
     for fid,f in fl.items(): L.append(f'- `{fid}` ({f["role"]}, {_phs(f)}, {f.get("user","?")}, {f["status"]}) {f["name"]} · {len(f["steps"])} steps · starts {f["start"]["screen"]} → flows/{fid}.toml')
-    L+=['', '## Phases [M1047-draft]']
+    L+=['', '## Phases [M1048]']
     for ph in M.PHASES:
         nsc=sum(1 for s in sc.values() if s.get('since')==ph['id'])
         nfl=sum(1 for f in fl.values() if not f.get('parent') and f.get('since')==ph['id'])

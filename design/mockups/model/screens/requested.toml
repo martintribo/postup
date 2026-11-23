@@ -2,7 +2,7 @@
 id = "requested"
 title = "Request sent"
 kind = "page"
-since = "mvp"  # ask to join / approval is phase 2 (MVP), not phase 1 [M1032]
+since = "projects"  # ask to join / approval is phase 2 (MVP), not phase 1 [M1032]
 group = "Postups & joining"
 slots = [
   { name = "nav", kind = "tab", device = "phone", accepts = ["tabbar"] },
