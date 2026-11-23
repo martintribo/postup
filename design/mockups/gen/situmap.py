@@ -13,18 +13,28 @@ def _sid(p):
 def _earliest(ps):
     ids=[_sid(p) for p in ps]; ids=[p for p in ids if p]
     return min(ids, key=_MOD.pindex) if ids else None
+def _union_ph(items):
+    """data-ph for a group: available in a phase if any member is. Untagged → all."""
+    attrs=[_MOD.ph_attr(it) for it in items]
+    if not attrs or any(a=='all' for a in attrs): return 'all'
+    have=set()
+    for a in attrs:
+        have.update(a.split())
+    return ' '.join(p for p in _MOD.PIDS if p in have)
 def _fbtn(f): return f'<a class="fb" data-ph="{_dph(f)}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f.get("since"))}{ocb(f)}<i>{len(f["steps"])} steps</i></a>'
 _lanes=''
 for u,ut,usub in UT:
     cards=''; n=0
     for gid,g in _MOD.load_situations.groups.items():
-        inner=''; gph=None
+        inner=''; g_items=[]
         for sid,x in [(k,v) for k,v in SITS.items() if v['user']==u and v['group']==gid]:
             fs=[f for f in FLOWS if f['situation']==sid and (not f['parent'] or FBY[f['parent']]['situation']!=sid)]  # an outcome listed under another situation shows there too [M1040]
-            ph=_earliest([x.get('since') or x.get('phase')]+[f.get('since') for f in fs]); gph=_earliest([gph,ph])
+            ph=_earliest([x.get('since')]+[f.get('since') for f in fs])
+            sit_items=[dict(since=x.get('since'), until=x.get('until'))]+[dict(since=f.get('since'), until=f.get('until')) for f in fs]
+            g_items.extend(sit_items)
             btns=''.join(_fbtn(f) for f in fs) or '<span class="nof">No flow yet</span>'
-            inner+=f'<section class="sit" data-ph="{_MOD.ph_attr({"since":ph})}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
-        if inner: cards+=f'<div class="grp" data-ph="{_MOD.ph_attr({"since":gph})}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
+            inner+=f'<section class="sit" data-ph="{_union_ph(sit_items)}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
+        if inner: cards+=f'<div class="grp" data-ph="{_union_ph(g_items)}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
     nf=sum(1 for f in FLOWS_TOP if f['user']==u)
     _lanes+=f'<div class="lane" id="{u}"><div class="root"><b>{ut}</b><span>{usub}</span><span class="cnt">{sum(1 for v in SITS.values() if v["user"]==u)} situations · {nf} flows</span>{f'<a class="gl" href="graph.html#{_UD[u]["main_flow"]}">{H.escape(_UD[u]["label"])} graph →</a><a class="gl" href="walk.html#user={u}">Walk through →</a>' if _UD.get(u,{}).get("main_flow") else ""}</div><div class="sits">{cards}</div></div>'
 SMCSS='''.lane[hidden]{display:none!important}.mb{position:sticky;top:0;z-index:5;background:rgba(244,243,239,.96);border-bottom:1px solid #e4e2dc;padding:9px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.mb b{font-size:16px}

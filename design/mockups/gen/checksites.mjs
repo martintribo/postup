@@ -13,3 +13,4 @@ for (const [id, s] of Object.entries(G.states)) {
   if (r[0] !== s.page || r[1] !== (s.ov || '') || r[2] !== s.auth || r[3] !== s.live || (s.mode && r[4] !== s.mode)) bad.push([id, r]);
 }
 await b.close(); srv.close(); console.log(JSON.stringify({ checked: n, bad: bad.slice(0, 20), nbad: bad.length }));
+process.exit(bad.length ? 1 : 0);
