@@ -55,11 +55,11 @@ Player: /mockups/flows/first-visit--follow-project.html
 - `first-visit--link-project`: branch out at —; merge in at step 3 (from its step 2)
 
 ## Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=2#home)
-2. `#home` · auth=out live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building&ph=2#home)
-3. `#project` · auth=out live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=2#project)
-4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=2#profile)
-5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=2#profile)
-6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=mvp#home)
+2. `#home` · auth=out live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=building&ph=mvp#home)
+3. `#project` · auth=out live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#project)
+4. `#profile` · auth=out live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=mvp#profile)
+5. `#profile` + sheet `signin` · auth=out live=live — Follow 🔒 opens the sign-in sheet. [FS] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&ov=signin&ph=mvp#profile)
+6. `#profile` · auth=in live=live — Signed in and following Maya. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

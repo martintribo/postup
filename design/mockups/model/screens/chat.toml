@@ -2,7 +2,7 @@
 id = "chat"
 title = "Group chat"
 kind = "page"
-phase = 1  # group chat is cut from phase 0 [M1037]
+since = "pre-mvp"  # group chat is cut from phase 0 [M1037]
 group = "Inbox & people"
 variants = { "auth=out" = "chat--out" }  # condition -> HTML id that renders it (first match wins)
 slots = [

@@ -15,7 +15,7 @@ Player: /mockups/flows/registered-visit--follow-project.html
 1. **home@in.live.live** · user: Wants company now · action: arrives at / · edge: entry
    - Live now list. [M1018b] [M1024]
    - next site states: postup@in.live (M 2), cafe@in.live (cafe), quiet@in.live (Locate), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), postup-ask@in.live (T), **home@in.live.building** (Building), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (cafe (Google card fails))
-   - enterable flows: registered-visit step 1 (if Wants company now), registered-visit--already-posted step 1 (if Wants company now), registered-visit--cancelled step 1 (if Wants company now), registered-visit--ended step 1 (if Wants company now), registered-visit--full step 1 (if Wants company now), registered-visit--post step 1 (if Wants company now), registered-visit--report step 1 (if Wants company now), registered-visit--too-far step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
+   - enterable flows: registered-visit step 1 (if Wants company now), registered-visit--already-posted step 1 (if Wants company now), registered-visit--cancelled step 1 (if Wants company now), registered-visit--ended step 1 (if Wants company now), registered-visit--post step 1 (if Wants company now), registered-visit--report step 1 (if Wants company now), registered-visit--too-far step 1 (if Wants company now), registered-visit--full step 1 (if Wants company now), desktop-browse step 1 (if At a laptop; browsing), catch-up step 1 (if What did I miss?)
 2. **home@in.live.building** · user: What are people making? · action: taps Building · edge: tap: Building
    - What people are building: project cards. [M1018b] [M1018c]
    - next site states: cafe@in.live (Lantern Tea A D M 3 postups), me@in.live (S), post@in.live (Post up), quiet-feed@in.live (Nearby), inbox@in.live (Inbox), home@in.live.live (Live), projects@in.live (See all projects), **project@in.live** (Star Fox 64 mod M Maya · Yesterday), cafe-gfail@in.live (Lantern Tea A D M 3 postups (Google card fails))
@@ -43,18 +43,18 @@ Player: /mockups/flows/registered-visit--follow-project.html
 - `registered-visit--already-posted`: branch out at step 1→1; merge in at —
 - `registered-visit--cancelled`: branch out at step 1→1; merge in at —
 - `registered-visit--ended`: branch out at step 1→1; merge in at —
-- `registered-visit--full`: branch out at step 1→1; merge in at —
 - `registered-visit--post`: branch out at step 1→1; merge in at —
 - `registered-visit--report`: branch out at step 1→1; merge in at —
 - `registered-visit--too-far`: branch out at step 1→1; merge in at —
+- `registered-visit--full`: branch out at step 1→1; merge in at —
 - `desktop-browse`: branch out at step 1→1; merge in at —
 - `catch-up`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=2#home)
-2. `#home` · auth=in live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=building&ph=2#home)
-3. `#project` · auth=in live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#project)
-4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
-5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=mvp#home)
+2. `#home` · auth=in live=live mode=building — What people are building: project cards. [M1018b] [M1018c] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=building&ph=mvp#home)
+3. `#project` · auth=in live=live — Project page: updates and who's behind it. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
+4. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+5. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

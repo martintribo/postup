@@ -4,12 +4,12 @@
 events = [
   { id = "postups-end", label = "postups end", on = ["*"], when = "live=live", action = "swap", sets = "live=none" },
   { id = "someone-goes-live", label = "someone goes live", on = ["*"], when = "live=none", action = "swap", sets = "live=live" },
-  { id = "alert-arrives", label = "alert arrives", on = ["*"], when = "auth=in", action = "replace", to = "activity" },
+  { id = "alert-arrives", since = "mvp", label = "alert arrives", on = ["*"], when = "auth=in", action = "replace", to = "activity" },  # activity is mvp; landing there earlier is impossible [M1047-draft]
   { id = "comes-back-later", label = "comes back later", on = ["*"], action = "replace", to = "home" },
-  { id = "postup-fills", label = "postup fills", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-full" },
+  { id = "postup-fills", since = "pre-mvp", label = "postup fills", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-full" },  # size limit is pre-mvp+ [M1040] [M1047-draft]
   { id = "postup-cancelled", label = "postup is cancelled", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-cancelled" },
   { id = "postup-ends", label = "postup ends", on = ["postup", "postup-ask", "joined", "requested", "invite", "postup-full"], action = "replace", to = "postup-ended" },  # this postup's status; live (nearby) is unchanged [M1031-draft]
-  { id = "followed-goes-live", label = "someone you follow posts up", on = ["*"], when = "auth=in", action = "replace", to = "activity", sets = "live=live" },  # alert + someone live nearby [M1031-draft]
+  { id = "followed-goes-live", since = "mvp", label = "someone you follow posts up", on = ["*"], when = "auth=in", action = "replace", to = "activity", sets = "live=live" },  # activity is mvp [M1047-draft]; alert + someone live nearby [M1031-draft]
   { id = "network-drops", label = "network drops", on = ["quiet-feed", "loading", "home"], action = "replace", to = "offline" },
 ]
 conditions = [

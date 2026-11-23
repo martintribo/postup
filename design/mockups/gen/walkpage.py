@@ -55,7 +55,7 @@ function $(s){return document.querySelector(s)}function esc(t){return String(t==
 function src(t){/* source tags -> chips with hover text */return esc(t).replace(/\s*\[([^\]]+)\]/g,function(m,k){var tip=META._src[k]||k;return' <span class="src'+(/unsourced|⚠/.test(k)?" uns":"")+'" title="'+esc(tip)+'">'+esc(k)+"</span>"}).replace(/\*\*(.+?)\*\*/g,"<b>$1</b>")}
 function plain(t){return String(t||"").replace(/\s*\[[^\]]+\]/g,"")}
 function toast(t){var e=$(".toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(function(){e.classList.remove("on")},2600)}
-function UM(){return META[U]}function goals(){return UM().goals.filter(function(g){return g.ph<=PH})}function GB(id){return UM().goals.filter(function(g){return g.id===id})[0]}
+function resolvePh(raw){var ids=META._phases||[],al=META._aliases||{};if(raw===undefined||raw===null||raw==='')return ids[0];if(al[raw]&&ids.indexOf(al[raw])>=0)return al[raw];if(ids.indexOf(raw)>=0)return raw;return ids[0]}function pidx(id){return (META._phases||[]).indexOf(id)}function inPh(since,ph){return since==null||since===''||pidx(since)<=pidx(ph)}function UM(){return META[U]}function goals(){return UM().goals.filter(function(g){return inPh(g.ph,PH)})}function GB(id){return UM().goals.filter(function(g){return g.id===id})[0]}
 function way(){return G.w.filter(function(w){return w.id===W})[0]}function oc(id){return UM().outs.filter(function(o){return o.id===id})[0]}
 function parseHash(){var q={};location.hash.slice(1).split("&").forEach(function(kv){var i=kv.indexOf("=");if(i>0)q[kv.slice(0,i)]=decodeURIComponent(kv.slice(i+1))});return q}
 function writeHash(){var p=TR.slice(1).map(function(s){return encodeURIComponent(s.r)}).join(","),h="user="+U+"&way="+W+"&ph="+PH+(p?"&path="+p:"")+(POS<TR.length-1?"&at="+POS:"");history.replaceState(null,"","#"+h)}
@@ -136,11 +136,11 @@ function play(gid){stopPlay();var p=bfs(gid);if(!p){toast("No path from here.");
 function stopPlay(q){if(PLAY){clearTimeout(PLAY);PLAY=null}}
 function fit(){var ph=$(".phone"),s=$(".phone .scr"),mob=innerWidth<=860,avH=mob?innerHeight*0.72:innerHeight-54-36-44,avW=mob?innerWidth-24:9999,k=Math.min(1,(avH-22)/844,(avW-22)/390);
  s.style.transform="scale("+k+")";ph.style.width=(390*k+22)+"px";ph.style.height=(844*k+22)+"px";s.style.marginBottom=(844*k-844)+"px";s.style.borderRadius=(36/k)+"px"}
-function setup(cb){var q=parseHash();U=META._users.indexOf(q.user)>=0?q.user:META._users[0];PH=META._phases.indexOf(+q.ph)>=0&&q.ph!==undefined&&q.ph!==""?+q.ph:0;
+function setup(cb){var q=parseHash();U=META._users.indexOf(q.user)>=0?q.user:META._users[0];PH=resolvePh(q.ph);
  load(U,PH,function(d){G=d;dists();var ws=G.w;W=(ws.filter(function(w){return w.id===q.way&&w.ok})[0]||ws.filter(function(w){return w.ok})[0]).id;
   var cut=replay(q.path?q.path.split(",").filter(Boolean):[]);POS=q.at!=null&&q.at!==""?Math.min(+q.at,TR.length-1):TR.length-1;
   $("#us").innerHTML=META._users.map(function(u){return'<button data-u="'+u+'" class="'+(u===U?"on":"")+'" title="'+esc(META[u].sub)+'">'+esc(META[u].l)+"</button>"}).join("");
-  $("#ps").innerHTML=META._phases.map(function(p){return'<button data-p="'+p+'" class="'+(p===PH?"on":"")+'">Phase '+p+"</button>"}).join("");
+  $("#ps").innerHTML=META._phases.map(function(p){var b=(META._phase_badges&&META._phase_badges[p]!=null)?META._phase_badges[p]:p;return'<button data-p="'+p+'" class="'+(p===PH?"on":"")+'">Phase '+b+"</button>"}).join("");
   $("#ws").innerHTML=ws.map(function(w){return'<option value="'+w.id+'"'+(w.id===W?" selected":"")+(w.ok?"":" disabled")+' title="'+esc(plain(w.w))+'">'+esc(w.l)+(w.ok?"":" (later phase)")+"</option>"}).join("");
   document.title="Walkthrough · "+META[U].l+" · "+way().l+" · PostUp mockups";if(cut)toast("Path cut at step "+(cut+1)+": that tap isn't available in phase "+PH+".");render();if(cb)cb()})}
 function nav(o){var q=parseHash();Object.keys(o).forEach(function(k){q[k]=o[k]});if(o.user||o.way)delete q.path,delete q.at;if(!("path" in o)&&o.user)delete q.path;
@@ -156,7 +156,7 @@ $("#ws").onchange=function(e){nav({way:e.target.value,path:""})};$("#bb").onclic
 $("#hb").onclick=function(){HS=!HS;this.classList.toggle("pri",HS);hot()};
 document.addEventListener("keydown",function(e){if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.key==="ArrowLeft"){stopPlay();setPos(POS-1)}else if(e.key==="ArrowRight"){stopPlay();setPos(POS+1)}else if(/^[1-9]$/.test(e.key)&&CH[+e.key-1])take(CH[+e.key-1].es[0]);else if(e.key==="h"){$("#hb").click()}else return;e.preventDefault()});
 $("#fr").addEventListener("load",function(){setTimeout(function(){$(".phone").classList.remove("loading");hot()},180)});
-addEventListener("hashchange",function(){var q=parseHash();if(q.user!==U||+q.ph!==PH||q.way!==W)setup()});addEventListener("resize",fit);fit();setup();'''
+addEventListener("hashchange",function(){var q=parseHash();if(q.user!==U||resolvePh(q.ph)!==PH||q.way!==W)setup()});addEventListener("resize",fit);fit();setup();'''
 open('flows/walk.html','w').write(f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Walkthrough · PostUp mockups</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>{WCSS}</style></head><body>
 <header class="tb"><a class="bk" href="map.html">← Flow map</a><h1>Walkthrough</h1><span class="seg" id="us" title="User type (users.toml)"></span><select id="ws" title="Way in (ways.toml)"></select><span class="seg" id="ps" title="Phase"></span><span class="sp"></span><a class="btn" href="graph.html">Graph</a></header>

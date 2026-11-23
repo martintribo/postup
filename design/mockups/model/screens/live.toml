@@ -12,12 +12,12 @@ slots = [
 # Share links are phase 1+: no sharing in phase 0 (Martin, Nov 1 2026) [M1046]
 links = [
   { id = "back", label = "Back", action = "back" },
-  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", when = "phase>=1" },
-  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
+  { id = "share", label = "Share", action = "open", to = "share", slot = "sheet", since = "pre-mvp" },
+  { id = "star-fox-64-mod", label = "Star Fox 64 mod", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
   { id = "edit", label = "Edit", action = "replace", to = "post-edit" },
-  { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile", when = "phase>=2" },  # request card is phase 2 [M1036]
+  { id = "profile", label = "D Dev · 2 min ago", action = "replace", to = "profile", since = "mvp" },  # request card is phase 2 [M1036]
   { id = "profile-2", label = "J Jon On the way · 10 min", action = "replace", to = "profile" },
-  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", when = "phase>=1" },  # no chat in phase 0 [M1037]
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", since = "pre-mvp" },  # no chat in phase 0 [M1037]
   { id = "end-postup", label = "End postup", action = "open", to = "endlive", slot = "sheet" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
   { id = "continue-with-apple", label = "Continue with Apple", action = "replace", to = "live", sets = "auth=in", when = "auth=out" },

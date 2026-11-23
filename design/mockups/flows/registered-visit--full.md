@@ -1,5 +1,5 @@
 # Flow: Registered visit → Postup full (`registered-visit--full`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--full.html
 
 ## Persona
@@ -19,7 +19,7 @@ Player: /mockups/flows/registered-visit--full.html
 2. **postup@in.live** · user: Found someone · action: taps a live row · edge: tap: M 2
    - Who, project, cafe, who else is joining. [FS] [M1024]
    - next site states: back (Back), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), postup+share@in.live (Share), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--link-ended step 4 (if Could go to this one), registered-visit--report step 2 (if Found someone), desktop-browse step 2 (if Checking one postup)
+   - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--report step 2 (if Found someone), registered-visit--link-ended step 4 (if Could go to this one), desktop-browse step 2 (if Checking one postup)
 3. **postup-full@in.live** · user: No room left · action: waits while reading · edge: event: postup fills
    - Full state replaces Join. [FS] [M1040]
    - next site states: back (Back), postup-full+more@in.live (More), profile@in.live (M Maya Bean Theory), quiet-feed@in.live (See what's nearby), home@in.live.live (Go to Home), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects)
@@ -39,8 +39,8 @@ Player: /mockups/flows/registered-visit--full.html
 - `desktop-browse`: branch out at step 2→2; merge in at —
 
 ## Screens
-1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=1#home)
-2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#postup)
-3. `#postup-full` · auth=in live=live — Full state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#postup-full)
+1. `#home` · auth=in live=live mode=live — Live now list. [M1018b] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&mode=live&ph=pre-mvp#home)
+2. `#postup` · auth=in live=live — Who, project, cafe, who else is joining. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup)
+3. `#postup-full` · auth=in live=live — Full state replaces Join. [FS] [M1040] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#postup-full)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

@@ -40,9 +40,9 @@ Player: /mockups/flows/registered-visit--joined-project.html
 - `registered-visit--joined-chat`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#joined)
-2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#project)
-3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
-4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#joined)
+2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
+3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

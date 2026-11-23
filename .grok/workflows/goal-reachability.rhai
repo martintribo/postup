@@ -19,7 +19,7 @@
 let meta = #{
     name: "goal-reachability",
     description: "Check whether every applicable user/way/phase/goal case can complete its goals by real links and modeled paths",
-    when_to_use: "Validate PostUp mockup goal coverage (phase 0 and 2). /workflow goal-reachability",
+    when_to_use: "Validate PostUp mockup goal coverage (every phase in phases.toml). /workflow goal-reachability",
     phases: [
         #{ title: "Check", detail: "Run deterministic goal_reachability.py" },
         #{ title: "Classify", detail: "Agent classifies failures as missing-path vs design-gap" },
@@ -86,7 +86,7 @@ let check_schema = #{
                     "id": #{ "type": "string" },
                     "user": #{ "type": "string" },
                     "way": #{ "type": "string" },
-                    "phase": #{ "type": "integer" },
+                    "phase": #{ "type": "string" },
                     "goal": #{ "type": "string" },
                     "detail": #{ "type": "string" },
                     "witness": #{ "type": "string" },

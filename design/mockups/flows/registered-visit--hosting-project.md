@@ -15,7 +15,7 @@ Player: /mockups/flows/registered-visit--hosting-project.html
 1. **live@in.live** · user: Live; wants more time · action: opens their live postup · edge: entry
    - +30 min extends. [FS]
    - next site states: back (Back), post-edit@in.live (Edit), profile@in.live (J Jon On the way · 10 min), live+endlive@in.live (End postup), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), live+share@in.live (Share), chat@in.live (Group chat), inbox@in.live (Inbox), **project@in.live** (Star Fox 64 mod), projects@in.live (Projects)
-   - enterable flows: registered-visit--hosting step 1 (if Live; wants more time), registered-visit--post step 4 (if Managing their postup), host-approve step 2 (if Deciding on the request)
+   - enterable flows: registered-visit--post step 4 (if Managing their postup), registered-visit--hosting step 1 (if Live; wants more time), host-approve step 2 (if Deciding on the request)
 2. **project@in.live** · user: What's Maya making? · action: taps Star Fox 64 mod · edge: tap: Star Fox 64 mod
    - Project page. [FS] [M1044]
    - next site states: back (Back), project-new@in.live (New), **profile@in.live** (Maya), project-update@in.live (Update), project-attach@in.live (Post up), cafe@in.live (Bean Theory), postup@in.live (M Maya Bean Theory · till 4pm Live), home@in.live.live (Home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), inbox@in.live (Inbox), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory (Google card fails))
@@ -39,9 +39,9 @@ Player: /mockups/flows/registered-visit--hosting-project.html
 - `registered-visit--hosting`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#live)
-2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#project)
-3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
-4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#profile)
+1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#live)
+2. `#project` · auth=in live=live — Project page. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#project)
+3. `#profile` · auth=in live=live — Maya's profile with Follow. [FS] [M1042] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
+4. `#profile` · auth=in live=live — Following Maya. [FS] [M1044] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#profile)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

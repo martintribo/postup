@@ -9,15 +9,15 @@ for f in FLOWS_TOP:
     ps=[]; _ent=_MD.goal_entries(_FL,f['id']); _eof={k:e for e,ks in _ent.items() for k in ks}
     for o in f['outs']:
         g=FBY[o['id']]
-        ps.append(dict(id=g['id'],l=_gclean(olab(o)),e=_gclean(o['entry']),ph=o['phase'],r=g['result'] or '',en=_eof.get(g['id'],'main'),pr=g['prog'],
+        ps.append(dict(id=g['id'],l=_gclean(olab(o)),e=_gclean(o['entry']),ph=o.get('since'),r=g['result'] or '',en=_eof.get(g['id'],'main'),pr=g['prog'],
             st=[dict(s=d['site'],h=_gclean(d['how']).replace('tap: ','').replace('entry',''),a=d['act'],t=_ptitle(_site_page(d['site']))+(' + '+parse_site(d['site'])['ov'] if parse_site(d['site'])['ov'] else '')) for d in g['sx']]))
     cov={}
     if _FL[f['id']].get('goals'):  # goal-by-entry coverage [M1043]: can = goal screens reachable by real links from that entry
         _exc={(x.get('entry'),x.get('goal')):_gclean(x.get('reason','')) for x in _FL[f['id']].get('goal_exceptions',[])}
         for e,ks in _ent.items():
             cov[e]={gid:dict(can=bool(_MD.goal_reachable(_SC,_FL,ks,g,_MD.entry_phase(_FL,ks,g,_FL[f['id']]))),ex=_exc.get((e,gid),'')) for gid,g in GOALS_U.get(f['user'],GOALS).items()}
-    GDATA[f['id']]=dict(n=f['name'],u=f['user'],ph=f['phase'],p=ps,cov=cov)
-GMETA=[dict(id=k,l=g['label'],c=g['color'],ph=g.get('phase'),lk=_gclean(g.get('likely','')),t={u:[dict(id=m['id'],l=m.get('label',m['id'])) for m in GOALS_U[u][k]['ms']] for u in GOALS_U}) for k,g in GOALS.items()]  # per user type [M1042] [M1044]
+    GDATA[f['id']]=dict(n=f['name'],u=f['user'],ph=f.get('since'),p=ps,cov=cov)
+GMETA=[dict(id=k,l=g['label'],c=g['color'],ph=g.get('since'),lk=_gclean(g.get('likely','')),t={u:[dict(id=m['id'],l=m.get('label',m['id'])) for m in GOALS_U[u][k]['ms']] for u in GOALS_U}) for k,g in GOALS.items()]  # per user type [M1042] [M1044]
 UMETA=[dict(id=u,l=d.get('label',u),m=d.get('main_flow')) for u,d in USERS_D.items()]  # each user type's main flow [M1044]
 _GOPTS=''.join(f'<option value="{f["id"]}">{H.escape(f["name"])}{" · "+str(len(f["outs"]))+" outcomes" if len(f["outs"])>1 else ""}</option>' for f in FLOWS_TOP)
 GCSS2='''*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;font:13px/1.35 Inter,system-ui,sans-serif;color:#232322;background:#f4f3ef}a{color:#0f7a4f}
@@ -41,11 +41,9 @@ path.g{fill:none;stroke-width:3.4;opacity:.85}.dim path.e,.dim .el{opacity:.25}.
 .lo .el,.lo .nk,.lo .gs{display:none}@media(max-width:700px){#sum{width:auto;left:8px;max-height:38%}}.lo2 .nt{display:none}.lg{font-size:11px;color:#6b6b67}.lg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin:0 3px 0 8px}
 @media(max-width:700px){.gb{gap:5px;padding:6px 8px}.gb .lg,.gb .hd{display:none}}'''
 GJS=r'''var D=JSON.parse(document.getElementById("gdata").textContent),UM=JSON.parse(document.getElementById("umeta").textContent),GM=JSON.parse(document.getElementById("gmeta").textContent),GF="all",F,S=1,X=0,Y=0,W=0,HH=0;
-function gvis(g){var v=vph();return v===null?true:(g.ph==null||g.ph<=v)}function GB(id){return GM.filter(function(g){return g.id===id})[0]}
+function pidx(id){var C=window.PU_PHASES||{ids:[]};return (C.ids||[]).indexOf(id)}function vph(){var C=window.PU_PHASES||{ids:[]},c=document.documentElement.classList;if(c.contains("ph-all"))return null;for(var i=0;i<(C.ids||[]).length;i++)if(c.contains("ph-"+C.ids[i]))return C.ids[i];return null}function inPh(since,v){return v===null||since==null||since===""||pidx(since)<=pidx(v)}function gvis(g){return inPh(g.ph,vph())}function vis(p){return inPh(p.ph,vph())}function GB(id){return GM.filter(function(g){return g.id===id})[0]}
 function MS(g){return g.t[D[F].u]||[]}
 function mlab(mid){var l=mid;GM.forEach(function(g){MS(g).forEach(function(m){if(m.id===mid)l=m.l})});return l}
-function vph(){var c=document.documentElement.classList;return c.contains("ph0only")?0:c.contains("ph1only")?1:c.contains("ph2only")?2:null}
-function vis(p){var v=vph();return v===null||(p.ph!==null&&p.ph<=v)}
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
 function build(){var id=location.hash.slice(1);if(!D[id])id=(UM.filter(function(u){return D[u.m]})[0]||{}).m||Object.keys(D)[0];F=id;document.getElementById("sel").value=id;
  document.getElementById("ub").innerHTML=UM.filter(function(u){return D[u.m]}).map(function(u){return'<a href="#'+u.m+'" class="'+(D[id].u===u.id?"on":"")+'">'+esc(u.l)+"</a>"}).join("");

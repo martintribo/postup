@@ -230,17 +230,13 @@ exec(open('gen/phasev.py').read())
 exec(open('gen/fold.py').read())
 exec(open('gen/notes.py').read())
 exec(open('gen/menu.py').read())
-import re
-# No share links in phase 0 (Martin, Nov 1 2026) [M1046]: every control that opens the Share sheet renders phase 1+ only.
-def _p1share(h):
-    def f(m):
-        t=m.group(0)
-        if 'class="' in t: return t.replace('class="','class="p1up ',1)
-        return t.replace('<'+m.group(1),'<'+m.group(1)+' class="p1up"',1)
-    return re.sub(r"<(\w+)\b[^>]*onclick=\"[^\"]*ov\('share'\)[^\"]*\"[^>]*>",f,h)
-S={k:_p1share(v) for k,v in S.items()}; OVS=_p1share(OVS)
+import re, json, sys as _s
+_s.path.insert(0,'gen'); import model as _Mphase
+# Share visibility comes from model since= (auto-marked in phasev.py) [M1047-draft].
+CSS=CSS+('\n'+_Mphase.visibility_css()+'\n'+_Mphase.tabbar_cols_css(_Mphase.load()[0]))
+PU_PHASES_JS='window.PU_PHASES='+json.dumps(_Mphase.js_phase_config())+';'
 exec(open('gen/flows.py').read())
-JS=FOLD_JS+open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
+JS=PU_PHASES_JS+FOLD_JS+open('gen/app.js').read()+open('gen/scen.js').read()+open('gen/ixpage.js').read()
 body=''.join(f'<section class="scr{" full" if k in FULL else " dlg" if k in DLG else ""}" id="{k}" data-v="{k}">{v}</section>' for k,v in S.items())
 html=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff">
 <title>PostUp · mockups</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Space+Grotesk:wght@500;700&family=Archivo+Black&display=swap" rel="stylesheet"><style>{CSS}{NOTES_CSS}{MENU_CSS}</style></head>

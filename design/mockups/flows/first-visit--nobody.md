@@ -1,5 +1,5 @@
 # Flow: First visit → Looks at past postups (`first-visit--nobody`)
-Priority: **Phase 0** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--nobody.html
 
 ## Persona
@@ -36,9 +36,9 @@ Player: /mockups/flows/first-visit--nobody.html
 - `first-visit--too-far`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=0#home)
-2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=0#empty-area)
-3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=0#profile)
-4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=0#empty-area)
+1. `#home` · auth=out live=none mode=live — Home with nobody live: map of cafes and a Post up invite (no Building mode in phase 1). [M1018c] [M1035] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=live&ph=smallest#home)
+2. `#empty-area` · auth=out live=none — Nobody's live nearby: Recently nearby (past postups), then cafes to be the first. Projects nearby are phase 2. [M1034] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#empty-area)
+3. `#profile` · auth=out live=none — Maya's profile: regular cafes, past postups. [FS] [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#profile)
+4. `#empty-area` · auth=out live=none — The empty-area screen again. [M1032] (/mockups/?style=fresh&device=phone&auth=out&live=none&ph=smallest#empty-area)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

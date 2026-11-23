@@ -69,38 +69,38 @@ The home page (/) is #home, called Home, with two modes on one URL: Live and Bui
 ## Critical flows
 Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certain situation and goes through a scenario step by step. Each step names the screen and the scenario params (auth, live, Home mode, sheet). Flows marked Draft were inferred from the screen notes; confirm with Martin.
 - [All flows in one file](flows/all.md)
-- [first-visit](flows/first-visit.md): First visit (Phase 0, draft) · player: flows/first-visit.html
-- [first-visit--already-posted](flows/first-visit--already-posted.md): First visit → Already posted up (Phase 0, draft) · player: flows/first-visit--already-posted.html
-- [first-visit--browse](flows/first-visit--browse.md): First visit → Browses Nearby (Phase 0, draft) · player: flows/first-visit--browse.html
-- [first-visit--ended-not-now](flows/first-visit--ended-not-now.md): First visit → Ended link, leaves without signing in (Phase 1, draft) · player: flows/first-visit--ended-not-now.html
-- [first-visit--ended-post](flows/first-visit--ended-post.md): First visit → Posts up instead (Phase 1, draft) · player: flows/first-visit--ended-post.html
-- [first-visit--link-ended](flows/first-visit--link-ended.md): First visit → Ended link, joins someone nearby (Phase 1, draft) · player: flows/first-visit--link-ended.html
-- [first-visit--link-live](flows/first-visit--link-live.md): First visit → Joined from a shared link (Phase 1, draft) · player: flows/first-visit--link-live.html
-- [first-visit--link-post](flows/first-visit--link-post.md): First visit → Posts up at that cafe (Phase 1, draft) · player: flows/first-visit--link-post.html
-- [first-visit--live-already-posted](flows/first-visit--live-already-posted.md): First visit → Already posted up (Phase 0, draft) · player: flows/first-visit--live-already-posted.html
-- [first-visit--live-post](flows/first-visit--live-post.md): First visit → Posts up instead (Phase 0, draft) · player: flows/first-visit--live-post.html
-- [first-visit--live-too-far](flows/first-visit--live-too-far.md): First visit → Too far away (Phase 0, draft) · player: flows/first-visit--live-too-far.html
-- [first-visit--nobody](flows/first-visit--nobody.md): First visit → Looks at past postups (Phase 0, draft) · player: flows/first-visit--nobody.html
-- [first-visit--not-now](flows/first-visit--not-now.md): First visit → Leaves without signing in (Phase 0, draft) · player: flows/first-visit--not-now.html
-- [first-visit--post](flows/first-visit--post.md): First visit → Posted up (Phase 0, draft) · player: flows/first-visit--post.html
-- [first-visit--too-far](flows/first-visit--too-far.md): First visit → Too far away (Phase 0, draft) · player: flows/first-visit--too-far.html
-- [registered-visit](flows/registered-visit.md): Registered visit (Phase 0, draft) · player: flows/registered-visit.html
-- [registered-visit--already-posted](flows/registered-visit--already-posted.md): Registered visit → Already posted up (Phase 0, draft) · player: flows/registered-visit--already-posted.html
-- [registered-visit--cancelled](flows/registered-visit--cancelled.md): Registered visit → Postup cancelled (Phase 0, draft) · player: flows/registered-visit--cancelled.html
-- [registered-visit--ended](flows/registered-visit--ended.md): Registered visit → Postup ended (Phase 0, draft) · player: flows/registered-visit--ended.html
-- [registered-visit--ended-post](flows/registered-visit--ended-post.md): Registered visit → Posts up instead (Phase 1, draft) · player: flows/registered-visit--ended-post.html
-- [registered-visit--full](flows/registered-visit--full.md): Registered visit → Postup full (Phase 1, draft) · player: flows/registered-visit--full.html
-- [registered-visit--hosting](flows/registered-visit--hosting.md): Registered visit → Extends, then ends (Phase 1, draft) · player: flows/registered-visit--hosting.html
-- [registered-visit--joined](flows/registered-visit--joined.md): Registered visit → Leaves the postup (Phase 1, draft) · player: flows/registered-visit--joined.html
-- [registered-visit--joined-chat](flows/registered-visit--joined-chat.md): Registered visit → Chats with the group (Phase 1, draft) · player: flows/registered-visit--joined-chat.html
-- [registered-visit--link-ended](flows/registered-visit--link-ended.md): Registered visit → Ended link, joins someone nearby (Phase 1, draft) · player: flows/registered-visit--link-ended.html
-- [registered-visit--link-live](flows/registered-visit--link-live.md): Registered visit → Joins from a shared link (Phase 1, draft) · player: flows/registered-visit--link-live.html
-- [registered-visit--link-post](flows/registered-visit--link-post.md): Registered visit → Posts up at that cafe (Phase 1, draft) · player: flows/registered-visit--link-post.html
-- [registered-visit--nobody](flows/registered-visit--nobody.md): Registered visit → Looks at past postups (Phase 0, draft) · player: flows/registered-visit--nobody.html
-- [registered-visit--nobody-post](flows/registered-visit--nobody-post.md): Registered visit → Is the first today (Phase 0, draft) · player: flows/registered-visit--nobody-post.html
-- [registered-visit--post](flows/registered-visit--post.md): Registered visit → Posts up (Phase 0, draft) · player: flows/registered-visit--post.html
-- [registered-visit--report](flows/registered-visit--report.md): Registered visit → Reports and blocks (Phase 0, draft) · player: flows/registered-visit--report.html
-- [registered-visit--too-far](flows/registered-visit--too-far.md): Registered visit → Too far away (Phase 0, draft) · player: flows/registered-visit--too-far.html
+- [first-visit](flows/first-visit.md): First visit (Phase 0 (smallest), draft) · player: flows/first-visit.html
+- [first-visit--already-posted](flows/first-visit--already-posted.md): First visit → Already posted up (Phase 0 (smallest), draft) · player: flows/first-visit--already-posted.html
+- [first-visit--browse](flows/first-visit--browse.md): First visit → Browses Nearby (Phase 0 (smallest), draft) · player: flows/first-visit--browse.html
+- [first-visit--live-already-posted](flows/first-visit--live-already-posted.md): First visit → Already posted up (Phase 0 (smallest), draft) · player: flows/first-visit--live-already-posted.html
+- [first-visit--live-post](flows/first-visit--live-post.md): First visit → Posts up instead (Phase 0 (smallest), draft) · player: flows/first-visit--live-post.html
+- [first-visit--live-too-far](flows/first-visit--live-too-far.md): First visit → Too far away (Phase 0 (smallest), draft) · player: flows/first-visit--live-too-far.html
+- [first-visit--nobody](flows/first-visit--nobody.md): First visit → Looks at past postups (Phase 0 (smallest), draft) · player: flows/first-visit--nobody.html
+- [first-visit--not-now](flows/first-visit--not-now.md): First visit → Leaves without signing in (Phase 0 (smallest), draft) · player: flows/first-visit--not-now.html
+- [first-visit--post](flows/first-visit--post.md): First visit → Posted up (Phase 0 (smallest), draft) · player: flows/first-visit--post.html
+- [first-visit--too-far](flows/first-visit--too-far.md): First visit → Too far away (Phase 0 (smallest), draft) · player: flows/first-visit--too-far.html
+- [registered-visit](flows/registered-visit.md): Registered visit (Phase 0 (smallest), draft) · player: flows/registered-visit.html
+- [registered-visit--already-posted](flows/registered-visit--already-posted.md): Registered visit → Already posted up (Phase 0 (smallest), draft) · player: flows/registered-visit--already-posted.html
+- [registered-visit--cancelled](flows/registered-visit--cancelled.md): Registered visit → Postup cancelled (Phase 0 (smallest), draft) · player: flows/registered-visit--cancelled.html
+- [registered-visit--ended](flows/registered-visit--ended.md): Registered visit → Postup ended (Phase 0 (smallest), draft) · player: flows/registered-visit--ended.html
+- [registered-visit--nobody](flows/registered-visit--nobody.md): Registered visit → Looks at past postups (Phase 0 (smallest), draft) · player: flows/registered-visit--nobody.html
+- [registered-visit--nobody-post](flows/registered-visit--nobody-post.md): Registered visit → Is the first today (Phase 0 (smallest), draft) · player: flows/registered-visit--nobody-post.html
+- [registered-visit--post](flows/registered-visit--post.md): Registered visit → Posts up (Phase 0 (smallest), draft) · player: flows/registered-visit--post.html
+- [registered-visit--report](flows/registered-visit--report.md): Registered visit → Reports and blocks (Phase 0 (smallest), draft) · player: flows/registered-visit--report.html
+- [registered-visit--too-far](flows/registered-visit--too-far.md): Registered visit → Too far away (Phase 0 (smallest), draft) · player: flows/registered-visit--too-far.html
+- [first-visit--ended-not-now](flows/first-visit--ended-not-now.md): First visit → Ended link, leaves without signing in (Phase 1 (pre-MVP), draft) · player: flows/first-visit--ended-not-now.html
+- [first-visit--ended-post](flows/first-visit--ended-post.md): First visit → Posts up instead (Phase 1 (pre-MVP), draft) · player: flows/first-visit--ended-post.html
+- [first-visit--link-ended](flows/first-visit--link-ended.md): First visit → Ended link, joins someone nearby (Phase 1 (pre-MVP), draft) · player: flows/first-visit--link-ended.html
+- [first-visit--link-live](flows/first-visit--link-live.md): First visit → Joined from a shared link (Phase 1 (pre-MVP), draft) · player: flows/first-visit--link-live.html
+- [first-visit--link-post](flows/first-visit--link-post.md): First visit → Posts up at that cafe (Phase 1 (pre-MVP), draft) · player: flows/first-visit--link-post.html
+- [registered-visit--ended-post](flows/registered-visit--ended-post.md): Registered visit → Posts up instead (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--ended-post.html
+- [registered-visit--full](flows/registered-visit--full.md): Registered visit → Postup full (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--full.html
+- [registered-visit--hosting](flows/registered-visit--hosting.md): Registered visit → Extends, then ends (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--hosting.html
+- [registered-visit--joined](flows/registered-visit--joined.md): Registered visit → Leaves the postup (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--joined.html
+- [registered-visit--joined-chat](flows/registered-visit--joined-chat.md): Registered visit → Chats with the group (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--joined-chat.html
+- [registered-visit--link-ended](flows/registered-visit--link-ended.md): Registered visit → Ended link, joins someone nearby (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--link-ended.html
+- [registered-visit--link-live](flows/registered-visit--link-live.md): Registered visit → Joins from a shared link (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--link-live.html
+- [registered-visit--link-post](flows/registered-visit--link-post.md): Registered visit → Posts up at that cafe (Phase 1 (pre-MVP), draft) · player: flows/registered-visit--link-post.html
 - [first-visit--ended-project](flows/first-visit--ended-project.md): First visit → Follows a maker (Phase 2 (MVP), draft) · player: flows/first-visit--ended-project.html
 - [first-visit--follow-project](flows/first-visit--follow-project.md): First visit → Follows a maker (Phase 2 (MVP), draft) · player: flows/first-visit--follow-project.html
 - [first-visit--link-project](flows/first-visit--link-project.md): First visit → Follows the friend's project (Phase 2 (MVP), draft) · player: flows/first-visit--link-project.html
@@ -114,12 +114,12 @@ Critical flows (Martin, Oct 24 2026 [M1024]): a type of user arrives in a certai
 - [invite-project](flows/invite-project.md): Share link to a project (Phase 2 (MVP), draft) · player: flows/invite-project.html
 - [ask-join](flows/ask-join.md): Ask to join, then get approved (joiner side) (Phase 2 (MVP), draft) · player: flows/ask-join.html
 - [host-approve](flows/host-approve.md): Host approves a request (Phase 2 (MVP), draft) · player: flows/host-approve.html
-- [following](flows/following.md): Follow a person or project (Unphased, draft) · player: flows/following.html
-- [loading-offline](flows/loading-offline.md): Slow network and offline (Unphased, draft) · player: flows/loading-offline.html
-- [delete-account](flows/delete-account.md): Delete account (Unphased, draft) · player: flows/delete-account.html
-- [desktop-browse](flows/desktop-browse.md): Desktop browse and post (Unphased, draft) · player: flows/desktop-browse.html
-- [settings-notify](flows/settings-notify.md): Notification settings and sign out (Unphased, draft) · player: flows/settings-notify.html
-- [catch-up](flows/catch-up.md): Catch up on what happened (Unphased, draft) · player: flows/catch-up.html
+- [following](flows/following.md): Follow a person or project (All phases, draft) · player: flows/following.html
+- [loading-offline](flows/loading-offline.md): Slow network and offline (All phases, draft) · player: flows/loading-offline.html
+- [delete-account](flows/delete-account.md): Delete account (All phases, draft) · player: flows/delete-account.html
+- [desktop-browse](flows/desktop-browse.md): Desktop browse and post (All phases, draft) · player: flows/desktop-browse.html
+- [settings-notify](flows/settings-notify.md): Notification settings and sign out (All phases, draft) · player: flows/settings-notify.html
+- [catch-up](flows/catch-up.md): Catch up on what happened (All phases, draft) · player: flows/catch-up.html
 
 ## Site graph
 Site graph (Martin, Oct 25 2026 [M1025]): 42 pages + 9 sheets, 344 site states (page [+ child in a slot] × auth out|in × live (nearby) live|none, Home × tab), 4156 edges from the model (model/: screen links, tab bar and rail chrome slots, events, conditions). A flow is a path of steps, each a link (screen:id) or event that reaches the expected site state. Site-state id: page[+child]@auth.live[.tab]. See model/CONCEPTS.md. [M1031-draft]

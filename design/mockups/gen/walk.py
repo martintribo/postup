@@ -21,7 +21,7 @@ for _u,_ud in USERS_D.items():
     if _top:
         for _o in _top['outs']:
             _g=FBY[_o['id']]; _r=_g['result'] or ''; _sx=_g['sx']
-            _outs.append(dict(id=_g['id'],l=olab(_o),w=_o['when'] or _o['entry'] or '',r=_r,ph=MW.vp(_o['phase']),end=_sx[-1]['site']))
+            _outs.append(dict(id=_g['id'],l=olab(_o),w=_o['when'] or _o['entry'] or '',r=_r,ph=_o.get('since'),end=_sx[-1]['site']))
             for _i in range(1,len(_sx)):
                 _c=_FL[_g['id']]['steps'][_i].get('condition')
                 _k=(_sx[_i-1]['site'],_sx[_i]['ref']+('!'+_c if _c else ''))
@@ -32,7 +32,7 @@ for _u,_ud in USERS_D.items():
                 _c=_FL[_g['id']]['steps'][_ci].get('condition')
                 _gedge.setdefault(_gg,set()).add((_sx[_ci-1]['site'],_sx[_ci]['ref']+('!'+_c if _c else '')))
     _gend={g:MW.goal_target(gd) if gd['ms'] and not gd['ms'][-1].get('_shared') and gd['ms'][-1].get('states') else [] for g,gd in _gs.items()}
-    for _ph in MW.PHASES:
+    for _ph in MW.PIDS:
         nodes=[]; idx={}; q=[]
         def node(st):
             k=_wnk(st)
@@ -47,8 +47,8 @@ for _u,_ud in USERS_D.items():
             if _u not in _w.get('users',[]): continue
             s=MW.way_start(_w,_ud['auth']); sp=PH_S.get(s['screen'])
             st=dict(root=s['screen'],kids=[],auth=s['auth'],live=s['live'],tab=None,device='phone',phase=_ph,cont=None)
-            if st['root']=='home': st['tab']=s.get('tab') if (_ph>=2 or s.get('tab')=='live') else 'live'
-            ok=sp is None or sp<=_ph
+            if st['root']=='home': st['tab']=s.get('tab') if (not MW.has_rule(_ph,'no-building-mode') or s.get('tab')=='live') else 'live'
+            ok=MW.in_phase(_w,_ph) and MW.in_phase({'since':sp},_ph)
             ways.append(dict(id=_wid,l=_w.get('label',_wid),w=_w.get('when',''),hold=_w.get('holds',[]),n=node(st) if ok else -1,ok=ok))
         while q:
             i,st=q.pop(0); N=nodes[i]
@@ -74,15 +74,15 @@ for _u,_ud in USERS_D.items():
             for e in N['e']:
                 o,_,lid=e['r'].split('!')[0].partition(':')
                 if not any(x['id']==lid for x in SC[o].get('links',[])): raise SystemExit(f'walk: choice {e["r"]} on {N["k"]} is not a model link')
-        drops=[dict(o=o['id'],m=o['r'][5:]) for o in _outs if o['r'].startswith('drop:') and o['ph']<=_ph]
+        drops=[dict(o=o['id'],m=o['r'][5:]) for o in _outs if o['r'].startswith('drop:') and MW.in_phase({'since':o['ph']},_ph)]
         WALK[f'{_u}/{_ph}']=dict(n=nodes,w=ways,dr=drops)
     WALK[_u]=dict(l=_ud.get('label',_u),sub=_ud.get('sub',''),mf=_mf,mfn=_top['name'] if _top else '',outs=_outs,
-        goals=[dict(id=g,l=gd['label'],c=gd['color'],ph=MW.vp(gd.get('phase')) if gd.get('phase') is not None else 0,lk=gd.get('likely',''),ms=[dict(id=m['id'],l=m.get('label',m['id'])) for m in gd['ms']]) for g,gd in _gs.items()])
+        goals=[dict(id=g,l=gd['label'],c=gd['color'],ph=gd.get('since'),lk=gd.get('likely',''),ms=[dict(id=m['id'],l=m.get('label',m['id'])) for m in gd['ms']]) for g,gd in _gs.items()])
 _wscr={}
 for _k,_d in SC.items():
     nk=('ov-'+_k) if _d['kind']=='sheet' else _k
     if nk in NOTES: _wscr[_k]=dict(t=_d['title'],s=NOTES[nk]['secs'])
-WALK['_scr']=_wscr; WALK['_users']=list(USERS_D); WALK['_phases']=list(MW.PHASES)
+WALK['_scr']=_wscr; WALK['_users']=list(USERS_D); WALK['_phases']=list(MW.PIDS); WALK['_phase_labels']={p:MW.phase_label(p) for p in MW.PIDS}; WALK['_phase_badges']={p:MW.phase_badge(p) for p in MW.PIDS}; WALK['_aliases']=dict(MW.ALIAS)
 def _wtip(t):
     try: return tip(t)
     except Exception: return t

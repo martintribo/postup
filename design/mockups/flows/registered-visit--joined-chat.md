@@ -1,5 +1,5 @@
 # Flow: Registered visit → Chats with the group (`registered-visit--joined-chat`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--joined-chat.html
 
 ## Persona
@@ -36,9 +36,9 @@ Player: /mockups/flows/registered-visit--joined-chat.html
 - `registered-visit--joined-project`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#joined)
-2. `#inbox` · auth=in live=live — Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#inbox)
-3. `#chat` · auth=in live=live — One chat per postup. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#chat)
-4. `#chat` + sheet `msg` · auth=in live=live — Long-press: copy, report, block sender. [F096] [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=msg&ph=1#chat)
+1. `#joined` · auth=in live=live — Leave link. [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#joined)
+2. `#inbox` · auth=in live=live — Inbox: one list of postup chats, newest first, unread dots. [F096] [M1033] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#inbox)
+3. `#chat` · auth=in live=live — One chat per postup. [F061] [F096] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#chat)
+4. `#chat` + sheet `msg` · auth=in live=live — Long-press: copy, report, block sender. [F096] [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=msg&ph=pre-mvp#chat)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

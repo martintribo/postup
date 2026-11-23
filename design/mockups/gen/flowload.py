@@ -10,9 +10,12 @@ def parse_site(sid):
     return dict(page=m[1],ov=m[2],auth=m[3],live=m[4],mode=m[5])
 _EVS={e['id']:e for e in _EV['events']+_EV['conditions']}
 FLOWS=[]
-for _id in sorted(_FL,key=lambda k:({0:0,1:0}.get(_FL[k].get('phase'),1),_FL[k].get('order',99),k)):
+def _fpri(f):
+    if not f.get('since') and not f.get('until'): return 'All phases'
+    return M.phase_label(f.get('since') or M.LATEST)
+for _id in sorted(_FL,key=lambda k:((M.pindex(_FL[k]['since']) if _FL[k].get('since') else len(M.PIDS)), _FL[k].get('order',99),k)):
     _f=_FL[_id]; s0=_f['start']
-    f=dict(id=_id,name=_f['name'],pri={0:'Phase 0',1:'Phase 1',2:'Phase 2 (MVP)'}.get(_f.get('phase'),'Unphased'),phase=_f.get('phase'),user=_f['user'],situation=_f.get('situation'),aliases=_f.get('aliases',[]),status=_f['status'],persona=_f['persona'],goal=_f['goal'],
+    f=dict(id=_id,name=_f['name'],pri=_fpri(_f),phase=M.walk_phase(_f),since=_f.get('since'),until=_f.get('until'),user=_f['user'],situation=_f.get('situation'),aliases=_f.get('aliases',[]),status=_f['status'],persona=_f['persona'],goal=_f['goal'],
            start=dict(auth=s0['auth'],live=s0['live'],device=s0['device'],url=s0['url']),branches=_f.get('edge_cases',[]),success=_f.get('success',[]),decide=_f.get('decide',[]),role=_f['role'],parent=_f.get('parent'),outcome=_f.get('outcome'),outcome_when=_f.get('outcome_when',''),outcome_at=_f.get('outcome_at'))
     sx=[]
     for i,st in enumerate(_f['steps']):
@@ -36,7 +39,7 @@ for _id in sorted(_FL,key=lambda k:({0:0,1:0}.get(_FL[k].get('phase'),1),_FL[k].
 _FBY={f['id']:f for f in FLOWS}
 for f in FLOWS:
     top=f['parent'] or f['id']; p=_FBY[top]
-    f['outs']=[dict(id=top,label=_FL[top].get('outcome') or 'Done',when='',at=None,phase=p['phase'],entry=_FL[top].get('entry',''))]+[dict(id=g['id'],label=g['outcome'],when=g['outcome_when'],at=g['outcome_at'],phase=g['phase'],entry=g['outcome_when'] if g['outcome_at']==0 else '') for g in sorted((g for g in FLOWS if g['parent']==top),key=lambda g:[o['id'] for o in _FL[top]['outcomes']].index(g['id'].split('--',1)[1]))]  # model order [M1040]
+    f['outs']=[dict(id=top,label=_FL[top].get('outcome') or 'Done',when='',at=None,phase=p['phase'],since=p.get('since'),entry=_FL[top].get('entry',''))]+[dict(id=g['id'],label=g['outcome'],when=g['outcome_when'],at=g['outcome_at'],phase=g['phase'],since=g.get('since'),entry=g['outcome_when'] if g['outcome_at']==0 else '') for g in sorted((g for g in FLOWS if g['parent']==top),key=lambda g:[o['id'] for o in _FL[top]['outcomes']].index(g['id'].split('--',1)[1]))]  # model order [M1040]
 FLOWS_TOP=[f for f in FLOWS if not f['parent']]
 # forks [M1041]: on each page, after step a (1-based), which ways on share this page's first a steps. {a: [out ids]}
 def _key(g,n): return [(d['site'],d['ref']) for d in g['sx'][:n]]

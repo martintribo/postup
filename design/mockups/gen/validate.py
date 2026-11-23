@@ -9,9 +9,9 @@ def chk_when(p,w,ctx):
     for alt in M.parse_when(w):
         for k,v in alt.items():
             if k=='phase':
-                if not re.fullmatch(r'(>=|<=)?\d+',v): err(p,ctx,f'invalid condition phase{"" if v[:1] in "<>" else "="}{v}')
+                err(p,ctx,f'phase belongs on since=/until=, not in when ({k}={v})')
             elif k not in M.DIMS or v not in M.DIMS[k]: err(p,ctx,f'invalid condition {k}={v}')
-ALLC=[dict(auth=a,live=l,tab=t,phase=ph) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab'] for ph in M.PHASES]
+ALLC=[dict(auth=a,live=l,tab=t,phase=ph) for a in M.DIMS['auth'] for l in M.DIMS['live'] for t in M.DIMS['tab'] for ph in M.PIDS]
 REPL=M.REPL
 EVIDS={e['id'] for e in ev['events']}|{c['id'] for c in ev['conditions']}
 # --- screens ---
@@ -47,7 +47,7 @@ for sid,s in sc.items():
     for i,ls in ids.items():
         for a in range(len(ls)):
             for b_ in range(a+1,len(ls)):
-                if any(M.matches(ls[a].get('when',''),c) and M.matches(ls[b_].get('when',''),c) for c in ALLC): err(p,f'id = "{i}"',f'link id {i!r} is used twice with overlapping conditions')
+                if any(M.matches(ls[a].get('when',''),c) and M.matches(ls[b_].get('when',''),c) and M.in_phase(ls[a],c['phase']) and M.in_phase(ls[b_],c['phase']) for c in ALLC): err(p,f'id = "{i}"',f'link id {i!r} is used twice with overlapping conditions')
 # slot accepting at any depth: every child chain reachable by open/swap must be accepted by its host slot
 def walk(host,child,slot,seen):
     if (host,child) in seen: return
@@ -99,7 +99,7 @@ for fid,f in fl.items():
     FPH=M.flow_phase(f)  # walk this flow's phase version of every screen [M1035]
     cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None,phase=FPH)
     if s0['screen']=='home' and not cur['tab']: cur['tab']=M.dmode(cur['live'],FPH)
-    if s0['screen']=='home' and cur['tab']!=M.dmode('live',FPH) and FPH<2 and cur['tab']=='building': err(p,'start =',f'phase-{FPH} flow starts in Building mode, which is phase 2')
+    if s0['screen']=='home' and cur['tab']=='building' and M.has_rule(FPH,'no-building-mode'): err(p,'start =',f'flow walked in {FPH} starts in Building mode, which that phase does not have')
     ENTERS.add(s0['screen']); hist=[cur]
     for i,st in enumerate(f['steps']):
         ctx='[[steps]]'
@@ -139,7 +139,11 @@ for fid,f in fl.items():
             else: cur=n; hist.append(n)
         else: err(p,ctx,f'step {i+1}: needs link, event or gap',nth=i); continue
         if st.get('expect') and M.key(cur)!=st['expect']: err(p,ctx,f'step {i+1}: derived {M.key(cur)} but expected {st["expect"]}',nth=i)
-def _pint(v): return isinstance(v,int) and not isinstance(v,bool) and v in M.PHASES  # a known phase: 0, 1 or 2 [M1037]
+def _pid(v):
+    try:
+        return v is not None and M.pid(v) in M.PBY
+    except ValueError:
+        return False
 # outcomes [M1040]: each outcome is a labelled, source-tagged alternative ending that branches off the main path at a real step
 for fid,f in fl.items():
     if f.get('parent'): continue
@@ -173,31 +177,16 @@ for fid,f in fl.items():
             m=base[at]
             if 'arrive' in b or not ('link' in b or 'event' in b): err(p,ctx,f'outcome {o["id"]}: its first step must be one link or event (one tap per step)',nth=k)
             elif all(b.get(x)==m.get(x) for x in ('link','event','condition','expect')): err(p,ctx,f'outcome {o["id"]}: its first step is the same as step {at+1} of the path it branches from, so it is not a different outcome',nth=k)
-        if 'phase' in o and (not _pint(o['phase']) or (f.get('phase') is not None and o['phase']<f['phase'])): err(p,ctx,f'outcome {o["id"]}: phase must be a phase no lower than the flow\'s',nth=k)
+        if o.get('since') and not _pid(o['since']): err(p,ctx,f'outcome {o["id"]}: since must be a phase id, got {o.get("since")!r}',nth=k)
+        elif o.get('since') and f.get('since') and M.pindex(o['since'])<M.pindex(f['since']): err(p,ctx,f'outcome {o["id"]}: since must not be earlier than the flow\'s',nth=k)
+        if o.get('until') and not _pid(o['until']): err(p,ctx,f'outcome {o["id"]}: until must be a phase id, got {o.get("until")!r}',nth=k)
         for a_ in o.get('aliases',[]):
             if a_ in fl: err(p,ctx,f'outcome {o["id"]}: alias {a_} is still a flow',nth=k)
-# phases [M1031-draft]
-for sid,s in sc.items():
-    if 'phase' in s and not _pint(s['phase']): err(s['_file'],'phase =',f'phase must be one of the phases 0, 1, 2, got {s["phase"]!r}')
-    for k,v in s.get('state_phases',{}).items():
-        if not _pint(v): err(s['_file'],k,f'state phase must be one of the phases 0, 1, 2, got {v!r}')
-for k,v in gl.get('state_phases',{}).items():
-    if not _pint(v): err(gl['_file'],k,f'state phase must be one of the phases 0, 1, 2, got {v!r}')
+# phases [M1047-draft]: since/until ids; remaining consistency is in phasechk.py
 for fid,f in fl.items():
     p=f['_file']
-    if 'phase' in f and not _pint(f['phase']): err(p,'phase =',f'phase must be one of the phases 0, 1, 2, got {f["phase"]!r}')
     if f.get('user') not in M.USERS: err(p,'user =',f'user must be one of {sorted(M.USERS)}')
     elif US.get(f['user'],{}).get('auth')!=f['start']['auth']: err(p,'user =',f'user {f["user"]!r} signs in as auth={US.get(f["user"],{}).get("auth")!r} (users.toml), but the flow starts auth={f["start"]["auth"]!r}')
-if not ERR:
-    _SO=dict(gl.get('state_phases',{}))
-    for s in sc.values(): _SO.update(s.get('state_phases',{}))
-    for fid,f in fl.items():
-        ph=f.get('phase')
-        if ph is None: continue
-        for i,(k,scs) in enumerate(M.flow_states(sc,f)):
-            for s in scs:
-                if sc[s].get('phase') is not None and sc[s]['phase']>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} uses {s}, tagged phase {sc[s]["phase"]}',nth=i)
-            if _SO.get(k) is not None and _SO[k]>ph: err(f['_file'],'[[steps]]',f'phase-{ph} flow {fid} step {i+1} passes state {k}, tagged phase {_SO[k]}',nth=i)
 # situations [M1031-draft]
 SIT,_sp=M.load_situations()
 SGR=M.load_situations.groups
@@ -207,7 +196,7 @@ for i,x in SIT.items():
     if x.get('group') not in SGR: err(_sp,f'id = "{i}"',f'situation {i}: group {x.get("group")!r} is not in groups')
     if x.get('user') not in M.USERS: err(_sp,f'id = "{i}"',f'situation {i}: user must be one of {sorted(M.USERS)}')
     if not re.search(M.TAG,x.get('setting','')): err(_sp,f'id = "{i}"',f'situation {i}: setting without source tag')
-    if 'phase' in x and not _pint(x['phase']): err(_sp,f'id = "{i}"',f'situation {i}: phase must be one of the phases 0, 1, 2')
+    if x.get('since') and not _pid(x['since']): err(_sp,f'id = "{i}"',f'situation {i}: since must be a phase id')
 for fid,f in fl.items():
     si=f.get('situation')
     if si not in SIT: err(f['_file'],'situation' if si else 'user =',f'flow {fid}: situation {si!r} is not in situations.toml')
@@ -224,7 +213,8 @@ if GS:
         if not re.fullmatch(r'#[0-9a-fA-F]{6}',g.get('color','')): err(_gp,ctx,f'goal {gid}: color must be #rrggbb')
         if not g.get('label'): err(_gp,ctx,f'goal {gid}: needs a label')
         if 'likely' in g and not re.search(M.TAG,g['likely']): err(_gp,ctx,f'goal {gid}: likely note needs a source tag')
-        if 'phase' in g and not _pint(g['phase']): err(_gp,ctx,f'goal {gid}: phase must be 0, 1 or 2')
+        if g.get('since') and not _pid(g['since']): err(_gp,ctx,f'goal {gid}: since must be a phase id')
+        if g.get('until') and not _pid(g['until']): err(_gp,ctx,f'goal {gid}: until must be a phase id')
         ids=[m.get('id') for m in g['ms']]
         if len(ids)<2: err(_gp,ctx,f'goal {gid}: needs at least two milestones')
         if len(set(ids))!=len(ids): err(_gp,ctx,f'goal {gid}: milestone ids must be unique')
@@ -287,8 +277,8 @@ if GS:
                 fin={k:PROG[k][-1] for k in fam if PROG.get(k)}
                 if 'signed-up' in US.get(f.get('user'),{}).get('milestones',[]) and not any(v.get(g_,0)>=[m['id'] for m in GS_[g_]['ms']].index('signed-up')+1 for v in fin.values() for g_ in GS_): err(f['_file'],'goals =',f'flow {fid}: no path reaches signed-up')
                 for gid,g in GS_.items():
-                    if not any(v.get(gid,0)>=len(g['ms']) and (fl[k].get('phase') if fl[k].get('phase') is not None else M.MAXPH)<=M.MAXPH for k,v in fin.items()):
-                        GAPS.append(f'{rel(f["_file"])}:1: flow {fid}: no path reaches goal {gid} ({g["label"]}) in phase {M.MAXPH} or lower [M1042]')
+                    if not any(v.get(gid,0)>=len(g['ms']) and M.in_phase(fl[k], M.LATEST) for k,v in fin.items()):
+                        GAPS.append(f'{rel(f["_file"])}:1: flow {fid}: no path reaches goal {gid} ({g["label"]}) in the latest phase ({M.LATEST}) or earlier [M1042]')
                 # goal coverage per entry [M1043]: from the screens an entry's paths pass through, follow the real links (top
                 # screen + tab bar) in the flow's phase (a phased goal: in its phase). If a goal's screens are reachable, some
                 # path from that entry must reach the goal, unless [[goal_exceptions]] declares it with a source-tagged reason.
@@ -302,7 +292,7 @@ if GS:
                     for gid,g in GS_.items():
                         php=M.entry_phase(fl,ks,g,f)
                         can=M.goal_reachable(sc,fl,ks,g,php)
-                        has=any(fl[k].get('result')=='goal:'+gid and M.flow_phase(fl[k])<=max(php,M.flow_phase(fl[k]) if g.get('phase') is None else php) for k in ks)
+                        has=any(fl[k].get('result')=='goal:'+gid and M.in_phase(fl[k], php) for k in ks)
                         if (e,gid) in EXC:
                             if has or not can: err(f['_file'],'[[goal_exceptions]]',f'goal exception {e}/{gid} is not needed (reachable={can}, has path={has}); remove it')
                             continue
@@ -374,16 +364,33 @@ IN|={c for s in sc.values() for sl in s.get('slots',[]) for c in sl.get('accepts
 IN|={e.get('to') for e in ev['events']+ev['conditions']}|{e.get('with') for e in ev['conditions']}|ENTERS
 for sid,s in sc.items():
     if sid not in IN and not s.get('entry') and not s.get('alternative'): err(s['_file'],'id =',f'orphan screen {sid}: no link, slot, event or flow reaches it (mark entry = true if it is a landing)')
+# phase consistency [M1047-draft]
+import phasechk as _PCHK
+US=M.load_users(); WAYS=M.load_ways(); GS=M.load_goals()[0]
+# US/WAYS may already be loaded above — rebind is fine
+_PCHK.run(sc, fl, ev, gl, err, US, WAYS, GS)
 # INDEX.md
 if '--no-index' not in sys.argv:
-    _FP,_SP,_STP=M.phases(sc,fl,gl) if not ERR else ({},{},{})
+    def _phs(item):
+        s,u=item.get('since'),item.get('until')
+        if not s and not u: return 'all phases'
+        a=M.phase_label(s) if s else 'start'
+        b=M.phase_label(u) if u else 'onward'
+        return a if (s and not u) else (f'until {b}' if (u and not s) else f'{a}–{b}')
     L=['# PostUp model index [M1030]','One line per screen and flow. Generated by gen/validate.py; edit the .toml files.','','## Screens']
     for sid,s in sorted(sc.items(),key=lambda x:(x[1]['kind']!='page',x[1].get('group',''),x[0])):
         sl=' · slots: '+', '.join(f'{x["name"]}({x["kind"]})→{len(x.get("accepts",[]))}' for x in s.get('slots',[])) if s.get('slots') else ''
-        L.append(f'- `{sid}` ({s["kind"]}, {s.get("group","")}, {"phase "+str(_SP[sid]) if _SP.get(sid) else "unphased"}{"" if s.get("phase") else " derived" if _SP.get(sid) else ""}) {s["title"]} · {len(s.get("links",[]))} links{sl}{" · entry" if s.get("entry") else ""} → screens/{sid}.toml')
+        L.append(f'- `{sid}` ({s["kind"]}, {s.get("group","")}, {_phs(s)}) {s["title"]} · {len(s.get("links",[]))} links{sl}{" · entry" if s.get("entry") else ""} → screens/{sid}.toml')
     L+=['','## Flows']
-    for fid,f in fl.items(): L.append(f'- `{fid}` ({f["role"]}, {"phase "+str(f["phase"]) if f.get("phase") else "unphased"}, {f.get("user","?")}, {f["status"]}) {f["name"]} · {len(f["steps"])} steps · starts {f["start"]["screen"]} → flows/{fid}.toml')
-    L+=['',f'## Phases [M1031-draft] [M1032]']+[f'- {nm}: {sum(1 for v in _FP.values() if v==n)} flows, {sum(1 for v in _SP.values() if v==n)} screens, {sum(1 for v in _STP.values() if v==n)} site states' for n,nm in ((1,'Phase 1 (pre-MVP)'),(2,'Phase 2 (MVP)'))]+['- Screens/states are derived from flows unless tagged; lowest phase wins. Untagged = unclassified, kept. The MVP is phases 1 and 2.']
+    for fid,f in fl.items(): L.append(f'- `{fid}` ({f["role"]}, {_phs(f)}, {f.get("user","?")}, {f["status"]}) {f["name"]} · {len(f["steps"])} steps · starts {f["start"]["screen"]} → flows/{fid}.toml')
+    L+=['', '## Phases [M1047-draft]']
+    for ph in M.PHASES:
+        nsc=sum(1 for s in sc.values() if s.get('since')==ph['id'])
+        nfl=sum(1 for f in fl.values() if not f.get('parent') and f.get('since')==ph['id'])
+        goals=', '.join((ph.get('deliverable') or {}).get('goals') or []) or '(none)'
+        L.append(f'- `{ph["id"]}` ({ph.get("label") or ph["id"]}): {nfl} flows, {nsc} screens with since= this phase; deliverable goals: {goals}')
+    nall=sum(1 for s in sc.values() if not s.get('since') and not s.get('until'))
+    L.append(f'- Untagged (all phases): {nall} screens. The All view renders the latest phase (`{M.LATEST}`).')
     L+=['','## Events and conditions']+[f'- `{e["id"]}` {e["label"]}' for e in ev['events']+ev['conditions']]
     open(os.path.join(M.ROOT,'INDEX.md'),'w').write('\n'.join(L)+'\n')
 print(f'model: {len(sc)} screens ({sum(1 for s in sc.values() if s["kind"]=="page")} pages), {sum(len(s.get("links",[])) for s in sc.values())} links, {len(fl)} flows, {sum(len(f["steps"]) for f in fl.values())} steps, {len(ev["events"])} events, {len(ev["conditions"])} conditions')

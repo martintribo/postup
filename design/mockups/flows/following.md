@@ -1,5 +1,5 @@
 # Flow: Follow a person or project (`following`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **All phases** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/following.html
 
 ## Persona
@@ -31,7 +31,7 @@ Player: /mockups/flows/following.html
 5. **postup@in.live** · user: Wants to go · action: taps the alert · edge: tap: Maya posted up at Bean Theory
    - Opens and joins. [FS]
    - next site states: back (Back), postup+more@in.live (More), profile@in.live (M Maya Live · till 4pm), cafe@in.live (Bean Theory 0.4 mi · 8 min walk), joined@in.live (Join), home@in.live.live (home), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), postup+share@in.live (Share), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod Adding a new Corne), projects@in.live (Projects), cafe-gfail@in.live (Bean Theory 0.4 mi · 8 min walk (Google card fails))
-   - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--full step 2 (if Found someone), registered-visit--link-ended step 4 (if Could go to this one), registered-visit--report step 2 (if Found someone), desktop-browse step 2 (if Checking one postup)
+   - enterable flows: registered-visit step 2 (if Found someone), registered-visit--cancelled step 2 (if Found someone), registered-visit--ended step 2 (if Found someone), registered-visit--report step 2 (if Found someone), registered-visit--full step 2 (if Found someone), registered-visit--link-ended step 4 (if Could go to this one), desktop-browse step 2 (if Checking one postup)
 
 ## Connected flows [M1025]
 - `registered-visit--builds-project`: branch out at step 2→4, step 3→2; merge in at step 2 (from its step 4), step 3 (from its step 2)
@@ -41,18 +41,18 @@ Player: /mockups/flows/following.html
 - `registered-visit`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `registered-visit--cancelled`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `registered-visit--ended`: branch out at step 5→2; merge in at step 5 (from its step 2)
+- `registered-visit--report`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `registered-visit--full`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `registered-visit--link-ended`: branch out at step 5→4; merge in at step 5 (from its step 4)
-- `registered-visit--report`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `desktop-browse`: branch out at step 5→2; merge in at step 5 (from its step 2)
 - `host-approve`: branch out at step 4→1; merge in at —
 
 ## Screens
-1. `#profile` · auth=in live=none — Follow → Following. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#profile)
-2. `#project` · auth=in live=none — Profile has no tab bar (as in the app), so: project first, then the Projects tab. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#project)
-3. `#projects` · auth=in live=none — Projects → Following filter. [FS] [R32] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#projects)
-4. `#activity` · auth=in live=live — Later: "Maya posted up" alert. [FS] [M1024] Event "someone you follow posts up": the alert lands in Activity and Nearby now has someone live. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#activity)
-5. `#postup` · auth=in live=live — Opens and joins. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#postup)
+1. `#profile` · auth=in live=none — Follow → Following. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#profile)
+2. `#project` · auth=in live=none — Profile has no tab bar (as in the app), so: project first, then the Projects tab. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#project)
+3. `#projects` · auth=in live=none — Projects → Following filter. [FS] [R32] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#projects)
+4. `#activity` · auth=in live=live — Later: "Maya posted up" alert. [FS] [M1024] Event "someone you follow posts up": the alert lands in Activity and Nearby now has someone live. [M1031-draft] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#activity)
+5. `#postup` · auth=in live=live — Opens and joins. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#postup)
 
 ## Branches and edge cases
 - Signed out: Follow → sign-in sheet. [FS]

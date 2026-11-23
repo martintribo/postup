@@ -4,7 +4,7 @@ import { createRequire } from 'module'; import http from 'http'; import fs from 
 const require = createRequire('/workspace/postup-pm/videos/tools/'); const { chromium } = require('playwright-core');
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const OUT = `${ROOT}/flows/pages`; fs.mkdirSync(OUT, { recursive: true });
-const { states, versions } = JSON.parse(fs.readFileSync(`${ROOT}/flows/sitegraph.json`));
+const sg = JSON.parse(fs.readFileSync(`${ROOT}/flows/sitegraph.json`)); const { states, versions, phases } = sg;
 const pick = {}; const rank = k => (k.includes('@in.live') ? 0 : k.includes('@in.') ? 1 : 2) + (k.includes('+') ? 5 : 0) + (k.endsWith('.building') ? 1 : 0);
 for (const [k, s] of Object.entries(states)) if (!pick[s.page] || rank(k) < rank(pick[s.page])) pick[s.page] = k;
 // sheets too (shown open over a host page) for the split explorer's sitemap [M1031-draft]
@@ -20,8 +20,10 @@ for (const [p, k] of Object.entries(pick)) {
   await pg.screenshot({ path: '/tmp/pthumb.png' });
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}.webp`]);
 }
-for (const ph of [1, 0]) for (const p of versions || []) { const k = pick[p]; if (!k) continue;  // phase-1 and phase-0 versions [M1035] [M1037]
+const earlier = ((phases && phases.ids) || []).filter(id => id !== (phases && phases.latest));  // non-latest versions; filename --p<badge> [M1047-draft]
+for (const ph of earlier) for (const p of versions || []) { const k = pick[p]; if (!k) continue;
+  const badge = (phases.badges && phases.badges[ph] != null) ? phases.badges[ph] : ph;
   await pg.goto(base + states[k].url.replace('#', `&notes=0&embed=1&ph=${ph}#`)); await pg.waitForTimeout(350); await pg.screenshot({ path: '/tmp/pthumb.png' });
-  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}--p${ph}.webp`]); }
+  execFileSync('ffmpeg', ['-v', 'error', '-y', '-i', '/tmp/pthumb.png', '-vf', 'scale=180:-1:flags=lanczos', '-quality', '75', `${OUT}/${p}--p${badge}.webp`]); }
 fs.writeFileSync(`${OUT}/states.json`, JSON.stringify(pick, null, 1));
 await b.close(); srv.close(); console.log('pagethumbs', Object.keys(pick).length);

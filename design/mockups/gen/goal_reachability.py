@@ -23,7 +23,7 @@ import model as M
 DEFAULT_CONFIG = MOCKUPS / "validation" / "goal-reachability.toml"
 RUNS_DIR = MOCKUPS / "validation" / "runs"
 MODEL_FILES = [
-    "users.toml", "ways.toml", "goals.toml", "segments.toml", "events.toml", "global.toml",
+    "users.toml", "ways.toml", "goals.toml", "segments.toml", "events.toml", "global.toml", "phases.toml",
 ]
 
 
@@ -48,20 +48,26 @@ def model_fingerprint(root: Path) -> dict:
     return fps
 
 
+def default_config() -> dict:
+    return {
+        "users": ["newcomer", "registered"],
+        "phases": list(M.PIDS),
+        "ways": None,
+        "goals": None,
+        "skips": [],
+    }
+
+
 def load_config(path: Path) -> dict:
+
     import tomllib
     if not path.exists():
-        return {
-            "users": ["newcomer", "registered"],
-            "phases": [0, 2],
-            "ways": None,
-            "goals": None,
-            "skips": [],
-        }
+        return default_config()
     data = tomllib.loads(path.read_text())
+    raw_ph = data.get("phases")
     return {
         "users": list(data.get("users", ["newcomer", "registered"])),
-        "phases": [int(p) for p in data.get("phases", [0, 2])],
+        "phases": [M.pid(p) for p in raw_ph] if raw_ph else list(M.PIDS),
         "ways": data.get("ways"),
         "goals": data.get("goals"),
         "skips": list(data.get("skips", [])),
@@ -69,23 +75,21 @@ def load_config(path: Path) -> dict:
     }
 
 
-def case_id(user: str, way: str, phase: int, goal: str) -> str:
-    return f"{user}/{way}/ph{phase}/{goal}"
+def case_id(user: str, way: str, phase, goal: str) -> str:
+    return f"{user}/{way}/{M.pid(phase)}/{goal}"
 
 
 def path_parts(cid: str) -> dict:
     user, way, ph, goal = cid.split("/")
-    return {"user": user, "way": way, "phase": int(ph[2:]), "goal": goal}
+    return {"user": user, "way": way, "phase": M.pid(ph), "goal": goal}
 
 
-def way_available(way: dict, phase: int) -> bool:
-    wp = way.get("phase")
-    return wp is None or int(wp) <= int(phase)
+def way_available(way: dict, phase) -> bool:
+    return M.in_phase(way, phase)
 
 
-def goal_available(goal: dict, phase: int) -> bool:
-    gp = goal.get("phase")
-    return gp is None or int(gp) <= int(phase)
+def goal_available(goal: dict, phase) -> bool:
+    return M.in_phase(goal, phase)
 
 
 def match_entry(fl, fid, way, auth: str):
@@ -169,7 +173,7 @@ def validate_spread(spread: dict, expected_fp: dict) -> list[str]:
             if key not in c:
                 errs.append(f"case[{i}] missing {key}")
         if "id" in c and "user" in c and "way" in c and "phase" in c and "goal" in c:
-            expect = case_id(c["user"], c["way"], int(c["phase"]), c["goal"])
+            expect = case_id(c["user"], c["way"], c["phase"], c["goal"])
             if c["id"] != expect:
                 errs.append(f"case[{i}] id {c['id']!r} does not match parts ({expect})")
     return errs
@@ -190,7 +194,13 @@ def skip_matches(case: dict, skip_path: str) -> bool:
     parts = [p for p in skip_path.strip("/").split("/") if p]
     if not parts:
         return False
-    cid_parts = [case["user"], case["way"], f"ph{case['phase']}", case["goal"]]
+    cid_parts = [case["user"], case["way"], M.pid(case["phase"]), case["goal"]]
+    # resolve a phase alias in the skip (ph0, 0, pre-mvp, ...)
+    try:
+        if len(parts) >= 3:
+            parts = parts[:2] + [M.pid(parts[2])] + parts[3:]
+    except (ValueError, TypeError):
+        return False
     if len(parts) > 4:
         return False
     return cid_parts[: len(parts)] == parts
@@ -219,8 +229,10 @@ def apply_skips(cases: list[dict], skips: list[dict], WAYS, US, GS) -> tuple[lis
             unknown.append({"path": s["path"], "error": f"unknown way {parts[1]!r}"})
             continue
         if len(parts) >= 3:
-            if not parts[2].startswith("ph") or not parts[2][2:].isdigit():
-                unknown.append({"path": s["path"], "error": f"phase segment must look like ph0/ph2, got {parts[2]!r}"})
+            try:
+                M.pid(parts[2])
+            except (ValueError, TypeError):
+                unknown.append({"path": s["path"], "error": f"unknown phase {parts[2]!r} (use a phases.toml id or alias like ph0)"})
                 continue
         if len(parts) >= 4 and parts[3] not in known_goals:
             unknown.append({"path": s["path"], "error": f"unknown goal {parts[3]!r}"})
@@ -247,7 +259,7 @@ def apply_skips(cases: list[dict], skips: list[dict], WAYS, US, GS) -> tuple[lis
 def has_goal_path(fl, ks, goal_id: str, phase: int) -> bool:
     for k in ks:
         f = fl[k]
-        if M.flow_phase(f) > phase:
+        if not M.in_phase(f, phase):
             continue
         if f.get("result") == f"goal:{goal_id}":
             return True
@@ -265,7 +277,7 @@ def goal_exception(fl, fid, entry: str, goal_id: str):
 def check_case(sc, fl, US, WAYS, GS, case: dict) -> dict:
     user = case["user"]
     way_id = case["way"]
-    phase = int(case["phase"])
+    phase = M.pid(case["phase"])
     goal_id = case["goal"]
     ud = US[user]
     fid = ud["main_flow"]
@@ -274,10 +286,10 @@ def check_case(sc, fl, US, WAYS, GS, case: dict) -> dict:
     out = {**case, "flow": fid}
 
     if not way_available(way, phase):
-        out.update(status="skipped", skip_reason=f"way {way_id} starts at phase {way.get('phase')}, not available in phase {phase}")
+        out.update(status="skipped", skip_reason=f"way {way_id} starts at {way.get('since')}, not available in phase {phase}")
         return out
     if not goal_available(goal, phase):
-        out.update(status="skipped", skip_reason=f"goal {goal_id} starts at phase {goal.get('phase')}, not available in phase {phase}")
+        out.update(status="skipped", skip_reason=f"goal {goal_id} starts at {goal.get('since')}, not available in phase {phase}")
         return out
     if user not in way.get("users", []):
         out.update(status="skipped", skip_reason=f"way {way_id} is not for user {user}")

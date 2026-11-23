@@ -1,5 +1,5 @@
-# PostUp mockup model (Martin, Oct 27 2026 [M1030]): loader + state resolver shared by validate.py (and, in phase 2, the generator).
-# Files: model/screens/<id>.toml, model/flows/<id>.toml, model/events.toml, model/global.toml. Plain TOML (stdlib tomllib).
+# PostUp mockup model (Martin, Oct 27 2026 [M1030]): loader + state resolver shared by validate.py and the generator.
+# Files: model/screens/<id>.toml, model/flows/<id>.toml, model/events.toml, model/global.toml, model/phases.toml. Plain TOML.
 import tomllib, os, re, glob
 ROOT=os.environ.get('MODEL_ROOT') or os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','model')
 SLOT_KINDS={'sheet','modal','drawer','panel','tab'}
@@ -8,13 +8,89 @@ SCREEN_KINDS={'page','sheet','modal','drawer','panel','tab'}
 DEVICES={'phone','desktop'}
 ROLES={'joiner','host','account','visitor'}
 STATUSES={'martin','draft'}
-DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building'),'phase':('0','1','2')}
-# View phase [M1035]: a site-state dimension like auth, but not part of the state id. A phase-N flow walks phase-N screen
-# versions; untagged flows and the 'All' view use the latest phase (MAXPH). Conditions: phase=1, phase>=2, phase<=1.
-PHASES=(0,1,2); MAXPH=max(PHASES)  # phase 0 = smallest MVP [M1037]
-def vp(ph): return MAXPH if ph is None else ph  # None = untagged -> latest; 0 is a real phase [M1037]
-TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042|M1043|M1044|M1045|M1046)\]'
+DIMS={'auth':('in','out'),'live':('live','none'),'tab':('live','building')}
+# View phase [M1035] [M1047-draft]: a dimension like auth, but not part of the state id. Phase ids and order
+# live in model/phases.toml. An item may set since= / until= (inclusive phase ids); untagged = every phase.
+# A flow is walked in its `since` phase if set, otherwise the latest phase. The "All" UI view renders the latest phase.
+TAG=r'\[(F\d{3}|FS|TK§\d|R\d+⚠?|drawn|unsourced|M1018[bc]?|M1024|M1025|M1030|M1031-draft|M1032|M1033|M1034|M1035|M1036|M1037|M1038|M1039|M1040|M1041|M1042|M1043|M1044|M1045|M1046|M1047-draft|M1047)\]'
+
+# ---- phases.toml [M1047-draft] ----
+PHASES=[]; PBY={}; PIDS=[]; LATEST=None; PEXCEPT=[]; PHASES_FILE=None; ALIAS={}
+def load_phases(root=ROOT):
+    """Ordered phases, exceptions, and the file path. Omitted deliverable/rules inherit the previous phase."""
+    p=os.path.join(root,'phases.toml')
+    d=tomllib.load(open(p,'rb')) if os.path.exists(p) else {'phases':[]}
+    phases=list(d.get('phases') or [])
+    prev=None
+    for ph in phases:
+        inh=dict(prev['deliverable']) if prev and prev.get('deliverable') else {}
+        if 'deliverable' not in ph and inh: ph['deliverable']=inh
+        elif 'deliverable' in ph and inh:
+            ph['deliverable']=dict(inh, **{k:ph['deliverable'][k] for k in ph['deliverable']})
+        prev=ph
+    return phases, list(d.get('exceptions') or []), p
+def init_phases(root=ROOT):
+    """Load phase ids, aliases (including 0/ph0 and the badge), and latest = last in the file."""
+    global PHASES,PBY,PIDS,LATEST,PEXCEPT,PHASES_FILE,ALIAS
+    PHASES,PEXCEPT,PHASES_FILE=load_phases(root)
+    PIDS=[x['id'] for x in PHASES]; PBY={x['id']:x for x in PHASES}
+    LATEST=PIDS[-1] if PIDS else None
+    ALIAS={}
+    for i,x in enumerate(PHASES):
+        ALIAS[x['id']]=x['id']
+        for a in list(x.get('aliases') or [])+[str(i), x.get('badge'), f"ph{i}", f"p{x.get('badge',i)}"]:
+            if a is not None and str(a) not in ALIAS: ALIAS[str(a)]=x['id']
+    return PHASES
+def pid(val, default=None):
+    """Resolve a phase id or alias. None -> default (typically LATEST for a view, never for availability)."""
+    if val is None: return default
+    s=str(val)
+    if s not in ALIAS: raise ValueError(f'unknown phase {val!r}')
+    return ALIAS[s]
+def pindex(val):
+    return PIDS.index(pid(val, LATEST))
+def phase_label(val):
+    ph=PBY.get(pid(val, LATEST), {})
+    return ph.get('label') or (pid(val, LATEST) or '')
+def phase_badge(val):
+    if val is None: return None
+    return PBY[pid(val)].get('badge')
+def in_phase(item, ph):
+    """True if item (dict with optional since/until) is available in phase ph. Untagged = every phase."""
+    try:
+        ph=pid(ph)
+    except ValueError:
+        return False
+    if ph not in PIDS: return False
+    i=PIDS.index(ph)
+    s,u=item.get('since'), item.get('until')
+    try:
+        if s is not None and PIDS.index(pid(s))>i: return False
+        if u is not None and PIDS.index(pid(u))<i: return False
+    except ValueError:
+        return False
+    return True
+
+
+def walk_phase(item):
+    """Phase version a flow/outcome is walked in: its since, or the latest phase if untagged [M1047-draft]."""
+    return pid(item.get('since'), LATEST)
+def phase_rules(ph):
+    d=(PBY.get(pid(ph, LATEST)) or {}).get('deliverable') or {}
+    return list(d.get('rules') or [])
+def phase_goals(ph):
+    d=(PBY.get(pid(ph, LATEST)) or {}).get('deliverable') or {}
+    return list(d.get('goals') or [])
+def has_rule(ph, rule):
+    return rule in phase_rules(ph)
+def vp(ph):
+    """View phase: None or 'all' -> latest phase id (the All view renders latest)."""
+    if ph is None or str(ph) in ('all','','latest'): return LATEST
+    return pid(ph)
+init_phases(ROOT)
+
 def load(root=ROOT):
+    init_phases(root)
     sc={}; fl={}
     for p in sorted(glob.glob(f'{root}/screens/*.toml')):
         d=tomllib.load(open(p,'rb')); d['_file']=p; sc[d['id']]=d
@@ -83,7 +159,7 @@ def reach(sc,seeds,phase,limit=4000):
     seen={}; q=[]
     for k in seeds:
         st=dict(parse_key(k),device='phone',phase=phase,cont=None)
-        if st['root']=='home': st['tab']=st['tab'] if phase>=2 or st['tab']=='live' else 'live'
+        if st['root']=='home': st['tab']=st['tab'] if not has_rule(phase,'no-building-mode') or st['tab']=='live' else 'live'
         q.append(st)
     while q and len(seen)<limit:
         cur=q.pop(); k=key(cur)
@@ -116,14 +192,17 @@ def goal_reachable(sc,fl,ks,g,phase):
     R=sorted(reach(sc,seeds,phase)); hit=None
     for m in g['ms']:  # every milestone with its own screens must be reachable (not just the last one) [M1043]
         if m.get('_shared') or not (m.get('states') or m.get('shows')): continue
-        hit=next((r for r in R if any(fnmatch.fnmatchcase(r,p) for p in m.get('states',[])) or shows(r,m.get('shows'))),None)
+        hit=next((r for r in R if any(fnmatch.fnmatchcase(r,p) for p in m.get('states',[])) or shows(r,m.get('shows'),phase)),None)
         if not hit: return None
     return hit
 def entry_phase(fl,ks,goal,flow):
-    """Phase to check a goal for an entry: the goal's phase (or the flow's), but no lower than the entry's own phase [M1044]."""
-    gp=vp(goal.get('phase')) if goal.get('phase') is not None else flow_phase(flow)
-    return max(gp,min(flow_phase(fl[k]) for k in ks))
-def M_phase_ok(f,phase): return flow_phase(f)<=phase
+    """Phase id to check a goal for an entry: the goal's since (or the flow's walk phase), no earlier than the entry's own since [M1044] [M1047-draft]."""
+    gp=pid(goal.get('since'), flow_phase(flow))
+    ev=min((pindex(flow_phase(fl[k])) for k in ks), default=pindex(flow_phase(flow)))
+    return PIDS[max(pindex(gp), ev)]
+def M_phase_ok(f,phase):
+    """True if this flow/outcome path is available in the check phase (since/until, or untagged = all)."""
+    return in_phase(f, phase)
 def expand_outcomes(f):
     """Flow outcomes [M1040]. A flow may end in more than one way: [[outcomes]] each have id, label, at (steps 1..at are shared
     with the path it branches from), when (what triggers it, source-tagged), optional phase, situation and aliases, and
@@ -140,14 +219,15 @@ def expand_outcomes(f):
                  outcome=o.get('label',''),outcome_when=o.get('when',''),outcome_at=o['at'],outcome_from=o.get('from'),aliases=o.get('aliases',[]),edge_cases=[],decide=[],
                  success=o.get('success',[]),start=o['start'] if o['at']==0 and 'start' in o else bstart)
         g['result']=o.get('result')  # typed outcome [M1042]
-        if 'phase' in o: g['phase']=o['phase']
+        if 'since' in o: g['since']=o['since']
+        if 'until' in o: g['until']=o['until']
         if 'situation' in o: g['situation']=o['situation']
         paths[o['id']]=(g['steps'],g['start'])
         out[g['id']]=g
     return out
 def parse_when(w):
     """'auth=out,live=none; auth=in' -> list of dicts (alternatives). '' -> [{}] (always).
-    Phase may use >= or <= ('phase>=2' -> {'phase': '>=2'}); other keys use = only. [M1035]"""
+    Keys use = only. Phase bounds belong on since=/until=, not in when. [M1047-draft]"""
     if not w: return [{}]
     out=[]
     for alt in w.split(';'):
@@ -165,13 +245,13 @@ def _ok(cur,v):
         return c>=n if v[:2]=='>=' else c<=n
     return cur is not None and str(cur)==v
 def matches(w,st):
-    st=dict(st); st.setdefault('phase',MAXPH)
+    """when= conditions (auth/live/tab). Phase availability is in_phase(), not when. [M1047-draft]"""
     return any(all(_ok(st.get(k),v) for k,v in alt.items()) for alt in parse_when(w))
 # A site state: root screen + open child (slot, screen) chain + conditions. Kept flat for the current depth (page + one sheet)
 # but resolve() walks children generically. dict(root=, kids=[(slot,screen),...], auth=, live=, tab=)
 def key(st): return st['root']+''.join('+'+c for _,c in st['kids'])+f"@{st['auth']}.{st['live']}"+(f".{st['tab']}" if st['root']=='home' else '')
 def top(st): return st['kids'][-1][1] if st['kids'] else st['root']
-def dmode(l,ph=None): return 'live' if l=='live' or vp(ph)<2 else 'building'  # phase 1 has no Building mode [M1035]
+def dmode(l,ph=None): return 'live' if l=='live' or has_rule(ph, 'no-building-mode') else 'building'  # named rule [M1047-draft]
 def apply_sets(st,sets):
     for kv in (sets or '').split(','):
         if '=' in kv:
@@ -182,7 +262,9 @@ def resolve(sc,st,link,owner=None):
     'open' may carry then=<page>: the opened child remembers it (st['cont']); a child link with continue=true then
     replaces the root with that page instead of just closing (the signin sheet's continuation, [M1031-draft])."""
     owner=owner or top(st)
-    cond=dict(auth=st['auth'],live=st['live'],tab=st.get('tab'),phase=vp(st.get('phase')))
+    ph=vp(st.get('phase'))
+    cond=dict(auth=st['auth'],live=st['live'],tab=st.get('tab'),phase=ph)
+    if not in_phase(link, ph): return None
     if not matches(link.get('when',''),cond): return None
     n=dict(st,kids=list(st['kids'])); n['cont']=None; a=link['action']; to=link.get('to')
     if a=='close' and link.get('continue') and st.get('cont'): a='replace'; to=st['cont']
@@ -219,7 +301,9 @@ def chrome(sc,st):
     return [c for x in sc[st['root']].get('slots',[]) if x['kind'] in ('tab','panel') and x.get('device',dev)==dev for c in x.get('accepts',[])]
 def available(sc,st):
     """(owner, link) pairs the user can take: the top screen's links, then chrome links (tab bar, desktop rail)."""
-    t=top(st); return [(t,l) for l in sc[t].get('links',[])]+[(c,l) for c in chrome(sc,st) for l in sc[c].get('links',[])]
+    ph=vp(st.get('phase')); t=top(st)
+    out=[(t,l) for l in sc[t].get('links',[]) if in_phase(l,ph)]+[(c,l) for c in chrome(sc,st) for l in sc[c].get('links',[]) if in_phase(l,ph)]
+    return out
 def find_link(sc,st,ref):
     """'screen:id' -> (owner, link alternatives with that id) if that screen is on top or in chrome now."""
     own,_,lid=ref.partition(':')
@@ -228,7 +312,7 @@ def find_link(sc,st,ref):
 def rendered_id(s,auth,live,tab,phase=None):
     """HTML element id that renders screen s in these conditions: first matching 'variants' entry, else the screen id.
     Variant keys may name the phase, e.g. "phase=1" or "phase=1,auth=out" [M1035]."""
-    c=dict(auth=auth,live=live,tab=tab,phase=vp(phase))
+    c=dict(auth=auth,live=live,tab=tab,phase=vp(phase))  # variants may still mention phase only if migrated; phase is the view id
     for w,hid in (s.get('variants') or {}).items():
         if matches(w,c): return hid
     return s['id']
@@ -250,7 +334,7 @@ def cond_link(cur,l,cond):
     if l.get('to')==_c[0]: return cur,dict(l,to=_c[1])
     if l.get('continue') and cur.get('cont')==_c[0]: return dict(cur,cont=_c[1]),l
     return cur,l
-def flow_phase(f): return vp(f.get('phase'))  # the phase version a flow walks [M1035]
+def flow_phase(f): return walk_phase(f)  # since, or latest if untagged [M1047-draft]
 def flow_states(sc,f):
     """Replay a flow; return the list of (state-key, screens on it) per step (assumes it validates)."""
     s0=f['start']; cur=dict(device=s0.get('device','phone'),root=s0['screen'],kids=[('sheet',s0['sheet'])] if s0.get('sheet') else [],auth=s0['auth'],live=s0['live'],tab=s0.get('tab') if s0['screen']=='home' else None,phase=flow_phase(f))
@@ -273,21 +357,10 @@ def parse_key(k):
     m=re.fullmatch(r'([\w-]+)(?:\+([\w-]+))?@(in|out)\.(live|none)(?:\.(live|building))?',k)
     p,o,a,l,t=m.groups(); return dict(root=p,kids=[('sheet',o)] if o else [],auth=a,live=l,tab=(t or dmode(l)) if p=='home' else None)
 def phases(sc,fl,gl):
-    """Phase classification [M1031-draft]. Explicit: flow 'phase', screen 'phase', state overrides (global.toml [state_phases],
-    screen [state_phases]). Derived: a screen/state on a phased flow gets the lowest such flow phase unless tagged. Untagged = None."""
-    FP={k:f.get('phase') for k,f in fl.items()}
-    SO=dict(gl.get('state_phases',{}))
-    for s in sc.values(): SO.update(s.get('state_phases',{}))
-    SP={k:s.get('phase') for k,s in sc.items()}; STP={}; SRC={}
-    for fid,f in fl.items():
-        ph=FP[fid]
-        if ph is None: continue
-        for k,scs in flow_states(sc,f):
-            STP[k]=min(ph if STP.get(k) is None else STP[k],ph)
-            for s in scs:
-                if sc[s].get('phase') is None: SP[s]=min(ph if SP.get(s) is None else SP[s],ph)
-    STP.update(SO)
-    return FP,SP,STP
+    """since (or None = all phases) per flow and per screen. No derived-from-flows classification [M1047-draft]."""
+    FP={k:f.get('since') for k,f in fl.items()}
+    SP={k:s.get('since') for k,s in sc.items()}
+    return FP,SP,{}
 def load_situations(root=ROOT):
     p=f'{root}/situations.toml'
     d=tomllib.load(open(p,'rb')) if os.path.exists(p) else {'situations':[]}
@@ -311,13 +384,13 @@ def _load_goals(root=ROOT):
     for g in d.get('goals',[]):
         g=dict(g); g['ms']=[dict(sh.get(m['id'],{}),_shared=True,**m) if m.get('id') in sh and len(m)==1 else m for m in g.get('milestones',[])]; gs[g['id']]=g
     return gs,sh,p
-def shows(key,refs):
-    """True if the site state shows one of these links ('screen:id') on its top screen or chrome (tab bar) [M1044]."""
+def shows(key,refs,phase=None):
+    """True if the site state shows one of these links ('screen:id') on its top screen or chrome (tab bar) [M1044].
+    Evaluated in `phase` (default: latest). [M1047-draft]"""
     if not _SC or not refs: return False
-    try: st=dict(parse_key(key),device='phone',phase=MAXPH,cont=None)
+    try: st=dict(parse_key(key),device='phone',phase=vp(phase),cont=None)
     except Exception: return False
-    cond=dict(auth=st['auth'],live=st['live'],tab=st.get('tab'),phase=MAXPH)
-    return any(f'{o}:{l["id"]}' in refs and matches(l.get('when',''),cond) for o,l in available(_SC,st))
+    return any(f'{o}:{l["id"]}' in refs for o,l in available(_SC,st))
 def step_hits(gs,key,adv=None):
     """Milestone ids this step reaches: by state pattern, by a link the state shows (shows = [...]) [M1044], or advances."""
     out=set()
@@ -338,3 +411,41 @@ def progress(gs,keys,advs,held=()):
                 if mid in h and j>p[gid] and mid!='signed-up': skips.append((i,gid,mid,ids[p[gid]]))
         out.append(dict(p))
     return out,skips
+
+
+def ph_attr(item):
+    """data-ph value: space-separated ids the item is available in, or 'all' if untagged."""
+    if item.get('since') is None and item.get('until') is None:
+        return 'all'
+    return ' '.join(p for p in PIDS if in_phase(item, p))
+
+def drop_classes(ph):
+    """HTML class names not rendered in this view phase."""
+    ph=pid(ph, LATEST); i=pindex(ph); d=[]
+    for x in PIDS:
+        if pindex(x)>i: d.append(f'since-{x}')
+        if pindex(x)<i: d.append(f'until-{x}')
+        if x!=ph: d.append(f'only-{x}')
+    return tuple(d)
+
+def visibility_css():
+    """CSS so html[data-vph=<id>] hides since-/until-/only- classes not in that phase [M1047-draft]."""
+    lines=['/* generated from phases.toml [M1047-draft] */']
+    for ph in PIDS:
+        for cls in drop_classes(ph):
+            lines.append(f'html[data-vph="{ph}"] .{cls}{{display:none!important}}')
+    return '\n'.join(lines)
+
+def tabbar_cols_css(sc):
+    """Tab bar column count per phase, from how many tabbar links are available."""
+    tb=sc.get('tabbar') or {}
+    lines=[]
+    for ph in PIDS:
+        n=sum(1 for l in tb.get('links') or [] if in_phase(l, ph))
+        if n:
+            lines.append(f'html[data-vph="{ph}"] .tab.t5{{grid-template-columns:repeat({n},1fr)}}')
+    return '\n'.join(lines)
+
+def js_phase_config():
+    return dict(ids=list(PIDS), latest=LATEST, labels={x['id']:x.get('label') or x['id'] for x in PHASES},
+                badges={x['id']:x.get('badge') for x in PHASES}, aliases=dict(ALIAS))

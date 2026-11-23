@@ -39,12 +39,11 @@ class LP(HTMLParser):
         if s.skip: return
         if s.st: s.st[-1][2]+=d
 TABNAV=re.compile(r'<nav class="tab[^"]*">.*?</nav>',re.S)
-# classes not rendered in each phase [M1037]: p0only = phase 0 only, p1up = phase 1+, p1only = phase <=1, p2only = phase 2+
-DROP={0:('p2only','p1up'),1:('p2only','p0only'),2:('p1only','p0only')}
+# classes not rendered in each phase come from model.drop_classes (since-/until-/only-*) [M1047-draft]
+import model as _PM
 def links(chunk,ids,phase=None,auth=None):
-    """phase=1 drops .p2only elements, phase>=2 drops .p1only (the per-phase HTML versions [M1035]); auth drops the other
-    scenario's .only-in / .only-out elements (gen/scen.js hides them) [M1044]."""
-    d=tuple(DROP[phase]) if phase is not None else ()
+    """Drop CSS classes not visible in this view phase; auth drops the other scenario's .only-in / .only-out [M1044]."""
+    d=tuple(_PM.drop_classes(phase)) if phase is not None else ()
     if auth: d+=('only-in',) if auth=='out' else ('only-out',)
     p=LP(ids,d or None); p.feed(chunk); return p.out
 SIGNOUT=re.compile(r'sign out|delete',re.I)

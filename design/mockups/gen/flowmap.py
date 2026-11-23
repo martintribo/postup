@@ -32,23 +32,23 @@ while st:
         if n not in seen: seen.add(n); st.append(n)
 assert all(s in seen for s,_,_ in BADGES), [s for s,_,_ in BADGES if s not in seen]
 def mq(t): return t.replace('"','#quot;')
-M=['flowchart LR']
+ML=['flowchart LR']
 def node(i,t,c):
     o,cl=('((','))') if c=='root' else ('(',')')
     return '  '+i+o+'"'+mq(t)+'"'+cl
-M+=[node(*x) for x in STATES]
-M+=[f'  {a} -->|"{mq(t)}"| {b}' for a,b,t in EDGES]
+ML+=[node(*x) for x in STATES]
+ML+=[f'  {a} -->|"{mq(t)}"| {b}' for a,b,t in EDGES]
 for s,fid,cond in BADGES:
     f=FB[fid]; bid='F_'+fid.replace('-','_')
     lab=('|"'+mq(cond)+'"|') if cond else ''
-    M.append('  '+s+' -.->'+lab+' '+bid+'(["▶ '+mq(f['name'])+'"])')
-    M.append(f'  click {bid} href "{fid}.html" "Open the {mq(f["name"])} player"')
-    M.append(f'  class {bid} {"nice" if f["phase"] is None else "must"}')
-M+=[f'  class {i} {c}' for i,_,c in STATES]
-M+=['  classDef root fill:#0f7a4f,color:#fff,stroke:#0b5c3b,stroke-width:3px','  classDef out fill:#fff,color:#232322,stroke:#8a8984,stroke-width:2px',
+    ML.append('  '+s+' -.->'+lab+' '+bid+'(["▶ '+mq(f['name'])+'"])')
+    ML.append(f'  click {bid} href "{fid}.html" "Open the {mq(f["name"])} player"')
+    ML.append(f'  class {bid} {"nice" if not f.get("since") and not f.get("phase") else "must"}')
+ML+=[f'  class {i} {c}' for i,_,c in STATES]
+ML+=['  classDef root fill:#0f7a4f,color:#fff,stroke:#0b5c3b,stroke-width:3px','  classDef out fill:#fff,color:#232322,stroke:#8a8984,stroke-width:2px',
     '  classDef in fill:#e6f4ec,color:#0b4a30,stroke:#10a364,stroke-width:2px','  classDef any fill:#fff3d6,color:#5c3d00,stroke:#c48a00,stroke-width:2px',
     '  classDef must fill:#10a364,color:#fff,stroke:#0b5c3b','  classDef nice fill:#eceae4,color:#33332f,stroke:#8a8984']
-MSRC='\n'.join(M)
+MSRC='\n'.join(ML)
 MAPHEAD='Flow map (Martin, Oct 25 2026 [M1025]): a state machine from a first-time visitor (signed out, never registered) to the starting point of every critical flow. User states are grouped into four boxes, left to right: Arrive (first-time visitors split by intent: stumbled on it, curious about content, came to post up, opened a share link), Signed out browsing, Signed in, Doing something. Arrows are events or conditions (dashed = going back). Each flow’s badge sits inside the state where it starts (green = MVP must, grey = nice) and opens the flow player. All '+str(len(FLOWS))+' flows are reachable from the root.'
 # ---- grouped, hand-placed layout (Martin, Oct 25: "box the nodes into high level boxes" [M1025]) ----
 GROUPS=[('arrive','1 · Arrive (by intent)',['V0','IST','ICU','IPO','ILK','OFF']),('out','2 · Signed out, browsing',['SL','SN','SPO','SLK','SEN','SPJ']),
@@ -62,7 +62,7 @@ SHORT={('V0','IST'):'',('V0','ICU'):'',('V0','IPO'):'',('V0','ILK'):'',('V0','OF
 assert set(SHORT)=={(a,b) for a,b,_ in EDGES}
 SN_={i:t for i,t,_ in STATES}
 def badge(fid,cond):
-    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"nice" if f["phase"] is None else "must"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
+    f=FB[fid]; return f'<div class="bdw" data-mvpf="{fid}">{mvpc(fid)}<a class="bd {"nice" if not f.get("since") and not f.get("phase") else "must"}" href="{fid}.html" title="{H.escape(f["pri"])}{" · when "+H.escape(cond) if cond else ""}">▶ {H.escape(f["name"])}{"<small>"+H.escape(cond)+"</small>" if cond else ""}</a></div>'
 def card(i):
     c=dict((x,c) for x,_,c in STATES)[i]; bs=''.join(badge(fid,cond) for s,fid,cond in BADGES if s==i)
     return f'<div class="st {c}" id="st-{i}"><div class="sn">{SN_[i]}</div>{"<div class=bds>"+bs+"</div>" if bs else ""}</div>'

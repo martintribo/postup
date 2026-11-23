@@ -6,7 +6,14 @@ SITS,_=_MOD.load_situations()
 _UD=_MOD.load_users()  # user types are data (users.toml) [M1044]
 UT=[(u,d.get('label',u),d.get('sub','')) for u,d in _UD.items()]
 _TINT=['#e8f5ee','#e9f0fb','#fdf1e4','#f3ecfb','#fbeef1','#eaf6f6','#eef1f4','#f4f1e8']
-def _fbtn(f): return f'<a class="fb" data-ph="{"n" if f["phase"] is None else f["phase"]}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f["phase"])}{ocb(f)}<i>{len(f["steps"])} steps</i></a>'
+def _sid(p):
+    if p is None or p=='': return None
+    try: return _MOD.pid(p)
+    except Exception: return None
+def _earliest(ps):
+    ids=[_sid(p) for p in ps]; ids=[p for p in ids if p]
+    return min(ids, key=_MOD.pindex) if ids else None
+def _fbtn(f): return f'<a class="fb" data-ph="{_dph(f)}" href="{f["id"]}.html" title="{H.escape(f["persona"])}">{H.escape(f["name"])}{p1b(f.get("since"))}{ocb(f)}<i>{len(f["steps"])} steps</i></a>'
 _lanes=''
 for u,ut,usub in UT:
     cards=''; n=0
@@ -14,10 +21,10 @@ for u,ut,usub in UT:
         inner=''; gph=None
         for sid,x in [(k,v) for k,v in SITS.items() if v['user']==u and v['group']==gid]:
             fs=[f for f in FLOWS if f['situation']==sid and (not f['parent'] or FBY[f['parent']]['situation']!=sid)]  # an outcome listed under another situation shows there too [M1040]
-            _ps=[p for p in [x.get('phase')]+[f['phase'] for f in fs] if p is not None]; ph=min(_ps) if _ps else None; gph=min([p for p in (gph,ph) if p is not None] or [None]) if (gph is not None or ph is not None) else None  # 0 is phase 0, None = unphased [M1037]
+            ph=_earliest([x.get('since') or x.get('phase')]+[f.get('since') for f in fs]); gph=_earliest([gph,ph])
             btns=''.join(_fbtn(f) for f in fs) or '<span class="nof">No flow yet</span>'
-            inner+=f'<section class="sit" data-ph="{"n" if ph is None else ph}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
-        if inner: cards+=f'<div class="grp" data-ph="{"n" if gph is None else gph}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
+            inner+=f'<section class="sit" data-ph="{_MOD.ph_attr({"since":ph})}" id="s-{sid}" style="--t:{_TINT[n%len(_TINT)]}"><h3>{H.escape(x["title"])}{p1b(ph)}</h3><p>{esc(x["setting"])}</p><div class="fbs">{btns}</div></section>'; n+=1
+        if inner: cards+=f'<div class="grp" data-ph="{_MOD.ph_attr({"since":gph})}" id="g-{u}-{gid}"><h2>{H.escape(g["title"])}</h2>{inner}</div>'
     nf=sum(1 for f in FLOWS_TOP if f['user']==u)
     _lanes+=f'<div class="lane" id="{u}"><div class="root"><b>{ut}</b><span>{usub}</span><span class="cnt">{sum(1 for v in SITS.values() if v["user"]==u)} situations · {nf} flows</span>{f'<a class="gl" href="graph.html#{_UD[u]["main_flow"]}">{H.escape(_UD[u]["label"])} graph →</a><a class="gl" href="walk.html#user={u}">Walk through →</a>' if _UD.get(u,{}).get("main_flow") else ""}</div><div class="sits">{cards}</div></div>'
 SMCSS='''.lane[hidden]{display:none!important}.mb{position:sticky;top:0;z-index:5;background:rgba(244,243,239,.96);border-bottom:1px solid #e4e2dc;padding:9px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}.mb b{font-size:16px}

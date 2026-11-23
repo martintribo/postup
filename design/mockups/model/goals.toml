@@ -37,7 +37,7 @@ milestones = [
 id = "project"
 label = "Project"
 color = "#7c3aed"
-phase = 2  # projects are phase 2 [M1034]
+since = "mvp"  # projects are phase 2 [M1034]
 likely = "Most likely: following project content, since it doesn't need them to go anywhere now. [M1042]"
 milestones = [
   { id = "saw-projects", label = "Saw projects", states = ["home@*.building", "projects@*"], shows = ["home:building", "tabbar:projects", "invite:star-fox-64-mod", "quiet-feed:star-fox-64-mod", "cafe:star-fox-64-mod", "live:star-fox-64-mod", "joined:project"], note = "Building mode, the projects list, or any screen that shows a project link (shared postup, Nearby, a cafe, hosting, joined). [M1018b] [M1042] [M1043] [M1044]" },

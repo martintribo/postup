@@ -1,0 +1,64 @@
+# Ordered mockup phases [M1047-draft].
+# The order of [[phases]] blocks is the order of the product. Ids are stable
+# strings; insert a new block to add a chunk without renaming existing ids.
+# An item (screen, way, goal, flow, outcome, link, event) may name
+#   since = "<id>"   # first phase that includes it (inclusive)
+#   until = "<id>"   # last phase that includes it (inclusive)
+# Untagged means every phase, including flows.
+# The "All" view in the mockup UI lists every item and renders the latest
+# phase (the last block in this file). [M1047-draft]
+#
+# A newly inserted phase that omits deliverable or rules inherits those
+# of the previous phase. An empty add/hide/replace means "same as previous."
+
+[[phases]]
+id = "smallest"
+label = "Phase 0 (smallest)"
+badge = "0"
+aliases = ["0", "ph0", "p0"]
+add = []
+hide = []
+replace = []
+deliverable = { goals = ["posted-up", "joined-postup"], rules = ["no-share", "no-inbox", "no-chat", "no-leave", "no-projects", "no-ask-to-join", "no-building-mode", "no-size-limit"] }
+
+[[phases]]
+id = "pre-mvp"
+label = "Phase 1 (pre-MVP)"
+badge = "1"
+aliases = ["1", "ph1", "p1"]
+add = ["share", "inbox", "chat", "leave", "invite", "invite-ended", "postup-full", "link-live", "link-ended", "postup-fills"]
+hide = []
+replace = [
+  { of = "tabbar", note = "Inbox tab appears. [M1037]" },
+]
+deliverable = { goals = ["posted-up", "joined-postup"], rules = ["no-projects", "no-ask-to-join", "no-building-mode"] }
+
+[[phases]]
+id = "mvp"
+label = "Phase 2 (MVP)"
+badge = "2"
+aliases = ["2", "ph2", "p2"]
+add = ["activity", "ask", "invite-project", "postup-ask", "project", "project-attach", "project-new", "project-update", "projects", "requested", "ask-join", "host-approve", "alert-arrives", "followed-goes-live"]
+hide = []
+replace = [
+  { of = "inbox", note = "One list becomes Chats | Activity tabs. [M1033] [M1035]" },
+  { of = "home", note = "Live | Building switch and project tags appear. [M1035]" },
+  { of = "quiet-feed", note = "Recently nearby is replaced by project updates. [M1035]" },
+  { of = "tabbar", note = "Projects tab appears. [M1035]" },
+]
+deliverable = { goals = ["posted-up", "joined-postup", "project"], rules = [] }
+
+# Ways available in the smallest phase whose documented stories start later.
+# The way itself is valid (you can already be hosting or joined); the path
+# "Extends, then ends" / "Leaves the postup" needs pre-mvp UI. [M1047-draft]
+[[exceptions]]
+check = "way-path-in-phase"
+item = "hosting"
+since = "smallest"
+reason = "The already-hosting way is valid in any phase (a live host can return). The modeled path is Extends, then ends, which needs extend and leave from pre-mvp, so earlier phases have the way but not that path. The posted-up goal is already held on arrival. [M1047-draft] [M1037] [M1044]"
+
+[[exceptions]]
+check = "way-path-in-phase"
+item = "joined"
+since = "smallest"
+reason = "The already-joined way is valid in any phase (a joiner can return). The modeled path is Leaves the postup, which needs leave from pre-mvp, so earlier phases have the way but not that path. The joined-postup goal is already held on arrival. [M1047-draft] [M1037] [M1044]"

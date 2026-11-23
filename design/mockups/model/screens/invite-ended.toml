@@ -2,7 +2,7 @@
 id = "invite-ended"
 title = "Share link · ended"
 kind = "page"
-phase = 1  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
+since = "pre-mvp"  # no share links in phase 0 (Martin, Nov 1 2026) [M1046]
 group = "Share-link landings"
 entry = true
 slots = [

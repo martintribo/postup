@@ -7,7 +7,7 @@ OVHOST={o:NOTES['ov-'+o]['host'] for o in re.findall(r'id="ov-([\w-]+)"',OVS)}
 ids=set()
 for f in FLOWS:
     assert f['id'] not in ids, f['id']; ids.add(f['id'])
-    assert f['pri'] in ('Phase 0','Phase 1','Phase 2 (MVP)','Unphased') and f['status'] in ('martin','draft')
+    assert f['status'] in ('martin','draft')
     texts=[f['goal']]+[s[4] for s in f['steps']]+f['branches']+f['success']+f['decide']
     for t in texts:
         if not tags(t): raise SystemExit(f'flows: untagged line in {f["id"]}: {t}')
@@ -30,20 +30,33 @@ def conn_rows(fid):
     for i,h,j in c['inn']: g.setdefault(h,{'out':[],'inn':[]})['inn'].append((i+1,j+1))
     return sorted(g.items(),key=lambda x:-(len(x[1]['out'])+len(x[1]['inn'])))
 # outcomes [M1040]: a flow that can end more than one way says so everywhere it is listed
-OCCSS='.ocv-0,.ocv-1,html.ph0only .ocv-a,html.ph1only .ocv-a,html.ph1only .ocv-0{display:none!important}html.ph0only .ocv-0,html.ph1only .ocv-1{display:inline-flex!important}.ocb{display:inline-flex;align-items:center;gap:3px;font:700 10.5px Inter,sans-serif;color:#7a3e00;background:#ffe9c7;border:1px solid #f1c27a;border-radius:99px;padding:1px 7px;margin-left:5px;vertical-align:middle;white-space:nowrap}'
+_ocv_hide=','.join(['.ocv-all']+[f'.ocv-{i}' for i in M.PIDS])
+OCCSS=(_ocv_hide+'{display:none!important}'
+       +'html.ph-all .ocv-all{display:inline-flex!important}'
+       +''.join(f'html.ph-{i} .ocv-{i}{{display:inline-flex!important}}' for i in M.PIDS)
+       +'.ocb{display:inline-flex;align-items:center;gap:3px;font:700 10.5px Inter,sans-serif;color:#7a3e00;background:#ffe9c7;border:1px solid #f1c27a;border-radius:99px;padding:1px 7px;margin-left:5px;vertical-align:middle;white-space:nowrap}')
 def ocb(f):
     if f['parent']: return '<span class="ocb" title="One outcome of '+H.escape(FBY_[f['parent']]['name'])+'">◇ outcome</span>'
     def sp(cls,os_): return f'<span class="ocb {cls}" title="Can end {len(os_)} ways: '+H.escape(' · '.join(olab(o) for o in os_))+f'">◇ {len(os_)} outcomes</span>' if len(os_)>1 else ''
-    v=lambda n:[o for o in f['outs'] if o['phase'] is not None and o['phase']<=n]
-    return sp('ocv-a',f['outs'])+sp('ocv-0',v(0))+sp('ocv-1',v(1))  # the count follows the Phase toggle [M1040]
+    def _oitem(o): return dict(since=o.get('since') or o.get('phase'), until=o.get('until'))
+    v=lambda ph:[o for o in f['outs'] if M.in_phase(_oitem(o), ph)]
+    return sp('ocv-all',f['outs'])+''.join(sp('ocv-'+ph, v(ph)) for ph in M.PIDS)
     n=len(f['outs']); return f'<span class="ocb" title="Can end {n} ways: '+H.escape(' · '.join(o['label'].split(' [')[0] for o in f['outs']))+f'">◇ {n} outcomes</span>' if n>1 else ''
 def olab(o): return re.sub(r'\s*\[[^\]]+\]','',o['label'])
 FBY_={f['id']:f for f in FLOWS}
-MVPD={f['id']:{'n':f['name'],'m':f['phase'] in (0,1,2)} for f in FLOWS}
-PHJS='<script>'+open('gen/phase.js').read()+'</script>'
-PHCSS=OCCSS+'.phbtn{font:600 12px Inter,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}.phbtn.on{background:#10a364;color:#fff;border-color:#10a364}html.ph0only [data-ph]:not([data-ph="0"]),html.ph1only [data-ph]:not([data-ph="0"]):not([data-ph="1"]),html.ph2only [data-ph="n"],html.ph2only [data-ph="null"]{display:none!important}.p1b.p0{background:#d97706}.p1b.p2{background:#6d5bd0}.p1b{display:inline-block;font:700 9.5px Inter,sans-serif;color:#fff;background:#10a364;border-radius:5px;padding:1px 4px;margin-left:4px;vertical-align:middle}'
+MVPD={f['id']:{'n':f['name'],'m':bool(f.get('since') or f.get('phase'))} for f in FLOWS}
+PHJS='<script>'+(globals().get('PU_PHASES_JS') or ('window.PU_PHASES='+__import__('json').dumps(__import__('model').js_phase_config())+';'))+open('gen/phase.js').read()+'</script>'
+PHCSS=OCCSS+'.phbtn{font:600 12px Inter,sans-serif;padding:4px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}.phbtn.on{background:#10a364;color:#fff;border-color:#10a364}'+(''.join(f'html.ph-{i} [data-ph]:not([data-ph="all"]):not([data-ph~="{i}"]){{display:none!important}}' for i in M.PIDS))+'.p1b.p0{background:#d97706}.p1b.p2{background:#6d5bd0}.p1b{display:inline-block;font:700 9.5px Inter,sans-serif;color:#fff;background:#10a364;border-radius:5px;padding:1px 4px;margin-left:4px;vertical-align:middle}'
+
 PHBTN='<button class="phbtn" onclick="phToggle()">Phase: all</button>'
-def p1b(ph): return '' if ph is None else {0:'<span class="p1b p0" title="Phase 0 (smallest MVP)">P0</span>',1:'<span class="p1b" title="Phase 1 (pre-MVP)">P1</span>',2:'<span class="p1b p2" title="Phase 2 (MVP)">P2</span>'}.get(int(ph),'')
+def p1b(ph):
+    if ph is None: return ''
+    try: pid=M.pid(ph)
+    except Exception: return ''
+    badge=M.phase_badge(pid); lab=M.phase_label(pid)
+    return f'<span class="p1b p{badge or pid}" title="{H.escape(lab)}">P{badge or pid}</span>'
+def _dph(f):
+    return M.ph_attr(dict(since=f.get('since') or f.get('phase'), until=f.get('until')))
 MVPJS='<script>window.MVPD='+json.dumps(MVPD)+';'+open('gen/mvp.js').read()+'</script>'+PHJS
 MVPCSS0=None
 MVPCSS=""".mvpbar{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px}.mvpbar .mvpn{font-weight:700;color:#0f7a4f;white-space:nowrap}.mvpbar button{font:600 12px Inter,sans-serif;padding:5px 10px;border-radius:99px;border:1px solid #d7d5cf;background:#fff;cursor:pointer}
@@ -178,7 +191,7 @@ def player(f):
     top=FBY[f['parent']] if f['parent'] else f
     OB={o['id']:o for o in f['outs']}
     ents=[o for o in f['outs'] if o['entry']]
-    def chip(o,pre): return f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html'+(f'#{o["at"]+1}' if o['at'] else '')+f'" title="{H.escape(re.sub(r"\s*\[[^\]]+\]","",o["when"] or "The main path"))}">{pre}{H.escape(olab(o))}{p1b(o["phase"]) if o["phase"]!=top["phase"] else ""}</a>'
+    def chip(o,pre): return f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html'+(f'#{o["at"]+1}' if o['at'] else '')+f'" title="{H.escape(re.sub(r"\s*\[[^\]]+\]","",o["when"] or "The main path"))}">{pre}{H.escape(olab(o))}{p1b(o.get("since")) if o.get("since")!=top.get("since") else ""}</a>'
     OUTH=('<div class="oh"><b>◇ '+str(len(f['outs']))+' outcomes</b>'+''.join(chip(o,'Main: ' if o['at'] is None else 'Outcome: ') for o in f['outs'])
       +f' <a class="oc gr" href="graph.html#{top["id"]}">Graph view →</a></div>'
       +(('<div class="oh"><b>⇢ '+str(len(ents))+' ways in</b>'+''.join(f'<a class="oc{" on" if o["id"]==fid else ""}" href="{o["id"]}.html#1" title="{H.escape(olab(o))}">{H.escape(re.sub(r"\s*\[[^\]]+\]","",o["entry"]))}</a>' for o in ents)+'</div>') if len(ents)>1 else '')) if len(f['outs'])>1 else ''
@@ -213,7 +226,7 @@ for f in FLOWS:  # merged flows: old ids redirect (keep step number) [M1032]
         open(f'flows/{a}.md','w').write(f'# {a} (merged)\nMerged into [{f["name"]}]({f["id"]}.md). [M1032]\n')
 for _x in ['invite-ended']:
     open(f'flows/{_x}.html','w').write('<!doctype html><meta charset="utf-8"><script>location.replace("states.html#screen=invite-ended")</script><p>Now a single screen state: <a href="states.html#screen=invite-ended">invite-ended</a>.</p>')
-def _row(f): return f'<li data-ph="{"n" if f["phase"] is None else f["phase"]}" data-mvpf="{f["id"]}">{mvpc(f["id"])} <a href="{f["id"]}.html"><b>{H.escape(f["name"])}</b></a>{p1b(f["phase"])}{ocb(f)} <span class="pill{"" if f["pri"] in ("Phase 0","Phase 1") else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"}<div class="meta">{H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div></li>'
+def _row(f): return f'<li data-ph="{_dph(f)}" data-mvpf="{f["id"]}">{mvpc(f["id"])} <a href="{f["id"]}.html"><b>{H.escape(f["name"])}</b></a>{p1b(f.get("since"))}{ocb(f)} <span class="pill{"" if (f.get("since") or f.get("phase")) in [x for x in M.PIDS if x!=M.LATEST] else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"}<div class="meta">{H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div></li>'
 UGR=[(f"{d.get('label',u)} ({d.get('sub','').lower()})",u) for u,d in M.load_users().items()]  # users.toml [M1044]
 rows=''.join(f'<h2>{t} <span class="meta">{sum(1 for f in FLOWS_TOP if f["user"]==u)} flows</span></h2><ol>'+''.join(_row(f) for f in FLOWS_TOP if f["user"]==u)+'</ol>' for t,u in UGR)+('<h2>Other</h2><ol>'+''.join(_row(f) for f in FLOWS_TOP if f["user"] not in ("newcomer","registered"))+'</ol>' if any(f["user"] not in ("newcomer","registered") for f in FLOWS_TOP) else '')
 
@@ -233,7 +246,7 @@ def cell(f,i,st):
     nc=len(SG_ENTER[(f['id'],i-1)])
     tap=(f'<div class="ctap" title="other flows enterable here">⇄ {nc} flow{"s" if nc!=1 else ""} enterable here</div>' if nc else '')+(f'<div class="ctap">● taps {"Back" if tp["back"] else "“"+H.escape(tp["label"])+"”"}</div>' if tp else '')
     return f'<a class="cell{" dk" if dk else ""}" href="{f["id"]}.html#{i}"><div class="fr">{"<i><b></b><b></b><b></b></i>" if dk else ""}<img loading="lazy" src="thumbs/{f["id"]}-{i}.webp" alt="Step {i}: #{sc}" width="{480 if dk else 240}"></div><div class="cb"><div class="cn">{i} · {H.escape(NOTES[sc]["title"] if sc in NOTES else sc)}{" + "+x["ov"] if "ov" in x else ""}</div><div class="ct">{esc(t)}</div>{tap}<div class="meta" style="font-size:10.5px">auth={a} · live={l}{" · mode="+x["mode"] if "mode" in x else ""}</div></div></a>'
-GSEC=''.join(f'<section class="gf" data-ph="{"n" if f["phase"] is None else f["phase"]}" data-mvpf="{f["id"]}" id="{f["id"]}" data-p="{"nice" if f["phase"] is None else "must"}" data-q="{H.escape((f["name"]+" "+f["persona"]+" "+" ".join(s[0]+" "+s[4] for s in f["steps"])).lower())}"><h2><a href="{f["id"]}.html">{H.escape(f["name"])}</a>{ocb(f)} {mvpc(f["id"])}</h2><div class="meta"><span class="pill{"" if f["pri"] in ("Phase 0","Phase 1") else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"} {H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div><div class="gc">'+''.join(cell(f,i,st) for i,st in enumerate(f['steps'],1))+'</div></section>' for f in FLOWS_TOP)
+GSEC=''.join(f'<section class="gf" data-ph="{_dph(f)}" data-mvpf="{f["id"]}" id="{f["id"]}" data-p="{"nice" if not f.get("phase") and not f.get("since") else "must"}" data-q="{H.escape((f["name"]+" "+f["persona"]+" "+" ".join(s[0]+" "+s[4] for s in f["steps"])).lower())}"><h2><a href="{f["id"]}.html">{H.escape(f["name"])}</a>{ocb(f)} {mvpc(f["id"])}</h2><div class="meta"><span class="pill{"" if (f.get("since") or f.get("phase")) in [x for x in M.PIDS if x!=M.LATEST] else " nc"}">{f["pri"]}</span>{"<span class=\"pill dr\">Draft</span>" if f["status"]=="draft" else "<span class=\"pill\">Martin&#39;s example</span>"} {H.escape(f["persona"])} · start auth={f["start"]["auth"]}, live={f["start"]["live"]}, {f["start"]["device"]}, <code>{H.escape(f["start"]["url"])}</code> · {len(f["steps"])} steps</div><div class="gc">'+''.join(cell(f,i,st) for i,st in enumerate(f['steps'],1))+'</div></section>' for f in FLOWS_TOP)
 JUMP=''.join(f'<option value="{f["id"]}">{H.escape(f["name"])}</option>' for f in FLOWS_TOP)
 open('flows/grid.html','w').write(f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>All flows · grid · PostUp mockups</title><style>{GCSS}{MVPCSS}</style></head><body>
 <div class="gb"><a href="../index.html#index">← Mockups</a><b>All flows</b><a href="map.html">Flow map</a><a href="site.html">Site graph</a><a href="sitemap.html">Site map</a><button data-p="all" class="on">All</button><button data-p="must">MVP must</button><button data-p="nice">Nice</button><input id="q" placeholder="Search flows, screens, steps" autocomplete="off"><select id="j"><option value="">Jump to flow…</option>{JUMP}</select><span class="meta" id="cnt"></span>{MVPBAR}</div>
@@ -252,7 +265,7 @@ exec(open('gen/walk.py').read())
 FIX=''.join(ix(f'flows/{f["id"]}.html',f['name'],f"{f['pri']}{' · draft' if f['status']=='draft' else ''} · {len(f['steps'])} steps",'spark') for f in FLOWS_TOP)
 S['index']=S['index'].replace('<h3 class="sh">Scenario</h3>',f'<h3 class="sh">Critical flows</h3><div class="grp"><a class="ixr" href="flows/index.html"><span class="ixi">{I("list",18)}</span><span class="lm"><b>All flows</b><span class="mu sm">Who arrives, in what situation, step by step</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/site.html"><span class="ixi">{I("list",18)}</span><span class="lm"><b>Site graph</b><span class="mu sm">Pages, site states and edges</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/explore.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site map + states</b><span class="mu sm">Click a screen on the map, see all its states beside it</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/states.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site states by screen</b><span class="mu sm">Every state a screen appears in, with links in and out</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/sitemap.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>Site map</b><span class="mu sm">Every page as a thumbnail, grouped by area, with links</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/map.html"><span class="ixi">{I("nav",18)}</span><span class="lm"><b>Flow map</b><span class="mu sm">How a first-time visitor reaches each flow</span></span>{I("chev",18,"mu")}</a><a class="ixr" href="flows/grid.html"><span class="ixi">{I("image",18)}</span><span class="lm"><b>All flows grid</b><span class="mu sm">Every step of every flow at once</span></span>{I("chev",18,"mu")}</a>{FIX}</div><h3 class="sh">Scenario</h3>',1)
 assert 'Critical flows' in S['index']
-FMENU='<div class="pmr pmfl"><label>Flows</label><div class="pmos">'+''.join(f'<a class="pmo pmf" href="flows/{f["id"]}.html" title="{H.escape(f["pri"])}">{H.escape(f["name"])}{" · P"+str(f["phase"]) if f["phase"] in (0,1) else ""}</a>' for f in FLOWS_TOP)+'<a class="pmo pmf" href="flows/grid.html"><b>All flows grid →</b></a><a class="pmo pmf" href="flows/map.html"><b>Flow map →</b></a><a class="pmo pmf" href="flows/sitemap.html"><b>Site map →</b></a><a class="pmo pmf" href="flows/site.html"><b>Site graph →</b></a><a class="pmo pmf" href="flows/index.html"><b>Flow list →</b></a></div></div>'
+FMENU='<div class="pmr pmfl"><label>Flows</label><div class="pmos">'+''.join(f'<a class="pmo pmf" href="flows/{f["id"]}.html" title="{H.escape(f["pri"])}">{H.escape(f["name"])}{" · P"+str(M.phase_badge(f.get("since"))) if f.get("since") and f.get("since")!=M.LATEST else ""}</a>' for f in FLOWS_TOP)+'<a class="pmo pmf" href="flows/grid.html"><b>All flows grid →</b></a><a class="pmo pmf" href="flows/map.html"><b>Flow map →</b></a><a class="pmo pmf" href="flows/sitemap.html"><b>Site map →</b></a><a class="pmo pmf" href="flows/site.html"><b>Site graph →</b></a><a class="pmo pmf" href="flows/index.html"><b>Flow list →</b></a></div></div>'
 MENU_HTML=MENU_HTML.replace('<div class="pmr"><label>Sheets</label>',FMENU+'<div class="pmr"><label>Sheets</label>',1)
 assert 'pmfl' in MENU_HTML
 MENU_CSS+='.pmf{text-decoration:none;color:inherit;display:inline-block}'

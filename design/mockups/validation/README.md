@@ -5,6 +5,7 @@
 Answers: **Can users complete their goals?**
 
 - Config: `goal-reachability.toml` (checked in)
+- Default scope is every phase in `model/phases.toml` (omit `phases` in the config). Case ids use phase ids (aliases like `ph0` still work in skip lists).
 - Deterministic checker: `../gen/goal_reachability.py`
 - Grok Build workflow: `../../../.grok/workflows/goal-reachability.rhai`
 - Run outputs: `runs/<timestamp>/` (gitignored)

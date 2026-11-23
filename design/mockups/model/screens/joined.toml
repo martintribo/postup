@@ -11,12 +11,12 @@ slots = [
 links = [
   { id = "close", label = "Close", action = "replace", to = "home" },
   { id = "bean-theory", label = "Bean Theory", action = "replace", to = "cafe" },
-  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", when = "phase>=1" },  # no chat in phase 0 [M1037]
+  { id = "group-chat", label = "Group chat", action = "replace", to = "chat", since = "pre-mvp" },  # no chat in phase 0 [M1037]
   { id = "directions", label = "Directions", action = "open", to = "dirs", slot = "sheet" },
   { id = "back-to-map", label = "Back to map", action = "replace", to = "home" },
   { id = "cafe", label = "Cafe", action = "replace", to = "cafe" },
-  { id = "project", label = "Project", action = "replace", to = "project", when = "phase>=2" },  # phase 2 only [M1035]
-  { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet", when = "phase>=1" },  # phase 0: the postup ends at its set time [M1037]
+  { id = "project", label = "Project", action = "replace", to = "project", since = "mvp" },  # phase 2 only [M1035]
+  { id = "leave", label = "Leave", action = "open", to = "leave", slot = "sheet", since = "pre-mvp" },  # phase 0: the postup ends at its set time [M1037]
 ]
 
 [[notes]]

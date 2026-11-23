@@ -7,7 +7,8 @@
 # Example: skip = ["newcomer/home-none", "registered/hosting/ph0"]
 
 users = ["newcomer", "registered"]
-phases = [0, 2]
+# phases omitted = every phase in model/phases.toml (ids, or aliases 0/ph0).
+# phases = ["smallest", "pre-mvp", "mvp"]
 # ways = []   # omit = all ways in model/ways.toml that apply to each user
 # goals = []  # omit = all goals tracked for each user type
 # spread_path = "validation/runs/YYYYMMDD-HHMMSS/spread.json"  # optional saved spread

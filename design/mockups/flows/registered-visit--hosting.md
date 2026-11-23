@@ -1,5 +1,5 @@
 # Flow: Registered visit → Extends, then ends (`registered-visit--hosting`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--hosting.html
 
 ## Persona
@@ -40,10 +40,10 @@ Player: /mockups/flows/registered-visit--hosting.html
 - `delete-account`: branch out at step 5→1; merge in at —
 
 ## Screens
-1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#live)
-2. `#post-edit` · auth=in live=live — Edit the postup: extend the end time. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#post-edit)
-3. `#live` · auth=in live=live — Hosting page with the new end time. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#live)
-4. `#live` + sheet `endlive` · auth=in live=live — End postup? confirm sheet. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=endlive&ph=1#live)
-5. `#me` · auth=in live=live — Ended; back on Me. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#me)
+1. `#live` · auth=in live=live — +30 min extends. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#live)
+2. `#post-edit` · auth=in live=live — Edit the postup: extend the end time. [FS] [M1024] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#post-edit)
+3. `#live` · auth=in live=live — Hosting page with the new end time. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#live)
+4. `#live` + sheet `endlive` · auth=in live=live — End postup? confirm sheet. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ov=endlive&ph=pre-mvp#live)
+5. `#me` · auth=in live=live — Ended; back on Me. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#me)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

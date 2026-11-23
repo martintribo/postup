@@ -1,5 +1,5 @@
 # Flow: Delete account (`delete-account`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **All phases** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/delete-account.html
 
 ## Persona
@@ -34,10 +34,10 @@ Player: /mockups/flows/delete-account.html
 - `settings-notify`: branch out at step 2→1; merge in at —
 
 ## Screens
-1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#me)
-2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=2#settings)
-3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct&ph=2#settings)
-4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=2#home)
+1. `#me` · auth=in live=none — My profile → Settings. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#me)
+2. `#settings` · auth=in live=none — Account section. [FS] [F065] (/mockups/?style=fresh&device=phone&auth=in&live=none&ph=mvp#settings)
+3. `#settings` + sheet `delacct` · auth=in live=none — Confirm; can't be undone. [FS] [drawn] (/mockups/?style=fresh&device=phone&auth=in&live=none&ov=delacct&ph=mvp#settings)
+4. `#home` · auth=out live=none mode=building — Signed out at Home. [M1024] (/mockups/?style=fresh&device=phone&auth=out&live=none&mode=building&ph=mvp#home)
 
 ## Branches and edge cases
 - Deleting while live: postup ends and joiners are alerted? [unsourced]

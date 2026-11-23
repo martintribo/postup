@@ -1,5 +1,5 @@
 # Flow: Slow network and offline (`loading-offline`)
-Priority: **Unphased** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **All phases** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/loading-offline.html
 
 ## Persona
@@ -35,10 +35,10 @@ Player: /mockups/flows/loading-offline.html
 - `registered-visit--ended-project`: branch out at step 3→2; merge in at step 3 (from its step 2)
 
 ## Screens
-1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#loading)
-2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#offline)
-3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#quiet-feed)
-4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=2#cafe-gfail)
+1. `#loading` · auth=in live=live — Skeleton. [FS] [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#loading)
+2. `#offline` · auth=in live=live — Cached feed + offline banner + Retry. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#offline)
+3. `#quiet-feed` · auth=in live=live — Retry succeeds. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#quiet-feed)
+4. `#cafe-gfail` · auth=in live=live — Google card failed: rest of cafe still works. [F060] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=mvp#cafe-gfail)
 
 ## Branches and edge cases
 - First visit while offline: nothing cached (fails in the build today). [unsourced]

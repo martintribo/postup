@@ -1,5 +1,5 @@
 # Flow: First visit → Browses Nearby (`first-visit--browse`)
-Priority: **Phase 0** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 0 (smallest)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/first-visit--browse.html
 
 ## Persona
@@ -34,7 +34,7 @@ Player: /mockups/flows/first-visit--browse.html
 - `first-visit--follow-project`: branch out at step 1→1; merge in at —
 
 ## Screens
-1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=0#home)
-2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=0#quiet-feed)
+1. `#home` · auth=out live=live mode=live — Home in Live mode: map + Live now. [M1018b] [M1025] (/mockups/?style=fresh&device=phone&auth=out&live=live&mode=live&ph=smallest#home)
+2. `#quiet-feed` · auth=out live=live — Nearby list of postups. [FS] [M1041] (/mockups/?style=fresh&device=phone&auth=out&live=live&ph=smallest#quiet-feed)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

@@ -1,5 +1,5 @@
 # Flow: Registered visit → Posts up at that cafe (`registered-visit--link-post`)
-Priority: **Phase 1** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
+Priority: **Phase 1 (pre-MVP)** · Status: Draft, inferred from the notes; confirm with Martin [M1024]
 Player: /mockups/flows/registered-visit--link-post.html
 
 ## Persona
@@ -23,7 +23,7 @@ Player: /mockups/flows/registered-visit--link-post.html
 3. **post@in.live** · user: At a cafe, wants company · action: taps Post up · edge: tap: Post up here
    - Post up with the nearest cafe prefilled. [FS] [F062]
    - next site states: back (Back), where@in.live (Bean Theory Nearest · 0.4 mi Chang), **posted@in.live** (Post up), home@in.live.live (home), quiet-feed@in.live (Nearby), me@in.live (S), inbox@in.live (Inbox), project-new@in.live (Project), projects@in.live (Projects), post-already@in.live (Post up (you already have a live postup)), post-far@in.live (Post up (the place is too far from you))
-   - enterable flows: registered-visit--already-posted step 2 (if At a cafe, wants company), registered-visit--ended-post step 3 (if At a cafe, wants company), registered-visit--nobody-post step 2 (if At a cafe, wants company), registered-visit--post step 2 (if At a cafe, wants company), registered-visit--too-far step 2 (if At a cafe, wants company), desktop-browse step 3 (if At a cafe, wants company)
+   - enterable flows: registered-visit--already-posted step 2 (if At a cafe, wants company), registered-visit--nobody-post step 2 (if At a cafe, wants company), registered-visit--post step 2 (if At a cafe, wants company), registered-visit--too-far step 2 (if At a cafe, wants company), registered-visit--ended-post step 3 (if At a cafe, wants company), desktop-browse step 3 (if At a cafe, wants company)
 4. **posted@in.live** · user: Live · action: taps Post up · edge: tap: Post up
    - Posted; link to copy. [FS]
    - next site states: home@in.live.live (Close), live@in.live (Manage postup), cafe@in.live (Cafe), quiet-feed@in.live (Nearby), post@in.live (Post up), me@in.live (S), posted+share@in.live (Invite friends), inbox@in.live (Inbox), project@in.live (Star Fox 64 mod), projects@in.live (Projects), cafe-gfail@in.live (Cafe (Google card fails))
@@ -41,9 +41,9 @@ Player: /mockups/flows/registered-visit--link-post.html
 - `desktop-browse`: branch out at —; merge in at step 3 (from its step 3)
 
 ## Screens
-1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#invite)
-2. `#cafe` · auth=in live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#cafe)
-3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#post)
-4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=1#posted)
+1. `#invite` · auth=in live=live — Landing for the shared postup; already signed in, so Join is one tap. [FS] [R39] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#invite)
+2. `#cafe` · auth=in live=live — The cafe page, with Post up here and the tab bar. [FS] [M1043] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#cafe)
+3. `#post` · auth=in live=live — Post up with the nearest cafe prefilled. [FS] [F062] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#post)
+4. `#posted` · auth=in live=live — Posted; link to copy. [FS] (/mockups/?style=fresh&device=phone&auth=in&live=live&ph=pre-mvp#posted)
 
 Tags: F### = fact (Martin's words or an agreed answer), FS = final-screens.md, TK§n = mockup takeaways section, R# = requirements ledger item (⚠ = ledger marks it unsourced), drawn = shown in the mockup, unsourced = confirm with Martin. "Overrides" beat the drawing. M1024 = Martin, Oct 24 2026: track critical flows.

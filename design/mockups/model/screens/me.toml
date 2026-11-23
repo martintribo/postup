@@ -14,7 +14,7 @@ links = [
   { id = "edit-profile", label = "Edit profile", action = "replace", to = "me" },
   { id = "lantern-tea", label = "Lantern Tea", action = "replace", to = "cafe" },
   { id = "grindhouse", label = "Grindhouse", action = "replace", to = "cafe" },
-  { id = "tide-clock-updated-sun", label = "Tide Clock Updated Sun", action = "replace", to = "project-new", when = "phase>=2" },  # phase 2 only [M1035]
+  { id = "tide-clock-updated-sun", label = "Tide Clock Updated Sun", action = "replace", to = "project-new", since = "mvp" },  # phase 2 only [M1035]
   { id = "cafe", label = "Ship models imported Bean Theory ·", action = "replace", to = "cafe" },
   { id = "cafe-2", label = "Level editor Lantern Tea · Oct 9", action = "replace", to = "cafe" },
   { id = "back-2", label = "", action = "back", when = "auth=out" },
