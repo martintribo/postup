@@ -38,77 +38,6 @@
   "back": false
  },
  "first-visit--browse-2": null,
- "first-visit--ended-not-now-1": {
-  "label": "See what's nearby",
-  "back": false
- },
- "first-visit--ended-not-now-2": {
-  "label": "Maya's photo",
-  "back": false
- },
- "first-visit--ended-not-now-3": {
-  "label": "M",
-  "back": false
- },
- "first-visit--ended-not-now-4": null,
- "first-visit--ended-not-now-5": null,
- "first-visit--ended-not-now-6": null,
- "first-visit--ended-post-1": {
-  "label": "See what's nearby",
-  "back": false
- },
- "first-visit--ended-post-2": {
-  "label": "Post up",
-  "back": false
- },
- "first-visit--ended-post-3": {
-  "label": "Bean Theory",
-  "back": false
- },
- "first-visit--ended-post-4": {
-  "label": "tap",
-  "back": false
- },
- "first-visit--ended-post-5": null,
- "first-visit--ended-post-6": null,
- "first-visit--ended-post-7": null,
- "first-visit--link-ended-1": {
-  "label": "See what's nearby",
-  "back": false
- },
- "first-visit--link-ended-2": {
-  "label": "Maya's photo",
-  "back": false
- },
- "first-visit--link-ended-3": {
-  "label": "M",
-  "back": false
- },
- "first-visit--link-ended-4": null,
- "first-visit--link-ended-5": null,
- "first-visit--link-ended-6": null,
- "first-visit--link-live-1": null,
- "first-visit--link-live-2": null,
- "first-visit--link-live-3": null,
- "first-visit--link-post-1": {
-  "label": "Bean Theory · 0.4 mi",
-  "back": false
- },
- "first-visit--link-post-2": {
-  "label": "Post up",
-  "back": false
- },
- "first-visit--link-post-3": {
-  "label": "Bean Theory",
-  "back": false
- },
- "first-visit--link-post-4": {
-  "label": "tap",
-  "back": false
- },
- "first-visit--link-post-5": null,
- "first-visit--link-post-6": null,
- "first-visit--link-post-7": null,
  "first-visit--live-already-posted-1": {
   "label": "Post up",
   "back": false
@@ -266,6 +195,151 @@
   "back": true
  },
  "registered-visit--ended-3": null,
+ "registered-visit--nobody-1": null,
+ "registered-visit--nobody-2": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--nobody-3": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--nobody-4": null,
+ "registered-visit--nobody-post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--nobody-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--nobody-post-3": null,
+ "registered-visit--post-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--post-3": {
+  "label": "Manage postup",
+  "back": false
+ },
+ "registered-visit--post-4": {
+  "label": "Home",
+  "back": false
+ },
+ "registered-visit--post-5": null,
+ "registered-visit--report-1": {
+  "label": "M",
+  "back": false
+ },
+ "registered-visit--report-2": {
+  "label": "More",
+  "back": false
+ },
+ "registered-visit--report-3": {
+  "label": "Report",
+  "back": false
+ },
+ "registered-visit--report-4": {
+  "label": "Send report",
+  "back": false
+ },
+ "registered-visit--report-5": {
+  "label": "Block Maya too",
+  "back": false
+ },
+ "registered-visit--report-6": {
+  "label": "Blocked people (Settings)",
+  "back": false
+ },
+ "registered-visit--report-7": null,
+ "registered-visit--too-far-1": {
+  "label": "Post up",
+  "back": false
+ },
+ "registered-visit--too-far-2": {
+  "label": "Back",
+  "back": true
+ },
+ "registered-visit--too-far-3": {
+  "label": "Pick a cafe near you",
+  "back": false
+ },
+ "registered-visit--too-far-4": null,
+ "first-visit--ended-not-now-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--ended-not-now-2": {
+  "label": "Maya's photo",
+  "back": false
+ },
+ "first-visit--ended-not-now-3": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--ended-not-now-4": null,
+ "first-visit--ended-not-now-5": null,
+ "first-visit--ended-not-now-6": null,
+ "first-visit--ended-post-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--ended-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--ended-post-3": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--ended-post-4": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--ended-post-5": null,
+ "first-visit--ended-post-6": null,
+ "first-visit--ended-post-7": null,
+ "first-visit--link-ended-1": {
+  "label": "See what's nearby",
+  "back": false
+ },
+ "first-visit--link-ended-2": {
+  "label": "Maya's photo",
+  "back": false
+ },
+ "first-visit--link-ended-3": {
+  "label": "M",
+  "back": false
+ },
+ "first-visit--link-ended-4": null,
+ "first-visit--link-ended-5": null,
+ "first-visit--link-ended-6": null,
+ "first-visit--link-live-1": null,
+ "first-visit--link-live-2": null,
+ "first-visit--link-live-3": null,
+ "first-visit--link-post-1": {
+  "label": "Bean Theory · 0.4 mi",
+  "back": false
+ },
+ "first-visit--link-post-2": {
+  "label": "Post up",
+  "back": false
+ },
+ "first-visit--link-post-3": {
+  "label": "Bean Theory",
+  "back": false
+ },
+ "first-visit--link-post-4": {
+  "label": "tap",
+  "back": false
+ },
+ "first-visit--link-post-5": null,
+ "first-visit--link-post-6": null,
+ "first-visit--link-post-7": null,
  "registered-visit--ended-post-1": {
   "label": "See what's nearby",
   "back": false
@@ -362,80 +436,6 @@
   "back": false
  },
  "registered-visit--link-post-4": null,
- "registered-visit--nobody-1": null,
- "registered-visit--nobody-2": {
-  "label": "M",
-  "back": false
- },
- "registered-visit--nobody-3": {
-  "label": "Back",
-  "back": true
- },
- "registered-visit--nobody-4": null,
- "registered-visit--nobody-post-1": {
-  "label": "Post up",
-  "back": false
- },
- "registered-visit--nobody-post-2": {
-  "label": "Post up",
-  "back": false
- },
- "registered-visit--nobody-post-3": null,
- "registered-visit--post-1": {
-  "label": "Post up",
-  "back": false
- },
- "registered-visit--post-2": {
-  "label": "Post up",
-  "back": false
- },
- "registered-visit--post-3": {
-  "label": "Manage postup",
-  "back": false
- },
- "registered-visit--post-4": {
-  "label": "Home",
-  "back": false
- },
- "registered-visit--post-5": null,
- "registered-visit--report-1": {
-  "label": "M",
-  "back": false
- },
- "registered-visit--report-2": {
-  "label": "More",
-  "back": false
- },
- "registered-visit--report-3": {
-  "label": "Report",
-  "back": false
- },
- "registered-visit--report-4": {
-  "label": "Send report",
-  "back": false
- },
- "registered-visit--report-5": {
-  "label": "Block Maya too",
-  "back": false
- },
- "registered-visit--report-6": {
-  "label": "Blocked people (Settings)",
-  "back": false
- },
- "registered-visit--report-7": null,
- "registered-visit--too-far-1": {
-  "label": "Post up",
-  "back": false
- },
- "registered-visit--too-far-2": {
-  "label": "Back",
-  "back": true
- },
- "registered-visit--too-far-3": {
-  "label": "Pick a cafe near you",
-  "back": false
- },
- "registered-visit--too-far-4": null,
  "first-visit--ended-project-1": {
   "label": "See what's nearby",
   "back": false
